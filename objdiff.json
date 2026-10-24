@@ -1953,21 +1953,49 @@
     {
       "name": "sbl/06067300",
       "target_path": "build/usa/asm/sbl/06067300.o",
+      "base_path": "build/usa/src/sbl/06067300.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/06067300.s"
       }
     },
     {
       "name": "sbl/06067644",
       "target_path": "build/usa/asm/sbl/06067644.o",
+      "base_path": "build/usa/src/sbl/06067644.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/06067644.c"
+      }
+    },
+    {
+      "name": "sbl/060676D4",
+      "target_path": "build/usa/asm/sbl/060676D4.o",
+      "base_path": "build/usa/src/sbl/060676D4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/060676D4.c"
+      }
+    },
+    {
+      "name": "sbl/0606772C",
+      "target_path": "build/usa/asm/sbl/0606772C.o",
+      "base_path": "build/usa/src/sbl/0606772C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/0606772C.c"
       }
     },
     {
@@ -1981,13 +2009,15 @@
       }
     },
     {
-      "name": "sbl/06069474",
-      "target_path": "build/usa/asm/sbl/06069474.o",
+      "name": "sbl/stm_svr",
+      "target_path": "build/usa/asm/sbl/stm_svr.o",
+      "base_path": "build/usa/src/sbl/stm_svr.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/stm_svr.c"
       }
     },
     {
@@ -2043,11 +2073,13 @@
     {
       "name": "sbl/06070C28",
       "target_path": "build/usa/asm/sbl/06070C28.o",
+      "base_path": "build/usa/src/sbl/06070C28.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/06070C28.c"
       }
     }
   ]
