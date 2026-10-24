@@ -1,0 +1,4 @@
+// sbl/csh: SH-2 cache control
+CSH_Init = 0x060683E8; // type:func
+CSH_AllClr = 0x06068446; // type:func
+CSH_Purge = 0x0606848C; // type:func

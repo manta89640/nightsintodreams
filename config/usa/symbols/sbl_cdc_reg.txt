@@ -1,0 +1,17 @@
+// sbl/cdc_reg: CD block HIRQ registers and command execution
+CDC_GetDataPtr = 0x060681C8; // type:func
+CDC_GetHirqReq = 0x060681CE; // type:func
+CDC_ClrHirqReq = 0x060681D6; // type:func
+cdc_set_hirq_req = 0x060681E8; // type:func
+cdc_init_hirq = 0x060681EE; // type:func
+cdc_add_hirq_stat = 0x06068200; // type:func
+cdc_get_hirq_msk = 0x0606820A; // type:func
+cdc_set_hirq_msk = 0x06068212; // type:func
+cdc_get_25810028_ptr = 0x06068218; // type:func
+cdc_get_data_words = 0x0606821E; // type:func
+cdc_exec_cmd = 0x06068276; // type:func
+cdc_exec_cmd_body = 0x060682AE; // type:func
+cdc_wait_hirq = 0x06068368; // type:func
+cdc_write_cr = 0x06068398; // type:func
+cdc_read_cr = 0x060683B2; // type:func
+cdc_hirq_stat = 0x06070C68; // type:data

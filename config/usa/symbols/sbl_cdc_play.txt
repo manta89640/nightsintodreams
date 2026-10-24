@@ -1,0 +1,5 @@
+// sbl/cdc_play: CD play/seek/scan commands
+CDC_CdPlay = 0x060680CC; // type:func
+cdc_pos_to_cmd = 0x06068110; // type:func
+CDC_CdSeek = 0x0606816A; // type:func
+CDC_CdScan = 0x06068196; // type:func
