@@ -2,9 +2,9 @@
 #include "sbl/types.h"
 #include "sbl/stm_api.h"
 
-extern void func_06068612(DmaCpuComStatus *st);
-extern Sint32 func_06068624(Sint32 ch);
-extern void func_0606848C(void *adr, Uint32 size);
+extern void DMA_CpuGetComStatus(DmaCpuComStatus *st);
+extern Sint32 DMA_CpuGetStatus(Sint32 ch);
+extern void CSH_Purge(void *adr, Uint32 size);
 
 extern Uint32 dma_cpu0_dst;
 extern Uint32 dma_cpu0_size;
@@ -19,15 +19,15 @@ Sint32 dma_cpu0_check(void)
     DmaCpuComStatus st;
     Sint32 end;
 
-    func_06068612(&st);
+    DMA_CpuGetComStatus(&st);
     if (st.ae == 4) {
         return 1;
     }
-    end = func_06068624(0);
+    end = DMA_CpuGetStatus(0);
     if (end == 0) {
         return 2;
     }
-    func_0606848C((void *)dma_cpu0_dst, dma_cpu0_size);
+    CSH_Purge((void *)dma_cpu0_dst, dma_cpu0_size);
     return 0;
 }
 #endif

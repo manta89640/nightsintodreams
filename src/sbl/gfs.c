@@ -1,4 +1,4 @@
-/* shc-flags: -macsave=0 -division=peripheral */
+/* shc-flags: -macsave=0 -division=nomask */
 /* GFS API layer (one object in the original link).
  *
  * NONMATCHING (whole module): this library was built with an older SHC than the
@@ -13,7 +13,7 @@
  *    and loads/stores are scheduled differently, including jsr delay slots;
  *  - it drops dead stores of locals that the original keeps on the stack;
  *  - it folds a constant divisor of 2048 into shifts after the divide call.
- * Signed divisions call _divlsp (-division=peripheral), which is func_060508A8 in
+ * Signed divisions call _divlsp (-division=nomask), which is func_060508A8 in
  * the target; _divlu is func_060506E0 and _quick_odd_mvn is func_060508D0. */
 #include "sbl/types.h"
 #include "sbl/gfs.h"
@@ -81,7 +81,7 @@ Sint32 GFS_Init(Sint32 open_max, void *work, GfsDirTbl *dirtbl)
     GFS_CHGSCUIM(~0x800, 0);
     D_06070C78 = work;
     gfs_InitMng(open_max);
-    ret = func_0606CC64((dirtbl == NULL) ? TRUE : FALSE);
+    ret = gfsFlow_InitCd((dirtbl == NULL) ? TRUE : FALSE);
     if (ret != 0) {
         return gfs_SetErr(ret);
     }
@@ -109,7 +109,7 @@ Sint32 GFS_LoadDir(Sint32 fid, GfsDirTbl *dirtbl)
         if (D_06070C78->curdir.dirtbl.dir != NULL) {
             return gfs_SetErr(GFS_ERR_CDBFS);
         }
-        ret = func_060704F6();
+        ret = gfs_CdChgDir(fid);
         if (ret < 0) {
             return gfs_SetErr(ret);
         }
@@ -120,7 +120,7 @@ Sint32 GFS_LoadDir(Sint32 fid, GfsDirTbl *dirtbl)
         return D_06070C78->error.code;
     }
     GFS_GetFileSize(gfs, NULL, &nsct, NULL);
-    ret = func_060703F4(gfs, dirtbl, nsct);
+    ret = gfs_LoadDirTbl(gfs, dirtbl, nsct);
     GFS_Close(gfs);
     return ret;
 }
@@ -152,7 +152,7 @@ Sint32 GFS_NameToId(Sint8 *fname)
     if (dir->dirtbl.dir == NULL || dir->dirtbl.type != GFS_DIR_NAME) {
         return gfs_SetErr(GFS_ERR_NONAME);
     }
-    fid = func_0607045A(dir->dirtbl.dir, fname, dir->dirtbl.ndir);
+    fid = gfs_NameToIdx(dir->dirtbl.dir, fname, dir->dirtbl.ndir);
     if (fid < 0) {
         return gfs_SetErr(GFS_ERR_NEXIST);
     }
@@ -176,7 +176,7 @@ Sint8 *GFS_IdToName(Sint32 fid)
         gfs_SetErr(GFS_ERR_NEXIST);
         return NULL;
     }
-    rec = func_060704BC(fid, dir->dirtbl.dir);
+    rec = gfs_DirNameRec(fid, dir->dirtbl.dir);
     if (gfs_SetErr(GFS_ERR_OK) < 0) {
         return NULL;
     }
@@ -192,11 +192,11 @@ Sint32 GFS_GetDirInfo(Sint32 fid, CdcFile *dirrec)
         return gfs_SetErr(GFS_ERR_FID);
     }
     if (dir->dirtbl.type == GFS_DIR_NAME) {
-        src = func_060704BC(fid, dir->dirtbl.dir);
+        src = gfs_DirNameRec(fid, dir->dirtbl.dir);
     } else {
-        src = func_060704AE(fid, dir->dirtbl.dir);
+        src = gfs_DirIdRec(fid, dir->dirtbl.dir);
     }
-    func_06050850(dirrec, src, sizeof(CdcFile));
+    memmove(dirrec, src, sizeof(CdcFile));
     return gfs_SetErr(GFS_ERR_OK);
 }
 
@@ -212,7 +212,7 @@ void gfs_CloseAll(void)
         if (gfs->used == 1) {
             trn = GFS_FILE_TRN(gfs);
             if (trn->mode == GFS_TMODE_STM) {
-                func_0606CC50(gfs, gfs_TrFuncNull, gfs);
+                gfsTrn_SetFunc(gfs, gfs_TrFuncNull, gfs);
             }
             GFS_Close(gfs);
         }
@@ -238,9 +238,9 @@ GfsHn GFS_Open(Sint32 fid)
     if (dir->dirtbl.dir == NULL) {
         rec = NULL;
     } else if (dir->dirtbl.type == GFS_DIR_ID) {
-        rec = func_060704AE(fid, dir->dirtbl.dir);
+        rec = gfs_DirIdRec(fid, dir->dirtbl.dir);
     } else {
-        rec = func_060704BC(fid, dir->dirtbl.dir);
+        rec = gfs_DirNameRec(fid, dir->dirtbl.dir);
     }
     gfs = gfs_InitHn(gfs, rec, fid);
     if (gfs == NULL) {
@@ -255,7 +255,7 @@ void GFS_Close(GfsHn gfs)
 {
     if (gfs != NULL) {
         gfs_StopIn(gfs, TRUE);
-        func_0606C218(gfs);
+        gfs_CloseHn(gfs);
     }
     gfs_SetErr(GFS_ERR_OK);
 }
@@ -396,7 +396,7 @@ Sint32 GFS_GetNumCdbuf(GfsHn gfs)
     if (gfs == NULL) {
         return gfs_SetErr(GFS_ERR_HNDL);
     }
-    return func_0606C336(gfs);
+    return gfsAcc_CountSctAll(gfs);
 }
 
 Sint32 GFS_Load(Sint32 fid, Sint32 ofs, void *buf, Sint32 bsize)
@@ -540,12 +540,12 @@ Sint32 GFS_NwFread(GfsHn gfs, Sint32 nsct, void *buf, Sint32 bsize)
             gfs->amode = 1;
             GFS_GetFileInfo(gfs, NULL, NULL, NULL, &atr);
             if (atr & GFS_ATR_CDDA) {
-                func_0606C406(trn, 0);
-                func_0606CC44(trn, NULL, 0, 1);
+                gfsTrn_Request(trn, 0);
+                gfsTrn_SetBuf(trn, NULL, 0, 1);
             } else if (trn->stat == 0 || trn->stat == 6) {
-                func_0606C406(trn, n);
-                func_0606CC44(trn, buf, bsize, 1);
-                func_0606C456(trn);
+                gfsTrn_Request(trn, n);
+                gfsTrn_SetBuf(trn, buf, bsize, 1);
+                gfsTrn_Activate(trn);
                 started = TRUE;
             }
             if (!started) {
@@ -637,7 +637,7 @@ void GFS_NwGetStat(GfsHn gfs, Sint32 *amode, Sint32 *ndata)
         if (atr & GFS_ATR_CDDA) {
             *ndata = 0;
         } else if (gfs->amode == 2) {
-            *ndata = func_0606C336(gfs);
+            *ndata = gfsAcc_CountSctAll(gfs);
         } else {
             *ndata = trn->wp;
         }
@@ -652,7 +652,7 @@ Sint32 gfs_ChkCdStat(GfsHn gfs)
     Sint32 stat;
 
     if (dtsrc->ftype == GFS_FTYPE_CD) {
-        stat = func_0606D074();
+        stat = gfsFlow_PlayNoChg();
         if (stat == 2) {
             gfs->astat = 1;
         }
@@ -670,7 +670,7 @@ Sint32 GFS_NwExecOne(GfsHn gfs)
     }
     if (gfs->astat != 0) {
         if (D_06070C80 == 1) {
-            func_0606C5DC(gfs, &stat);
+            gfsTrn_Step(gfs, &stat);
             if (D_06070C80 == 1) {
                 return gfs->astat;
             }
@@ -770,7 +770,7 @@ Sint32 GFS_SetTmode(GfsHn gfs, Sint32 tmode)
         return GFS_ERR_PARA;
     }
     flow = GFS_FILE_FLOW(gfs);
-    tmode = func_0606C3F6(GFS_FILE_TRN(gfs), tmode);
+    tmode = gfsTrn_SetMode(GFS_FILE_TRN(gfs), tmode);
     err = gfs_SetErr(GFS_ERR_OK);
     if (err < 0) {
         return err;
@@ -814,7 +814,7 @@ Sint32 GFS_SetTransPara(GfsHn gfs, Sint32 tsize)
     if (atr & GFS_ATR_CDDA) {
         return GFS_ERR_PARA;
     }
-    tsize = func_0606C450(GFS_FILE_TRN(gfs), tsize);
+    tsize = gfsTrn_SetTsize(GFS_FILE_TRN(gfs), tsize);
     err = gfs_SetErr(GFS_ERR_OK);
     if (err < 0) {
         return err;
@@ -827,9 +827,9 @@ Sint32 GFS_SetTrFunc(GfsHn gfs, Sint32 (*func)(void *obj))
     if (gfs == NULL) {
         return gfs_SetErr(GFS_ERR_HNDL);
     }
-    func_0606CC44(GFS_FILE_TRN(gfs), NULL, 0xFFFFF, GFS_SCT_SIZE);
-    func_0606C3F6(GFS_FILE_TRN(gfs), GFS_TMODE_STM);
-    return func_0606CC50(gfs, func, gfs);
+    gfsTrn_SetBuf(GFS_FILE_TRN(gfs), NULL, 0xFFFFF, GFS_SCT_SIZE);
+    gfsTrn_SetMode(GFS_FILE_TRN(gfs), GFS_TMODE_STM);
+    return gfsTrn_SetFunc(gfs, func, gfs);
 }
 
 void *GFS_StartTrans(GfsHn gfs, Sint32 *dadr)
@@ -846,7 +846,7 @@ void *GFS_StartTrans(GfsHn gfs, Sint32 *dadr)
     dtsrc = GFS_FLW_DTSRC(flow);
     dps = gfs->trn.dps;
     if (dtsrc->ftype == GFS_FTYPE_CD) {
-        func_0606D8D4(dps, dtsrc);
+        gfcf_StartTrans(dps, dtsrc);
     }
     *dadr = dps->adlt;
     return dps->data;
@@ -864,7 +864,7 @@ Sint32 GFS_CdMovePickup(GfsHn gfs)
         flow = GFS_FILE_FLOW(gfs);
         dtsrc = GFS_FLW_DTSRC(flow);
         if (dtsrc->ftype == GFS_FTYPE_CD) {
-            ret = func_0606D0D8(flow, GFS_Tell(gfs));
+            ret = gfsFlow_Seek(flow, GFS_Tell(gfs));
             if (ret != 0) {
                 return gfs_SetErr(ret);
             }
@@ -905,9 +905,9 @@ Sint32 gfs_ReadRootDir(GfsDirTbl *dirtbl)
 
     if (GFS_IS_MULTISES() == TRUE) {
         if (dirtbl != NULL) {
-            func_0606DA14(TRUE);
+            gfcd_Reserve(TRUE);
         }
-        if (func_060704F2() < 0) {
+        if (gfs_CdChgRootDir() < 0) {
             return gfs_SetErr(GFS_ERR_CDBFS);
         }
         nfile = 0;
@@ -917,11 +917,11 @@ Sint32 gfs_ReadRootDir(GfsDirTbl *dirtbl)
         dir->dirtbl.ndir = nfile;
         GFS_SetDir(NULL);
         if (dirtbl != NULL) {
-            func_0606DA14(FALSE);
+            gfcd_Reserve(FALSE);
         }
         nfile = GFS_LoadDir(GFS_BIOS_SESFID, dirtbl);
     } else if (dirtbl == NULL) {
-        nfile = func_060704F2();
+        nfile = gfs_CdChgRootDir();
         if (nfile < 0) {
             return gfs_SetErr(GFS_ERR_CDBFS);
         }
@@ -945,10 +945,10 @@ void gfs_InitFuncTbl(void)
 {
     GfsFileFunc *ftbl = &D_06070C78->functbl[GFS_FTYPE_CD];
 
-    ftbl->flowin = func_0606CE76;
-    ftbl->stopin = func_0606CFDC;
-    ftbl->seek = D_0606D0D2;
-    ftbl->tell = func_0606D0C6;
+    ftbl->flowin = gfsFlow_Read;
+    ftbl->stopin = gfsFlow_StopRead;
+    ftbl->seek = gfsFlow_SetSctPos;
+    ftbl->tell = gfsFlow_GetSctPos;
 }
 
 void gfs_InitMng(Sint32 openmax)
@@ -988,9 +988,9 @@ Sint32 gfs_CountFiles(GfsDirTbl *dirtbl)
 
     for (i = 0; i < dirtbl->ndir; i++) {
         if (dirtbl->type == GFS_DIR_ID) {
-            atr = func_060704CC(i, dirtbl->dir);
+            atr = gfs_DirIdAtr(i, dirtbl->dir);
         } else {
-            atr = func_060704DE(i, dirtbl->dir);
+            atr = gfs_DirNameAtr(i, dirtbl->dir);
         }
         if ((atr & end) && end) {
             break;
@@ -1038,7 +1038,7 @@ void gfs_StopIn(GfsHn gfs, Bool flag)
 
     if (D_06070C78->trans == gfs) {
         D_06070C78->trans = NULL;
-        func_0606C462(gfs, -1);
+        gfsTrn_Stop(gfs, -1);
     }
     pickup = D_06070C78->pickup;
     ftype = flow->dtsrc.ftype;
@@ -1055,7 +1055,7 @@ Sint32 gfs_SetErr(Sint32 code)
 {
     GfsErrStat *err;
 
-    switch (D_06070C98) {
+    switch (gfcd_err) {
     case -16:
         code = GFS_ERR_FATAL;
         break;
@@ -1133,8 +1133,8 @@ GfsHn gfs_InitHn(GfsHn gfs, CdcFile *dirrec, Sint32 fid)
     if (gfs == NULL) {
         return NULL;
     }
-    func_0606C3C0(GFS_FILE_TRN(gfs));
-    if (func_0606CCEE(GFS_FILE_FLOW(gfs), dirrec, fid) == 0) {
+    gfsTrn_Init(GFS_FILE_TRN(gfs));
+    if (gfsFlow_Init(GFS_FILE_FLOW(gfs), dirrec, fid) == 0) {
         return NULL;
     }
     gfs->amode = 0;
@@ -1150,7 +1150,7 @@ Sint32 gfs_ReadPvd(Uint8 *buf)
     GfsErrStat stat;
     Sint32 ret;
 
-    CDC_FILE_FAD(&rec) = func_0606DD5E() + 166;
+    CDC_FILE_FAD(&rec) = gfcd_GetLastSesFad() + 166;
     CDC_FILE_SIZE(&rec) = GFS_SCT_SIZE;
     CDC_FILE_FN(&rec) = 0;
     CDC_FILE_ATR(&rec) = 0;
@@ -1166,7 +1166,7 @@ Sint32 gfs_ReadPvd(Uint8 *buf)
     GFS_GetErrStat(&stat);
     ret = (&stat)->code;
     if (ret == GFS_ERR_OK) {
-        if (func_060509F0(buf, D_0607110C, 6) != 0) {
+        if (memcmp(buf, D_0607110C, 6) != 0) {
             ret = GFS_ERR_CDROM;
         }
     }
@@ -1189,12 +1189,12 @@ Sint32 gfs_GetRootRec(CdcFile *rec)
         return ret;
     }
     drec = D_06070C78->sect_buf + 0x9C;
-    func_06050850(rec, drec + 6, 4);
+    memmove(rec, drec + 6, 4);
     rec->fad += 150;
     if ((Sint32)rec->fad < 166) {
         return GFS_ERR_CDROM;
     }
-    func_06050850(&size, drec + 14, 4);
+    memmove(&size, drec + 14, 4);
     if (size <= 0) {
         return GFS_ERR_CDROM;
     }
@@ -1222,7 +1222,7 @@ Sint32 gfs_LoadRootDir(GfsDirTbl *dirtbl)
     if ((D_06070C78->flags & 1) && gfs == NULL) {
         return ret;
     }
-    nfile = func_060703F4(gfs, dirtbl, CDC_FILE_SIZE(&rec));
+    nfile = gfs_LoadDirTbl(gfs, dirtbl, CDC_FILE_SIZE(&rec));
     if (gfs != NULL) {
         GFS_Close(gfs);
     }
@@ -1273,10 +1273,10 @@ Sint32 gfs_ExecTrans(GfsHn gfs)
     if (atr & GFS_ATR_CDDA) {
         return 6;
     }
-    if (func_0606CBC6(GFS_FILE_TRN(gfs)) == 0) {
-        stat = func_0606C56E(gfs);
+    if (gfsTrn_GetFree(GFS_FILE_TRN(gfs)) == 0) {
+        stat = gfsTrn_Skip(gfs);
     } else {
-        stat = func_0606C4FC(gfs, &tmp);
+        stat = gfsTrn_Exec(gfs, &tmp);
     }
     if (stat == 6) {
         if (D_06070C78->trans == gfs) {
@@ -1311,7 +1311,7 @@ void gfs_SetupFlow(GfsFlow *flow, Sint32 nsct)
     GfsDtsrc *dtsrc = GFS_FLW_DTSRC(flow);
 
     if (dtsrc->ftype == GFS_FTYPE_CD) {
-        func_0606CDD6(flow, nsct);
+        gfsFlow_SetSct(flow, nsct);
     } else {
         flow->sct = nsct;
         flow->sctcnt = 0;
@@ -1353,7 +1353,7 @@ void gfs_CloseHn(GfsHn gfs)
         dtsrc = GFS_FLW_DTSRC(GFS_FILE_FLOW(gfs));
         gfs_DelSvr(gfs);
         gfs_FreeHn(gfs);
-        func_0606D590(dtsrc);
+        gfcf_Close(dtsrc);
     }
 }
 
@@ -1371,7 +1371,7 @@ Bool gfs_IsFlowEnd(GfsHn gfs)
 
     GFS_GetFileInfo(gfs, NULL, NULL, NULL, &atr);
     if (flow->stat == 4) {
-        if (func_0606C336(gfs) == 0 || (atr & GFS_ATR_CDDA)) {
+        if (gfsAcc_CountSctAll(gfs) == 0 || (atr & GFS_ATR_CDDA)) {
             return TRUE;
         }
     }

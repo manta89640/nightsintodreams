@@ -82,7 +82,7 @@ static Sint32 cdc_ExecAfterEsel(CdcCmd *cmd, CdcRsp *rsp)
     Uint32 hirq;
     Sint32 ret;
 
-    hirq = ((Uint32 (*)(Sint32))func_060681CE)(0);
+    hirq = ((Uint32 (*)(Sint32))CDC_GetHirqReq)(0);
     if ((hirq & CDC_HIRQ_ESEL) == 0) {
         return -1;
     }

@@ -33,24 +33,24 @@ typedef struct {
 
 extern Sint32 D_06070C90;       /* last CD state (gfsFlow_GetCdStat) */
 extern Sint32 D_06070C94;       /* last CD pickup FAD */
-extern Sint32 D_06070C98;       /* CD error, 0 if none */
+extern Sint32 gfcd_err;       /* CD error, 0 if none */
 
-extern Sint32 func_0606D4B4(GfsFlow *flow);
-extern Sint32 func_0606D5A8(GfsFlow *flow, Sint32 max, Sint32 flag);
-extern void func_0606D6A0(GfsDtsrc *dtsrc);
-extern Sint32 func_0606D6B8(GfsDtsrc *dtsrc);
-extern Sint32 func_0606D710(GfsFlow *flow, Sint32 n, Sint32 flag);
-extern Sint32 func_0606D968(GfsDtsrc *dtsrc, void *pos);
-extern Sint32 func_0606D97A(GfsDtsrc *dtsrc);
-extern Sint32 func_0606D9B6(GfsDtsrc *dtsrc);
-extern Sint32 func_0606D9DE(GfsDtsrc *dtsrc);
-extern void func_0606D9EA(GfsDtsrc *dtsrc);
-extern Sint32 func_0606DA3C(void *cd, Uint32 arg);
-extern Sint32 func_0606DF32(GfsCdPly *ply, Sint32 arg);
-extern Sint32 func_0606E112(GfsCdStat *stat);
-extern Sint32 func_0606E422(Sint32 fid, GfsDirRec *rec);
-extern Sint32 func_0606E500(void);
-extern void func_0606F17A(void);
+extern Sint32 gfcf_Open(GfsFlow *flow);
+extern Sint32 gfcf_GetNumSct(GfsFlow *flow, Sint32 max, Sint32 flag);
+extern void gfcf_Flush(GfsDtsrc *dtsrc);
+extern Sint32 gfcf_Tell(GfsDtsrc *dtsrc);
+extern Sint32 gfcf_Seek(GfsFlow *flow, Sint32 n, Sint32 flag);
+extern Sint32 gfcf_CdSeek(GfsDtsrc *dtsrc, void *pos);
+extern Sint32 gfcf_SetCdCon(GfsDtsrc *dtsrc);
+extern Sint32 gfcf_Lock(GfsDtsrc *dtsrc);
+extern Sint32 gfcf_IsLocked(GfsDtsrc *dtsrc);
+extern void gfcf_Unlock(GfsDtsrc *dtsrc);
+extern Sint32 gfcd_Init(void *cd, Uint32 arg);
+extern Sint32 gfcd_Play(GfsCdPly *ply, Sint32 arg);
+extern Sint32 gfcd_GetStat(GfsCdStat *stat);
+extern Sint32 gfcd_GetFileInfo(Sint32 fid, GfsDirRec *rec);
+extern Sint32 gfcd_GetFreeSiz(void);
+extern void gfcd_WaitPause(void);
 
 Sint32 gfsFlow_SctToFad(GfsFlow *flow, Sint32 sct);
 Sint32 gfsFlow_GetCdStat(Sint32 *fad, Sint32 *flag);
@@ -65,7 +65,7 @@ Sint32 gfsFlow_InitCd(Sint32 arg)
     Sint32 ret;
 
     D_06070C78->flags &= ~1;
-    ret = func_0606DA3C(D_06070C78->cd, arg);
+    ret = gfcd_Init(D_06070C78->cd, arg);
     if (ret == 0) {
         D_06070C78->flags |= 1;
     }
@@ -95,7 +95,7 @@ Sint32 gfsFlow_Init(GfsFlow *flow, GfsDirRec *rec, Sint32 fid)
 
     if (rec == NULL) {
         finfo->fid = fid;
-        if (func_0606E422(fid, &finfo->rec) != 0) {
+        if (gfcd_GetFileInfo(fid, &finfo->rec) != 0) {
             return FALSE;
         }
         size = finfo->rec.size;
@@ -121,7 +121,7 @@ Sint32 gfsFlow_Init(GfsFlow *flow, GfsDirRec *rec, Sint32 fid)
     } else {
         finfo->lstrm = (GFS_SCT_BYTES - size % GFS_SCT_BYTES) % GFS_SCT_BYTES;
     }
-    if (!func_0606D4B4(flow)) {
+    if (!gfcf_Open(flow)) {
         return FALSE;
     }
     flow->gmode = 0;
@@ -140,7 +140,7 @@ void gfsFlow_SetSct(GfsFlow *flow, Sint32 sct)
     Sint32 n;
 
     flow->sct = sct;
-    n = func_0606D5A8(flow, 0x7FFFFFFF, 0);
+    n = gfcf_GetNumSct(flow, 0x7FFFFFFF, 0);
     if (n < 0) {
         n = 0;
     }
@@ -199,14 +199,14 @@ Sint32 gfsFlow_Read(GfsFlow *flow)
     if (!gfsFlow_CheckCd(flow, cdstat, &ret)) {
         return ret;
     }
-    if (!func_0606D9DE(dtsrc)) {
+    if (!gfcf_IsLocked(dtsrc)) {
         if (!gfsFlow_SetRange(flow, &nsct, &ret)) {
             return ret;
         }
-        if (!func_0606D9B6(dtsrc)) {
+        if (!gfcf_Lock(dtsrc)) {
             return 8;
         }
-        if (!func_0606D97A(dtsrc)) {
+        if (!gfcf_SetCdCon(dtsrc)) {
             return 8;
         }
         ply.start.ptype = 1;
@@ -214,7 +214,7 @@ Sint32 gfsFlow_Read(GfsFlow *flow)
         ply.end.ptype = 1;
         ply.end.fad = dtsrc->efad - ply.start.fad;
         ply.pmode = 0;
-        if ((ret = func_0606DF32(&ply, dtsrc->w1c)) != 0) {
+        if ((ret = gfcd_Play(&ply, dtsrc->w1c)) != 0) {
             return 8;
         }
         flow->sctcnt += nsct;
@@ -223,7 +223,7 @@ Sint32 gfsFlow_Read(GfsFlow *flow)
         return 1;
     }
     if (fad >= dtsrc->efad && ((flag & 4) || cdstat == 0)) {
-        func_0606D9EA(dtsrc);
+        gfcf_Unlock(dtsrc);
         if (flow->sctcnt == flow->sct && D_06070C78->rdefad <= fad && cdstat != 2) {
             D_06070C78->rdsfad = D_06070C78->rdefad;
             return 4;
@@ -245,13 +245,13 @@ void gfsFlow_StopRead(GfsFlow *flow, Sint32 flag)
     D_06070C78->rdefad = 0;
     D_06070C78->rdsfad = 0;
     pos.ptype = 3;
-    func_0606D968(dtsrc, &pos);
+    gfcf_CdSeek(dtsrc, &pos);
     if (flag) {
-        func_0606F17A();
+        gfcd_WaitPause();
     }
-    func_0606D6A0(dtsrc);
-    if (func_0606D9DE(dtsrc)) {
-        func_0606D9EA(dtsrc);
+    gfcf_Flush(dtsrc);
+    if (gfcf_IsLocked(dtsrc)) {
+        gfcf_Unlock(dtsrc);
         gfsFlow_GetCdStat(&fad, NULL);
         if (D_06070C78->rdefad <= fad) {
             D_06070C78->rdsfad = D_06070C78->rdefad;
@@ -267,11 +267,11 @@ Sint32 gfsFlow_PlayNoChg(GfsFlow *flow)
     GfsDtsrc *dtsrc = &flow->dtsrc;
     GfsCdPly ply;
 
-    if (func_0606D9DE(dtsrc)) {
+    if (gfcf_IsLocked(dtsrc)) {
         ply.start.ptype = 3;
         ply.end.ptype = 3;
         ply.pmode = 0xFF;
-        if (func_0606DF32(&ply, dtsrc->w1c) != 0) {
+        if (gfcd_Play(&ply, dtsrc->w1c) != 0) {
             return 8;
         }
         return 2;
@@ -284,7 +284,7 @@ Sint32 gfsFlow_PlayNoChg(GfsFlow *flow)
 /* NONMATCHING: code matches apart from scheduling; literal pool placement differs */
 Sint32 gfsFlow_GetSctPos(GfsFlow *flow)
 {
-    return func_0606D6B8(&flow->dtsrc);
+    return gfcf_Tell(&flow->dtsrc);
 }
 #endif
 
@@ -292,7 +292,7 @@ Sint32 gfsFlow_GetSctPos(GfsFlow *flow)
 /* NONMATCHING: code matches; literal pool placement differs */
 Sint32 gfsFlow_SetSctPos(GfsFlow *flow, Sint32 sct)
 {
-    return func_0606D710(flow, sct, 0);
+    return gfcf_Seek(flow, sct, 0);
 }
 #endif
 
@@ -306,12 +306,12 @@ Sint32 gfsFlow_Seek(GfsFlow *flow, Sint32 sct)
     if (gfsFlow_GetCdStat(NULL, NULL) != 0) {
         return -20;
     }
-    if (!func_0606D9B6(&flow->dtsrc)) {
+    if (!gfcf_Lock(&flow->dtsrc)) {
         return -20;
     }
     pos.ptype = 1;
     pos.fad = gfsFlow_SctToFad(flow, sct) + flow->finfo.rec.fad;
-    switch (func_0606D968(&flow->dtsrc, &pos)) {
+    switch (gfcf_CdSeek(&flow->dtsrc, &pos)) {
     case 0:
         ret = 0;
         break;
@@ -325,7 +325,7 @@ Sint32 gfsFlow_Seek(GfsFlow *flow, Sint32 sct)
         ret = -1;
         break;
     }
-    func_0606D9EA(&flow->dtsrc);
+    gfcf_Unlock(&flow->dtsrc);
     return ret;
 }
 #endif
@@ -354,14 +354,14 @@ Sint32 gfsFlow_GetCdStat(Sint32 *fad, Sint32 *flag)
     GfsCdStat stat;
     Sint32 ret;
 
-    ret = func_0606E112(&stat);
+    ret = gfcd_GetStat(&stat);
     if (flag != NULL) {
         *flag = ret;
     }
     if (fad != NULL) {
         *fad = stat.fad;
     }
-    if (D_06070C98 == 0) {
+    if (gfcd_err == 0) {
         switch (stat.status & 0xF) {
         case 0:
             return 2;
@@ -378,11 +378,11 @@ Sint32 gfsFlow_GetCdStat(Sint32 *fad, Sint32 *flag)
         case 9:
             break;
         }
-    } else if (D_06070C98 == -13) {
+    } else if (gfcd_err == -13) {
         return 3;
-    } else if (D_06070C98 == -14) {
+    } else if (gfcd_err == -14) {
         return 4;
-    } else if (D_06070C98 == -16) {
+    } else if (gfcd_err == -16) {
         return 6;
     }
     return 5;
@@ -425,7 +425,7 @@ static Sint32 gfsFlow_CheckCd(GfsFlow *flow, Sint32 cdstat, Sint32 *ret)
         *ret = flow->stat;
         return FALSE;
     case 0:
-        if (func_0606E500() == 0) {
+        if (gfcd_GetFreeSiz() == 0) {
             *ret = 3;
             return FALSE;
         }
@@ -446,7 +446,7 @@ static Sint32 gfsFlow_CheckCd(GfsFlow *flow, Sint32 cdstat, Sint32 *ret)
         break;
     }
     if (flow->gmode != 1 && flow->stat == 0) {
-        func_0606D6A0(dtsrc);
+        gfcf_Flush(dtsrc);
         flow->sctcnt = 0;
         D_06070C78->rdefad = 0;
         D_06070C78->rdsfad = 0;
@@ -466,9 +466,9 @@ static Sint32 gfsFlow_SetRange(GfsFlow *flow, Sint32 *nsct, Sint32 *ret)
 
     *nsct = flow->sct - flow->sctcnt;
     *nsct = (*nsct < flow->sctmax) ? *nsct : flow->sctmax;
-    sfad = flow->finfo.rec.fad + gfsFlow_SctToFad(flow, func_0606D6B8(dtsrc));
+    sfad = flow->finfo.rec.fad + gfsFlow_SctToFad(flow, gfcf_Tell(dtsrc));
     if (flow->gmode == 1) {
-        n = func_0606D5A8(flow, 0x7FFFFFFF, 0);
+        n = gfcf_GetNumSct(flow, 0x7FFFFFFF, 0);
         if (n < 0) {
             n = 0;
         }
@@ -491,7 +491,7 @@ static Sint32 gfsFlow_SetRange(GfsFlow *flow, Sint32 *nsct, Sint32 *ret)
     }
     *nsct -= n;
     dtsrc->sfad = sfad;
-    dtsrc->efad = gfsFlow_SctToFad(flow, *nsct + func_0606D6B8(dtsrc)) + flow->finfo.rec.fad;
+    dtsrc->efad = gfsFlow_SctToFad(flow, *nsct + gfcf_Tell(dtsrc)) + flow->finfo.rec.fad;
     if (D_06070C78->rdsfad <= dtsrc->sfad && dtsrc->sfad < D_06070C78->rdefad
         && D_06070C78->rdsfad < dtsrc->efad && dtsrc->efad <= D_06070C78->rdefad) {
         D_06070C78->rdsfad = dtsrc->sfad;

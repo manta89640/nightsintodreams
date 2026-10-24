@@ -65,7 +65,7 @@ Sint32 CDC_TgetFileInfo(Sint32 fid, void *file)
         return ret;
     }
     nword = CDC_U24(q->l[0]);
-    return func_0606821E(nword, file);
+    return cdc_get_data_words(nword, file);
 }
 
 Sint32 CDC_ReadFile(Sint32 filtno, Sint32 fid, Sint32 offset)
@@ -88,6 +88,6 @@ Sint32 CDC_AbortFile(void)
 
     CDC_CMD_CLR(p);
     p->b[0] = 0x75;
-    func_06068200(CDC_HIRQ_EFLS);
+    cdc_add_hirq_stat(CDC_HIRQ_EFLS);
     return cdc_ExecCmd(CDC_HIRQ_EFLS, p);
 }

@@ -6,38 +6,38 @@
 #include "sbl/types.h"
 #include "sbl/stm.h"
 
-extern void *func_06050A24(void *dst, Sint32 c, Sint32 n);     /* memset */
-extern void *func_06050850(void *dst, void *src, Sint32 n);    /* memcpy */
-extern void func_0606A768(StmKey *key, Sint32 *sfad, Sint32 *efad);
-extern Sint32 func_0606A83A(StmGrp *grp);
-extern Sint32 func_0606A936(StmGrp *grp, Sint32 fad);
-extern void func_0606AAE4(void);
-extern Sint32 func_0606ADDC(Sint32 fid, StmFinfo *finfo);
-extern void func_0606AF44(StmGfs *gfs);
-extern void func_0606AF62(StmGfs *gfs, Sint32 ofs, Sint32 org);
-extern void func_0606B0E6(StmGfs *gfs, Sint32 *a, Sint32 *nsct, Sint32 *b);
-extern void func_0606B448(StmGfs *gfs, Sint32 nsct);
-extern void func_0606B574(StmGfs *gfs, Sint32 *amode, Sint32 *ndata);
-extern void func_0606B600(StmGfs *gfs);
-extern void func_0606B736(StmGfs *gfs, Sint32 gmode);
-extern void *func_0606BBDC(void);
-extern StmGfs *func_0606BDB4(void *hn, StmFinfo *finfo, Sint32 fid);
-extern void func_0606C456(Sint32 *tr);
-extern void func_0606C462(StmGfs *gfs, Sint32 x);
-extern void func_0606CC50(StmGfs *gfs, Sint32 (*func)(void *), void *obj);
-extern void func_0606CDD6(StmKey *key, Sint32 nsct);
-extern void func_0606CE0C(StmKey *key, Sint32 a, Sint32 b, Sint32 c, Sint32 d, Sint32 e, Sint32 f, Sint32 *stat);
-extern Sint32 func_0606D162(StmKey *key, Sint32 x);
-extern void func_0606D1BA(Sint32 *fad, Sint32 x);
-extern void func_0606DDB4(Sint32 bufno);
-extern void func_0606DDF4(Sint32 fltno, Sint32 mode, StmSubh *subh, Sint32 a, Sint32 b);
-extern void func_0606DEE6(Sint32 fltno, Sint32 bufno);
-extern void func_0606E33A(Sint32 fltno, Sint32 trueno, Sint32 falseno);
-extern Sint32 func_0606E6DA(void);
-extern void func_0606F106(Sint32 a, Sint32 b);
-extern void func_0606F17A(void);
-extern void func_06069A5A(StmGrp *grp);
-extern Sint32 D_06070C98;
+extern void *memset(void *dst, Sint32 c, Sint32 n);     /* memset */
+extern void *memmove(void *dst, void *src, Sint32 n);    /* memcpy */
+extern void stm_GetFadRange(StmKey *key, Sint32 *sfad, Sint32 *efad);
+extern Sint32 stm_CdPause(StmGrp *grp);
+extern Sint32 stm_CdPlayTo(StmGrp *grp, Sint32 fad);
+extern void stm_WaitCsct(void);
+extern Sint32 GFS_GetDirInfo(Sint32 fid, StmFinfo *finfo);
+extern void GFS_Close(StmGfs *gfs);
+extern void GFS_Seek(StmGfs *gfs, Sint32 ofs, Sint32 org);
+extern void GFS_GetFileSize(StmGfs *gfs, Sint32 *a, Sint32 *nsct, Sint32 *b);
+extern void GFS_NwCdRead(StmGfs *gfs, Sint32 nsct);
+extern void GFS_NwGetStat(StmGfs *gfs, Sint32 *amode, Sint32 *ndata);
+extern void GFS_NwExecOne(StmGfs *gfs);
+extern void GFS_SetGmode(StmGfs *gfs, Sint32 gmode);
+extern void *gfs_AllocHn(void);
+extern StmGfs *gfs_InitHn(void *hn, StmFinfo *finfo, Sint32 fid);
+extern void gfsTrn_Activate(Sint32 *tr);
+extern void gfsTrn_Stop(StmGfs *gfs, Sint32 x);
+extern void gfsTrn_SetFunc(StmGfs *gfs, Sint32 (*func)(void *), void *obj);
+extern void gfsFlow_SetSct(StmKey *key, Sint32 nsct);
+extern void gfsFlow_GetFinfo(StmKey *key, Sint32 a, Sint32 b, Sint32 c, Sint32 d, Sint32 e, Sint32 f, Sint32 *stat);
+extern Sint32 gfsFlow_SctToFad(StmKey *key, Sint32 x);
+extern void gfsFlow_GetCdStat(Sint32 *fad, Sint32 x);
+extern void gfcd_Unlock(Sint32 bufno);
+extern void gfcd_SetFilt(Sint32 fltno, Sint32 mode, StmSubh *subh, Sint32 a, Sint32 b);
+extern void gfcd_SetCdCon(Sint32 fltno, Sint32 bufno);
+extern void gfcd_SetFiltCon(Sint32 fltno, Sint32 trueno, Sint32 falseno);
+extern Sint32 gfcd_WaitServer(void);
+extern void gfcd_SetCallback(Sint32 a, Sint32 b);
+extern void gfcd_WaitPause(void);
+extern void STM_GrpCheckPassed(StmGrp *grp);
+extern Sint32 gfcd_err;
 
 StmMng *stm_mng;
 Sint32 stm_06070C70[2];
@@ -72,7 +72,7 @@ static void stm_init_mng(Sint32 ngrp, Sint32 nstm, void *work)
 
     stm_mng = (StmMng *)work;
     grpsize = ngrp * sizeof(StmGrp);
-    func_06050A24(stm_mng, 0, grpsize + nstm * sizeof(Stm) + sizeof(StmMng));
+    memset(stm_mng, 0, grpsize + nstm * sizeof(Stm) + sizeof(StmMng));
     stm_mng->grp = (StmGrp *)(stm_mng + 1);
     stm_mng->ngrp = ngrp;
     stm_mng->stm = (Stm *)((Uint8 *)stm_mng->grp + grpsize);
@@ -148,7 +148,7 @@ Sint32 stm_get_end_fad(StmGrp *grp)
     if (stm == NULL) {
         return STM_FAD_START;
     }
-    func_0606A768(stm->key, &sfad, &efad);
+    stm_GetFadRange(stm->key, &sfad, &efad);
     return efad;
 }
 
@@ -198,10 +198,10 @@ static Sint32 stm_add_stm(StmGrp *grp, Stm *stm, Uint8 flags)
     Stm *last;
     Sint32 ret;
 
-    func_0606A768(stm->key, &sfad, &efad);
+    stm_GetFadRange(stm->key, &sfad, &efad);
     link = &grp->head;
     while (*link != NULL) {
-        func_0606A768((*link)->key, &cur_sfad, &cur_efad);
+        stm_GetFadRange((*link)->key, &cur_sfad, &cur_efad);
         if (sfad <= cur_sfad) {
             break;
         }
@@ -221,16 +221,16 @@ static Sint32 stm_add_stm(StmGrp *grp, Stm *stm, Uint8 flags)
             link = &last->next2;
         }
         key = stm->key;
-        func_0606E33A(key->unk28, key->unk20, 0xFF);
+        gfcd_SetFiltCon(key->unk28, key->unk20, 0xFF);
         if (last != NULL) {
             key = last->key;
-            func_0606E33A(key->unk28, key->unk20, stm->key->unk20);
+            gfcd_SetFiltCon(key->unk28, key->unk20, stm->key->unk20);
         } else if (grp->unk34 >= 0) {
-            func_0606DEE6(stm->key->unk28, grp->unk34);
+            gfcd_SetCdCon(stm->key->unk28, grp->unk34);
         }
         *link = stm;
         stm->next2 = NULL;
-        ret = func_0606E6DA();
+        ret = gfcd_WaitServer();
         if (ret != 0) {
             stm_set_err_gfs(ret);
             return FALSE;
@@ -288,7 +288,7 @@ static Stm *stm_init_stm(Stm *stm, StmGrp *grp, StmGfs *gfs, StmFinfo *finfo, St
 
     gkey = (StmKey *)&gfs->pad0C;
     skey = gkey;
-    skey->unk14 = func_0606D162(gkey, skey->unk14);
+    skey->unk14 = gfsFlow_SctToFad(gkey, skey->unk14);
     skey->unk18 = 0;
     stm->grp = grp;
     stm->stm = stm;
@@ -297,7 +297,7 @@ static Stm *stm_init_stm(Stm *stm, StmGrp *grp, StmGfs *gfs, StmFinfo *finfo, St
     stm->unk18 = 0;
     stm->unk1C = 0;
     stm->flags = flags;
-    func_0606A768(skey, &sfad, &efad);
+    stm_GetFadRange(skey, &sfad, &efad);
     if (((grp->flags & 0x02) ? 1 : 0) == 1 && sfad >= grp->fad) {
         stm->flags |= 0x01;
     }
@@ -306,21 +306,21 @@ static Stm *stm_init_stm(Stm *stm, StmGrp *grp, StmGfs *gfs, StmFinfo *finfo, St
     stm->unk28 = STM_FAD_START;
     if (stm->key->unk1C == 0) {
         mode = stm_key_to_subh(key, finfo, &subh);
-        func_0606DDF4(gkey->unk28, mode, &subh, skey->unk04, skey->unk14);
-        ret = func_0606E6DA();
+        gfcd_SetFilt(gkey->unk28, mode, &subh, skey->unk04, skey->unk14);
+        ret = gfcd_WaitServer();
         if (ret != 0) {
             stm_set_err_gfs(ret);
             return NULL;
         }
-        func_0606CDD6(gkey, STM_INFINITE);
+        gfsFlow_SetSct(gkey, STM_INFINITE);
     }
     if (!stm_add_stm(grp, stm, flags)) {
         return NULL;
     }
     if (((grp->flags & 0x02) ? 1 : 0) == 1 && (grp->flags & 0x20) == 0 && grp->unk0C == stm) {
-        func_0606D1BA(&cur, 0);
+        gfsFlow_GetCdStat(&cur, 0);
         if (cur < stm_mng->unk18 - 10) {
-            ret = func_0606A936(grp, efad);
+            ret = stm_CdPlayTo(grp, efad);
             if (ret != 0) {
                 stm_set_err(ret);
             }
@@ -367,12 +367,12 @@ Sint32 stm_remove_cd(Stm *stm)
         conn = (*link)->key->unk28;
     }
     if (prev == NULL) {
-        func_0606DEE6(conn, grp->unk34);
+        gfcd_SetCdCon(conn, grp->unk34);
     } else {
         key = prev->key;
-        func_0606E33A(key->unk28, key->unk20, conn);
+        gfcd_SetFiltCon(key->unk28, key->unk20, conn);
     }
-    ret = func_0606E6DA();
+    ret = gfcd_WaitServer();
     if (ret != 0) {
         stm_set_err_gfs(ret);
         return FALSE;
@@ -419,7 +419,7 @@ void stm_update_cur(StmGrp *grp)
     best_fad = STM_FAD_START;
     for (stm = grp->head2; stm != NULL; stm = stm->next2) {
         if (stm->key->unk1C == 0) {
-            func_0606A768(stm->key, &sfad, &efad);
+            stm_GetFadRange(stm->key, &sfad, &efad);
             if (efad > best_fad) {
                 best = stm;
                 best_fad = efad;
@@ -478,7 +478,7 @@ static void stm_close(Stm *stm)
             grp->flags &= 0xFFFE;
         }
         if (grp->cur == stm) {
-            func_0606C462(stm->gfs, -1);
+            gfsTrn_Stop(stm->gfs, -1);
             stm->gfs->unkA0 = 0;
             grp->cur = stm->next;
             if (stm->next == NULL) {
@@ -490,25 +490,25 @@ static void stm_close(Stm *stm)
         }
         stm->key->unk20 = stm->key->unk28;
         stm_free_stm(stm);
-        func_0606CE0C(stm->key, 0, 0, 0, 0, 0, 0, &stat);
+        gfsFlow_GetFinfo(stm->key, 0, 0, 0, 0, 0, 0, &stat);
         if (((grp->flags & 0x02) ? 1 : 0) == 1 && (stat & 0x40) == 0) {
-            func_0606A768(stm->key, &sfad, &efad);
-            func_0606D1BA(&cur, 0);
+            stm_GetFadRange(stm->key, &sfad, &efad);
+            gfsFlow_GetCdStat(&cur, 0);
             if (sfad - 10 < cur && cur <= efad) {
-                func_0606AAE4();
+                stm_WaitCsct();
             }
         }
-        func_0606AF44(stm->gfs);
+        GFS_Close(stm->gfs);
     }
     if (grp->unk0C == stm) {
         stm_update_cur(grp);
         if (grp->unk0C != NULL && ((grp->flags & 0x02) ? 1 : 0) == 1) {
-            func_0606A768(grp->unk0C->key, &sfad, &efad);
+            stm_GetFadRange(grp->unk0C->key, &sfad, &efad);
             if (efad - stm_mng->unk14 >= 0) {
-                ret = func_0606A936(grp, efad);
+                ret = stm_CdPlayTo(grp, efad);
             } else {
-                ret = func_0606A83A(grp);
-                func_06069A5A(grp);
+                ret = stm_CdPause(grp);
+                STM_GrpCheckPassed(grp);
                 grp->lpcnt++;
                 grp->fad = STM_FAD_START;
                 grp->flags &= 0xFFD9;
@@ -519,11 +519,11 @@ static void stm_close(Stm *stm)
         }
     }
     if (grp->head2 == NULL && ((grp->flags & 0x02) ? 1 : 0) == 1) {
-        ret = func_0606A83A(grp);
+        ret = stm_CdPause(grp);
         if (ret != 0) {
             stm_set_err(ret);
         } else {
-            func_06069A5A(grp);
+            STM_GrpCheckPassed(grp);
             grp->lpcnt++;
             grp->fad = STM_FAD_START;
             grp->flags &= 0xFFD9;
@@ -545,10 +545,10 @@ void STM_CloseGrp(StmGrp *grp)
     }
     if (grp->unk34 >= 0) {
         stm_mng->curgrp = NULL;
-        func_0606DDB4(grp->unk34);
+        gfcd_Unlock(grp->unk34);
         grp->unk34 = -1;
-        func_0606F106(0, 0);
-        func_0606F17A();
+        gfcd_SetCallback(0, 0);
+        gfcd_WaitPause();
     }
     stm_free_grp(grp);
     if ((stm_mng->err.code ? 1 : 0) == 1) {
@@ -575,7 +575,7 @@ void stm_close_all(void)
         if (grp->used == 1) {
             for (stm = grp->head; stm != NULL; stm = stm->next) {
                 if (stm->unk18 != 0) {
-                    func_0606CC50(stm->gfs, stm_func_nop, stm);
+                    gfsTrn_SetFunc(stm->gfs, stm_func_nop, stm);
                 }
             }
             STM_CloseGrp(grp);
@@ -602,33 +602,33 @@ static Stm *stm_open(StmGrp *grp, StmFinfo *finfo, Sint32 fid, StmSelKey *key, U
         stm_call_err_func();
         return NULL;
     }
-    hn = func_0606BBDC();
+    hn = gfs_AllocHn();
     if (hn == NULL) {
         stm_free_stm(stm);
         stm_set_err(STM_ERR_NOHNDL);
         stm_call_err_func();
         return NULL;
     }
-    gfs = func_0606BDB4(hn, finfo, fid);
+    gfs = gfs_InitHn(hn, finfo, fid);
     ret = stm_init_stm(stm, grp, gfs, finfo, key, flags);
     if (ret == NULL) {
         stm_call_err_func();
         return NULL;
     }
     if (flags & 0x02) {
-        func_0606B736(gfs, 1);
+        GFS_SetGmode(gfs, 1);
     }
     if (stm->key->unk1C != 0) {
-        func_0606B0E6(gfs, NULL, &nsct, NULL);
-        func_0606B448(gfs, nsct);
+        GFS_GetFileSize(gfs, NULL, &nsct, NULL);
+        GFS_NwCdRead(gfs, nsct);
         do {
-            func_0606B600(gfs);
-            func_0606B574(gfs, &amode, &ndata);
+            GFS_NwExecOne(gfs);
+            GFS_NwGetStat(gfs, &amode, &ndata);
         } while (ndata < nsct);
     }
     ret->gfs->unk04 = 1;
     ret->gfs->unk08 = 1;
-    func_0606C456(&gfs->tr);
+    gfsTrn_Activate(&gfs->tr);
     return ret;
 }
 
@@ -639,13 +639,13 @@ static Stm *stm_open_fid(StmGrp *grp, Sint32 fid, StmSelKey *key, Uint8 flags)
     StmSelKey selkey;
     Sint32 ret;
 
-    ret = func_0606ADDC(fid, &finfo);
+    ret = GFS_GetDirInfo(fid, &finfo);
     if (ret != 0) {
         stm_set_err(ret);
         stm_call_err_func();
         return NULL;
     }
-    func_06050850(&selkey, key, sizeof(StmSelKey));
+    memmove(&selkey, key, sizeof(StmSelKey));
     (&selkey)->fn = (&finfo)->fn;
     return stm_open(grp, &finfo, fid, &selkey, flags);
 }
@@ -722,7 +722,7 @@ Stm *STM_OpenFrange(StmGrp *grp, StmFrange *frange, StmSelKey *key, Sint32 rmode
 static void stm_set_param_sub(Stm *stm, Sint32 n)
 {
     if (stm->flags & 0x02) {
-        func_0606AF62(stm->gfs, 0, 0);
+        GFS_Seek(stm->gfs, 0, 0);
     }
     stm->gfs->unkA0 = 0;
     stm->unk28 = n;
@@ -815,8 +815,8 @@ void STM_SetKey(Stm *stm, StmSelKey *key)
     (&subh)->cival = key->cival;
     mode = stm_key_to_mode(key);
     skey = stm->key;
-    func_0606DDF4(skey->unk28, mode, &subh, skey->unk04, skey->unk14);
-    ret = func_0606E6DA();
+    gfcd_SetFilt(skey->unk28, mode, &subh, skey->unk04, skey->unk14);
+    ret = gfcd_WaitServer();
     if (ret != 0) {
         stm_set_err_gfs(ret);
         stm_call_err_func();
@@ -845,7 +845,7 @@ Sint32 stm_check_gfs_err(void)
 {
     Sint32 code;
 
-    switch (D_06070C98) {
+    switch (gfcd_err) {
     case 0:
         return 0;
     case -13:

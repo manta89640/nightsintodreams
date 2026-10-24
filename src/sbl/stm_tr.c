@@ -60,10 +60,10 @@ typedef struct StmTr {
 #define STM_ERR_RANGE (-14)
 #define STM_ERR_MODE  (-17)
 
-extern void func_060693BA(Sint32 id);
-extern Bool func_060693C2(Sint32 code);
-extern Sint32 func_060693D8(void);
-extern void func_0606942E(void);
+extern void stm_set_func_id(Sint32 id);
+extern Bool stm_set_err(Sint32 code);
+extern Sint32 stm_check_gfs_err(void);
+extern void stm_call_err_func(void);
 
 extern void gfsTrn_SetBuf(void *trn, void *buf, Sint32 size, Sint32 unit);
 extern void gfsTrn_SetMode(void *trn, Sint32 mode);
@@ -83,10 +83,10 @@ Sint32 stm_CallTrFunc(StmTr *stm, Sint32 nsct)
 
 void STM_SetTrFunc(StmTr *stm, StmTrFunc func, void *obj)
 {
-    func_060693BA(0x317);
+    stm_set_func_id(0x317);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return;
     }
     stm = stm->alt;
@@ -102,7 +102,7 @@ void STM_SetTrFunc(StmTr *stm, StmTrFunc func, void *obj)
         gfsTrn_SetFunc(stm->trn, (void *)stm_CallTrFunc, stm);
         stm->trobj = obj;
     }
-    func_060693D8();
+    stm_check_gfs_err();
 }
 
 /* Returns the data to transfer and its address step. */
@@ -110,10 +110,10 @@ Uint32 *STM_StartTrans(StmTr *stm, Sint32 *adlt)
 {
     StmTrPack *dps;
 
-    func_060693BA(0x318);
+    stm_set_func_id(0x318);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return NULL;
     }
     stm = stm->alt;
@@ -122,7 +122,7 @@ Uint32 *STM_StartTrans(StmTr *stm, Sint32 *adlt)
         gfcf_StartTrans(dps, &stm->cdc->unk1C);
     }
     *adlt = dps->adlt;
-    func_060693D8();
+    stm_check_gfs_err();
     return dps->data;
 }
 
@@ -149,7 +149,7 @@ void STM_SetTrBuf(StmTr *stm, void *buf, Sint32 nunit, Sint32 unitsize)
 {
     Sint32 err;
 
-    func_060693BA(0x316);
+    stm_set_func_id(0x316);
     if (stm == NULL) {
         err = STM_ERR_NULL;
     } else if (nunit < 0) {
@@ -157,13 +157,13 @@ void STM_SetTrBuf(StmTr *stm, void *buf, Sint32 nunit, Sint32 unitsize)
     } else if (unitsize == STM_UNIT_BYTE || unitsize == STM_UNIT_WORD ||
                unitsize == STM_UNIT_FORM1 || unitsize == STM_UNIT_FORM2) {
         stm_SetTrBuf(stm->alt, buf, nunit, unitsize);
-        func_060693D8();
+        stm_check_gfs_err();
         return;
     } else {
         err = STM_ERR_MODE;
     }
-    func_060693C2(err);
-    func_0606942E();
+    stm_set_err(err);
+    stm_call_err_func();
 }
 
 /* Drops what is in the transfer buffer and starts filling it again. */
@@ -183,14 +183,14 @@ void stm_ResetTrBuf(StmTr *stm)
 
 void STM_ResetTrBuf(StmTr *stm)
 {
-    func_060693BA(0x323);
+    stm_set_func_id(0x323);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return;
     }
     stm_ResetTrBuf(stm->alt);
-    func_060693D8();
+    stm_check_gfs_err();
 }
 
 /* Words in the transfer buffer. */
@@ -199,15 +199,15 @@ Sint32 STM_GetLenTrBuf(StmTr *stm)
     Uint32 len;
     Sint32 err;
 
-    func_060693BA(0x326);
+    stm_set_func_id(0x326);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return -1;
     }
     stm = stm->alt;
     len = gfsTrn_GetWp(&stm->trn->trn);
-    err = func_060693D8();
+    err = stm_check_gfs_err();
     if (err < 0) {
         return err;
     }
@@ -226,13 +226,13 @@ Bool STM_IsTrBufFull(StmTr *stm)
 {
     Bool full;
 
-    func_060693BA(0x327);
+    stm_set_func_id(0x327);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return FALSE;
     }
     full = stm_IsTrBufFull(stm->alt);
-    func_060693D8();
+    stm_check_gfs_err();
     return full;
 }

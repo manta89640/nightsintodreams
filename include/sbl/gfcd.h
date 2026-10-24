@@ -86,39 +86,39 @@ typedef struct {
 #define CDC_HIRQ_SCDQ       0x0400
 
 /* CDC API in units not merged yet; aliases for the names in the target asm. */
-#define CDC_TgetToc         func_0606F348
-#define CDC_GetSes          func_0606F38C
-#define CDC_CdInit          func_0606F3CE
-#define CDC_DataReady       func_0606F478
-#define CDC_DataEnd         func_0606F4C2
-#define CDC_CdSetCon        func_0606F518
-#define CDC_SetFiltRange    func_0606F5BC
-#define CDC_SetFiltSubh     func_0606F636
-#define CDC_GetFiltSubh     func_0606F674
-#define CDC_SetFiltMode     func_0606F6CA
-#define CDC_GetFiltMode     func_0606F6F4
-#define CDC_SetFiltCon      func_0606F738
-#define CDC_ResetSelector   func_0606F7BA
-#define CDC_GetBufSiz       func_0606F7F0
-#define CDC_GetSctNum       func_0606F83E
-#define CDC_CalActSiz       func_0606F882
-#define CDC_GetActSiz       func_0606F8B0
-#define CDC_GetSctInfo      func_0606F914
-#define CDC_SetSctLen       func_0606F9F4
-#define CDC_GetSctData      func_0606FA1E
-#define CDC_DelSctData      func_0606FA4C
-#define CDC_MoveSctData     func_0606FB06
-#define CDC_ChgDir          func_0606FB80
-#define CDC_ReadDir         func_0606FBA8
-#define CDC_GetFileScope    func_0606FBD0
-#define CDC_TgetFileInfo    func_0606FC20
-#define CDC_AbortFile       func_0606FC9A
-#define cdc_ExecCmdRsp      func_0606FCD8
-#define cdc_ExecCmdSub      func_0606FCEE
-#define cdc_GetLastStat     func_0606FD50
-#define cdc_RspToStat       func_0606FD88
-#define CDC_CdPlay          func_060680CC
-#define CDC_CdSeek          func_0606816A
+#define CDC_TgetToc         CDC_TgetToc
+#define CDC_GetSes          CDC_GetSes
+#define CDC_CdInit          CDC_CdInit
+#define CDC_DataReady       CDC_DataReady
+#define CDC_DataEnd         CDC_DataEnd
+#define CDC_CdSetCon        CDC_CdSetCon
+#define CDC_SetFiltRange    CDC_SetFiltRange
+#define CDC_SetFiltSubh     CDC_SetFiltSubh
+#define CDC_GetFiltSubh     CDC_GetFiltSubh
+#define CDC_SetFiltMode     CDC_SetFiltMode
+#define CDC_GetFiltMode     CDC_GetFiltMode
+#define CDC_SetFiltCon      CDC_SetFiltCon
+#define CDC_ResetSelector   CDC_ResetSelector
+#define CDC_GetBufSiz       CDC_GetBufSiz
+#define CDC_GetSctNum       CDC_GetSctNum
+#define CDC_CalActSiz       CDC_CalActSiz
+#define CDC_GetActSiz       CDC_GetActSiz
+#define CDC_GetSctInfo      CDC_GetSctInfo
+#define CDC_SetSctLen       CDC_SetSctLen
+#define CDC_GetSctData      CDC_GetSctData
+#define CDC_DelSctData      CDC_DelSctData
+#define CDC_MoveSctData     CDC_MoveSctData
+#define CDC_ChgDir          CDC_ChgDir
+#define CDC_ReadDir         CDC_ReadDir
+#define CDC_GetFileScope    CDC_GetFileScope
+#define CDC_TgetFileInfo    CDC_TgetFileInfo
+#define CDC_AbortFile       CDC_AbortFile
+#define cdc_ExecCmdRsp      cdc_ExecCmdRsp
+#define cdc_ExecCmdSub      cdc_ExecCmdSub
+#define cdc_GetLastStat     cdc_GetLastStat
+#define cdc_RspToStat       cdc_RspToStat
+#define CDC_CdPlay          CDC_CdPlay
+#define CDC_CdSeek          CDC_CdSeek
 
 Sint32 CDC_TgetToc(Uint32 *toc);
 Sint32 CDC_GetSes(Sint32 sesno, Uint32 *ses);
@@ -159,10 +159,10 @@ Sint32 CDC_GetLastStat(CdcStat *stat);
 Sint32 CDC_GetPeriStat(CdcStat *stat);
 
 /* CD block register access (unit sbl/060680CC). */
-Uint32 func_060681C8(void);
-Uint32 func_060681CE(void);             /* reads HIRQ */
-void func_060681D6(Sint32 mask);        /* clears the HIRQ bits that are 0 in mask */
-void func_060683B2(CdcRsp *rsp);        /* reads CR1-CR4 */
+Uint32 CDC_GetDataPtr(void);
+Uint32 CDC_GetHirqReq(void);             /* reads HIRQ */
+void CDC_ClrHirqReq(Sint32 mask);        /* clears the HIRQ bits that are 0 in mask */
+void cdc_read_cr(CdcRsp *rsp);        /* reads CR1-CR4 */
 
 /* ---- GFS ---- */
 
@@ -200,7 +200,7 @@ typedef struct {
 
 extern Uint8 *D_06070C78;       /* GFS work area */
 
-Sint32 func_0606CE0C(GfcfFile *gf, Sint32 a, Sint32 b, Sint32 *c, Sint32 *d, Sint32 *e, Sint32 f, Sint32 g);
+Sint32 gfsFlow_GetFinfo(GfcfFile *gf, Sint32 a, Sint32 b, Sint32 *c, Sint32 *d, Sint32 *e, Sint32 f, Sint32 g);
 
 /* One queued filter setup (CDC_SetFiltMode / SetFiltSubh / SetFiltRange). */
 typedef struct {

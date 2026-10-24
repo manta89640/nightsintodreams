@@ -2,10 +2,10 @@
 #include "sbl/types.h"
 #include "sbl/stm_api.h"
 
-extern void func_060685F4(Sint32 ch);
-extern void func_060684BC(DmaCpuComPrm *prm);
-extern void func_06068504(DmaCpuPrm *prm, Sint32 ch);
-extern void func_060685E2(Sint32 ch);
+extern void DMA_CpuStop(Sint32 ch);
+extern void DMA_CpuSetComPrm(DmaCpuComPrm *prm);
+extern void DMA_CpuSetPrm(DmaCpuPrm *prm, Sint32 ch);
+extern void DMA_CpuStart(Sint32 ch);
 
 /* Destination and byte size of the transfer, for dma_cpu0_check's cache purge. */
 Uint32 dma_cpu0_dst;
@@ -19,11 +19,11 @@ void dma_cpu0_start(Uint32 dst, Uint32 src, Uint32 cnt)
     DmaCpuComPrm com;
     DmaCpuPrm prm;
 
-    func_060685F4(0);
+    DMA_CpuStop(0);
     com.pr = 0;
     com.dme = 1;
     com.msk = 15;
-    func_060684BC(&com);
+    DMA_CpuSetComPrm(&com);
     prm.sar = src;
     prm.dar = dst;
     prm.tcr = cnt;
@@ -33,8 +33,8 @@ void dma_cpu0_start(Uint32 dst, Uint32 src, Uint32 cnt)
     prm.ar = 0x200;
     prm.ie = 0;
     prm.msk = 0x2FF;
-    func_06068504(&prm, 0);
-    func_060685E2(0);
+    DMA_CpuSetPrm(&prm, 0);
+    DMA_CpuStart(0);
     dma_cpu0_dst = dst;
     dma_cpu0_size = cnt << 2;
 }

@@ -2,8 +2,8 @@
 #include "sbl/cdc.h"
 #include "sbl/machine.h"
 
-extern Sint32 func_0606F478(Sint32 x);    /* waits for data ready */
-extern Sint32 func_0606F4C2(Sint32 *n);   /* ends the transfer, returns its size */
+extern Sint32 CDC_DataReady(Sint32 x);    /* waits for data ready */
+extern Sint32 CDC_DataEnd(Sint32 *n);   /* ends the transfer, returns its size */
 
 /* HIRQ bits seen since they were last consumed (CDC_ClrHirqReq clears the
  * register, so the pending bits are kept here). */
@@ -75,14 +75,14 @@ Sint32 cdc_get_data_words(Sint32 n, Uint16 *buf)
     Sint32 i;
     Sint32 got;
 
-    ret = func_0606F478(0);
+    ret = CDC_DataReady(0);
     if (ret != 0) {
         return ret;
     }
     for (i = 0; i < n; i++) {
         buf[i] = CDC_DATA;
     }
-    ret = func_0606F4C2(&got);
+    ret = CDC_DataEnd(&got);
     if (ret == 0 && got != n) {
         ret = CDC_ERR_TRNS;
     }

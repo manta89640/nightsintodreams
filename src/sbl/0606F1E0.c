@@ -65,8 +65,8 @@ Sint32 cdc_GetPeriRsp(CdcRsp *rsp)
     for (i = 0; i < 100; i++) {
         imask = get_imask();
         set_imask(15);
-        func_060683B2(rsp);
-        func_060683B2(&tmp);
+        cdc_read_cr(rsp);
+        cdc_read_cr(&tmp);
         set_imask(imask);
         if (rsp->l[0] == tmp.l[0] && rsp->l[1] == tmp.l[1]) {
             ret = 0;

@@ -54,6 +54,6 @@ typedef struct {
 } CdcCmdReg;
 
 /* Issues a command and reads back the status (in another unit). */
-extern Sint32 func_0606FCDC(Sint32 hirq, Uint8 *cmd);
+extern Sint32 cdc_ExecCmd(Sint32 hirq, Uint8 *cmd);
 
 #endif

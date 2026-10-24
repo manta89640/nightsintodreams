@@ -99,21 +99,21 @@ typedef struct {
     Sint32 play_efad;           /* 0x18 */
 } StmMng;
 
-extern StmMng *D_06070C6C;
+extern StmMng *stm_mng;
 
-Sint32 func_0606F1E0(CdcStat *stat);
-Sint32 func_0606CE0C(void *fh, Sint32 *fid, Sint32 *fad, Sint32 *sctsz, Sint32 *nsct,
+Sint32 CDC_GetCurStat(CdcStat *stat);
+Sint32 gfsFlow_GetFinfo(void *fh, Sint32 *fid, Sint32 *fad, Sint32 *sctsz, Sint32 *nsct,
                      Sint32 *lstsz, Sint32 *fn, Sint32 *atr);
-Sint32 func_0606DF32(CdcPly *ply, Sint32 filt);
-Sint32 func_0606E19A(CdcPos *pos, Sint32 filt);
-Sint32 func_0606D5A8(StmObj *obj, Sint32 nsct, Sint32 flag);
-Sint32 func_0606E27A(Sint32 bufno, Sint32 sctpos, CdcSct *sct);
-Sint32 func_0606DF9E(Sint32 bufno, Sint32 sctpos, Sint32 nsct, Sint32 *a, Sint32 *nword);
-void   func_0606E6DA(void);
-void   func_0606E084(Sint32 bufno, Sint32 sctpos, Sint32 nsct);
-Sint32 func_0606F83E(Sint32 bufno, Sint32 *nsct);
-Sint32 func_0606F7F0(Sint32 *totalsiz, Sint32 *bufnum, Sint32 *freesiz);
-Uint16 func_060681CE(void);
-void   func_060681D6(Sint32 bitpat);
+Sint32 gfcd_Play(CdcPly *ply, Sint32 filt);
+Sint32 gfcd_Seek(CdcPos *pos, Sint32 filt);
+Sint32 gfcf_GetNumSct(StmObj *obj, Sint32 nsct, Sint32 flag);
+Sint32 gfcd_GetSctInfo(Sint32 bufno, Sint32 sctpos, CdcSct *sct);
+Sint32 gfcd_GetSctNum(Sint32 bufno, Sint32 sctpos, Sint32 nsct, Sint32 *a, Sint32 *nword);
+void   gfcd_WaitServer(void);
+void   gfcd_DelSct(Sint32 bufno, Sint32 sctpos, Sint32 nsct);
+Sint32 CDC_GetSctNum(Sint32 bufno, Sint32 *nsct);
+Sint32 CDC_GetBufSiz(Sint32 *totalsiz, Sint32 *bufnum, Sint32 *freesiz);
+Uint16 CDC_GetHirqReq(void);
+void   CDC_ClrHirqReq(Sint32 bitpat);
 
 #endif

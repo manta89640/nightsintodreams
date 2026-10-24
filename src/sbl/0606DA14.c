@@ -90,12 +90,12 @@ Sint32 gfcd_Init(GfcdWork *work, Sint32 flag)
         }
     }
     WORK->timeout = 0;
-    func_060681D6(~(CDC_HIRQ_PEND | CDC_HIRQ_BFUL));
+    CDC_ClrHirqReq(~(CDC_HIRQ_PEND | CDC_HIRQ_BFUL));
     cnt = 0;
     done = 0;
     while (!done) {
         if (gfcd_TestHirq(CDC_HIRQ_SCDQ)) {
-            func_060681D6(~CDC_HIRQ_SCDQ);
+            CDC_ClrHirqReq(~CDC_HIRQ_SCDQ);
             if (++cnt > 600) {
                 return -2;
             }
@@ -349,7 +349,7 @@ Sint32 gfcd_Play(void *ply, Sint32 id)
     if (gfcd_err != 0) {
         return gfcd_err;
     }
-    func_060681D6(~(CDC_HIRQ_PEND | CDC_HIRQ_CSCT));
+    CDC_ClrHirqReq(~(CDC_HIRQ_PEND | CDC_HIRQ_CSCT));
     CDC_CdPlay(ply);
     gfcd_play = 1;
     return 0;
@@ -464,7 +464,7 @@ Sint32 gfcd_GetStat(CdcStat *stat)
     if (ret != 0) {
         CDC_GetCurStat(stat);
     }
-    hirq = func_060681CE();
+    hirq = CDC_GetHirqReq();
     if (hirq & CDC_HIRQ_DCHG) {
         gfcd_err = -13;
     } else {
@@ -700,7 +700,7 @@ Sint32 gfcd_ExecServer(void)
         return 2;
     }
     if (gfcd_TestHirq(CDC_HIRQ_SCDQ) == 1) {
-        func_060681D6(~CDC_HIRQ_SCDQ);
+        CDC_ClrHirqReq(~CDC_HIRQ_SCDQ);
         if (WORK->func != NULL) {
             WORK->func(WORK->arg);
         }
@@ -1021,7 +1021,7 @@ Sint32 gfcd_ExecDel(Sint32 *ncmd)
     if (busy == 1) {
         return 1;
     }
-    func_060681D6(~CDC_HIRQ_BFUL);
+    CDC_ClrHirqReq(~CDC_HIRQ_BFUL);
     WORK->del_st = 0;
     return 0;
 }
@@ -1202,7 +1202,7 @@ Sint32 gfcd_TestHirq(Sint32 mask)
 {
     Uint32 hirq;
 
-    hirq = func_060681CE();
+    hirq = CDC_GetHirqReq();
     if (mask & hirq) {
         return 1;
     }
@@ -1260,7 +1260,7 @@ void gfcd_SetCallback(void (*func)(void *), void *arg)
 #ifdef NONMATCHING /* same instructions, only pool and branch displacements differ */
 Sint32 gfcd_TestScdq(void)
 {
-    if (func_060681CE() & CDC_HIRQ_SCDQ) {
+    if (CDC_GetHirqReq() & CDC_HIRQ_SCDQ) {
         return 1;
     }
     return 0;
@@ -1270,7 +1270,7 @@ Sint32 gfcd_TestScdq(void)
 #ifdef NONMATCHING /* same instructions, only pool and branch displacements differ */
 void gfcd_ClrScdq(void)
 {
-    func_060681D6(~CDC_HIRQ_SCDQ);
+    CDC_ClrHirqReq(~CDC_HIRQ_SCDQ);
 }
 #endif
 

@@ -76,12 +76,12 @@ extern CdcStat cdc_last_stat;
 Sint32 CDC_DataEnd(Sint32 *cdwnum);
 
 /* Low-level CD block access (other units). */
-Uint32 func_060681CE(void);          /* reads HIRQ */
-void func_060681E8(Sint32 hirq);     /* writes HIRQ (clears bits written as 0) */
-void func_060681EE(void);
-void func_06068200(Sint32 bits);
-Sint32 func_0606821E(Sint32 nword, void *buf);
-Sint32 func_06068276(Sint32 hirq, CdcCmd *cmd, CdcRsp *rsp);
-Sint32 func_06068368(Sint32 hirq, Sint32 *stat);
+Uint32 CDC_GetHirqReq(void);          /* reads HIRQ */
+void cdc_set_hirq_req(Sint32 hirq);     /* writes HIRQ (clears bits written as 0) */
+void cdc_init_hirq(void);
+void cdc_add_hirq_stat(Sint32 bits);
+Sint32 cdc_get_data_words(Sint32 nword, void *buf);
+Sint32 cdc_exec_cmd(Sint32 hirq, CdcCmd *cmd, CdcRsp *rsp);
+Sint32 cdc_wait_hirq(Sint32 hirq, Sint32 *stat);
 
 #endif

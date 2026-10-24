@@ -66,15 +66,15 @@ extern GfsDataPack *gfsAcc_GetPack(GfsFile *gfs, Sint32 nsct);
 extern Sint32 gfsAcc_PreparePack(GfsDataPack *dp, GfsFlow *flow);
 extern void gfsAcc_ReleasePack(GfsFile *gfs, GfsDataPack *dp, Sint32 nsct);
 
-extern void func_0606848C(void *adr, Uint32 size);
-extern void func_060684BC(GfsCpuComPrm *prm);
-extern void func_06068504(GfsCpuPrm *prm, Uint32 ch);
-extern void func_060685E2(Uint32 ch);
-extern void func_060685F4(Uint32 ch);
-extern Sint32 func_06068624(Uint32 ch);
-extern void func_0606FDD0(GfsScuPrm *prm, Uint32 ch);
-extern void func_0606FE24(Uint32 ch);
-extern void func_0606FED0(Uint32 *stat, Uint32 ch);
+extern void CSH_Purge(void *adr, Uint32 size);
+extern void DMA_CpuSetComPrm(GfsCpuComPrm *prm);
+extern void DMA_CpuSetPrm(GfsCpuPrm *prm, Uint32 ch);
+extern void DMA_CpuStart(Uint32 ch);
+extern void DMA_CpuStop(Uint32 ch);
+extern Sint32 DMA_CpuGetStatus(Uint32 ch);
+extern void DMA_ScuSetPrm(GfsScuPrm *prm, Uint32 ch);
+extern void DMA_ScuStart(Uint32 ch);
+extern void DMA_ScuGetStatus(Uint32 *stat, Uint32 ch);
 
 Sint32 gfsTrn_SetMode(GfsTrans *trans, Sint32 mode);
 void gfsTrn_SetUnit(GfsTrans *trans, Sint32 unit);
@@ -419,9 +419,9 @@ void gfsTrn_ScuTrans(Uint32 *dst, Sint32 dinc, Uint32 *src, Sint32 sinc, Uint32 
     prm.dxft = 7;
     prm.msk = 3;
     D_06070C80 = 1;
-    func_0606FDD0(&prm, 0);
-    func_0606FE24(0);
-    func_0606848C(dst, size);
+    DMA_ScuSetPrm(&prm, 0);
+    DMA_ScuStart(0);
+    CSH_Purge(dst, size);
 }
 #endif
 
@@ -431,7 +431,7 @@ Sint32 gfsTrn_ScuWait(void)
 {
     Uint32 stat;
 
-    func_0606FED0(&stat, 0);
+    DMA_ScuGetStatus(&stat, 0);
     if (stat == 1) {
         return TRUE;
     }
@@ -455,11 +455,11 @@ static void gfsTrn_SdmaTrans(Sint32 ch, Uint32 *dst, Sint32 dinc, Uint32 *src, S
 
     n = size >> 2;
     if (n > 0) {
-        func_060685F4(ch);
+        DMA_CpuStop(ch);
         com.pr = 0;
         com.dme = 1;
         com.msk = 15;
-        func_060684BC(&com);
+        DMA_CpuSetComPrm(&com);
         prm.sar = (Uint32)src;
         prm.dar = (Uint32)dst;
         prm.tcr = n;
@@ -481,9 +481,9 @@ static void gfsTrn_SdmaTrans(Sint32 ch, Uint32 *dst, Sint32 dinc, Uint32 *src, S
         prm.ar = 0x200;
         prm.ie = 0;
         prm.msk = 0x2FF;
-        func_06068504(&prm, ch);
-        func_060685E2(ch);
-        func_0606848C(dst, size);
+        DMA_CpuSetPrm(&prm, ch);
+        DMA_CpuStart(ch);
+        CSH_Purge(dst, size);
     }
     D_06070C84.rem = size & 3;
     D_06070C84.dst = dst + n * dinc;
@@ -495,7 +495,7 @@ static void gfsTrn_SdmaTrans(Sint32 ch, Uint32 *dst, Sint32 dinc, Uint32 *src, S
 /* NONMATCHING: target reloads &D_06070C84 three times instead of keeping it in r14; empty jsr delay slot */
 static Sint32 gfsTrn_SdmaWait(Sint32 ch)
 {
-    if (func_06068624(ch) == 0) {
+    if (DMA_CpuGetStatus(ch) == 0) {
         return TRUE;
     }
     gfsTrn_CopyTail(D_06070C84.rem, (Uint8 *)D_06070C84.dst, D_06070C84.src);

@@ -26,7 +26,7 @@ Sint32 cdc_ExecCmdSub(Sint32 hirq, CdcCmd *cmd, CdcRsp *rsp, Sint32 full)
     Sint32 ret;
     Sint32 imask;
 
-    ret = func_06068276(hirq, cmd, rsp);
+    ret = cdc_exec_cmd(hirq, cmd, rsp);
     if (ret != 0) {
         return ret;
     }

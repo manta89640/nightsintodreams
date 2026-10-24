@@ -1715,28 +1715,188 @@
       }
     },
     {
-      "name": "game/06050968",
-      "target_path": "build/usa/asm/game/06050968.o",
+      "name": "shclib/divlu",
+      "target_path": "build/usa/asm/shclib/divlu.o",
+      "base_path": "build/usa/src/shclib/divlu.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
-          "game"
-        ]
+          "shclib"
+        ],
+        "source_path": "src/shclib/divlu.s"
       }
     },
     {
-      "name": "game/06050A5C",
-      "target_path": "build/usa/asm/game/06050A5C.o",
+      "name": "shclib/modls",
+      "target_path": "build/usa/asm/shclib/modls.o",
+      "base_path": "build/usa/src/shclib/modls.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
-          "game"
-        ]
+          "shclib"
+        ],
+        "source_path": "src/shclib/modls.s"
       }
     },
     {
-      "name": "game/06051140",
-      "target_path": "build/usa/asm/game/06051140.o",
+      "name": "shclib/memmove",
+      "target_path": "build/usa/asm/shclib/memmove.o",
+      "base_path": "build/usa/src/shclib/memmove.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/memmove.s"
+      }
+    },
+    {
+      "name": "shclib/strcpy",
+      "target_path": "build/usa/asm/shclib/strcpy.o",
+      "base_path": "build/usa/src/shclib/strcpy.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/strcpy.c"
+      }
+    },
+    {
+      "name": "shclib/divlspnm",
+      "target_path": "build/usa/asm/shclib/divlspnm.o",
+      "base_path": "build/usa/src/shclib/divlspnm.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/divlspnm.s"
+      }
+    },
+    {
+      "name": "shclib/quick_mvn",
+      "target_path": "build/usa/asm/shclib/quick_mvn.o",
+      "base_path": "build/usa/src/shclib/quick_mvn.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/quick_mvn.s"
+      }
+    },
+    {
+      "name": "shclib/slow_mvn",
+      "target_path": "build/usa/asm/shclib/slow_mvn.o",
+      "base_path": "build/usa/src/shclib/slow_mvn.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/slow_mvn.s"
+      }
+    },
+    {
+      "name": "shclib/slow_strcpy",
+      "target_path": "build/usa/asm/shclib/slow_strcpy.o",
+      "base_path": "build/usa/src/shclib/slow_strcpy.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/slow_strcpy.s"
+      }
+    },
+    {
+      "name": "shclib/memcmp",
+      "target_path": "build/usa/asm/shclib/memcmp.o",
+      "base_path": "build/usa/src/shclib/memcmp.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/memcmp.s"
+      }
+    },
+    {
+      "name": "shclib/memset",
+      "target_path": "build/usa/asm/shclib/memset.o",
+      "base_path": "build/usa/src/shclib/memset.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/memset.c"
+      }
+    },
+    {
+      "name": "shclib/modlspnm",
+      "target_path": "build/usa/asm/shclib/modlspnm.o",
+      "base_path": "build/usa/src/shclib/modlspnm.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/modlspnm.s"
+      }
+    },
+    {
+      "name": "shclib/quick_strcpy",
+      "target_path": "build/usa/asm/shclib/quick_strcpy.o",
+      "base_path": "build/usa/src/shclib/quick_strcpy.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/quick_strcpy.s"
+      }
+    },
+    {
+      "name": "shclib/strncmp",
+      "target_path": "build/usa/asm/shclib/strncmp.o",
+      "base_path": "build/usa/src/shclib/strncmp.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/strncmp.s"
+      }
+    },
+    {
+      "name": "shclib/strncpy",
+      "target_path": "build/usa/asm/shclib/strncpy.o",
+      "base_path": "build/usa/src/shclib/strncpy.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "shclib"
+        ],
+        "source_path": "src/shclib/strncpy.s"
+      }
+    },
+    {
+      "name": "sbl/int_scu_entry",
+      "target_path": "build/usa/asm/sbl/int_scu_entry.o",
+      "base_path": "build/usa/src/sbl/int_scu_entry.o",
+      "metadata": {
+        "complete": true,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/int_scu_entry.s"
+      }
+    },
+    {
+      "name": "game/06051154",
+      "target_path": "build/usa/asm/game/06051154.o",
       "metadata": {
         "complete": false,
         "progress_categories": [

@@ -14,7 +14,7 @@ Sint32 CDC_CdPlay(CdcPly *ply)
     cdc_pos_to_cmd(&ply->start, &cmd[1]);
     cmd[4] = ply->pmode;
     cdc_pos_to_cmd(&ply->end, &cmd[5]);
-    return func_0606FCDC(0, cmd);
+    return cdc_ExecCmd(0, cmd);
 }
 
 /* Encodes a position as the three parameter bytes of a play/seek command. */
@@ -55,7 +55,7 @@ Sint32 CDC_CdSeek(CdcPos *pos)
     ((Uint32 *)cmd)[1] = 0;
     cmd[0] = 0x11;
     cdc_pos_to_cmd(pos, &cmd[1]);
-    return func_0606FCDC(0, cmd);
+    return cdc_ExecCmd(0, cmd);
 }
 
 /* NONMATCHING: keeps the shared 0 in a callee-saved register and reuses it as the first argument; SHC 5.0 rematerializes it */
@@ -67,5 +67,5 @@ Sint32 CDC_CdScan(Sint32 scnmode)
     ((Uint32 *)cmd)[1] = 0;
     cmd[0] = 0x12;
     cmd[1] = scnmode;
-    return func_0606FCDC(0, cmd);
+    return cdc_ExecCmd(0, cmd);
 }

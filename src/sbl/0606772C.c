@@ -18,34 +18,34 @@
  * No SHC 5.0 option (-size/-speed/-macsave=0/-cpu/-debug/-noinline) changes these.
  */
 
-extern void func_060693BA(Sint32 id);
-extern Bool func_060693C2(Sint32 code);
-extern Sint32 func_060693D8(void);
-extern void func_0606942E(void);
-extern void func_0606879C(Sint32 code);
+extern void stm_set_func_id(Sint32 id);
+extern Bool stm_set_err(Sint32 code);
+extern Sint32 stm_check_gfs_err(void);
+extern void stm_call_err_func(void);
+extern void stm_set_err_gfs(Sint32 code);
 
-extern void func_0606CE0C(StmCdc *cdc, Sint32 *fid, Sint32 *fad, Sint32 *a, Sint32 *fasnum,
+extern void gfsFlow_GetFinfo(StmCdc *cdc, Sint32 *fid, Sint32 *fad, Sint32 *a, Sint32 *fasnum,
                           Sint32 b, Sint32 c, Sint32 d);
-extern void func_0606DEA0(Sint32 x, Sint32 *flag, Uint8 *key);
-extern void func_0606E33A(Sint32 x, Sint32 filt, Sint32 y);
-extern Sint32 func_0606E6DA(void);
-extern void func_0606E202(Sint32 dst, Sint32 src, Sint32 a, Sint32 b);
-extern void func_0606C462(StmTrn *trn, Sint32 x);
-extern void func_0606AA54(StmCdc *cdc, Sint32 a, Sint32 b);
-extern void func_0606AF62(StmTrn *trn, Sint32 a, Sint32 b);
-extern Sint32 func_0606C318(StmTrn *trn, Sint32 n, Uint32 *size);
-extern Sint32 func_0606D5A8(StmCdc *cdc, Sint32 a, Sint32 b);
-extern Sint32 func_0606AA20(StmCdc *cdc, Sint32 i);
-extern void func_0606C456(void *p);
-extern void func_0606C45C(void *p);
-extern void func_0606C450(void *p, Sint32 a);
-extern void func_0606C3F6(void *p, Sint32 mode);
-extern Sint32 func_0606A9A2(StmCdc *cdc, Sint32 n, Sint32 *info);
-extern Sint32 func_06069E3C(Stm *stm);
-extern void func_0606D1BA(Sint32 *fad, Sint32 x);
+extern void gfcd_GetFilt(Sint32 x, Sint32 *flag, Uint8 *key);
+extern void gfcd_SetFiltCon(Sint32 x, Sint32 filt, Sint32 y);
+extern Sint32 gfcd_WaitServer(void);
+extern void gfcd_MoveSct(Sint32 dst, Sint32 src, Sint32 a, Sint32 b);
+extern void gfsTrn_Stop(StmTrn *trn, Sint32 x);
+extern void stm_DelSctData(StmCdc *cdc, Sint32 a, Sint32 b);
+extern void GFS_Seek(StmTrn *trn, Sint32 a, Sint32 b);
+extern Sint32 gfsAcc_CountSct(StmTrn *trn, Sint32 n, Uint32 *size);
+extern Sint32 gfcf_GetNumSct(StmCdc *cdc, Sint32 a, Sint32 b);
+extern Sint32 stm_GetSctData(StmCdc *cdc, Sint32 i);
+extern void gfsTrn_Activate(void *p);
+extern void gfsTrn_Deactivate(void *p);
+extern void gfsTrn_SetTsize(void *p, Sint32 a);
+extern void gfsTrn_SetMode(void *p, Sint32 mode);
+extern Sint32 stm_GetSctInfo(StmCdc *cdc, Sint32 n, Sint32 *info);
+extern Sint32 STM_GetNumSct(Stm *stm);
+extern void gfsFlow_GetCdStat(Sint32 *fad, Sint32 x);
 extern void *memcpy(void *dst, const void *src, Uint32 n);
 
-extern StmMngr *stm_mngr;
+extern StmMngr *stm_mng;
 
 #ifdef NONMATCHING
 /* r0. */
@@ -55,16 +55,16 @@ Sint32 stm_get_num_stm(StmGrp *grp)
     Stm *stm;
     Sint32 err;
 
-    func_060693BA(0x303);
+    stm_set_func_id(0x303);
     if (grp == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return STM_ERR_NULL;
     }
     for (stm = grp->head; stm != NULL; stm = stm->next) {
         n++;
     }
-    err = func_060693D8();
+    err = stm_check_gfs_err();
     if (err < 0) {
         return err;
     }
@@ -80,21 +80,21 @@ Stm *stm_get_stm(StmGrp *grp, Sint32 nst)
     Stm *stm;
     Sint32 err;
 
-    func_060693BA(0x304);
+    stm_set_func_id(0x304);
     if (grp == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return NULL;
     }
     if (nst < 0) {
-        func_060693C2(STM_ERR_RANGE);
-        func_0606942E();
+        stm_set_err(STM_ERR_RANGE);
+        stm_call_err_func();
         return NULL;
     }
     for (i = 0, stm = grp->head; i < nst && stm != NULL; i++) {
         stm = stm->next;
     }
-    err = func_060693D8();
+    err = stm_check_gfs_err();
     if (err < 0) {
         return NULL;
     }
@@ -106,15 +106,15 @@ Stm *stm_get_stm(StmGrp *grp, Sint32 nst)
 /* sched, tail. */
 void stm_set_link(Stm *stm, Stm *link, Sint32 cnt, void *func, void *obj)
 {
-    func_060693BA(0x305);
+    stm_set_func_id(0x305);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return;
     }
     if (cnt < 0) {
-        func_060693C2(STM_ERR_RANGE);
-        func_0606942E();
+        stm_set_err(STM_ERR_RANGE);
+        stm_call_err_func();
         return;
     }
     if (link != NULL) {
@@ -124,7 +124,7 @@ void stm_set_link(Stm *stm, Stm *link, Sint32 cnt, void *func, void *obj)
     stm->link_cnt = cnt;
     stm->link_func = func;
     stm->link_obj = obj;
-    func_060693D8();
+    stm_check_gfs_err();
 }
 #endif
 
@@ -138,20 +138,20 @@ StmGrp *stm_get_info(Stm *stm, Sint32 *fid, Sint32 *range, Sint32 *bn, StmKey *k
     Uint8 buf[6];
     Stm *s;
 
-    func_060693BA(0x311);
+    stm_set_func_id(0x311);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return NULL;
     }
     s = stm->alt;
-    func_0606CE0C(s->cdc, fid, range, &unused, range + 1, 0, 0, 0);
+    gfsFlow_GetFinfo(s->cdc, fid, range, &unused, range + 1, 0, 0, 0);
     if (*fid == 0x3FFFFFFF) {
         *fid = -1;
     }
     if (s->cdc->unk1C == 0) {
         *bn = s->cdc->filt;
-        func_0606DEA0(s->cdc->unk28, &flag, buf);
+        gfcd_GetFilt(s->cdc->unk28, &flag, buf);
         key->fn = buf[0];
         key->cn = buf[1];
         key->smmsk = buf[2];
@@ -175,7 +175,7 @@ StmGrp *stm_get_info(Stm *stm, Sint32 *fid, Sint32 *range, Sint32 *bn, StmKey *k
     if (!(flag & 8)) {
         key->cimsk = key->cival = -1;
     }
-    func_060693D8();
+    stm_check_gfs_err();
     return s->grp;
 }
 #endif
@@ -189,10 +189,10 @@ void stm_connect_filt(Stm *stm, Stm *con)
     Sint32 filt;
     Sint32 err;
 
-    func_060693BA(0x337);
+    stm_set_func_id(0x337);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return;
     }
     s = stm->alt;
@@ -202,11 +202,11 @@ void stm_connect_filt(Stm *stm, Stm *con)
         filt = con->alt->cdc->filt;
     }
     s->cdc->filt = filt;
-    func_0606E33A(s->cdc->unk28, filt, -2);
-    err = func_0606E6DA();
+    gfcd_SetFiltCon(s->cdc->unk28, filt, -2);
+    err = gfcd_WaitServer();
     if (err != 0) {
-        func_0606879C(err);
-        func_0606942E();
+        stm_set_err_gfs(err);
+        stm_call_err_func();
     }
 }
 #endif
@@ -218,25 +218,25 @@ void stm_move_sct(Stm *stm, Sint32 spos, Sint32 snum, Stm *dst)
     Stm *d;
     Sint32 err;
 
-    func_060693BA(0x338);
+    stm_set_func_id(0x338);
     if (stm == NULL || dst == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return;
     }
     if (spos < 0 || snum < 0) {
-        func_060693C2(STM_ERR_RANGE);
-        func_0606942E();
+        stm_set_err(STM_ERR_RANGE);
+        stm_call_err_func();
         return;
     }
     stm = stm->alt;
     d = dst->alt;
-    func_0606E202(d->cdc->filt, stm->cdc->filt, spos, snum);
+    gfcd_MoveSct(d->cdc->filt, stm->cdc->filt, spos, snum);
     d->flag &= ~0x20;
-    err = func_0606E6DA();
+    err = gfcd_WaitServer();
     if (err != 0) {
-        func_0606879C(err);
-        func_0606942E();
+        stm_set_err_gfs(err);
+        stm_call_err_func();
     }
 }
 #endif
@@ -248,30 +248,30 @@ void stm_delete_sct(Stm *stm, Sint32 spos, Sint32 snum)
     Stm *s;
     Sint32 err;
 
-    func_060693BA(0x339);
+    stm_set_func_id(0x339);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return;
     }
     if (spos < 0 || snum < 0) {
-        func_060693C2(STM_ERR_RANGE);
-        func_0606942E();
+        stm_set_err(STM_ERR_RANGE);
+        stm_call_err_func();
         return;
     }
     s = stm->alt;
-    func_0606C462(s->trn, 0);
+    gfsTrn_Stop(s->trn, 0);
     s->trn->unkA0 = 0;
     if (s->cdc->unk1C == 0) {
-        func_0606AA54(s->cdc, spos, snum);
-        err = func_0606E6DA();
+        stm_DelSctData(s->cdc, spos, snum);
+        err = gfcd_WaitServer();
         if (err != 0) {
-            func_0606879C(err);
-            func_0606942E();
+            stm_set_err_gfs(err);
+            stm_call_err_func();
         }
     } else {
-        func_0606AF62(s->trn, 0, 0);
-        func_060693D8();
+        GFS_Seek(s->trn, 0, 0);
+        stm_check_gfs_err();
     }
 }
 #endif
@@ -284,20 +284,20 @@ Sint32 stm_get_data_size(Stm *stm, Sint32 nsct)
     Uint32 size;
     Sint32 err;
 
-    func_060693BA(0x312);
+    stm_set_func_id(0x312);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return STM_ERR_NULL;
     }
     if (nsct < 0) {
-        func_060693C2(STM_ERR_RANGE);
-        func_0606942E();
+        stm_set_err(STM_ERR_RANGE);
+        stm_call_err_func();
         return STM_ERR_RANGE;
     }
     stm = stm->alt;
-    func_0606C318(stm->trn, nsct, &size);
-    err = func_060693D8();
+    gfsAcc_CountSct(stm->trn, nsct, &size);
+    err = stm_check_gfs_err();
     if (err < 0) {
         return err;
     }
@@ -317,15 +317,15 @@ Sint32 stm_get_num_sct(Stm *stm, Sint32 nwords)
     Stm *s;
     Sint32 err;
 
-    func_060693BA(0x313);
+    stm_set_func_id(0x313);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return STM_ERR_NULL;
     }
     if (nwords < 0) {
-        func_060693C2(STM_ERR_RANGE);
-        func_0606942E();
+        stm_set_err(STM_ERR_RANGE);
+        stm_call_err_func();
         return STM_ERR_RANGE;
     }
     s = stm->alt;
@@ -334,7 +334,7 @@ Sint32 stm_get_num_sct(Stm *stm, Sint32 nwords)
     }
     if (s->cdc->unk1C != 0) {
         for (i = 1; ; i++) {
-            n = func_0606C318(s->trn, i, (Uint32 *)&size);
+            n = gfsAcc_CountSct(s->trn, i, (Uint32 *)&size);
             size = (Uint32)size / 2;
             if (size >= nwords) {
                 break;
@@ -345,16 +345,16 @@ Sint32 stm_get_num_sct(Stm *stm, Sint32 nwords)
             }
         }
     } else {
-        num = func_0606D5A8(s->cdc, 0x7FFFFFFF, 0);
+        num = gfcf_GetNumSct(s->cdc, 0x7FFFFFFF, 0);
         for (i = 0; i < num; i++) {
-            size += func_0606AA20(s->cdc, i);
+            size += stm_GetSctData(s->cdc, i);
             if (size >= nwords) {
                 i++;
                 break;
             }
         }
     }
-    err = func_060693D8();
+    err = stm_check_gfs_err();
     if (err < 0) {
         return err;
     }
@@ -370,22 +370,22 @@ Bool stm_set_alternative(Stm *stm, Stm *altr)
     Sint32 i;
     Stm *p;
 
-    func_060693BA(0x314);
+    stm_set_func_id(0x314);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return FALSE;
     }
     if (altr->used == 0) {
         return FALSE;
     }
-    for (i = 0, p = stm_mngr->stm; i < stm_mngr->nstm; i++, p++) {
+    for (i = 0, p = stm_mng->stm; i < stm_mng->nstm; i++, p++) {
         if (p->used == 1 && p != altr && p->alt == altr) {
             return FALSE;
         }
     }
     stm->alt = altr;
-    func_060693D8();
+    stm_check_gfs_err();
     return TRUE;
 }
 #endif
@@ -394,14 +394,14 @@ Bool stm_set_alternative(Stm *stm, Stm *altr)
 /* sched. */
 void stm_reset_alternative(Stm *stm)
 {
-    func_060693BA(0x315);
+    stm_set_func_id(0x315);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return;
     }
     stm->alt = stm;
-    func_060693D8();
+    stm_check_gfs_err();
 }
 #endif
 
@@ -411,19 +411,19 @@ void stm_set_trn_mode(Stm *stm, Sint32 mode)
 {
     Stm *s;
 
-    func_060693BA(0x319);
+    stm_set_func_id(0x319);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return;
     }
     s = stm->alt;
     if (mode == 0x300) {
-        func_0606C456(s->trn->unk6C);
+        gfsTrn_Activate(s->trn->unk6C);
     } else {
-        func_0606C45C(s->trn->unk6C);
+        gfsTrn_Deactivate(s->trn->unk6C);
     }
-    func_060693D8();
+    stm_check_gfs_err();
 }
 #endif
 
@@ -431,20 +431,20 @@ void stm_set_trn_mode(Stm *stm, Sint32 mode)
 /* sched, slot, tail. */
 void stm_set_trn_size(Stm *stm, Sint32 size)
 {
-    func_060693BA(0x320);
+    stm_set_func_id(0x320);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return;
     }
     if (size < 0) {
-        func_060693C2(STM_ERR_RANGE);
-        func_0606942E();
+        stm_set_err(STM_ERR_RANGE);
+        stm_call_err_func();
         return;
     }
     stm = stm->alt;
-    func_0606C450(stm->trn->unk6C, size);
-    func_060693D8();
+    gfsTrn_SetTsize(stm->trn->unk6C, size);
+    stm_check_gfs_err();
 }
 #endif
 
@@ -452,20 +452,20 @@ void stm_set_trn_size(Stm *stm, Sint32 size)
 /* r0; SHC 5.0 also merges the two error exits, the target does not. */
 void stm_set_trn_type(Stm *stm, Sint32 type)
 {
-    func_060693BA(0x322);
+    stm_set_func_id(0x322);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return;
     }
     if (type != 0 && type != 1 && type != 2 && type != 3) {
-        func_060693C2(STM_ERR_MODE);
-        func_0606942E();
+        stm_set_err(STM_ERR_MODE);
+        stm_call_err_func();
         return;
     }
     stm = stm->alt;
-    func_0606C3F6(stm->trn->unk6C, type);
-    func_060693D8();
+    gfsTrn_SetMode(stm->trn->unk6C, type);
+    stm_check_gfs_err();
 }
 #endif
 
@@ -477,21 +477,21 @@ Sint32 stm_get_sct_info(Stm *stm, Sint32 n, Sint32 *info)
     Stm *s;
     Sint32 ret;
 
-    func_060693BA(0x325);
+    stm_set_func_id(0x325);
     if (stm == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return 0;
     }
     if (n < 0) {
-        func_060693C2(STM_ERR_RANGE);
-        func_0606942E();
+        stm_set_err(STM_ERR_RANGE);
+        stm_call_err_func();
         return 0;
     }
     s = stm->alt;
     if (s->cdc->unk1C == 0) {
-        ret = func_0606A9A2(s->cdc, n, info);
-    } else if (n < func_06069E3C(s)) {
+        ret = stm_GetSctInfo(s->cdc, n, info);
+    } else if (n < STM_GetNumSct(s)) {
         info[0] = 0x7FFFFFFF;
         info[1] = 0;
         info[2] = 0;
@@ -501,7 +501,7 @@ Sint32 stm_get_sct_info(Stm *stm, Sint32 n, Sint32 *info)
     } else {
         ret = 0;
     }
-    func_060693D8();
+    stm_check_gfs_err();
     return ret;
 }
 #endif
@@ -512,13 +512,13 @@ Sint32 stm_get_loop_cnt(StmGrp *grp)
 {
     Sint32 err;
 
-    func_060693BA(0x333);
+    stm_set_func_id(0x333);
     if (grp == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return STM_ERR_NULL;
     }
-    err = func_060693D8();
+    err = stm_check_gfs_err();
     if (err < 0) {
         return err;
     }
@@ -535,23 +535,23 @@ Sint32 stm_get_exec_stat(StmGrp *grp, Sint32 *fad)
     Uint16 flag;
     Sint32 err;
 
-    func_060693BA(0x334);
+    stm_set_func_id(0x334);
     if (grp == NULL) {
-        func_060693C2(STM_ERR_NULL);
-        func_0606942E();
+        stm_set_err(STM_ERR_NULL);
+        stm_call_err_func();
         return STM_ERR_NULL;
     }
-    if (stm_mngr->exec_grp == grp) {
+    if (stm_mng->exec_grp == grp) {
         flag = grp->flag;
         if (((flag & 2) ? 1 : 0) == 1 && ((flag & 4) ? 1 : 0) == 1) {
-            func_0606D1BA(&cur, 0);
+            gfsFlow_GetCdStat(&cur, 0);
             if (cur >= 0) {
                 grp->fad = cur;
             }
         }
     }
     *fad = grp->fad;
-    err = func_060693D8();
+    err = stm_check_gfs_err();
     if (err < 0) {
         return err;
     }
@@ -560,12 +560,12 @@ Sint32 stm_get_exec_stat(StmGrp *grp, Sint32 *fad)
 #endif
 
 #ifdef NONMATCHING
-/* sched (the stm_mngr pool load comes before `mov #0,r2`). */
+/* sched (the stm_mng pool load comes before `mov #0,r2`). */
 void STM_SetErrFunc(StmErrFunc func, void *obj)
 {
-    stm_mngr->err.code = 0;
-    stm_mngr->err.func = func;
-    stm_mngr->err.obj = obj;
+    stm_mng->err.code = 0;
+    stm_mng->err.func = func;
+    stm_mng->err.obj = obj;
 }
 #endif
 
@@ -573,6 +573,6 @@ void STM_SetErrFunc(StmErrFunc func, void *obj)
 /* sched. */
 void STM_GetErrStat(StmErrStat *stat)
 {
-    memcpy(stat, &stm_mngr->err, sizeof(StmErrStat));
+    memcpy(stat, &stm_mng->err, sizeof(StmErrStat));
 }
 #endif

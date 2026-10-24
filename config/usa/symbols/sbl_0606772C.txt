@@ -17,4 +17,4 @@ stm_get_loop_cnt = 0x06067F9E; // type:func
 stm_get_exec_stat = 0x06067FE6; // type:func
 STM_SetErrFunc = 0x0606809C; // type:func
 STM_GetErrStat = 0x060680AE; // type:func
-stm_mngr = 0x06070C6C; // type:data
+stm_mng = 0x06070C6C; // type:data

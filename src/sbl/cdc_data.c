@@ -14,14 +14,14 @@ Sint32 CDC_DataReady(Sint32 dtype)
     if (dtype == 1) {
         hirq = CDC_HIRQ_EHST | CDC_HIRQ_DRDY;
     }
-    ret = func_06068368(hirq, &hstat);
+    ret = cdc_wait_hirq(hirq, &hstat);
     if (dtype == 1 && ret == 0 && (hstat & CDC_HIRQ_EHST)) {
         ret = -4;
     }
     if (ret != 0) {
         CDC_DataEnd(&cdwnum);
     }
-    func_060681E8(~CDC_HIRQ_DRDY);
+    cdc_set_hirq_req(~CDC_HIRQ_DRDY);
     return ret;
 }
 
@@ -39,6 +39,6 @@ Sint32 CDC_DataEnd(Sint32 *cdwnum)
     q = &rsp;
     ret = cdc_ExecCmdRsp(0, p, q);
     *cdwnum = CDC_U24(q->l[0]);
-    func_060681E8(~CDC_HIRQ_DRDY);
+    cdc_set_hirq_req(~CDC_HIRQ_DRDY);
     return ret;
 }

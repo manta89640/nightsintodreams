@@ -90,7 +90,7 @@ Sint32 gfcf_GetNumSct(GfcfFile *gf, Sint32 snum, Sint32 *nword)
         return 0;
     }
     if (nword != NULL) {
-        func_0606CE0C(gf, 0, 0, &b, &c, &a, 0, 0);
+        gfsFlow_GetFinfo(gf, 0, 0, &b, &c, &a, 0, 0);
         if (gfcf_Tell(cdb) + nsct >= c && a != 0 && nsct > 0) {
             *nword -= b - a;
         }
@@ -230,11 +230,11 @@ GfcfPickup *gfcf_StartPickup(GfcfFile *gf, Sint32 snum)
     if (nword <= 0) {
         return NULL;
     }
-    func_0606CE0C(gf, 0, 0, &b, &c, &a, 0, 0);
+    gfsFlow_GetFinfo(gf, 0, 0, &b, &c, &a, 0, 0);
     if (gfcf_Tell(cdb) + nsct >= c && a != 0 && nsct > 0) {
         nword -= b - a;
     }
-    pk->tick = func_060681C8();
+    pk->tick = CDC_GetDataPtr();
     pk->unk4 = 0;
     pk->nword = nword;
     pk->nsct = nsct;

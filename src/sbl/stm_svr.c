@@ -12,43 +12,43 @@
  * identical `return` blocks and movt, so every function is under NONMATCHING.
  */
 
-extern StmMng *D_06070C6C;
-extern StmReq D_06070C70;
+extern StmMng *stm_mng;
+extern StmReq stm_06070C70;
 extern Sint32 D_06070C80;
 
-extern void func_060693BA(Sint32 fno);
-extern void func_060693C2(Sint32 err);
-extern Sint32 func_060693D8(void);
-extern void func_0606942E(void);
-extern Sint32 func_0606D1BA(Sint32 *fad, Sint32 *stat);
-extern Sint32 func_0606A748(void);
-extern void func_0606A768(StmKey *key, Sint32 *start, Sint32 *end);
-extern Sint32 func_0606AABE(void);
-extern Sint32 func_0606AA9A(StmKey *key);
-extern Sint32 func_0606A83A(StmGrp *grp);
-extern void func_0606DDB4(Sint32 n);
-extern void func_0606F106(void *func, void *obj);
-extern void func_0606C462(StmGfs *gfs, Sint32 n);
-extern Sint32 func_06068756(StmGrp *grp);
-extern Sint32 func_0606DD84(void);
-extern void func_0606DEE6(Sint32 a, Sint32 b);
-extern Sint32 func_0606E6DA(void);
-extern void func_0606879C(Sint32 err);
-extern void func_0606AF62(StmGfs *gfs, Sint32 a, Sint32 b);
-extern void func_06070276(Stm *stm);
-extern void func_06068B94(StmGrp *grp);
-extern void func_06068A9E(Stm *stm);
-extern Sint32 func_0606A8DE(StmGrp *grp, Sint32 fad);
-extern Sint32 func_0606A7B8(StmGrp *grp);
-extern Sint32 func_0606DF9E(Sint32 fid, Sint32 a, Sint32 b, Sint32 *out, Sint32 c);
-extern Sint32 func_0606C336(StmGfs *gfs);
-extern Sint32 func_0607036E(Stm *stm);
-extern Sint32 func_0606CBC6(Sint32 *tr);
-extern void func_0606C4FC(StmGfs *gfs, Sint32 *out);
-extern void func_0606C406(Sint32 *tr, Sint32 n);
-extern Sint32 func_0606C448(Sint32 *tr);
-extern void func_0606C5DC(StmGfs *gfs, Sint32 *out);
-extern Sint32 func_0606A89C(StmGrp *grp);
+extern void stm_set_func_id(Sint32 fno);
+extern void stm_set_err(Sint32 err);
+extern Sint32 stm_check_gfs_err(void);
+extern void stm_call_err_func(void);
+extern Sint32 gfsFlow_GetCdStat(Sint32 *fad, Sint32 *stat);
+extern Sint32 stm_GetCurFad(void);
+extern void stm_GetFadRange(StmKey *key, Sint32 *start, Sint32 *end);
+extern Sint32 stm_GetFreeBufSiz(void);
+extern Sint32 stm_GetSctNum(StmKey *key);
+extern Sint32 stm_CdPause(StmGrp *grp);
+extern void gfcd_Unlock(Sint32 n);
+extern void gfcd_SetCallback(void *func, void *obj);
+extern void gfsTrn_Stop(StmGfs *gfs, Sint32 n);
+extern Sint32 stm_get_end_fad(StmGrp *grp);
+extern Sint32 gfcd_Lock(void);
+extern void gfcd_SetCdCon(Sint32 a, Sint32 b);
+extern Sint32 gfcd_WaitServer(void);
+extern void stm_set_err_gfs(Sint32 err);
+extern void GFS_Seek(StmGfs *gfs, Sint32 a, Sint32 b);
+extern void stm_ResetTrBuf(Stm *stm);
+extern void stm_update_cur(StmGrp *grp);
+extern void stm_remove_cd(Stm *stm);
+extern Sint32 stm_CdPlayFrom(StmGrp *grp, Sint32 fad);
+extern Sint32 stm_CdPlayObj(StmGrp *grp);
+extern Sint32 gfcd_GetSctNum(Sint32 fid, Sint32 a, Sint32 b, Sint32 *out, Sint32 c);
+extern Sint32 gfsAcc_CountSctAll(StmGfs *gfs);
+extern Sint32 stm_IsTrBufFull(Stm *stm);
+extern Sint32 gfsTrn_GetFree(Sint32 *tr);
+extern void gfsTrn_Exec(StmGfs *gfs, Sint32 *out);
+extern void gfsTrn_Request(Sint32 *tr, Sint32 n);
+extern Sint32 gfsTrn_GetNsct(Sint32 *tr);
+extern void gfsTrn_Step(StmGfs *gfs, Sint32 *out);
+extern Sint32 stm_CdContinue(StmGrp *grp);
 
 #ifdef NONMATCHING
 
@@ -100,11 +100,11 @@ void STM_GrpCdCallback(StmGrp *grp)
     grp->flags |= 4;
     if (grp->func != NULL) {
         if (grp->unk1C == NULL) {
-            if (func_0606AABE() < grp->unk20) {
+            if (stm_GetFreeBufSiz() < grp->unk20) {
                 grp->flags |= 8;
             }
         } else {
-            if (func_0606AA9A(grp->unk1C->key) >= grp->unk20) {
+            if (stm_GetSctNum(grp->unk1C->key) >= grp->unk20) {
                 grp->flags |= 8;
             }
         }
@@ -121,7 +121,7 @@ void STM_CheckCdStat(Sint32 stat)
     if (stat == 3) {
         err = -23;
     } else if (stat == 4) {
-        grp = D_06070C6C->curgrp;
+        grp = stm_mng->curgrp;
         if (grp == NULL || STM_GrpHasNoCdKey(grp) == FALSE) {
             err = -2;
         }
@@ -131,7 +131,7 @@ void STM_CheckCdStat(Sint32 stat)
         err = -1;
     }
     if (err != 0) {
-        func_060693C2(err);
+        stm_set_err(err);
     }
 }
 
@@ -147,25 +147,25 @@ Sint32 STM_ChgExecGrp(StmGrp *grp)
     Sint32 lim;
     Uint16 flags;
 
-    if (D_06070C6C->curgrp == grp) {
+    if (stm_mng->curgrp == grp) {
         return TRUE;
     }
-    old = D_06070C6C->curgrp;
+    old = stm_mng->curgrp;
     if (old != NULL) {
-        stat = func_0606D1BA(&st, 0);
+        stat = gfsFlow_GetCdStat(&st, 0);
         STM_CheckCdStat(stat);
         flags = old->flags;
         if (((flags & 2) ? TRUE : FALSE) == TRUE && (flags & 16) == 0) {
-            err = func_0606A83A(old);
+            err = stm_CdPause(old);
             if (err != 0) {
-                func_060693C2(err);
+                stm_set_err(err);
             }
             old->flags |= 16;
         }
         if (old->unk34 >= 0) {
-            func_0606DDB4(old->unk34);
+            gfcd_Unlock(old->unk34);
             old->unk34 = -1;
-            func_0606F106(0, 0);
+            gfcd_SetCallback(0, 0);
         }
         if (old->stat != STM_EXEC_COMPLETED) {
             old->stat = STM_EXEC_DOING;
@@ -174,12 +174,12 @@ Sint32 STM_ChgExecGrp(StmGrp *grp)
         if (stat == 0) {
             stm = old->cur;
             if (stm != NULL) {
-                func_0606C462(stm->gfs, -1);
+                gfsTrn_Stop(stm->gfs, -1);
                 stm->gfs->unkA0 = 0;
             }
             if (((old->flags & 16) ? TRUE : FALSE) == TRUE) {
-                lim = func_06068756(old);
-                fad = func_0606A748();
+                lim = stm_get_end_fad(old);
+                fad = stm_GetCurFad();
                 if (old->fad <= lim) {
                     old->fad = fad;
                 }
@@ -193,24 +193,24 @@ Sint32 STM_ChgExecGrp(StmGrp *grp)
     }
     if (grp != NULL) {
         if (grp->unk34 < 0) {
-            st = func_0606DD84();
+            st = gfcd_Lock();
             if (st >= 0) {
                 grp->unk34 = st;
             }
-            func_0606F106(STM_GrpCdCallback, grp);
+            gfcd_SetCallback(STM_GrpCdCallback, grp);
         }
         if (grp->unk34 >= 0) {
-            func_0606DEE6((grp->head2 != NULL) ? grp->head2->key->unk28 : 0xFF, grp->unk34);
-            err = func_0606E6DA();
+            gfcd_SetCdCon((grp->head2 != NULL) ? grp->head2->key->unk28 : 0xFF, grp->unk34);
+            err = gfcd_WaitServer();
             if (err != 0) {
-                func_0606879C(err);
+                stm_set_err_gfs(err);
             }
             grp->flags &= 0xFFD9;
         } else {
-            func_060693C2(-20);
+            stm_set_err(-20);
         }
     }
-    D_06070C6C->curgrp = grp;
+    stm_mng->curgrp = grp;
     return TRUE;
 }
 
@@ -218,13 +218,13 @@ Sint32 STM_ChgExecGrp(StmGrp *grp)
 /* Queues the group change; STM_ExecServer runs it until it succeeds. */
 Bool STM_ReqExecGrp(StmGrp *grp)
 {
-    if (D_06070C70.func != NULL) {
+    if (stm_06070C70.func != NULL) {
         return FALSE;
     }
-    func_060693BA(0x329);
-    D_06070C70.func = (Sint32 (*)(void *))STM_ChgExecGrp;
-    D_06070C70.obj = grp;
-    func_060693D8();
+    stm_set_func_id(0x329);
+    stm_06070C70.func = (Sint32 (*)(void *))STM_ChgExecGrp;
+    stm_06070C70.obj = grp;
+    stm_check_gfs_err();
     return TRUE;
 }
 
@@ -260,14 +260,14 @@ Bool STM_IsStmActive(Stm *hn)
 {
     Bool ret;
 
-    func_060693BA(0x328);
+    stm_set_func_id(0x328);
     if (hn == NULL) {
-        func_060693C2(-11);
-        func_0606942E();
+        stm_set_err(-11);
+        stm_call_err_func();
         return FALSE;
     }
     ret = STM_IsGfsActive(hn->stm);
-    func_060693D8();
+    stm_check_gfs_err();
     return ret;
 }
 
@@ -281,7 +281,7 @@ void STM_GrpClearReached(StmGrp *grp)
 
     fad = grp->fad;
     for (stm = grp->head; stm != NULL; stm = stm->next) {
-        func_0606A768(stm->key, &start, &end);
+        stm_GetFadRange(stm->key, &start, &end);
         if (start > fad) {
             stm->gfs->unk08 = 0;
             stm->flags &= 0xFE;
@@ -295,8 +295,8 @@ void STM_GrpResetStms(StmGrp *grp)
     Stm *stm;
 
     for (stm = grp->head; stm != NULL; stm = stm->next) {
-        func_0606AF62(stm->gfs, 0, 0);
-        func_06070276(stm);
+        GFS_Seek(stm->gfs, 0, 0);
+        stm_ResetTrBuf(stm);
     }
 }
 
@@ -309,7 +309,7 @@ void STM_GrpClearEndFlags(StmGrp *grp)
         stm->flags &= 0xEF;
         stm->flags &= 0xDF;
         if (((stm->flags & 2) ? TRUE : FALSE) == TRUE) {
-            func_0606AF62(stm->gfs, 0, 0);
+            GFS_Seek(stm->gfs, 0, 0);
         }
     }
 }
@@ -353,19 +353,19 @@ Bool STM_SetLoop(StmGrp *grp, Stm *lstm, Sint32 lpmax)
 {
     Bool ret;
 
-    func_060693BA(0x332);
+    stm_set_func_id(0x332);
     if (grp == NULL) {
-        func_060693C2(-11);
-        func_0606942E();
+        stm_set_err(-11);
+        stm_call_err_func();
         return FALSE;
     }
     if (lpmax < 0) {
-        func_060693C2(-14);
-        func_0606942E();
+        stm_set_err(-14);
+        stm_call_err_func();
         return FALSE;
     }
     ret = STM_SetLoopSub(grp, lstm, lpmax);
-    func_060693D8();
+    stm_check_gfs_err();
     return ret;
 }
 
@@ -379,7 +379,7 @@ void STM_GrpMarkReached(StmGrp *grp)
 
     fad = grp->fad;
     for (stm = grp->head; stm != NULL; stm = stm->next) {
-        func_0606A768(stm->key, &start, &end);
+        stm_GetFadRange(stm->key, &start, &end);
         if ((start >= fad && (stm->flags & 8) == 0)
                 || ((stm->flags & 2) ? TRUE : FALSE) == TRUE) {
             stm->flags |= 1;
@@ -399,18 +399,18 @@ void STM_GrpCheckPassed(StmGrp *grp)
 
     fad = grp->fad;
     for (stm = grp->head2; stm != NULL; stm = stm->next2) {
-        func_0606A768(stm->key, &start, &end);
+        stm_GetFadRange(stm->key, &start, &end);
         if (end < fad && ((stm->flags & 1) ? TRUE : FALSE) == TRUE
                 && ((stm->flags & 4) ? TRUE : FALSE) == TRUE) {
             stm->flags |= 8;
-            func_06068A9E(stm);
+            stm_remove_cd(stm);
             if (grp->loop == stm) {
                 lpcnt = grp->lpcnt;
                 STM_SetLoopSub(grp, (Stm *)-1, grp->lpmax);
                 grp->lpcnt = lpcnt;
             }
             if (grp->unk0C == stm) {
-                func_06068B94(grp);
+                stm_update_cur(grp);
             }
         }
     }
@@ -429,7 +429,7 @@ static Sint32 STM_GrpNextStart(StmGrp *grp, Sint32 fad)
     }
     for (stm = grp->head; stm != NULL; stm = stm->next) {
         if ((stm->flags & 8) == 0) {
-            func_0606A768(stm->key, &start, &end);
+            stm_GetFadRange(stm->key, &start, &end);
             if (start <= fad && end >= fad) {
                 break;
             }
@@ -448,7 +448,7 @@ Sint32 STM_GrpLoopStart(StmGrp *grp)
     Sint32 start;
     Sint32 end;
 
-    func_0606A768(grp->loop->key, &start, &end);
+    stm_GetFadRange(grp->loop->key, &start, &end);
     return start;
 }
 
@@ -468,9 +468,9 @@ static Bool STM_GrpNextPickup(StmGrp *grp, Sint32 fad, Sint32 end, Sint32 mode,
             return TRUE;
         }
         if (mode == 0) {
-            STM_CheckCdStat(func_0606D1BA(0, 0));
-            if (fad > D_06070C6C->unk18) {
-                grp->fad = func_0606A748();
+            STM_CheckCdStat(gfsFlow_GetCdStat(0, 0));
+            if (fad > stm_mng->unk18) {
+                grp->fad = stm_GetCurFad();
                 grp->lpcnt--;
             }
         }
@@ -499,8 +499,8 @@ static Bool STM_GrpNextPickup(StmGrp *grp, Sint32 fad, Sint32 end, Sint32 mode,
         }
     } else if (((grp->flags & 4) ? TRUE : FALSE) == TRUE) {
         if (fad <= end) {
-            STM_CheckCdStat(func_0606D1BA(0, 0));
-            if (mode == 0 && fad > D_06070C6C->unk18) {
+            STM_CheckCdStat(gfsFlow_GetCdStat(0, 0));
+            if (mode == 0 && fad > stm_mng->unk18) {
                 grp->fad = fad;
                 grp->flags &= 0xFFD9;
                 *pos = -1;
@@ -551,11 +551,11 @@ static Sint32 STM_GrpSeek(StmGrp *grp, Sint32 pos, Sint32 end, Sint32 flag)
 
     err = 0;
     if (pos >= 0) {
-        err = func_0606A8DE(grp, pos);
+        err = stm_CdPlayFrom(grp, pos);
         grp->fad = pos;
     } else if (grp->fad <= end && flag == 1 && (grp->flags & 2) == 0) {
         STM_GrpMarkReached(grp);
-        err = func_0606A7B8(grp);
+        err = stm_CdPlayObj(grp);
         if (err == 0) {
             grp->flags |= 2;
         }
@@ -585,7 +585,7 @@ static Bool STM_GrpExecPickup(StmGrp *grp, Sint32 fad, Sint32 end, Sint32 mode)
     ret = STM_GrpNextPickup(grp, fad, end, mode, &pos, &flag);
     err = STM_GrpSeek(grp, pos, end, flag);
     if (err != 0) {
-        func_060693C2(err);
+        stm_set_err(err);
     }
     return ret;
 }
@@ -597,18 +597,18 @@ static Sint32 STM_GetNumSct(Stm *stm)
     Sint32 n;
 
     if (stm->key->unk1C == 0) {
-        err = func_0606DF9E(stm->key->fid, 0, STM_INFINITE, &n, 0);
+        err = gfcd_GetSctNum(stm->key->fid, 0, STM_INFINITE, &n, 0);
         if (err != 0) {
-            func_0606879C(err);
+            stm_set_err_gfs(err);
             return 0;
         }
-        err = func_0606E6DA();
+        err = gfcd_WaitServer();
         if (err != 0) {
-            func_0606879C(err);
+            stm_set_err_gfs(err);
             return 0;
         }
     } else {
-        n = func_0606C336(stm->gfs);
+        n = gfsAcc_CountSctAll(stm->gfs);
     }
     return n;
 }
@@ -619,14 +619,14 @@ Sint32 STM_GetNumSctHn(Stm *hn)
     Sint32 ret;
     Sint32 err;
 
-    func_060693BA(0x324);
+    stm_set_func_id(0x324);
     if (hn == NULL) {
-        func_060693C2(-11);
-        func_0606942E();
+        stm_set_err(-11);
+        stm_call_err_func();
         return -11;
     }
     ret = STM_GetNumSct(hn->stm);
-    err = func_060693D8();
+    err = stm_check_gfs_err();
     if (err < 0) {
         return err;
     }
@@ -647,7 +647,7 @@ static Sint32 STM_GetStmStat(Stm *stm, Sint32 start, Sint32 end, Sint32 nsct)
     if (fad <= end && stm->key->unk1C == 0) {
         if (((stm->flags & 1) ? TRUE : FALSE) == TRUE
                 || ((stm->flags & 4) ? TRUE : FALSE) == FALSE) {
-            STM_CheckCdStat(func_0606D1BA(0, &st));
+            STM_CheckCdStat(gfsFlow_GetCdStat(0, &st));
             if ((st & 8) == 0) {
                 return STM_EXEC_PAUSE;
             }
@@ -661,11 +661,11 @@ static Sint32 STM_GetStmStat(Stm *stm, Sint32 start, Sint32 end, Sint32 nsct)
         return STM_EXEC_COMPLETED;
     }
     if (stm->unk28 == STM_INFINITE) {
-        lim = func_06068756(stm->grp);
+        lim = stm_get_end_fad(stm->grp);
     } else {
         lim = stm->unk28;
     }
-    if (stm->gfs->unk9C == 0 || (fad >= start && fad < lim) || func_0607036E(stm) == TRUE) {
+    if (stm->gfs->unk9C == 0 || (fad >= start && fad < lim) || stm_IsTrBufFull(stm) == TRUE) {
         return STM_EXEC_WAIT;
     }
     return STM_EXEC_PAUSE;
@@ -678,8 +678,8 @@ static Sint32 STM_TransStmSub(Stm *stm)
     Sint32 n;
 
     gfs = stm->gfs;
-    if ((stm->unk18 != 0 || gfs->tr != 0) && func_0606CBC6(&gfs->tr) > 0) {
-        func_0606C4FC(gfs, &n);
+    if ((stm->unk18 != 0 || gfs->tr != 0) && gfsTrn_GetFree(&gfs->tr) > 0) {
+        gfsTrn_Exec(gfs, &n);
     } else {
         n = 0;
     }
@@ -716,13 +716,13 @@ static Bool STM_ExecStmRound(StmGrp *grp, Stm *stm, Uint8 mode, Bool *hit, Sint3
     cur = grp->cur;
     ret = TRUE;
     if ((cur->key->unk1C == 0) ? TRUE : FALSE) {
-        func_0606A768(cur->key, &a, &b);
+        stm_GetFadRange(cur->key, &a, &b);
     } else {
         a = b = STM_FAD_START;
     }
     flags = cur->flags;
     if (cur->unk28 == STM_INFINITE) {
-        lim = func_06068756(grp);
+        lim = stm_get_end_fad(grp);
     } else {
         lim = cur->unk28;
     }
@@ -733,9 +733,9 @@ static Bool STM_ExecStmRound(StmGrp *grp, Stm *stm, Uint8 mode, Bool *hit, Sint3
         cur->flags |= 32;
     }
     if ((flags & 32) == 0 && (cur->flags & 32) != 0) {
-        func_0606C406(&cur->gfs->tr, func_0606C336(cur->gfs));
+        gfsTrn_Request(&cur->gfs->tr, gfsAcc_CountSctAll(cur->gfs));
     } else if ((flags & 16) == 0 && (cur->flags & 16) != 0) {
-        func_0606C406(&cur->gfs->tr, STM_INFINITE);
+        gfsTrn_Request(&cur->gfs->tr, STM_INFINITE);
     }
     STM_TransStmSub(cur);
     if (STM_IsGfsActive(cur) == TRUE) {
@@ -754,9 +754,9 @@ static Bool STM_ExecStmRound(StmGrp *grp, Stm *stm, Uint8 mode, Bool *hit, Sint3
             if (cur == stm) {
                 *hit = TRUE;
             }
-            nsct = func_0606C336(cur->gfs);
+            nsct = gfsAcc_CountSctAll(cur->gfs);
             if (cur->key->unk1C == 0) {
-                func_0606A768(cur->key, &a, &b);
+                stm_GetFadRange(cur->key, &a, &b);
             } else {
                 a = b = STM_FAD_START;
             }
@@ -786,7 +786,7 @@ static void STM_GrpResetGfs(StmGrp *grp)
     Stm *stm;
 
     for (stm = grp->head; stm != NULL; stm = stm->next) {
-        func_0606AF62(stm->gfs, 0, 0);
+        GFS_Seek(stm->gfs, 0, 0);
     }
 }
 
@@ -835,27 +835,27 @@ Sint32 STM_ExecServer(void)
     Bool ok1;
     Bool ok2;
 
-    if (D_06070C70.func != NULL) {
-        ret = D_06070C70.func(D_06070C70.obj);
+    if (stm_06070C70.func != NULL) {
+        ret = stm_06070C70.func(stm_06070C70.obj);
         if (ret == TRUE) {
-            D_06070C70.func = NULL;
+            stm_06070C70.func = NULL;
             return STM_EXEC_TSKEND;
         }
-        return D_06070C6C->stat;
+        return stm_mng->stat;
     }
-    func_060693BA(0x330);
-    grp = D_06070C6C->curgrp;
+    stm_set_func_id(0x330);
+    grp = stm_mng->curgrp;
     if (grp == NULL || grp->head == NULL) {
         ret = STM_EXEC_DOING;
     } else {
         /* busy guards against re-entry from the transfer functions. */
-        if (D_06070C6C->busy == 0) {
-            D_06070C6C->busy = 1;
+        if (stm_mng->busy == 0) {
+            stm_mng->busy = 1;
             if (D_06070C80 == 1) {
-                func_0606C5DC(grp->cur->gfs, &n);
+                gfsTrn_Step(grp->cur->gfs, &n);
                 if (D_06070C80 == 1) {
-                    D_06070C6C->busy = 0;
-                    ret = func_060693D8();
+                    stm_mng->busy = 0;
+                    ret = stm_check_gfs_err();
                     if (ret < 0) {
                         return ret;
                     }
@@ -863,21 +863,21 @@ Sint32 STM_ExecServer(void)
                 }
             }
             STM_GrpCallFunc(grp);
-            stat = func_0606D1BA(&fad, 0);
+            stat = gfsFlow_GetCdStat(&fad, 0);
             STM_CheckCdStat(stat);
-            if (((D_06070C6C->unk1C != 0) ? TRUE : FALSE) == TRUE) {
-                func_0606942E();
+            if (((stm_mng->unk1C != 0) ? TRUE : FALSE) == TRUE) {
+                stm_call_err_func();
             } else {
-                ok1 = STM_GrpExecPickup(grp, fad, func_06068756(grp), stat);
+                ok1 = STM_GrpExecPickup(grp, fad, stm_get_end_fad(grp), stat);
                 ok2 = STM_GrpExecStms(grp, stat);
                 if (ok1 == TRUE && ok2 == TRUE) {
                     grp->stat = STM_EXEC_COMPLETED;
                     STM_GrpResetGfs(grp);
                 }
             }
-            D_06070C6C->busy = 0;
+            stm_mng->busy = 0;
         }
-        err = func_060693D8();
+        err = stm_check_gfs_err();
         if (err < 0) {
             ret = err;
         } else {
@@ -896,25 +896,25 @@ void STM_MovePickup(Stm *hn, Sint32 off)
     Sint32 start;
     Sint32 end;
 
-    func_060693BA(0x331);
+    stm_set_func_id(0x331);
     if (hn == NULL) {
-        func_060693C2(-11);
-        func_0606942E();
+        stm_set_err(-11);
+        stm_call_err_func();
         return;
     }
     stm = hn->stm;
     grp = stm->grp;
-    if (D_06070C6C->curgrp == grp) {
+    if (stm_mng->curgrp == grp) {
         if (((grp->flags & 2) ? TRUE : FALSE) == TRUE) {
-            err = func_0606A83A(stm->grp);
+            err = stm_CdPause(stm->grp);
             if (err != 0) {
-                func_060693C2(err);
+                stm_set_err(err);
             }
             grp->stat = STM_EXEC_DOING;
         }
-        STM_CheckCdStat(func_0606D1BA(&start, 0));
-        if (((D_06070C6C->unk1C != 0) ? TRUE : FALSE) == TRUE) {
-            func_0606942E();
+        STM_CheckCdStat(gfsFlow_GetCdStat(&start, 0));
+        if (((stm_mng->unk1C != 0) ? TRUE : FALSE) == TRUE) {
+            stm_call_err_func();
             return;
         }
         if (start >= 0) {
@@ -924,9 +924,9 @@ void STM_MovePickup(Stm *hn, Sint32 off)
     }
     STM_GrpCheckPassed(grp);
     STM_GrpClearReached(grp);
-    func_0606A768(stm->key, &start, &end);
+    stm_GetFadRange(stm->key, &start, &end);
     grp->fad = start + off;
-    func_060693D8();
+    stm_check_gfs_err();
 }
 
 /* NONMATCHING: pool placement */
@@ -935,8 +935,8 @@ Sint32 STM_GetExecGrpPos(void)
     Sint32 ret;
     Sint32 err;
 
-    ret = func_0606A89C(D_06070C6C->curgrp);
-    err = func_060693D8();
+    ret = stm_CdContinue(stm_mng->curgrp);
+    err = stm_check_gfs_err();
     if (err < 0) {
         ret = err;
     }
@@ -952,17 +952,17 @@ Bool STM_IsComplete(Stm *hn)
     Sint32 start;
     Sint32 end;
 
-    func_060693BA(0x335);
+    stm_set_func_id(0x335);
     if (hn == NULL) {
-        func_060693C2(-11);
-        func_0606942E();
+        stm_set_err(-11);
+        stm_call_err_func();
         return FALSE;
     }
     stm = hn->stm;
     nsct = STM_GetNumSct(stm);
-    func_0606A768(stm->key, &start, &end);
+    stm_GetFadRange(stm->key, &start, &end);
     stat = STM_GetStmStat(stm, start, end, nsct);
-    func_060693D8();
+    stm_check_gfs_err();
     if (stat == STM_EXEC_COMPLETED) {
         return TRUE;
     }
@@ -981,32 +981,32 @@ Sint32 STM_TransStm(Stm *hn)
     Sint32 old;
     Sint32 n;
 
-    func_060693BA(0x336);
+    stm_set_func_id(0x336);
     if (hn == NULL) {
-        func_060693C2(-11);
-        func_0606942E();
+        stm_set_err(-11);
+        stm_call_err_func();
         return 0;
     }
-    if (D_06070C6C->busy == 0) {
-        D_06070C6C->busy = 1;
+    if (stm_mng->busy == 0) {
+        stm_mng->busy = 1;
         stm = hn->stm;
         if (D_06070C80 == 1) {
-            func_0606C5DC(stm->gfs, &n);
+            gfsTrn_Step(stm->gfs, &n);
             if (D_06070C80 == 1) {
-                D_06070C6C->busy = 0;
+                stm_mng->busy = 0;
                 return n;
             }
         }
         tr = &stm->gfs->tr;
-        old = func_0606C448(tr);
-        func_0606C406(tr, STM_INFINITE);
+        old = gfsTrn_GetNsct(tr);
+        gfsTrn_Request(tr, STM_INFINITE);
         n = STM_TransStmSub(stm);
-        func_0606C406(tr, old);
-        D_06070C6C->busy = 0;
+        gfsTrn_Request(tr, old);
+        stm_mng->busy = 0;
     } else {
         n = 0;
     }
-    func_060693D8();
+    stm_check_gfs_err();
     return n;
 }
 

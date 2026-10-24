@@ -21,7 +21,7 @@ Sint32 CDC_TgetToc(Uint32 *toc)
         return ret;
     }
     nword = CDC_U24(q->l[0]);
-    return func_0606821E(nword, toc);
+    return cdc_get_data_words(nword, toc);
 }
 
 Sint32 CDC_GetSes(Sint32 sesno, Uint32 *ses)
@@ -58,10 +58,10 @@ Sint32 CDC_CdInit(Sint32 iflag, Sint32 stnby, Sint32 ecc, Sint32 retry)
     if ((iflag & 0x81) == 1) {
         /* soft reset */
         cdc_Wait(10500);
-        func_06068200(0x41);
+        cdc_add_hirq_stat(0x41);
         ret = cdc_ExecCmd(CDC_HIRQ_ESEL, p);
         if (ret == 0) {
-            func_060681EE();
+            cdc_init_hirq();
         }
     } else {
         ret = cdc_ExecCmd(0, p);

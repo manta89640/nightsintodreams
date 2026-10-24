@@ -11,7 +11,7 @@
  */
 
 /* A directory table entry with its name (GFS_DIR_NAME tables). */
-typedef struct {
+typedef struct GfsDirName {
     CdcFile dirrec;
     Sint8 fname[12];
 } GfsDirName;
@@ -48,9 +48,9 @@ extern Sint32 gfcd_ExecServer(void);
 extern Sint32 gfcd_WaitServer(void);
 
 /* C library (shclib) */
-extern void *func_06050A24(void *dst, Sint32 c, Sint32 n);          /* memset */
-extern Sint32 func_06050AC0(const Sint8 *a, const Sint8 *b, Sint32 n); /* strncmp */
-extern Sint8 *func_06050B00(Sint8 *dst, const Sint8 *src, Sint32 n);  /* strncpy */
+extern void *memset(void *dst, Sint32 c, Sint32 n);          /* memset */
+extern Sint32 strncmp(const Sint8 *a, const Sint8 *b, Sint32 n); /* strncmp */
+extern Sint8 *strncpy(Sint8 *dst, const Sint8 *src, Sint32 n);  /* strncpy */
 extern Sint8 *strcpy(Sint8 *dst, const Sint8 *src);
 
 Sint32 gfs_CdChgDir(Sint32 fid);
@@ -98,7 +98,7 @@ Sint32 gfs_NameToIdx(GfsDirName *dir, Sint8 *fname, Sint32 ndir)
     Sint32 i;
 
     for (i = 0; i < ndir; i++) {
-        if (func_06050AC0(fname, dir->fname, 12) == 0) {
+        if (strncmp(fname, dir->fname, 12) == 0) {
             return i;
         }
         if (dir->dirrec.atr & GFS_ATR_END_TBL) {
@@ -208,9 +208,9 @@ static Sint32 gfs_ReadDirName(GfsHn gfs, GfsDirName *dir, Sint32 ndir)
         if (rec.len == 0) {
             break;
         }
-        if (n <= 2 || func_06050AC0(dir[-1].fname, rec.fname, 12) != 0) {
+        if (n <= 2 || strncmp(dir[-1].fname, rec.fname, 12) != 0) {
             gfs_RecToDir(&dir->dirrec, &rec);
-            func_06050B00(dir->fname, rec.fname, 12);
+            strncpy(dir->fname, rec.fname, 12);
         }
         dir++;
         n++;
@@ -236,7 +236,7 @@ static Sint32 gfs_RdrRead(GfsDirRdr *rdr, void *dst, Sint32 n)
     Sint32 ret;
 
     if (rdr->gfs == NULL) {
-        func_06050A24(dst, 0, n);
+        memset(dst, 0, n);
         return 0;
     }
     if (rdr->pos == -1 || rdr->pos >= GFS_SCT_SIZE) {
@@ -254,7 +254,7 @@ static Sint32 gfs_RdrRead(GfsDirRdr *rdr, void *dst, Sint32 n)
     if (len >= (Uint32)n) {
         len = n;
     }
-    func_06050850(dst, rdr->buf + pos, len);
+    memmove(dst, rdr->buf + pos, len);
     rdr->pos += len;
     if (len < (Uint32)n) {
         n -= len;
@@ -265,7 +265,7 @@ static Sint32 gfs_RdrRead(GfsDirRdr *rdr, void *dst, Sint32 n)
             }
             return GFS_ERR_CDRD;
         }
-        func_06050850((Uint8 *)dst + len, rdr->buf, n);
+        memmove((Uint8 *)dst + len, rdr->buf, n);
         rdr->pos = n;
     }
     return 0;

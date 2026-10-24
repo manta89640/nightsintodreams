@@ -14,7 +14,7 @@ Sint32 stm_GetCurFad(void)
     Sint32 ret;
 
     do {
-        ret = func_0606F1E0(&stat);
+        ret = CDC_GetCurStat(&stat);
     } while (ret != 0);
     return CDC_STAT_FAD(&stat);
 }
@@ -26,7 +26,7 @@ Sint32 stm_GetCurFad(void)
     Sint32 fad;
 
     do {
-        ret = func_0606F1E0(&stat);
+        ret = CDC_GetCurStat(&stat);
         fad = CDC_STAT_FAD(&stat);
     } while (ret != 0);
     return fad;
@@ -39,7 +39,7 @@ void stm_GetFadRange(void *fh, Sint32 *sfad, Sint32 *efad)
     Sint32 atr;
     void *null = NULL;          /* the original keeps the 0 in r14 */
 
-    func_0606CE0C(fh, null, sfad, null, &nsct, null, null, &atr);
+    gfsFlow_GetFinfo(fh, null, sfad, null, &nsct, null, null, &atr);
     if ((atr & 6) == 0) {
         *efad = *sfad + nsct - 1;
     } else {
@@ -68,14 +68,14 @@ Sint32 stm_CdPlayObj(StmObj *obj)
         CDC_PLY_EFAS(&ply) = efad - fad + 1;
         CDC_PLY_PMODE(&ply) = 0;
         p = &ply;
-        ret = func_0606DF32(p, obj->filt);
+        ret = gfcd_Play(p, obj->filt);
         if (ret == -13) {
             ret = -23;
         } else if (ret != 0) {
             ret = -1;
         } else {
-            D_06070C6C->play_sfad = fad;
-            D_06070C6C->play_efad = efad;
+            stm_mng->play_sfad = fad;
+            stm_mng->play_efad = efad;
         }
     }
     return ret;
@@ -89,13 +89,13 @@ Sint32 stm_CdPause(StmObj *obj)
 
     CDC_POS_PTYPE(&pos) = CDC_PTYPE_NOCHG;
     p = &pos;
-    ret = func_0606E19A(p, obj->filt);
+    ret = gfcd_Seek(p, obj->filt);
     if (ret == -13) {
         return -23;
     } else if (ret != 0) {
         return -1;
     }
-    D_06070C6C->play_sfad = -1;
-    D_06070C6C->play_efad = -1;
+    stm_mng->play_sfad = -1;
+    stm_mng->play_efad = -1;
     return ret;
 }

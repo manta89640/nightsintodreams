@@ -13,7 +13,7 @@ Sint32 stm_CdContinue(StmObj *obj)
     CDC_PLY_ETYPE(&ply) = CDC_PTYPE_NOCHG;
     CDC_PLY_PMODE(&ply) = CDC_PM_NOCHG;
     p = &ply;
-    ret = func_0606DF32(p, obj->filt);
+    ret = gfcd_Play(p, obj->filt);
     if (ret != 0) {
         return -1;
     }
@@ -31,13 +31,13 @@ Sint32 stm_CdPlayFrom(StmObj *obj, Sint32 fad)
     CDC_PLY_ETYPE(&ply) = CDC_PTYPE_NOCHG;
     CDC_PLY_PMODE(&ply) = 0;
     p = &ply;
-    ret = func_0606DF32(p, obj->filt);
+    ret = gfcd_Play(p, obj->filt);
     if (ret == -13) {
         ret = -23;
     } else if (ret != 0) {
         ret = -1;
     } else {
-        D_06070C6C->play_sfad = fad;
+        stm_mng->play_sfad = fad;
     }
     return ret;
 }
@@ -50,18 +50,18 @@ Sint32 stm_CdPlayTo(StmObj *obj, Sint32 efad)
     CdcPly *p;
 
     CDC_PLY_STYPE(&ply) = CDC_PTYPE_FAD;
-    CDC_PLY_SFAD(&ply) = D_06070C6C->play_sfad;
+    CDC_PLY_SFAD(&ply) = stm_mng->play_sfad;
     CDC_PLY_ETYPE(&ply) = CDC_PTYPE_FAD;
-    CDC_PLY_EFAS(&ply) = efad - D_06070C6C->play_sfad + 1;
+    CDC_PLY_EFAS(&ply) = efad - stm_mng->play_sfad + 1;
     CDC_PLY_PMODE(&ply) = CDC_PM_NOCHG;
     p = &ply;
-    ret = func_0606DF32(p, obj->filt);
+    ret = gfcd_Play(p, obj->filt);
     if (ret == -13) {
         ret = -23;
     } else if (ret != 0) {
         ret = -1;
     } else {
-        D_06070C6C->play_efad = efad;
+        stm_mng->play_efad = efad;
     }
     return ret;
 }
@@ -73,11 +73,11 @@ Bool stm_GetSctInfo(StmObj *obj, Sint32 spos, StmSctInfo *info)
     CdcSct sct;
     Sint32 num;
 
-    num = func_0606D5A8(obj, 0x7FFFFFFF, 0);
+    num = gfcf_GetNumSct(obj, 0x7FFFFFFF, 0);
     if (spos >= num) {
         return FALSE;
     }
-    func_0606E27A(obj->bufno, spos, &sct);
+    gfcd_GetSctInfo(obj->bufno, spos, &sct);
     info->fad = CDC_SCT_FAD(&sct);
     info->fn = CDC_SCT_FN(&sct);
     info->cn = CDC_SCT_CN(&sct);
@@ -91,8 +91,8 @@ Uint32 stm_GetSctData(StmObj *obj, Sint32 spos)
     Uint32 nword;
     Sint32 a;
 
-    func_0606DF9E(obj->bufno, obj->sctpos + spos, 1, &a, (Sint32 *)&nword);
-    func_0606E6DA();
+    gfcd_GetSctNum(obj->bufno, obj->sctpos + spos, 1, &a, (Sint32 *)&nword);
+    gfcd_WaitServer();
     return nword >> 1;
 }
 
@@ -100,12 +100,12 @@ void stm_DelSctData(StmObj *obj, Sint32 spos, Sint32 nsct)
 {
     Sint32 num;
 
-    num = func_0606D5A8(obj, 0x7FFFFFFF, 0);
+    num = gfcf_GetNumSct(obj, 0x7FFFFFFF, 0);
     if (spos + nsct > num) {
         nsct = num - spos;
     }
     if (nsct > 0) {
-        func_0606E084(obj->bufno, spos, nsct);
+        gfcd_DelSct(obj->bufno, spos, nsct);
     }
 }
 
@@ -117,7 +117,7 @@ Sint32 stm_GetSctNum(StmObj *obj)
 
     bufno = obj->bufno;
     do {
-        ret = func_0606F83E(bufno, &nsct);
+        ret = CDC_GetSctNum(bufno, &nsct);
     } while (ret != 0);
     return nsct;
 }
@@ -133,7 +133,7 @@ Sint32 stm_GetFreeBufSiz(void)
     Sint32 ret;
 
     do {
-        ret = func_0606F7F0(&totalsiz, &bufnum, &freesiz);
+        ret = CDC_GetBufSiz(&totalsiz, &bufnum, &freesiz);
     } while (ret != 0);
     return freesiz;
 }
@@ -147,7 +147,7 @@ Sint32 stm_GetFreeBufSiz(void)
     Sint32 siz;
 
     do {
-        ret = func_0606F7F0(&totalsiz, &bufnum, &freesiz);
+        ret = CDC_GetBufSiz(&totalsiz, &bufnum, &freesiz);
         siz = freesiz;
     } while (ret != 0);
     return siz;
@@ -159,9 +159,9 @@ void stm_WaitCsct(void)
     Sint32 i;
     Sint32 hirq;
 
-    func_060681D6(~CDC_HIRQ_CSCT);
+    CDC_ClrHirqReq(~CDC_HIRQ_CSCT);
     for (i = 0; i < 0x5F34; i++) {
-        hirq = func_060681CE();
+        hirq = CDC_GetHirqReq();
         if (hirq & CDC_HIRQ_CSCT) {
             break;
         }

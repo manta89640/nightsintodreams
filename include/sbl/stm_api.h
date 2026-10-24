@@ -5,7 +5,7 @@
 
 /* Layouts as far as sbl/06067644, sbl/060676D4 and sbl/0606772C use them. */
 
-/* SBL DMA_Cpu parameter blocks (field order from func_060684BC/func_06068504). */
+/* SBL DMA_Cpu parameter blocks (field order from DMA_CpuSetComPrm/DMA_CpuSetPrm). */
 typedef struct {
     Uint32 pr;
     Uint32 dme;
@@ -102,7 +102,7 @@ typedef struct {
     StmErrStat err;
 } StmMngr;
 
-/* Error codes passed to func_060693C2 (descriptive names). */
+/* Error codes passed to stm_set_err (descriptive names). */
 #define STM_ERR_NULL    (-11)
 #define STM_ERR_RANGE   (-14)
 #define STM_ERR_MODE    (-17)
