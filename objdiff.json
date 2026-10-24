@@ -2025,13 +2025,39 @@
       }
     },
     {
-      "name": "sbl/0606A748",
-      "target_path": "build/usa/asm/sbl/0606A748.o",
+      "name": "sbl/stm_cdplay",
+      "target_path": "build/usa/asm/sbl/stm_cdplay.o",
+      "base_path": "build/usa/src/sbl/stm_cdplay.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/stm_cdplay.c"
+      }
+    },
+    {
+      "name": "sbl/stm_cdsct",
+      "target_path": "build/usa/asm/sbl/stm_cdsct.o",
+      "base_path": "build/usa/src/sbl/stm_cdsct.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/stm_cdsct.c"
+      }
+    },
+    {
+      "name": "sbl/gfs",
+      "target_path": "build/usa/asm/sbl/gfs.o",
+      "base_path": "build/usa/src/sbl/gfs.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/gfs.c"
       }
     },
     {
@@ -2073,11 +2099,37 @@
     {
       "name": "sbl/0606D4B4",
       "target_path": "build/usa/asm/sbl/0606D4B4.o",
+      "base_path": "build/usa/src/sbl/0606D4B4.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/0606D4B4.c"
+      }
+    },
+    {
+      "name": "sbl/0606DA14",
+      "target_path": "build/usa/asm/sbl/0606DA14.o",
+      "base_path": "build/usa/src/sbl/0606DA14.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/0606DA14.c"
+      }
+    },
+    {
+      "name": "sbl/0606F1E0",
+      "target_path": "build/usa/asm/sbl/0606F1E0.o",
+      "base_path": "build/usa/src/sbl/0606F1E0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/0606F1E0.c"
       }
     },
     {

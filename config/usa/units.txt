@@ -199,7 +199,9 @@
 0x0606772C sbl/0606772C
 0x060680CC sbl/060680CC
 0x06069474 sbl/stm_svr
-0x0606A748 sbl/0606A748
+0x0606A748 sbl/stm_cdplay
+0x0606A89C sbl/stm_cdsct
+0x0606AB44 sbl/gfs
 0x0606C318 sbl/gfs_acc
 0x0606C3C0 sbl/gfs_trn
 0x0606CC64 sbl/gfs_flow
