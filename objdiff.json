@@ -2183,23 +2183,135 @@
       }
     },
     {
-      "name": "sbl/0606F348",
-      "target_path": "build/usa/asm/sbl/0606F348.o",
+      "name": "sbl/cdc_init",
+      "target_path": "build/usa/asm/sbl/cdc_init.o",
+      "base_path": "build/usa/src/sbl/cdc_init.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/cdc_init.c"
       }
     },
     {
-      "name": "sbl/0606FB80",
-      "target_path": "build/usa/asm/sbl/0606FB80.o",
+      "name": "sbl/cdc_data",
+      "target_path": "build/usa/asm/sbl/cdc_data.o",
+      "base_path": "build/usa/src/sbl/cdc_data.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/cdc_data.c"
+      }
+    },
+    {
+      "name": "sbl/cdc_con",
+      "target_path": "build/usa/asm/sbl/cdc_con.o",
+      "base_path": "build/usa/src/sbl/cdc_con.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/cdc_con.c"
+      }
+    },
+    {
+      "name": "sbl/cdc_filt",
+      "target_path": "build/usa/asm/sbl/cdc_filt.o",
+      "base_path": "build/usa/src/sbl/cdc_filt.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/cdc_filt.c"
+      }
+    },
+    {
+      "name": "sbl/cdc_buf",
+      "target_path": "build/usa/asm/sbl/cdc_buf.o",
+      "base_path": "build/usa/src/sbl/cdc_buf.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/cdc_buf.c"
+      }
+    },
+    {
+      "name": "sbl/cdc_sct",
+      "target_path": "build/usa/asm/sbl/cdc_sct.o",
+      "base_path": "build/usa/src/sbl/cdc_sct.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/cdc_sct.c"
+      }
+    },
+    {
+      "name": "sbl/cdc_file",
+      "target_path": "build/usa/asm/sbl/cdc_file.o",
+      "base_path": "build/usa/src/sbl/cdc_file.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/cdc_file.c"
+      }
+    },
+    {
+      "name": "sbl/cdc_exec",
+      "target_path": "build/usa/asm/sbl/cdc_exec.o",
+      "base_path": "build/usa/src/sbl/cdc_exec.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/cdc_exec.c"
+      }
+    },
+    {
+      "name": "sbl/dma_scu",
+      "target_path": "build/usa/asm/sbl/dma_scu.o",
+      "base_path": "build/usa/src/sbl/dma_scu.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/dma_scu.c"
+      }
+    },
+    {
+      "name": "sbl/stm_tr",
+      "target_path": "build/usa/asm/sbl/stm_tr.o",
+      "base_path": "build/usa/src/sbl/stm_tr.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/stm_tr.c"
+      }
+    },
+    {
+      "name": "sbl/gfs_dir",
+      "target_path": "build/usa/asm/sbl/gfs_dir.o",
+      "base_path": "build/usa/src/sbl/gfs_dir.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/gfs_dir.c"
       }
     },
     {
