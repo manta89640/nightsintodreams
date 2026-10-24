@@ -1,0 +1,4 @@
+INT_SetScuFunc = 0x06070C28; // type:func
+INT_GetScuFunc = 0x06070C48; // type:func
+int_scu_func_tbl = 0x06070CCC; // type:data
+int_scu_entry_tbl = 0x0607117C; // type:data
