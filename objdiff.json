@@ -17,6 +17,10 @@
     {
       "id": "sbl",
       "name": "SBL library (C)"
+    },
+    {
+      "id": "shclib",
+      "name": "Hitachi C runtime"
     }
   ],
   "units": [
@@ -2031,13 +2035,39 @@
       }
     },
     {
-      "name": "sbl/0606C318",
-      "target_path": "build/usa/asm/sbl/0606C318.o",
+      "name": "sbl/gfs_acc",
+      "target_path": "build/usa/asm/sbl/gfs_acc.o",
+      "base_path": "build/usa/src/sbl/gfs_acc.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/gfs_acc.c"
+      }
+    },
+    {
+      "name": "sbl/gfs_trn",
+      "target_path": "build/usa/asm/sbl/gfs_trn.o",
+      "base_path": "build/usa/src/sbl/gfs_trn.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/gfs_trn.c"
+      }
+    },
+    {
+      "name": "sbl/gfs_flow",
+      "target_path": "build/usa/asm/sbl/gfs_flow.o",
+      "base_path": "build/usa/src/sbl/gfs_flow.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/gfs_flow.c"
       }
     },
     {

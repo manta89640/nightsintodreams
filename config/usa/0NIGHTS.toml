@@ -18,8 +18,8 @@ extern_ranges = [
 # then edited by hand as module boundaries are worked out.
 units = "units.txt"
 
-# Progress categories shown on bytematch. A unit belongs to the last category
-# starting at or before it.
+# Progress categories shown on bytematch. A unit belongs to the category named by
+# its prefix (game/, sbl/, shclib/); `start` is used when proposing new units.
 [[category]]
 id = "game"
 name = "Game (assembly)"
@@ -29,3 +29,8 @@ start = 0x06004000
 id = "sbl"
 name = "SBL library (C)"
 start = 0x06067300
+
+[[category]]
+id = "shclib"
+name = "Hitachi C runtime"
+start = 0x06050674
