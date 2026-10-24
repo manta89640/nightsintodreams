@@ -1,0 +1,3 @@
+dma_cpu0_start = 0x06067644; // type:func
+dma_cpu0_dst = 0x06070C60; // type:data
+dma_cpu0_size = 0x06070C64; // type:data

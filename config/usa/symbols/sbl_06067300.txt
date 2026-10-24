@@ -1,0 +1,7 @@
+vdp2_bmp_decode = 0x06067324; // type:func
+vdp2_bmp_copy_run = 0x06067548; // type:func
+vdp2_bmp_read_count = 0x06067564; // type:func
+vdp2_bmp_init_lru = 0x06067590; // type:func
+vdp2_bmp_clear = 0x060675C4; // type:func
+vdp2_bmp_set_msb = 0x060675E8; // type:func
+vdp2_bmp_set_msb_nonzero = 0x06067614; // type:func
