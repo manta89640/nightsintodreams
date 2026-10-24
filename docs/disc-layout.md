@@ -44,6 +44,32 @@ PSO). `tools/prs.py` decompresses all of them without errors.
 - Linked against SBL 2.10. The `STM_SBL` and `GFS_SBL` version strings are at `0x060710CC`.
 - `0x06051248` holds a NUL-separated table of every filename the game loads by name. It's
   probably the index space the file loader uses.
+- The split currently finds 1,793 functions: 246 KB of code (including literal pools and
+  in-function tables) and 202 KB of data.
+- Rough layout:
+  - `0x06004000`–`0x0604C000`: game code, interleaved with its data tables
+  - `0x0604C000`–`0x06066000`: mostly data, including the filename table
+  - `0x06066000`–`0x06070C48`: second code block, probably SBL and runtime library code,
+    since the SBL version strings follow it
+- `0x06007E04` is a 16-bit sine table: 4096 = 1.0, with a step of 2π/1024.
+- The program reaches the BIOS through the function vectors at `0x06000300`. For example,
+  it calls `SYS_SETUINT(0x40/0x41, handler)` to install the VBlank-IN/OUT handlers.
+- A hidden name-entry list contains `SONIC`, `MILES`, `KNUCKLES`, `AMY` and `FANG`.
+
+### Compiler
+
+The code was built with **Hitachi SHC**, not GCC:
+
+- Callee-saved registers are pushed in descending order (`r14` down to `r8`).
+- Prologues often save `MACL`/`MACH` (`sts.l macl,@-r15`). GCC's SH ABI treats MAC as
+  call-clobbered and never saves it.
+- Frame pointers are rare: 41 `mov r15,r14` in roughly 1,350 non-leaf functions.
+- `switch` statements are compiled as compare chains. There's only one
+  `mova`/`mov.w`/`braf` jump table.
+
+A byte-matching C build will therefore need the SHC version Sonic Team used.
+`PRG1P` has no callee-saved register pushes at all, so it may have been built
+differently (another compiler version, or hand-written code).
 
 ## Overlays (decompressed PRS)
 

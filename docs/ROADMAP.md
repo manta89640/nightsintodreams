@@ -6,6 +6,9 @@
 - [x] PRS decompressor, tested on all 128 archives
 - [x] Checksums for every extracted and decompressed file
 - [x] Headless Ghidra import of `0NIGHTS` with the Saturn memory map
+- [x] SH-2 disassembler, verified against GNU as across all 65,536 opcodes
+- [x] Split `0NIGHTS` into fully symbolized assembly that rebuilds byte for byte (`make check`)
+- [x] objdiff report and bytematch.dev upload (`make report`, `make upload`)
 
 ## Phase 1: Map the program
 
@@ -13,9 +16,12 @@
 - [ ] Identify the SBL 2.10 library functions (GFS, STM, SPR, SCL, PER, DMA, INT) so they can be
       named and skipped. If you have the SBL library objects, Ghidra FunctionID signatures
       do most of this automatically.
-- [ ] Identify the compiler. SBL supported both Hitachi SHC and GNU (Cygnus GCC 2.x for SH).
-      The output's prologue and epilogue patterns, constant-pool layout and delay-slot
-      filling will tell us which. This decides whether a byte-matching build is realistic.
+- [x] Identify the compiler: Hitachi SHC (evidence in disc-layout.md). Next, pin down the
+      exact version and flags, and work out how to run it (it's a DOS/Windows tool, so
+      probably under wine).
+- [ ] Split `0NIGHTS` into units that match the original object files. The data islands
+      between code runs are likely object boundaries.
+- [ ] Load and split the `PRG*`/`PCOM`/`MCOM`/`RD*` overlays at their load addresses
 - [ ] Find the main loop, the task/object system, and the master/slave SH-2 split
       (search for `SYS_*` / slave-start calls)
 - [ ] Document the data formats: models (`GRD*`, `RD*`), textures (`GTX*`, `PLTEX`),
@@ -29,9 +35,8 @@ Saturn-specific calls routed through a thin platform layer (`platform/`).
 - A matching build (C that recompiles to byte-identical code) is the gold standard, but
   only if Phase 1 turns up a compiler we can actually get and run. It isn't required for
   the port.
-- Either way, the first build milestone is a round trip: split `0NIGHTS` into asm, data and
-  overlays, rebuild it with sh-elf binutils, and get the same SHA-1. That gives every
-  later C function a regression check.
+- The round trip (split `0NIGHTS`, rebuild with sh-elf binutils, same SHA-1) already works
+  for the main program. It's the regression check for every C function that replaces asm.
 
 ## Phase 3: 3DS port
 

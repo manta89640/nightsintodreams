@@ -92,10 +92,10 @@ NM_OPS = {
 }
 
 IMM8_R0 = {
-    0x88: ("cmp/eq", "#{i},r0", True), 0xC8: ("tst", "#{u},r0", False), 0xC9: ("and", "#{u},r0", False),
-    0xCA: ("xor", "#{u},r0", False), 0xCB: ("or", "#{u},r0", False), 0xC3: ("trapa", "#{u}", False),
-    0xCC: ("tst.b", "#{u},@(r0,gbr)", False), 0xCD: ("and.b", "#{u},@(r0,gbr)", False),
-    0xCE: ("xor.b", "#{u},@(r0,gbr)", False), 0xCF: ("or.b", "#{u},@(r0,gbr)", False),
+    0xC3: ("trapa", "#{u}"), 0xC8: ("tst", "#{u},r0"), 0xC9: ("and", "#{u},r0"),
+    0xCA: ("xor", "#{u},r0"), 0xCB: ("or", "#{u},r0"),
+    0xCC: ("tst.b", "#{u},@(r0,gbr)"), 0xCD: ("and.b", "#{u},@(r0,gbr)"),
+    0xCE: ("xor.b", "#{u},@(r0,gbr)"), 0xCF: ("or.b", "#{u},@(r0,gbr)"),
 }
 
 GBR_DISP = {
@@ -115,9 +115,7 @@ def decode(w, pc=0):
 
     if w in ZERO_OPS:
         mn = ZERO_OPS[w]
-        if mn == "rts":
-            return Insn(mn, kind="ret", delay=True, pc=pc)
-        if mn == "rte":
+        if mn in ("rts", "rte"):
             return Insn(mn, kind="ret", delay=True, pc=pc)
         return Insn(mn, pc=pc)
 
@@ -180,8 +178,8 @@ def decode(w, pc=0):
             mn, t, scale = GBR_DISP[op]
             return Insn(mn, t.format(d=lob * scale), pc=pc)
         if op in IMM8_R0:
-            mn, t, signed = IMM8_R0[op]
-            return Insn(mn, t.format(i=_s8(lob), u=lob), pc=pc)
+            mn, t = IMM8_R0[op]
+            return Insn(mn, t.format(u=lob), pc=pc)
         return None
 
     return None

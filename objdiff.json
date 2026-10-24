@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/encounter/objdiff/main/config.schema.json",
+  "custom_make": "make",
+  "build_target": false,
+  "build_base": true,
+  "watch_patterns": ["*.c", "*.h", "*.s", "*.inc"],
+  "progress_categories": [
+    { "id": "main", "name": "0NIGHTS" }
+  ],
+  "units": [
+    {
+      "name": "0NIGHTS",
+      "target_path": "build/usa/asm/0NIGHTS.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": ["main"]
+      }
+    }
+  ]
+}

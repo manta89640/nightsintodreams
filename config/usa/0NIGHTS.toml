@@ -1,0 +1,15 @@
+# Main program (1st Read file). Load address comes from IP.BIN.
+name = "0NIGHTS"
+region = "usa"
+image = "extracted/usa/files/0NIGHTS"
+vram = 0x06004000
+sha1 = "08faf86952b8f68ddd7b212ab297ab815c6b8067"
+symbols = "symbols.txt"
+equates = ["include/saturn.inc"]
+
+# RAM outside the image that the program refers to: BSS, heap and overlay space
+# in High and Low Work RAM. References become linked symbols.
+extern_ranges = [
+    [0x06004000, 0x06100000],
+    [0x00200000, 0x00300000],
+]
