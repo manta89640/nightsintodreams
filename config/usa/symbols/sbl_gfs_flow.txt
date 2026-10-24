@@ -1,0 +1,15 @@
+gfsFlow_InitCd = 0x0606CC64; // type:func
+gfsFlow_Init = 0x0606CCEE; // type:func
+gfsFlow_SetSct = 0x0606CDD6; // type:func
+gfsFlow_GetFinfo = 0x0606CE0C; // type:func
+gfsFlow_Read = 0x0606CE76; // type:func
+gfsFlow_StopRead = 0x0606CFDC; // type:func
+gfsFlow_PlayNoChg = 0x0606D074; // type:func
+gfsFlow_GetSctPos = 0x0606D0C6; // type:func
+gfsFlow_SetSctPos = 0x0606D0D2; // type:func
+gfsFlow_Seek = 0x0606D0D8; // type:func
+gfsFlow_SctToFad = 0x0606D162; // type:func
+gfsFlow_GetCdStat = 0x0606D1BA; // type:func
+gfsFlow_SctSize = 0x0606D27A; // type:func
+gfsFlow_CheckCd = 0x0606D2BA; // type:func
+gfsFlow_SetRange = 0x0606D374; // type:func

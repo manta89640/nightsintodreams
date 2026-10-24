@@ -1,0 +1,6 @@
+gfsAcc_CountSct = 0x0606C318; // type:func
+gfsAcc_CountSctAll = 0x0606C336; // type:func
+gfsAcc_GetPack = 0x0606C350; // type:func
+gfsAcc_PreparePack = 0x0606C36E; // type:func
+gfsAcc_ReleasePack = 0x0606C38A; // type:func
+gfsAcc_ReturnTrue = 0x0606C3A8; // type:func
