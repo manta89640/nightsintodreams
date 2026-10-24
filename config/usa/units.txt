@@ -200,6 +200,15 @@
 0x0606A748 sbl/0606A748
 0x0606C318 sbl/0606C318
 0x0606D4B4 sbl/0606D4B4
-0x0606F348 sbl/0606F348
-0x0606FB80 sbl/0606FB80
+0x0606F348 sbl/cdc_init
+0x0606F478 sbl/cdc_data
+0x0606F518 sbl/cdc_con
+0x0606F5BC sbl/cdc_filt
+0x0606F7F0 sbl/cdc_buf
+0x0606F9F4 sbl/cdc_sct
+0x0606FB80 sbl/cdc_file
+0x0606FCD8 sbl/cdc_exec
+0x0606FDD0 sbl/dma_scu
+0x06070070 sbl/gfs_06070070
+0x060703F4 sbl/gfs_dir
 0x06070C28 sbl/06070C28
