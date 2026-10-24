@@ -46,7 +46,7 @@ Other targets:
 
 ## How the split works
 
-`tools/split.py` reads `config/usa/0NIGHTS.toml` and `config/usa/symbols.txt`, then:
+`tools/split.py` reads `config/usa/0NIGHTS.toml`, `symbols.txt` and `units.txt`, then:
 
 1. finds code by recursive descent from every known function, from function pointers
    in literal pools and pointer tables, and from SHC prologues in unclaimed bytes
@@ -54,14 +54,35 @@ Other targets:
    - functions are `func_XXXXXXXX` until named in `symbols.txt`
    - data is `D_XXXXXXXX`
    - hardware registers and BIOS vectors come from `include/saturn.inc`
-3. puts code in `.text.*` sections and data in `.data.*` sections, laid out at the
-   original addresses by a generated linker script
+3. writes one file per unit in `units.txt`, with code in `.text.*` sections and data
+   in `.data.*` sections, and generates the linker script, `build/usa/units.mk` and
+   `objdiff.json`
 
 Values that only look like addresses (16.16 fixed point in the Low WRAM range,
 negative numbers in the on-chip register range, ASCII text) are only symbolized
 when the code actually uses them as addresses.
 
-To name a function or variable, edit `config/usa/symbols.txt` and run `make check`.
+## Units and progress
+
+`0NIGHTS` is split into 203 units in two progress categories: `game` (hand-written
+assembly) and `sbl` (the SBL library, compiled C). A unit can only start where no
+PC-relative reference crosses. `split.py --units` proposes boundaries, and `split.py`
+rejects any boundary that breaks the rule.
+
+Every unit is generated into `build/usa/asm/` as the objdiff **target**. A unit counts
+as done once its source is committed under `src/`. That source is assembled as the
+objdiff **base** and linked in place of the generated file, so `make check` always
+verifies the committed source.
+
+To claim a unit:
+
+1. Copy `build/usa/asm/<unit>.s` to `src/<unit>.s`.
+2. Give its functions and data real names in `config/usa/symbols.txt`, and use the same
+   names in the file. objdiff matches symbols by name.
+3. Comment the parts that are hard to follow, and nothing else.
+4. Run `make check`, then `make report` (the unit should show 100%). Commit and `make upload`.
+
+For SBL units, the source will be C compiled with SHC once that pipeline is in place.
 
 ## Layout
 

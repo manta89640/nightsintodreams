@@ -3,17 +3,2051 @@
   "custom_make": "make",
   "build_target": false,
   "build_base": true,
-  "watch_patterns": ["*.c", "*.h", "*.s", "*.inc"],
+  "watch_patterns": [
+    "*.c",
+    "*.h",
+    "*.s",
+    "*.inc"
+  ],
   "progress_categories": [
-    { "id": "main", "name": "0NIGHTS" }
+    {
+      "id": "game",
+      "name": "Game (assembly)"
+    },
+    {
+      "id": "sbl",
+      "name": "SBL library (C)"
+    }
   ],
   "units": [
     {
-      "name": "0NIGHTS",
-      "target_path": "build/usa/asm/0NIGHTS.o",
+      "name": "game/06004000",
+      "target_path": "build/usa/asm/game/06004000.o",
       "metadata": {
         "complete": false,
-        "progress_categories": ["main"]
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06004260",
+      "target_path": "build/usa/asm/game/06004260.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060042B4",
+      "target_path": "build/usa/asm/game/060042B4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06004618",
+      "target_path": "build/usa/asm/game/06004618.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06004FBC",
+      "target_path": "build/usa/asm/game/06004FBC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06006070",
+      "target_path": "build/usa/asm/game/06006070.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06007438",
+      "target_path": "build/usa/asm/game/06007438.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060074F8",
+      "target_path": "build/usa/asm/game/060074F8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06007560",
+      "target_path": "build/usa/asm/game/06007560.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060077BC",
+      "target_path": "build/usa/asm/game/060077BC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06007898",
+      "target_path": "build/usa/asm/game/06007898.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060079CC",
+      "target_path": "build/usa/asm/game/060079CC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06007AA8",
+      "target_path": "build/usa/asm/game/06007AA8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06007B94",
+      "target_path": "build/usa/asm/game/06007B94.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06008C00",
+      "target_path": "build/usa/asm/game/06008C00.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06009C00",
+      "target_path": "build/usa/asm/game/06009C00.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0600AC00",
+      "target_path": "build/usa/asm/game/0600AC00.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0600BC00",
+      "target_path": "build/usa/asm/game/0600BC00.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0600C9C8",
+      "target_path": "build/usa/asm/game/0600C9C8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0600CF6C",
+      "target_path": "build/usa/asm/game/0600CF6C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0600D1A0",
+      "target_path": "build/usa/asm/game/0600D1A0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0600D3D0",
+      "target_path": "build/usa/asm/game/0600D3D0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0600EE48",
+      "target_path": "build/usa/asm/game/0600EE48.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601030C",
+      "target_path": "build/usa/asm/game/0601030C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060111D0",
+      "target_path": "build/usa/asm/game/060111D0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06011868",
+      "target_path": "build/usa/asm/game/06011868.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06012900",
+      "target_path": "build/usa/asm/game/06012900.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06013900",
+      "target_path": "build/usa/asm/game/06013900.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06014900",
+      "target_path": "build/usa/asm/game/06014900.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06015900",
+      "target_path": "build/usa/asm/game/06015900.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060167B0",
+      "target_path": "build/usa/asm/game/060167B0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060168D8",
+      "target_path": "build/usa/asm/game/060168D8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06017400",
+      "target_path": "build/usa/asm/game/06017400.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06018D60",
+      "target_path": "build/usa/asm/game/06018D60.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601984C",
+      "target_path": "build/usa/asm/game/0601984C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06019A88",
+      "target_path": "build/usa/asm/game/06019A88.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06019B5C",
+      "target_path": "build/usa/asm/game/06019B5C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06019D10",
+      "target_path": "build/usa/asm/game/06019D10.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601A27C",
+      "target_path": "build/usa/asm/game/0601A27C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601B1A4",
+      "target_path": "build/usa/asm/game/0601B1A4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601B550",
+      "target_path": "build/usa/asm/game/0601B550.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601B5DC",
+      "target_path": "build/usa/asm/game/0601B5DC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601B734",
+      "target_path": "build/usa/asm/game/0601B734.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601B7A0",
+      "target_path": "build/usa/asm/game/0601B7A0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601B974",
+      "target_path": "build/usa/asm/game/0601B974.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601BA80",
+      "target_path": "build/usa/asm/game/0601BA80.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601BB24",
+      "target_path": "build/usa/asm/game/0601BB24.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601BC94",
+      "target_path": "build/usa/asm/game/0601BC94.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601BE9C",
+      "target_path": "build/usa/asm/game/0601BE9C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601C350",
+      "target_path": "build/usa/asm/game/0601C350.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601C610",
+      "target_path": "build/usa/asm/game/0601C610.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601C97C",
+      "target_path": "build/usa/asm/game/0601C97C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601D0B4",
+      "target_path": "build/usa/asm/game/0601D0B4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601D134",
+      "target_path": "build/usa/asm/game/0601D134.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601D2E4",
+      "target_path": "build/usa/asm/game/0601D2E4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601E4B0",
+      "target_path": "build/usa/asm/game/0601E4B0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601EBA8",
+      "target_path": "build/usa/asm/game/0601EBA8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601EF98",
+      "target_path": "build/usa/asm/game/0601EF98.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0601F068",
+      "target_path": "build/usa/asm/game/0601F068.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060204E4",
+      "target_path": "build/usa/asm/game/060204E4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06020BF8",
+      "target_path": "build/usa/asm/game/06020BF8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06021120",
+      "target_path": "build/usa/asm/game/06021120.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06021E28",
+      "target_path": "build/usa/asm/game/06021E28.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06026728",
+      "target_path": "build/usa/asm/game/06026728.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06027800",
+      "target_path": "build/usa/asm/game/06027800.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06028904",
+      "target_path": "build/usa/asm/game/06028904.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060289B0",
+      "target_path": "build/usa/asm/game/060289B0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060294B0",
+      "target_path": "build/usa/asm/game/060294B0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06029E70",
+      "target_path": "build/usa/asm/game/06029E70.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602AFD4",
+      "target_path": "build/usa/asm/game/0602AFD4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602B21C",
+      "target_path": "build/usa/asm/game/0602B21C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602B500",
+      "target_path": "build/usa/asm/game/0602B500.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602C204",
+      "target_path": "build/usa/asm/game/0602C204.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602C348",
+      "target_path": "build/usa/asm/game/0602C348.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602C4D0",
+      "target_path": "build/usa/asm/game/0602C4D0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602C534",
+      "target_path": "build/usa/asm/game/0602C534.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602C5F8",
+      "target_path": "build/usa/asm/game/0602C5F8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602C71C",
+      "target_path": "build/usa/asm/game/0602C71C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602CBB8",
+      "target_path": "build/usa/asm/game/0602CBB8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602D158",
+      "target_path": "build/usa/asm/game/0602D158.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602E51C",
+      "target_path": "build/usa/asm/game/0602E51C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602EDDC",
+      "target_path": "build/usa/asm/game/0602EDDC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602F104",
+      "target_path": "build/usa/asm/game/0602F104.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0602FF50",
+      "target_path": "build/usa/asm/game/0602FF50.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06030098",
+      "target_path": "build/usa/asm/game/06030098.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06031298",
+      "target_path": "build/usa/asm/game/06031298.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06031E80",
+      "target_path": "build/usa/asm/game/06031E80.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06031FAC",
+      "target_path": "build/usa/asm/game/06031FAC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06032444",
+      "target_path": "build/usa/asm/game/06032444.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06032D4C",
+      "target_path": "build/usa/asm/game/06032D4C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060330F4",
+      "target_path": "build/usa/asm/game/060330F4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06033970",
+      "target_path": "build/usa/asm/game/06033970.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06033B08",
+      "target_path": "build/usa/asm/game/06033B08.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06033BA0",
+      "target_path": "build/usa/asm/game/06033BA0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06033CD4",
+      "target_path": "build/usa/asm/game/06033CD4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06033D5C",
+      "target_path": "build/usa/asm/game/06033D5C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060342A0",
+      "target_path": "build/usa/asm/game/060342A0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603444C",
+      "target_path": "build/usa/asm/game/0603444C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06034C4C",
+      "target_path": "build/usa/asm/game/06034C4C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603564C",
+      "target_path": "build/usa/asm/game/0603564C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06035A74",
+      "target_path": "build/usa/asm/game/06035A74.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060389B4",
+      "target_path": "build/usa/asm/game/060389B4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06039A00",
+      "target_path": "build/usa/asm/game/06039A00.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603AA00",
+      "target_path": "build/usa/asm/game/0603AA00.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603B408",
+      "target_path": "build/usa/asm/game/0603B408.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603B694",
+      "target_path": "build/usa/asm/game/0603B694.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603BAD0",
+      "target_path": "build/usa/asm/game/0603BAD0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603BE64",
+      "target_path": "build/usa/asm/game/0603BE64.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603C4E0",
+      "target_path": "build/usa/asm/game/0603C4E0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603C704",
+      "target_path": "build/usa/asm/game/0603C704.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603C730",
+      "target_path": "build/usa/asm/game/0603C730.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603CB2C",
+      "target_path": "build/usa/asm/game/0603CB2C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603CC30",
+      "target_path": "build/usa/asm/game/0603CC30.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603CE80",
+      "target_path": "build/usa/asm/game/0603CE80.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603D0C8",
+      "target_path": "build/usa/asm/game/0603D0C8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603D200",
+      "target_path": "build/usa/asm/game/0603D200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603D26C",
+      "target_path": "build/usa/asm/game/0603D26C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603D334",
+      "target_path": "build/usa/asm/game/0603D334.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603D6E0",
+      "target_path": "build/usa/asm/game/0603D6E0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603D82C",
+      "target_path": "build/usa/asm/game/0603D82C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603D8A0",
+      "target_path": "build/usa/asm/game/0603D8A0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603D9B4",
+      "target_path": "build/usa/asm/game/0603D9B4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603EDCC",
+      "target_path": "build/usa/asm/game/0603EDCC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0603FE70",
+      "target_path": "build/usa/asm/game/0603FE70.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060400FC",
+      "target_path": "build/usa/asm/game/060400FC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060402F4",
+      "target_path": "build/usa/asm/game/060402F4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06040554",
+      "target_path": "build/usa/asm/game/06040554.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06040660",
+      "target_path": "build/usa/asm/game/06040660.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060407E0",
+      "target_path": "build/usa/asm/game/060407E0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06040CCC",
+      "target_path": "build/usa/asm/game/06040CCC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06040DF8",
+      "target_path": "build/usa/asm/game/06040DF8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06040E9C",
+      "target_path": "build/usa/asm/game/06040E9C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06041064",
+      "target_path": "build/usa/asm/game/06041064.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060414B4",
+      "target_path": "build/usa/asm/game/060414B4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06041C4C",
+      "target_path": "build/usa/asm/game/06041C4C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06041D50",
+      "target_path": "build/usa/asm/game/06041D50.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06041DAC",
+      "target_path": "build/usa/asm/game/06041DAC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06042038",
+      "target_path": "build/usa/asm/game/06042038.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060425F0",
+      "target_path": "build/usa/asm/game/060425F0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060426A8",
+      "target_path": "build/usa/asm/game/060426A8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06042880",
+      "target_path": "build/usa/asm/game/06042880.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06042EE4",
+      "target_path": "build/usa/asm/game/06042EE4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06042F30",
+      "target_path": "build/usa/asm/game/06042F30.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06043208",
+      "target_path": "build/usa/asm/game/06043208.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06043808",
+      "target_path": "build/usa/asm/game/06043808.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0604384C",
+      "target_path": "build/usa/asm/game/0604384C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0604388C",
+      "target_path": "build/usa/asm/game/0604388C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06043A0C",
+      "target_path": "build/usa/asm/game/06043A0C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06043AF0",
+      "target_path": "build/usa/asm/game/06043AF0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06043CF8",
+      "target_path": "build/usa/asm/game/06043CF8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06044790",
+      "target_path": "build/usa/asm/game/06044790.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06045460",
+      "target_path": "build/usa/asm/game/06045460.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0604566C",
+      "target_path": "build/usa/asm/game/0604566C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06045780",
+      "target_path": "build/usa/asm/game/06045780.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06045ED4",
+      "target_path": "build/usa/asm/game/06045ED4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06046214",
+      "target_path": "build/usa/asm/game/06046214.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060464CC",
+      "target_path": "build/usa/asm/game/060464CC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06049538",
+      "target_path": "build/usa/asm/game/06049538.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06049670",
+      "target_path": "build/usa/asm/game/06049670.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0604AD38",
+      "target_path": "build/usa/asm/game/0604AD38.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0604B7DC",
+      "target_path": "build/usa/asm/game/0604B7DC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0604C7C8",
+      "target_path": "build/usa/asm/game/0604C7C8.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0604C88C",
+      "target_path": "build/usa/asm/game/0604C88C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0604D900",
+      "target_path": "build/usa/asm/game/0604D900.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0604DE7C",
+      "target_path": "build/usa/asm/game/0604DE7C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0604EF00",
+      "target_path": "build/usa/asm/game/0604EF00.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0604FF00",
+      "target_path": "build/usa/asm/game/0604FF00.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06050674",
+      "target_path": "build/usa/asm/game/06050674.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/060506B0",
+      "target_path": "build/usa/asm/game/060506B0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06050968",
+      "target_path": "build/usa/asm/game/06050968.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06050A5C",
+      "target_path": "build/usa/asm/game/06050A5C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06051140",
+      "target_path": "build/usa/asm/game/06051140.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06052200",
+      "target_path": "build/usa/asm/game/06052200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06053200",
+      "target_path": "build/usa/asm/game/06053200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06054200",
+      "target_path": "build/usa/asm/game/06054200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06055200",
+      "target_path": "build/usa/asm/game/06055200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06056200",
+      "target_path": "build/usa/asm/game/06056200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06057200",
+      "target_path": "build/usa/asm/game/06057200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06058200",
+      "target_path": "build/usa/asm/game/06058200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06059200",
+      "target_path": "build/usa/asm/game/06059200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0605A200",
+      "target_path": "build/usa/asm/game/0605A200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0605B200",
+      "target_path": "build/usa/asm/game/0605B200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0605C200",
+      "target_path": "build/usa/asm/game/0605C200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0605D200",
+      "target_path": "build/usa/asm/game/0605D200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0605E200",
+      "target_path": "build/usa/asm/game/0605E200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/0605F200",
+      "target_path": "build/usa/asm/game/0605F200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06060200",
+      "target_path": "build/usa/asm/game/06060200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06061200",
+      "target_path": "build/usa/asm/game/06061200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06062200",
+      "target_path": "build/usa/asm/game/06062200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06063200",
+      "target_path": "build/usa/asm/game/06063200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06064200",
+      "target_path": "build/usa/asm/game/06064200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06065200",
+      "target_path": "build/usa/asm/game/06065200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "game/06066200",
+      "target_path": "build/usa/asm/game/06066200.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "game"
+        ]
+      }
+    },
+    {
+      "name": "sbl/06067300",
+      "target_path": "build/usa/asm/sbl/06067300.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ]
+      }
+    },
+    {
+      "name": "sbl/06067644",
+      "target_path": "build/usa/asm/sbl/06067644.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ]
+      }
+    },
+    {
+      "name": "sbl/060680CC",
+      "target_path": "build/usa/asm/sbl/060680CC.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ]
+      }
+    },
+    {
+      "name": "sbl/06069474",
+      "target_path": "build/usa/asm/sbl/06069474.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ]
+      }
+    },
+    {
+      "name": "sbl/0606A748",
+      "target_path": "build/usa/asm/sbl/0606A748.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ]
+      }
+    },
+    {
+      "name": "sbl/0606C318",
+      "target_path": "build/usa/asm/sbl/0606C318.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ]
+      }
+    },
+    {
+      "name": "sbl/0606D4B4",
+      "target_path": "build/usa/asm/sbl/0606D4B4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ]
+      }
+    },
+    {
+      "name": "sbl/0606F348",
+      "target_path": "build/usa/asm/sbl/0606F348.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ]
+      }
+    },
+    {
+      "name": "sbl/0606FB80",
+      "target_path": "build/usa/asm/sbl/0606FB80.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ]
+      }
+    },
+    {
+      "name": "sbl/06070C28",
+      "target_path": "build/usa/asm/sbl/06070C28.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ]
       }
     }
   ]

@@ -47,16 +47,37 @@ $(AS):
 $(OBJDIFF):
 	tools/get_objdiff.sh
 
-# Regenerate assembly from the dump. The output is derived from the game and stays in build/.
+# Regenerate assembly from the dump. The output is derived from the game and stays in
+# build/; units that have been reviewed live in src/ and are linked in their place.
+SRC_FILES := $(shell find src -name '*.s' 2>/dev/null | sort)
+# Adding or removing a src/ file changes which object is linked, so force a re-split.
+# (Deleting the outputs rather than comparing mtimes: make 3.81 has 1 s resolution.)
+SRC_LIST  := $(BUILD)/src_files.txt
+$(shell mkdir -p $(BUILD); echo "$(SRC_FILES)" | cmp -s - $(SRC_LIST) || \
+	{ echo "$(SRC_FILES)" > $(SRC_LIST); rm -f $(BUILD)/$(MAIN).ld $(BUILD)/units.mk; })
+
 split: $(BUILD)/$(MAIN).ld
 
-$(BUILD)/$(MAIN).ld: $(MAIN_CFG) config/$(REGION)/symbols.txt include/saturn.inc tools/split.py tools/sh2analyze.py tools/sh2dis.py
+$(BUILD)/$(MAIN).ld $(BUILD)/units.mk: $(MAIN_CFG) config/$(REGION)/symbols.txt config/$(REGION)/units.txt \
+		include/saturn.inc tools/split.py tools/sh2analyze.py tools/sh2dis.py $(SRC_LIST)
 	$(PYTHON) tools/split.py $(MAIN_CFG)
 
-$(BUILD)/asm/%.o: $(BUILD)/$(MAIN).ld include/macro.inc | $(AS)
-	$(AS) $(ASFLAGS) -o $@ $(BUILD)/asm/$*.s
+-include $(BUILD)/units.mk
 
-$(BUILD)/$(MAIN).elf: $(BUILD)/asm/$(MAIN).o
+TARGET_OBJS := $(UNITS:%=$(BUILD)/asm/%.o)
+BASE_OBJS   := $(SRC_UNITS:%=$(BUILD)/src/%.o)
+LINK_OBJS   := $(foreach u,$(UNITS),$(if $(filter $(u),$(SRC_UNITS)),$(BUILD)/src/$(u).o,$(BUILD)/asm/$(u).o))
+
+$(BUILD)/asm/%.s: $(BUILD)/$(MAIN).ld ;
+
+$(BUILD)/asm/%.o: $(BUILD)/asm/%.s include/macro.inc | $(AS)
+	$(AS) $(ASFLAGS) -o $@ $<
+
+$(BUILD)/src/%.o: src/%.s include/macro.inc include/saturn.inc | $(AS)
+	@mkdir -p $(dir $@)
+	$(AS) $(ASFLAGS) -o $@ $<
+
+$(BUILD)/$(MAIN).elf: $(BUILD)/$(MAIN).ld $(LINK_OBJS)
 	$(LD) -T $(BUILD)/$(MAIN).ld -Map $(BUILD)/$(MAIN).map -o $@
 
 $(BUILD)/$(MAIN): $(BUILD)/$(MAIN).elf
@@ -74,7 +95,7 @@ test: | $(AS)
 # (create one on the project's manage page).
 BYTEMATCH := https://bytematch.dev/api/v1/projects/manta89640/nightsintodreams/reports
 
-report: check | $(OBJDIFF)
+report: check $(TARGET_OBJS) $(BASE_OBJS) | $(OBJDIFF)
 	$(OBJDIFF) report generate -o $(BUILD)/report.json
 
 upload: report

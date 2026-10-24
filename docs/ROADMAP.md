@@ -21,8 +21,10 @@
       matches 3 of the 4 library functions tried.
 - [ ] Build pipeline for library C: SHC `-code=asmcode` → translate to GNU as → `sh-elf-as`
       → ELF base objects for objdiff. `elfcnv` only converts linked objects, not relocatable ones.
-- [ ] Split `0NIGHTS` into units that match the original object files. The data islands
-      between code runs are likely object boundaries.
+- [x] Split `0NIGHTS` into 203 units (193 game, 10 SBL) at clean boundaries, with
+      data islands as the first-choice cut points
+- [ ] Refine unit boundaries to the original modules as they're identified (merge or
+      split entries in `units.txt`, and give them real names)
 - [ ] Load and split the `PRG*`/`PCOM`/`MCOM`/`RD*` overlays at their load addresses
 - [ ] Find the main loop, the task/object system, and the master/slave SH-2 split
       (search for `SYS_*` / slave-start calls)

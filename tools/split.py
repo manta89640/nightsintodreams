@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 """Disassemble an SH-2 image into GNU as source that rebuilds it byte for byte.
 
-    split.py config/usa/0NIGHTS.toml              write build/<region>/asm/*.s + linker script
+    split.py config/usa/0NIGHTS.toml              write build/<region>/asm/<unit>.s, linker
+                                                  script, units.mk and objdiff.json
     split.py config/usa/0NIGHTS.toml --discover   (re)generate the function list in symbols.txt
+    split.py config/usa/0NIGHTS.toml --units      propose unit boundaries in units.txt
 
-The config names the image, its load address, its expected SHA-1, the symbol file
-and the segment boundaries. Generated assembly is derived from the game, so it
-lives under build/ and is never committed.
+The config names the image, its load address, its expected SHA-1, the symbol and
+unit files, and the progress categories. Every unit is generated into build/; a
+unit that has been reviewed lives in src/<unit>.s and is linked in its place.
 """
 import argparse
+import bisect
 import csv
 import hashlib
+import io
+import json
 import os
 import re
 import struct
@@ -28,6 +33,15 @@ from sh2analyze import CODE, DATA, POOL_L, POOL_W  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SYM_RE = re.compile(r"^\s*(\w+)\s*=\s*(0x[0-9A-Fa-f]+)\s*;\s*(?://\s*(.*))?$")
+
+
+def write_if_changed(path, text):
+    """Leave unchanged files alone so make doesn't rebuild their objects."""
+    if os.path.exists(path) and open(path).read() == text:
+        return
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as f:
+        f.write(text)
 
 
 def load_symbols(path):
@@ -71,6 +85,7 @@ class Splitter:
         self.data = open(self.image_path, "rb").read()
         if hashlib.sha1(self.data).hexdigest() != cfg["sha1"]:
             sys.exit("%s does not match the expected SHA-1" % self.image_path)
+        self.cfg_dir = base
         self.symbols_path = os.path.join(base, cfg["symbols"])
         self.symbols = load_symbols(self.symbols_path)
         self.equates, self.regions = {}, []
@@ -193,6 +208,9 @@ class Splitter:
 
     def _pointer(self, v, at=None):
         """Symbolic form of a 32-bit constant, or None to keep it numeric."""
+        if v in getattr(self, "end_alias", {}):
+            base = self.end_alias[v]
+            return "%s + 0x%X" % (self.labels[base], v - base)
         if at is not None and not self.string_bytes.isdisjoint(range(at, at + 4)):
             return None
         # Low WRAM looks like 16.16 fixed point 32.0-48.0, and on-chip/cache areas
@@ -205,6 +223,7 @@ class Splitter:
             # An odd address inside code can't be a real pointer.
             if v & 1 and self.kinds.get(v & ~1) == CODE:
                 return None
+            self.refs.add((at, v))
             return self.label_for(v, data_ref=True)
         # Cache-through (0x2xxxxxxx) alias of a RAM address: same symbol + 0x20000000.
         for addr, alias in ((v, ""), (v - 0x20000000, " + 0x20000000")):
@@ -213,6 +232,7 @@ class Splitter:
                 self.externs[addr] = name
                 return name + alias
             if alias and self.img.contains(addr):
+                self.refs.add((at, addr))
                 return self.label_for(addr, data_ref=True) + alias
         r = self._region(v)
         if r:
@@ -236,6 +256,7 @@ class Splitter:
     def _collect_labels(self):
         self.labels = {}
         self.externs = {}
+        self.refs = set()  # (word address, image address it points to)
         self.addr_pools = self._address_pools()
         self._find_strings()
         for a in sorted(self.symbols):
@@ -257,16 +278,7 @@ class Splitter:
                 continue
             self._pointer(self.img.u32(addr), at=addr)
 
-    # ---- emission -------------------------------------------------------
-
-    def _segments(self):
-        segs = sorted(self.cfg.get("segments", [{"name": self.name, "start": self.vram}]),
-                      key=lambda s: s["start"])
-        out = []
-        for i, s in enumerate(segs):
-            end = segs[i + 1]["start"] if i + 1 < len(segs) else self.img.end
-            out.append((s["name"], s["start"], end))
-        return out
+    # ---- layout ---------------------------------------------------------
 
     def _function_ends(self):
         """A function runs to the furthest instruction or pool it reaches (so dead
@@ -284,79 +296,85 @@ class Splitter:
             ends[f] = a
         return ends
 
-    def emit(self):
+    def prepare(self):
+        """Labels, function extents, and the text/data section layout of the image."""
         self._collect_labels()
-        os.makedirs(self.out_dir, exist_ok=True)
-        ends = self._function_ends()
-        globals_ = {a for a, n in self.labels.items() if not n.startswith(".L")}
-        segs = self._segments()
-        # A local label referenced from another segment must become global.
-        seg_of = lambda a: next(n for n, s, e in segs if s <= a < e)  # noqa: E731
-        for a, insn in self.an.insns.items():
-            t = insn.target
-            if t is not None and t in self.labels and self.labels[t].startswith(".L") and seg_of(a) != seg_of(t):
-                self.labels[t] = "lbl_%08X" % t
-                globals_.add(t)
-
-        jt_entries = {}
+        self.ends = self._function_ends()
+        self.jt_entries = {}
+        self.spans = [(min(a, i.target), max(a, i.target)) for a, i in self.an.insns.items()
+                      if i.target is not None]
         for table, (size, targets, dispatch) in self.an.jump_tables.items():
             for i, t in enumerate(targets):
-                jt_entries[table + i * size] = (size, t, dispatch)
-
-        layout = {name: self._split_sections(start, end, ends, jt_entries) for name, start, end in segs}
+                self.jt_entries[table + i * size] = (size, t, dispatch)
+                self.spans.append((min(dispatch, t, table), max(dispatch, t, table + i * size)))
+        self._build_crossing_map()
+        self.runs = self._split_sections(self.vram, self.img.end)
         # Tables left in a text run after a function (switch tables, PC-relative
         # data) belong to that function, as they would in SHC's output.
-        starts = sorted(ends)
-        for runs in layout.values():
-            for kind, rs, re_ in runs:
-                if kind != "text":
-                    continue
-                inside = [f for f in starts if rs <= f < re_]
-                for i, f in enumerate(inside):
-                    ends[f] = inside[i + 1] if i + 1 < len(inside) else re_
+        starts = sorted(self.ends)
+        for kind, rs, re_ in self.runs:
+            if kind != "text":
+                continue
+            inside = [f for f in starts if rs <= f < re_]
+            for i, f in enumerate(inside):
+                self.ends[f] = inside[i + 1] if i + 1 < len(inside) else re_
         # A pointer to the end of a data table can land on the alignment halfword
-        # pulled into the next text run; keep it local so it isn't a "function".
-        for runs in layout.values():
-            for kind, rs, re_ in runs:
-                if kind == "text" and rs in self.labels and rs not in self.an.functions \
-                        and rs not in self.symbols and len(segs) == 1:
-                    self.labels[rs] = ".L%08X" % rs
-                    globals_.discard(rs)
-        self.sections = []
-        for name, start, end in segs:
-            path = os.path.join(self.out_dir, name + ".s")
-            with open(path, "w") as out:
-                out.write('\t.include "macro.inc"\n')
-                for inc in self.cfg.get("equates", []):
-                    out.write('\t.include "%s"\n' % os.path.basename(inc))
-                for kind, rs, re_ in layout[name]:
-                    sect = ".%s.%08X" % (kind, rs)
-                    self.sections.append((name, sect))
-                    flags = '"ax",@progbits' if kind == "text" else '"aw",@progbits'
-                    align = 2 if rs % 4 == 0 else (1 if rs % 2 == 0 else 0)
-                    out.write("\n\t.section %s,%s\n\t.p2align %d\n" % (sect, flags, align))
-                    self._emit_range(out, rs, re_, ends, globals_, jt_entries)
-        self._emit_linker_script(segs)
-        print("wrote %d segments, %d functions, %d labels to %s"
-              % (len(segs), len(self.an.functions), len(self.labels), self.out_dir))
+        # pulled into the next text run. Write it as table + size instead, so the
+        # halfword needs no symbol of its own (and isn't counted as a function).
+        self.end_alias = {}
+        code_targets = {i.target for i in self.an.insns.values() if i.target is not None}
+        code_targets.update(t for _, ts, d in self.an.jump_tables.values() for t in ts)
+        for i, (kind, rs, re_) in enumerate(self.runs):
+            if kind == "text" and i and self.runs[i - 1][0] == "data" and rs in self.labels \
+                    and rs not in self.an.functions and rs not in self.symbols and rs not in code_targets:
+                base = self.runs[i - 1][1]
+                self.label_for(base, data_ref=True)
+                self.end_alias[rs] = base
+                del self.labels[rs]
+                self.refs = {(at, t) for at, t in self.refs if t != rs}
 
-    def _split_sections(self, start, end, ends, jt_entries):
+    def _build_crossing_map(self):
+        """crossed[i] > 0 if a PC-relative reference spans halfword address vram+2i,
+        i.e. the image can't be cut into separate files there."""
+        n = (self.img.end - self.vram) // 2 + 2
+        diff = [0] * (n + 1)
+        for lo, hi in self.spans:
+            i, j = (lo + 2 - self.vram) // 2, (hi - self.vram) // 2
+            if i <= j:
+                diff[i] += 1
+                diff[j + 1] -= 1
+        self.crossed = []
+        acc = 0
+        for d in diff[:n]:
+            acc += d
+            self.crossed.append(acc)
+
+    def _can_cut(self, a):
+        """True if a new file can start at a: 4-aligned, no PC-relative reference
+        across it, not inside a function, string or jump-table entry."""
+        if a % 4 or not self.img.contains(a) or self.crossed[(a - self.vram) // 2]:
+            return False
+        if a in self.string_bytes and a not in self.strings:
+            return False
+        i = bisect.bisect_right(self.func_starts, a) - 1
+        if i >= 0 and self.func_starts[i] < a < self.ends[self.func_starts[i]]:
+            return False
+        return True
+
+    def _split_sections(self, start, end):
         """Split [start, end) into text and data runs. Data stays in text if it is
         inside a function's extent or reached PC-relatively (pools, mova tables),
         because GNU as can't resolve those displacements across sections. Text runs
         start 4-aligned so assemble-time `mov.l @(disp,pc)` math stays valid."""
         text = set()
-        for f, e in ends.items():
+        for f, e in self.ends.items():
             if start <= f < end:
                 text.update(range(f, e, 2))
         pcrel = set()
         for insn in self.an.insns.values():
             if insn.kind in ("pool_w", "pool_l", "mova"):
                 pcrel.add(insn.target & ~1)
-        pcrel.update(a & ~1 for a in jt_entries)
-        # No PC-relative displacement (branch, bsr, pool load, mova) may cross a section.
-        spans = [(min(a, i.target), max(a, i.target)) for a, i in self.an.insns.items()
-                 if i.target is not None]
+        pcrel.update(a & ~1 for a in self.jt_entries)
 
         runs = []
         a = start
@@ -369,7 +387,8 @@ class Splitter:
             a = b
         for r in runs:
             if r[0] == "data" and (r[2] - r[1] < 4 or any(x in pcrel for x in range(r[1], r[2], 2))
-                                   or any(lo < r[1] and hi >= r[2] for lo, hi in spans)):
+                                   or self.crossed[(r[1] - self.vram) // 2]
+                                   or self.crossed[(r[2] - 2 - self.vram) // 2 + 1]):
                 r[0] = "text"
         merged = []
         for r in runs:
@@ -388,7 +407,129 @@ class Splitter:
             if merged[i][2] % 4 == 2 and i + 1 < len(merged):
                 merged[i][2] -= 2
                 merged[i + 1][1] -= 2
-        return [tuple(r) for r in merged if r[2] > r[1]]
+        # A data run can shrink to nothing; rejoin the text runs around it.
+        out = []
+        for r in merged:
+            if r[2] <= r[1]:
+                continue
+            if out and out[-1][0] == r[0]:
+                out[-1][2] = r[2]
+            else:
+                out.append(r)
+        return [tuple(r) for r in out]
+
+    # ---- units ----------------------------------------------------------
+
+    def _category(self, addr):
+        cat = None
+        for c in sorted(self.cfg.get("category", []), key=lambda c: c["start"]):
+            if c["start"] <= addr:
+                cat = c["id"]
+        return cat or "main"
+
+    def _units(self):
+        """[(name, start, end)] from units.txt, or the whole image as one unit."""
+        path = os.path.join(self.cfg_dir, self.cfg.get("units", "units.txt"))
+        units = []
+        if os.path.exists(path):
+            for line in open(path):
+                line = line.split("//")[0].strip()
+                if line:
+                    addr, name = line.split()
+                    units.append((int(addr, 16), name))
+        if not units:
+            units = [(self.vram, self.name)]
+        units.sort()
+        if units[0][0] != self.vram:
+            sys.exit("the first unit must start at 0x%08X" % self.vram)
+        return [(n, a, units[i + 1][0] if i + 1 < len(units) else self.img.end)
+                for i, (a, n) in enumerate(units)]
+
+    def propose_units(self, target=0x1000):
+        """Write units.txt. Cuts go where a code run follows data (likely module
+        boundaries), at category starts, and then wherever a unit grows past
+        `target` bytes, at the next clean cut point."""
+        self.prepare()
+        self.func_starts = sorted(self.an.functions)
+        cands = set(f for f in self.func_starts if self._can_cut(f))
+        for kind, rs, re_ in self.runs:
+            if self._can_cut(rs):
+                cands.add(rs)
+            if kind == "data":
+                cands.update(a for a in range(rs + 0x100 - rs % 0x100, re_, 0x100) if self._can_cut(a))
+        cuts = {self.vram}
+        for i, (kind, rs, re_) in enumerate(self.runs):
+            if kind == "text" and i and self.runs[i - 1][0] == "data" and rs in cands:
+                cuts.add(rs)
+        for c in self.cfg.get("category", []):
+            if not self._can_cut(c["start"]):
+                sys.exit("category %s start 0x%08X is not a clean cut point" % (c["id"], c["start"]))
+            cuts.add(c["start"])
+        ordered = sorted(cands | cuts)
+        final = []
+        bounds = sorted(cuts) + [self.img.end]
+        for lo, hi in zip(bounds, bounds[1:]):
+            final.append(lo)
+            last = lo
+            for c in ordered:
+                if lo < c < hi and c - last >= target and hi - c >= target // 4:
+                    final.append(c)
+                    last = c
+        path = os.path.join(self.cfg_dir, self.cfg.get("units", "units.txt"))
+        with open(path, "w") as f:
+            f.write("// Translation units of %s: start address and name. Every start must be a\n"
+                    "// point no PC-relative reference crosses; split.py checks this.\n" % self.name)
+            for a in final:
+                f.write("0x%08X %s/%08X\n" % (a, self._category(a), a))
+        print("%d units in %s" % (len(final), path))
+
+    # ---- emission -------------------------------------------------------
+
+    def _src_path(self, unit):
+        for ext in (".s",):
+            p = os.path.join(ROOT, "src", unit + ext)
+            if os.path.exists(p):
+                return p
+        return None
+
+    def emit(self):
+        self.prepare()
+        self.func_starts = sorted(self.an.functions)
+        units = self._units()
+        for name, start, end in units[1:]:
+            if not self._can_cut(start):
+                sys.exit("unit %s starts at 0x%08X, which is not a clean cut point" % (name, start))
+        starts = [u[1] for u in units]
+        unit_of = lambda a: bisect.bisect_right(starts, a) - 1  # noqa: E731
+
+        # A local label referenced from another unit must become global.
+        for at, target in self.refs:
+            if at is not None and unit_of(at) != unit_of(target) and self.labels.get(target, "").startswith(".L"):
+                self.labels[target] = "lbl_%08X" % target
+        globals_ = {a for a, n in self.labels.items() if not n.startswith(".L")}
+
+        self.unit_objs = []
+        for name, start, end in units:
+            path = os.path.join(self.out_dir, name + ".s")
+            out = io.StringIO()
+            out.write('\t.include "macro.inc"\n')
+            for inc in self.cfg.get("equates", []):
+                out.write('\t.include "%s"\n' % os.path.basename(inc))
+            for kind, rs, re_ in self.runs:
+                rs, re_ = max(rs, start), min(re_, end)
+                if rs >= re_:
+                    continue
+                flags = '"ax",@progbits' if kind == "text" else '"aw",@progbits'
+                align = 2 if rs % 4 == 0 else (1 if rs % 2 == 0 else 0)
+                out.write("\n\t.section .%s.%08X,%s\n\t.p2align %d\n" % (kind, rs, flags, align))
+                self._emit_range(out, rs, re_, self.ends, globals_, self.jt_entries)
+            write_if_changed(path, out.getvalue())
+            src = self._src_path(name)
+            self.unit_objs.append((name, start, "src" if src else "asm"))
+        self._emit_linker_script()
+        self._emit_build_files()
+        print("wrote %d units, %d functions, %d labels to %s"
+              % (len(units), len(self.an.functions), len(self.labels), self.out_dir))
 
     def _emit_label(self, out, addr, globals_, ends):
         name = self.labels.get(addr)
@@ -475,22 +616,52 @@ class Splitter:
     def _label_within(self, lo, hi):
         return any(x in self.labels for x in range(lo, hi))
 
-    def _emit_linker_script(self, segs):
+    def _emit_linker_script(self):
         path = os.path.join(ROOT, "build", self.region, self.name + ".ld")
         with open(path, "w") as ld:
             ld.write("ENTRY(_start)\n")
             for v in sorted(self.externs):
                 ld.write("%s = 0x%08X;\n" % (self.externs[v], v))
             ld.write("SECTIONS\n{\n\t. = 0x%08X;\n\t.text : {\n" % self.vram)
-            for name, sect in self.sections:
-                ld.write("\t\tbuild/%s/asm/%s.o(%s)\n" % (self.region, name, sect))
+            # One pattern list per object keeps its sections in file (address) order.
+            for name, _, kind in self.unit_objs:
+                ld.write("\t\tbuild/%s/%s/%s.o(.text.* .data.*)\n" % (self.region, kind, name))
             ld.write("\t}\n\t/DISCARD/ : { *(*) }\n}\n")
+
+    def _emit_build_files(self):
+        """build/<region>/units.mk for make, and objdiff.json at the repo root."""
+        with open(os.path.join(ROOT, "build", self.region, "units.mk"), "w") as mk:
+            mk.write("UNITS := %s\n" % " ".join(n for n, _, _ in self.unit_objs))
+            mk.write("SRC_UNITS := %s\n" % " ".join(n for n, _, k in self.unit_objs if k == "src"))
+        cats = self.cfg.get("category", [])
+        units = []
+        for name, start, kind in self.unit_objs:
+            unit = {"name": name, "target_path": "build/%s/asm/%s.o" % (self.region, name)}
+            meta = {"complete": kind == "src", "progress_categories": [self._category(start)]}
+            if kind == "src":
+                unit["base_path"] = "build/%s/src/%s.o" % (self.region, name)
+                meta["source_path"] = os.path.relpath(self._src_path(name), ROOT)
+            unit["metadata"] = meta
+            units.append(unit)
+        project = {
+            "$schema": "https://raw.githubusercontent.com/encounter/objdiff/main/config.schema.json",
+            "custom_make": "make",
+            "build_target": False,
+            "build_base": True,
+            "watch_patterns": ["*.c", "*.h", "*.s", "*.inc"],
+            "progress_categories": [{"id": c["id"], "name": c["name"]} for c in cats],
+            "units": units,
+        }
+        with open(os.path.join(ROOT, "objdiff.json"), "w") as f:
+            json.dump(project, f, indent=2)
+            f.write("\n")
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("config")
     ap.add_argument("--discover", action="store_true", help="regenerate the function list")
+    ap.add_argument("--units", action="store_true", help="propose unit boundaries in units.txt")
     ap.add_argument("--ghidra", default=os.path.join(ROOT, "build", "functions.csv"),
                     help="extra function starts exported by tools/ghidra/ExportFunctions.java")
     args = ap.parse_args()
@@ -499,6 +670,9 @@ def main():
         sp.discover(args.ghidra)
         return
     sp.analyze()
+    if args.units:
+        sp.propose_units()
+        return
     sp.emit()
 
 
