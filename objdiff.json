@@ -2003,13 +2003,63 @@
       }
     },
     {
-      "name": "sbl/060680CC",
-      "target_path": "build/usa/asm/sbl/060680CC.o",
+      "name": "sbl/cdc_play",
+      "target_path": "build/usa/asm/sbl/cdc_play.o",
+      "base_path": "build/usa/src/sbl/cdc_play.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/cdc_play.c"
+      }
+    },
+    {
+      "name": "sbl/cdc_reg",
+      "target_path": "build/usa/asm/sbl/cdc_reg.o",
+      "base_path": "build/usa/src/sbl/cdc_reg.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/cdc_reg.c"
+      }
+    },
+    {
+      "name": "sbl/csh",
+      "target_path": "build/usa/asm/sbl/csh.o",
+      "base_path": "build/usa/src/sbl/csh.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/csh.c"
+      }
+    },
+    {
+      "name": "sbl/dma_cpu",
+      "target_path": "build/usa/asm/sbl/dma_cpu.o",
+      "base_path": "build/usa/src/sbl/dma_cpu.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/dma_cpu.c"
+      }
+    },
+    {
+      "name": "sbl/stm_grp",
+      "target_path": "build/usa/asm/sbl/stm_grp.o",
+      "base_path": "build/usa/src/sbl/stm_grp.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/stm_grp.c"
       }
     },
     {

@@ -1,5 +1,5 @@
 #include "sbl/types.h"
-#include "sbl/stm.h"
+#include "sbl/stm_api.h"
 
 /*
  * STM (stream) API calls. None of them is called by the game.

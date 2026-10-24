@@ -1,0 +1,8 @@
+// sbl/dma_cpu: SH-2 on-chip DMA controller
+DMA_CpuSetComPrm = 0x060684BC; // type:func
+DMA_CpuSetPrm = 0x06068504; // type:func
+DMA_CpuStart = 0x060685E2; // type:func
+DMA_CpuStop = 0x060685F4; // type:func
+DMA_CpuAllStop = 0x06068606; // type:func
+DMA_CpuGetComStatus = 0x06068612; // type:func
+DMA_CpuGetStatus = 0x06068624; // type:func

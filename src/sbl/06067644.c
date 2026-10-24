@@ -1,5 +1,5 @@
 #include "sbl/types.h"
-#include "sbl/stm.h"
+#include "sbl/stm_api.h"
 
 extern void func_060685F4(Sint32 ch);
 extern void func_060684BC(DmaCpuComPrm *prm);

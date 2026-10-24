@@ -3,34 +3,47 @@
 
 #include "sbl/types.h"
 
-/* Layouts as far as sbl/06067644, sbl/060676D4 and sbl/0606772C use them. */
+/* Stream system (STM) work area, as far as sbl/stm_grp uses it. */
 
-/* SBL DMA_Cpu parameter blocks (field order from func_060684BC/func_06068504). */
+#define STM_FAD_START   150             /* first FAD of the disc */
+#define STM_INFINITE    0x7FFFFFFF
+
+/* STM error codes */
+#define STM_ERR_CDRD    (-1)
+#define STM_ERR_CDOPEN  (-2)
+#define STM_ERR_HANDLE  (-11)
+#define STM_ERR_RANGE   (-14)
+#define STM_ERR_RMODE   (-17)
+#define STM_ERR_NOHNDL  (-19)
+#define STM_ERR_FATAL   (-22)
+#define STM_ERR_CDNODISC (-23)
+#define STM_ERR_TMOUT   (-25)
+
+/* GFS file handle (opaque here; owned by the GFS library). */
 typedef struct {
-    Uint32 pr;
-    Uint32 dme;
-    Uint32 msk;
-} DmaCpuComPrm;
+    Sint32 unk00;
+    Sint32 unk04;
+    Sint32 unk08;
+    Uint8  pad0C[0x6C - 0x0C];
+    Sint32 tr;                          /* 0x6C */
+    Uint8  pad70[0xA0 - 0x70];
+    Sint32 unkA0;                       /* 0xA0 */
+} StmGfs;
 
+/* The part of a GFS handle at +0x0C that a stream keeps a pointer to. */
 typedef struct {
-    Uint32 sar;
-    Uint32 dar;
-    Uint32 tcr;
-    Uint32 dm;
-    Uint32 sm;
-    Uint32 ts;
-    Uint32 ar;
-    Uint32 ie;
-    Uint32 drcr;
-    Uint32 msk;
-} DmaCpuPrm;
+    Sint32 unk00;
+    Sint32 unk04;
+    Uint8  pad08[0x14 - 0x08];
+    Sint32 unk14;
+    Sint32 unk18;
+    Sint32 unk1C;                       /* nonzero: not read from the CD block */
+    Sint32 unk20;
+    Uint8  pad24[0x28 - 0x24];
+    Sint32 unk28;
+} StmKey;
 
-typedef struct {
-    Uint32 ae;
-    Uint32 nmif;
-} DmaCpuComStatus;
-
-/* Subheader key; -1 (STM_KEY_NONE) where a field is not used. */
+/* Selection key given to STM_OpenFid etc.: -1 means "don't care". */
 typedef struct {
     Sint16 fn;
     Sint16 cn;
@@ -38,73 +51,86 @@ typedef struct {
     Sint16 smval;
     Sint16 cimsk;
     Sint16 cival;
-} StmKey;
+} StmSelKey;
 
-typedef void (*StmErrFunc)(void *obj, Sint32 code);
+typedef struct {
+    Uint8 fn;
+    Uint8 cn;
+    Uint8 smmsk;
+    Uint8 smval;
+    Uint8 cimsk;
+    Uint8 cival;
+} StmSubh;
+
+/* Directory record of a file (GFS_GetDirInfo) */
+typedef struct {
+    Sint32 fad;
+    Sint32 size;
+    Uint8  unit;
+    Uint8  gap;
+    Uint8  fn;
+    Uint8  atr;
+} StmFinfo;
+
+typedef struct {
+    Sint32 fad;
+    Sint32 nsct;
+} StmFrange;
+
+typedef struct StmGrp StmGrp;
+typedef struct Stm Stm;
+
+struct Stm {
+    StmGrp *grp;                        /* 0x00 */
+    Stm    *stm;                        /* 0x04: the stream a handle stands for */
+    Stm    *next;                       /* 0x08: next in grp->head */
+    Stm    *next2;                      /* 0x0C: next in grp->head2 */
+    StmGfs *gfs;                        /* 0x10 */
+    StmKey *key;                        /* 0x14 */
+    Sint32 unk18;
+    Sint32 unk1C;
+    Uint8  pad20[0x28 - 0x20];
+    Sint32 unk28;                       /* 0x28 */
+    Uint8  flags;                       /* 0x2C */
+    Uint8  used;                        /* 0x2D */
+};
+
+struct StmGrp {
+    Stm    *head;                       /* 0x00: streams sorted by start FAD */
+    Stm    *head2;                      /* 0x04: streams read from the CD block */
+    Stm    *loop;                       /* 0x08 */
+    Stm    *unk0C;                      /* 0x0C */
+    Stm    *cur;                        /* 0x10 */
+    Sint32 fad;                         /* 0x14 */
+    Sint32 stat;                        /* 0x18 */
+    Sint32 unk1C;
+    Sint32 unk20;
+    void   (*func)(void *obj);          /* 0x24 */
+    void   *obj;                        /* 0x28 */
+    Sint32 lpmax;                       /* 0x2C */
+    Sint32 lpcnt;                       /* 0x30 */
+    Sint32 unk34;                       /* 0x34: negative when unset */
+    Uint16 flags;                       /* 0x38 */
+    Uint8  used;                        /* 0x3A */
+};
 
 typedef struct {
     Sint32 code;
-    Sint32 func_id;     /* id of the STM call that was running, set on entry */
-    StmErrFunc func;
-    void *obj;
+    Sint32 fid;                         /* ID of the function that raised it */
+    void   (*func)(void *obj, Sint32 code);
+    void   *obj;
 } StmErrStat;
 
-/* A stream's CD block side. */
 typedef struct {
-    Uint8 unk00[28];
-    Sint32 unk1C;       /* nonzero: stream is read from memory, not from a filter */
-    Sint32 filt;        /* filter number; 0xFF = not connected */
-    Uint8 unk24[4];
-    Sint32 unk28;
-} StmCdc;
-
-/* A stream's transfer side. */
-typedef struct {
-    Uint8 unk00[108];
-    Uint8 unk6C[52];
-    Sint32 unkA0;
-} StmTrn;
-
-typedef struct Stm {
-    struct StmGrp *grp;
-    struct Stm *alt;    /* stream actually used by the calls below (itself by default) */
-    struct Stm *next;   /* next stream of the group */
-    Uint8 unk0C[4];
-    StmTrn *trn;
-    StmCdc *cdc;
-    Uint8 unk18[4];
-    struct Stm *link;
-    Sint32 link_cnt;
-    void *link_func;
-    void *link_obj;
-    Uint8 flag;
-    Uint8 used;
-    Uint8 unk2E[2];
-} Stm;
-
-typedef struct StmGrp {
-    Stm *head;
-    Uint8 unk04[16];
-    Sint32 fad;
-    Sint32 unk18;
-    Uint8 unk1C[20];
-    Sint32 loop_cnt;
-    Uint8 unk34[4];
-    Uint16 flag;
-} StmGrp;
-
-typedef struct {
-    Uint8 unk00[8];
-    Stm *stm;           /* stream table */
+    StmGrp *grp;                        /* 0x00 */
+    Sint32 ngrp;
+    Stm    *stm;                        /* 0x08 */
     Sint32 nstm;
-    StmGrp *exec_grp;
-    Uint8 unk14[8];
-    StmErrStat err;
-} StmMngr;
-
-/* Error codes passed to func_060693C2 (descriptive names). */
-#define STM_ERR_NULL    (-11)
-#define STM_ERR_RANGE   (-14)
-#define STM_ERR_MODE    (-17)
+    StmGrp *curgrp;                     /* 0x10 */
+    Sint32 unk14;
+    Sint32 unk18;
+    StmErrStat err;                     /* 0x1C */
+    Sint32 busy;                        /* 0x2C */
+} StmMng;
 
 #endif

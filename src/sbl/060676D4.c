@@ -1,5 +1,5 @@
 #include "sbl/types.h"
-#include "sbl/stm.h"
+#include "sbl/stm_api.h"
 
 extern void func_06068612(DmaCpuComStatus *st);
 extern Sint32 func_06068624(Sint32 ch);
