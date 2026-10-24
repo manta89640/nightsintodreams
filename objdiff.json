@@ -2115,7 +2115,7 @@
       "target_path": "build/usa/asm/sbl/gfs_acc.o",
       "base_path": "build/usa/src/sbl/gfs_acc.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
           "sbl"
         ],
@@ -2211,7 +2211,7 @@
       "target_path": "build/usa/asm/sbl/cdc_con.o",
       "base_path": "build/usa/src/sbl/cdc_con.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
           "sbl"
         ],
@@ -2247,7 +2247,7 @@
       "target_path": "build/usa/asm/sbl/cdc_sct.o",
       "base_path": "build/usa/src/sbl/cdc_sct.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
           "sbl"
         ],

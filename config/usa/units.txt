@@ -206,7 +206,7 @@
 0x0606A748 sbl/stm_cdplay
 0x0606A89C sbl/stm_cdsct
 0x0606AB44 sbl/gfs
-0x0606C318 sbl/gfs_acc
+0x0606C318 sbl/gfs_acc complete
 0x0606C3C0 sbl/gfs_trn
 0x0606CC64 sbl/gfs_flow
 0x0606D4B4 sbl/0606D4B4
@@ -214,10 +214,10 @@
 0x0606F1E0 sbl/0606F1E0
 0x0606F348 sbl/cdc_init
 0x0606F478 sbl/cdc_data
-0x0606F518 sbl/cdc_con
+0x0606F518 sbl/cdc_con complete
 0x0606F5BC sbl/cdc_filt
 0x0606F7F0 sbl/cdc_buf
-0x0606F9F4 sbl/cdc_sct
+0x0606F9F4 sbl/cdc_sct complete
 0x0606FB80 sbl/cdc_file
 0x0606FCD8 sbl/cdc_exec
 0x0606FDD0 sbl/dma_scu
