@@ -16,14 +16,15 @@ committed.
 | Release | Nights into Dreams... (USA, Brazil) |
 | Product | MK-81020 V1.000, mastered 1996-06-19 (internal tag `PREFINAL 13,JUN.1996`) |
 | Main program | `0NIGHTS`, loaded and started at `0x06004000` |
-| Compiler | Hitachi SHC (see [docs/disc-layout.md](docs/disc-layout.md#compiler)) |
+| Source | Game code is hand-written SH-2 assembly; the SBL library is C built with Hitachi SHC (see [docs/disc-layout.md](docs/disc-layout.md#how-the-program-was-built)) |
 | Libraries | SBL 2.10 (`STM_SBL` / `GFS_SBL Version 2.10 1996-02-01`) |
 | Track 01 SHA-1 | `06c9913005cf5c7c1b5335f6317f26546c19f800` |
 
 ## Setup
 
 Requirements: Python 3.11+, make, a C compiler (to build binutils), curl and jq.
-Ghidra 11+ is optional.
+Ghidra 11+ is optional. Matching library C needs your own copy of Hitachi SHC 5.0 in
+`compile/` (ignored by git) and wine.
 
 ```sh
 make toolchain   # builds sh-elf binutils 2.47 and downloads objdiff-cli into toolchain/

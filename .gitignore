@@ -27,3 +27,6 @@ __pycache__/
 
 # Locally built toolchains
 /toolchain/
+
+# Proprietary Hitachi SHC toolchain (supplied locally, never committed)
+/compile/

@@ -16,9 +16,11 @@
 - [ ] Identify the SBL 2.10 library functions (GFS, STM, SPR, SCL, PER, DMA, INT) so they can be
       named and skipped. If you have the SBL library objects, Ghidra FunctionID signatures
       do most of this automatically.
-- [x] Identify the compiler: Hitachi SHC (evidence in disc-layout.md). Next, pin down the
-      exact version and flags, and work out how to run it (it's a DOS/Windows tool, so
-      probably under wine).
+- [x] Work out how the program was built: the game code is hand-written assembly, and
+      the SBL library is SHC C. SHC 5.0 runs under wine, and `-optimize=1 -rtnext` already
+      matches 3 of the 4 library functions tried.
+- [ ] Build pipeline for library C: SHC `-code=asmcode` → translate to GNU as → `sh-elf-as`
+      → ELF base objects for objdiff. `elfcnv` only converts linked objects, not relocatable ones.
 - [ ] Split `0NIGHTS` into units that match the original object files. The data islands
       between code runs are likely object boundaries.
 - [ ] Load and split the `PRG*`/`PCOM`/`MCOM`/`RD*` overlays at their load addresses
@@ -29,12 +31,13 @@
 
 ## Phase 2: Decompilation
 
-Each function becomes C that is behaviorally identical to the original, with the
-Saturn-specific calls routed through a thin platform layer (`platform/`).
-
-- A matching build (C that recompiles to byte-identical code) is the gold standard, but
-  only if Phase 1 turns up a compiler we can actually get and run. It isn't required for
-  the port.
+- **Library (SHC C):** a matching decomp with objdiff, function by function.
+- **Game (hand-written asm):** the source is the labelled, documented disassembly, so it
+  always matches. Progress here means naming symbols, splitting the files to match the
+  original modules, and documenting behavior.
+- **For the port:** game logic rewritten in C that behaves identically (not
+  byte-matching), with the Saturn-specific calls routed through a thin platform layer
+  (`platform/`).
 - The round trip (split `0NIGHTS`, rebuild with sh-elf binutils, same SHA-1) already works
   for the main program. It's the regression check for every C function that replaces asm.
 

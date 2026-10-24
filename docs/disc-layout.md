@@ -56,20 +56,43 @@ PSO). `tools/prs.py` decompresses all of them without errors.
   it calls `SYS_SETUINT(0x40/0x41, handler)` to install the VBlank-IN/OUT handlers.
 - A hidden name-entry list contains `SONIC`, `MILES`, `KNUCKLES`, `AMY` and `FANG`.
 
-### Compiler
+### How the program was built
 
-The code was built with **Hitachi SHC**, not GCC:
+**The game code (`0x06004000`–`0x06066000`) is hand-written SH-2 assembly.** About 1,340
+functions break the SHC/C calling convention in ways a compiler wouldn't:
 
-- Callee-saved registers are pushed in descending order (`r14` down to `r8`).
-- Prologues often save `MACL`/`MACH` (`sts.l macl,@-r15`). GCC's SH ABI treats MAC as
-  call-clobbered and never saves it.
-- Frame pointers are rare: 41 `mov r15,r14` in roughly 1,350 non-leaf functions.
-- `switch` statements are compiled as compare chains. There's only one
-  `mova`/`mov.w`/`braf` jump table.
+| | Game code | Library code |
+|---|---|---|
+| Functions that read `r0`–`r3` as inputs | 44% | 4% |
+| Functions that address globals through GBR | 23% | 0% |
+| Functions that read `r8`–`r14` without saving them | 11% | 1% |
 
-A byte-matching C build will therefore need the SHC version Sonic Team used.
-`PRG1P` has no callee-saved register pushes at all, so it may have been built
-differently (another compiler version, or hand-written code).
+Other telltale signs in the game code:
+- object pointers are passed implicitly in `r1`/`r12`
+- `sts.l pr` appears in the middle of functions
+- scratch registers are saved and restored
+- helpers like `func_0600D0D0` take their inputs in `r2`/`r3`
+
+**The library block (`0x06066000`–`0x06070C48`) is SHC-compiled C**, which fits SBL 2.10.
+It has standard prologues (callee-saved registers pushed `r14` down to `r8`, `MACL` saved)
+and calls through `r2`/`r3`.
+
+Matching with Hitachi SHC 5.0 (Release 31), using `-cpu=sh2 -optimize=1 -rtnext`:
+
+| Function | Result |
+|---|---|
+| `func_060704CC`, `func_060704DE` (struct table byte getters) | exact match |
+| `func_06068612` (reads `SH2_DMAOR` into a 2-word struct) | exact match |
+| `func_060685E2` (sets bit 0 of a DMA channel's CHCR) | one instruction-order swap |
+
+What this means:
+- The library can be matched as C with SHC.
+- The game code's "source" is assembly. Its decomp is the labelled, commented
+  disassembly; matching is automatic, and the work is naming and documenting.
+- The 3DS port will need the game logic rewritten as C (non-matching, behavior-checked)
+  or translated from SH-2.
+
+`PRG1P` has no callee-saved register pushes at all, so the overlays are probably assembly too.
 
 ## Overlays (decompressed PRS)
 
