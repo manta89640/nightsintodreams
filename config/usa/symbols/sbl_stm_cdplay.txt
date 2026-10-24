@@ -1,0 +1,5 @@
+// sbl/stm_cdplay: CD play helpers of the stream library (descriptive names)
+stm_GetCurFad = 0x0606A748; // type:func
+stm_GetFadRange = 0x0606A768; // type:func
+stm_CdPlayObj = 0x0606A7B8; // type:func
+stm_CdPause = 0x0606A83A; // type:func
