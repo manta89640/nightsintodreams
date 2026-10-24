@@ -88,6 +88,12 @@ class Splitter:
         self.cfg_dir = base
         self.symbols_path = os.path.join(base, cfg["symbols"])
         self.symbols = load_symbols(self.symbols_path)
+        # symbols/<anything>.txt override symbols.txt, so units can be named in parallel.
+        sym_dir = os.path.join(base, "symbols")
+        if os.path.isdir(sym_dir):
+            for f in sorted(os.listdir(sym_dir)):
+                if f.endswith(".txt"):
+                    self.symbols.update(load_symbols(os.path.join(sym_dir, f)))
         self.equates, self.regions = {}, []
         for inc in cfg.get("equates", []):
             names, regions = load_equates(os.path.join(ROOT, inc))
@@ -435,15 +441,16 @@ class Splitter:
             for line in open(path):
                 line = line.split("//")[0].strip()
                 if line:
-                    addr, name = line.split()
-                    units.append((int(addr, 16), name))
+                    addr, name, *flags = line.split()
+                    units.append((int(addr, 16), name, set(flags)))
         if not units:
-            units = [(self.vram, self.name)]
+            units = [(self.vram, self.name, set())]
         units.sort()
         if units[0][0] != self.vram:
             sys.exit("the first unit must start at 0x%08X" % self.vram)
+        self.unit_flags = {n: f for _, n, f in units}
         return [(n, a, units[i + 1][0] if i + 1 < len(units) else self.img.end)
-                for i, (a, n) in enumerate(units)]
+                for i, (a, n, _) in enumerate(units)]
 
     def propose_units(self, target=0x1000):
         """Write units.txt. Cuts go where a code run follows data (likely module
@@ -486,7 +493,7 @@ class Splitter:
     # ---- emission -------------------------------------------------------
 
     def _src_path(self, unit):
-        for ext in (".s",):
+        for ext in (".s", ".c"):
             p = os.path.join(ROOT, "src", unit + ext)
             if os.path.exists(p):
                 return p
@@ -525,7 +532,9 @@ class Splitter:
                 self._emit_range(out, rs, re_, self.ends, globals_, self.jt_entries)
             write_if_changed(path, out.getvalue())
             src = self._src_path(name)
-            self.unit_objs.append((name, start, "src" if src else "asm"))
+            # Hand-maintained asm is always linked; C only once the unit is marked complete.
+            complete = bool(src) and (src.endswith(".s") or "complete" in self.unit_flags.get(name, ()))
+            self.unit_objs.append((name, start, src, complete))
         self._emit_linker_script()
         self._emit_build_files()
         print("wrote %d units, %d functions, %d labels to %s"
@@ -624,23 +633,25 @@ class Splitter:
                 ld.write("%s = 0x%08X;\n" % (self.externs[v], v))
             ld.write("SECTIONS\n{\n\t. = 0x%08X;\n\t.text : {\n" % self.vram)
             # One pattern list per object keeps its sections in file (address) order.
-            for name, _, kind in self.unit_objs:
+            for name, _, src, complete in self.unit_objs:
+                kind = "src" if complete else "asm"
                 ld.write("\t\tbuild/%s/%s/%s.o(.text.* .data.*)\n" % (self.region, kind, name))
             ld.write("\t}\n\t/DISCARD/ : { *(*) }\n}\n")
 
     def _emit_build_files(self):
         """build/<region>/units.mk for make, and objdiff.json at the repo root."""
         with open(os.path.join(ROOT, "build", self.region, "units.mk"), "w") as mk:
-            mk.write("UNITS := %s\n" % " ".join(n for n, _, _ in self.unit_objs))
-            mk.write("SRC_UNITS := %s\n" % " ".join(n for n, _, k in self.unit_objs if k == "src"))
+            mk.write("UNITS := %s\n" % " ".join(n for n, _, _, _ in self.unit_objs))
+            mk.write("SRC_UNITS := %s\n" % " ".join(n for n, _, src, _ in self.unit_objs if src))
+            mk.write("LINKED_UNITS := %s\n" % " ".join(n for n, _, _, c in self.unit_objs if c))
         cats = self.cfg.get("category", [])
         units = []
-        for name, start, kind in self.unit_objs:
+        for name, start, src, complete in self.unit_objs:
             unit = {"name": name, "target_path": "build/%s/asm/%s.o" % (self.region, name)}
-            meta = {"complete": kind == "src", "progress_categories": [self._category(start)]}
-            if kind == "src":
+            meta = {"complete": complete, "progress_categories": [self._category(start)]}
+            if src:
                 unit["base_path"] = "build/%s/src/%s.o" % (self.region, name)
-                meta["source_path"] = os.path.relpath(self._src_path(name), ROOT)
+                meta["source_path"] = os.path.relpath(src, ROOT)
             unit["metadata"] = meta
             units.append(unit)
         project = {

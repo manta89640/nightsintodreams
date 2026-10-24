@@ -49,7 +49,7 @@ $(OBJDIFF):
 
 # Regenerate assembly from the dump. The output is derived from the game and stays in
 # build/; units that have been reviewed live in src/ and are linked in their place.
-SRC_FILES := $(shell find src -name '*.s' 2>/dev/null | sort)
+SRC_FILES := $(shell find src -name '*.s' -o -name '*.c' 2>/dev/null | sort)
 # Adding or removing a src/ file changes which object is linked, so force a re-split.
 # (Deleting the outputs rather than comparing mtimes: make 3.81 has 1 s resolution.)
 SRC_LIST  := $(BUILD)/src_files.txt
@@ -58,7 +58,9 @@ $(shell mkdir -p $(BUILD); echo "$(SRC_FILES)" | cmp -s - $(SRC_LIST) || \
 
 split: $(BUILD)/$(MAIN).ld
 
-$(BUILD)/$(MAIN).ld $(BUILD)/units.mk: $(MAIN_CFG) config/$(REGION)/symbols.txt config/$(REGION)/units.txt \
+SYMBOL_FILES := config/$(REGION)/symbols.txt $(wildcard config/$(REGION)/symbols/*.txt)
+
+$(BUILD)/$(MAIN).ld $(BUILD)/units.mk: $(MAIN_CFG) $(SYMBOL_FILES) config/$(REGION)/units.txt \
 		include/saturn.inc tools/split.py tools/sh2analyze.py tools/sh2dis.py $(SRC_LIST)
 	$(PYTHON) tools/split.py $(MAIN_CFG)
 
@@ -66,7 +68,9 @@ $(BUILD)/$(MAIN).ld $(BUILD)/units.mk: $(MAIN_CFG) config/$(REGION)/symbols.txt 
 
 TARGET_OBJS := $(UNITS:%=$(BUILD)/asm/%.o)
 BASE_OBJS   := $(SRC_UNITS:%=$(BUILD)/src/%.o)
-LINK_OBJS   := $(foreach u,$(UNITS),$(if $(filter $(u),$(SRC_UNITS)),$(BUILD)/src/$(u).o,$(BUILD)/asm/$(u).o))
+# A C unit is only linked once units.txt marks it complete; until then it is just
+# the objdiff base for the functions written so far.
+LINK_OBJS   := $(foreach u,$(UNITS),$(if $(filter $(u),$(LINKED_UNITS)),$(BUILD)/src/$(u).o,$(BUILD)/asm/$(u).o))
 
 $(BUILD)/asm/%.s: $(BUILD)/$(MAIN).ld ;
 
@@ -75,6 +79,15 @@ $(BUILD)/asm/%.o: $(BUILD)/asm/%.s include/macro.inc | $(AS)
 
 $(BUILD)/src/%.o: src/%.s include/macro.inc include/saturn.inc | $(AS)
 	@mkdir -p $(dir $@)
+	$(AS) $(ASFLAGS) -o $@ $<
+
+# C goes through Hitachi SHC (under wine) and tools/shc2gas.py.
+C_HEADERS := $(shell find include -name '*.h' 2>/dev/null)
+
+$(BUILD)/src/%.s: src/%.c $(C_HEADERS) tools/shc.py tools/shc2gas.py
+	$(PYTHON) tools/shc.py cc $< $@
+
+$(BUILD)/src/%.o: $(BUILD)/src/%.s | $(AS)
 	$(AS) $(ASFLAGS) -o $@ $<
 
 $(BUILD)/$(MAIN).elf: $(BUILD)/$(MAIN).ld $(LINK_OBJS)
@@ -89,6 +102,7 @@ check: $(BUILD)/$(MAIN)
 
 test: | $(AS)
 	$(PYTHON) tests/test_sh2dis.py
+	$(PYTHON) tests/test_shc2gas.py
 
 # objdiff progress report, and upload to bytematch.dev. The game can't be built in
 # public CI, so reports are uploaded from a machine with a dump. Needs BYTEMATCH_TOKEN

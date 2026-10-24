@@ -82,7 +82,22 @@ To claim a unit:
 3. Comment the parts that are hard to follow, and nothing else.
 4. Run `make check`, then `make report` (the unit should show 100%). Commit and `make upload`.
 
-For SBL units, the source will be C compiled with SHC once that pipeline is in place.
+### SBL units (C)
+
+SBL units are written in C under `src/sbl/` and compiled with Hitachi SHC 5.0
+(`-cpu=sh2 -optimize=1 -rtnext`; a file can add flags with a first-line
+`/* shc-flags: ... */` comment). `tools/shc.py` runs SHC under wine, and
+`tools/shc2gas.py` turns its assembly into GNU as source. `make test` checks that
+translation against Hitachi's own linker, byte for byte.
+
+- `python3 tools/fncmp.py sbl/<unit>` lists which functions match. Add a function
+  name for an instruction-by-instruction diff.
+- SHC pools constants per source file, so a C file has to contain the same
+  functions, in the same order, as the original object.
+- A C unit counts on objdiff function by function. It is only linked into the
+  rebuilt program once `units.txt` marks it `complete`.
+- Name functions and data in `config/usa/symbols/<unit>.txt`, with one file per unit
+  so units can be worked on in parallel.
 
 ## Layout
 
