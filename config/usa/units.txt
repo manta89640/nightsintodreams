@@ -169,9 +169,22 @@
 0x0604FF00 game/0604FF00
 0x06050674 game/06050674
 0x060506B0 game/060506B0
-0x06050968 game/06050968
-0x06050A5C game/06050A5C
-0x06051140 game/06051140
+0x060506E0 shclib/divlu
+0x06050788 shclib/modls
+0x06050850 shclib/memmove
+0x06050894 shclib/strcpy complete
+0x060508A8 shclib/divlspnm
+0x060508C4 shclib/quick_mvn
+0x06050968 shclib/slow_mvn
+0x060509A0 shclib/slow_strcpy
+0x060509F0 shclib/memcmp
+0x06050A24 shclib/memset complete
+0x06050A3C shclib/modlspnm
+0x06050A58 shclib/quick_strcpy
+0x06050AC0 shclib/strncmp
+0x06050B00 shclib/strncpy
+0x06050B34 sbl/int_scu_entry
+0x06051154 game/06051154
 0x06052200 game/06052200
 0x06053200 game/06053200
 0x06054200 game/06054200
