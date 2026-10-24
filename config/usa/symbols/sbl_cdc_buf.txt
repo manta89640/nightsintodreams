@@ -1,0 +1,8 @@
+CDC_GetBufSiz = 0x0606F7F0; // type:func
+CDC_GetSctNum = 0x0606F83E; // type:func
+CDC_CalActSiz = 0x0606F882; // type:func
+CDC_GetActSiz = 0x0606F8B0; // type:func
+cdc_ExecAfterEsel = 0x0606F8E4; // type:func
+CDC_GetSctInfo = 0x0606F914; // type:func
+CDC_ExeFadSearch = 0x0606F96E; // type:func
+CDC_GetFadSearch = 0x0606F99A; // type:func

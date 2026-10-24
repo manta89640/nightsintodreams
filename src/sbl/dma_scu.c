@@ -1,6 +1,7 @@
 #include <machine.h>
 #include "sbl/types.h"
 #include "sbl/dma_scu.h"
+#include "sbl/int.h"
 
 /* SCU DMA registers of level ch (0x20 apart). */
 #define SCU_DMA_BASE 0x25FE0000
@@ -20,11 +21,7 @@
 #define VEC_DMA1 0x4A
 #define VEC_DMA2 0x49
 
-/* SCU interrupt function table (sbl/06070C28). */
-void INT_SetScuFunc(Uint32 vec, void *func);
-void *INT_GetScuFunc(Uint32 vec);
-
-extern void *dma_scu_save_func[3];   /* SCU table entries replaced while a DMA runs */
+extern void (*dma_scu_save_func[3])(void);  /* SCU table entries replaced while a DMA runs */
 extern void *dma_scu_save_sint[3];   /* vector handlers replaced while a DMA runs */
 extern volatile Uint8 dma_scu_busy[3];
 
@@ -32,6 +29,8 @@ void dma_ScuEnd0(void);
 void dma_ScuEnd1(void);
 void dma_ScuEnd2(void);
 
+/* NONMATCHING: the original keeps the offset in r14 and the masks 1 and 2 in
+ * registers (and/cmp/eq rn); SHC 5 tests them with and #imm,r0. */
 void DMA_ScuSetPrm(DmaScuPrm *prm, Uint32 ch)
 {
     Uint32 off = ch << 5;
@@ -47,6 +46,8 @@ void DMA_ScuSetPrm(DmaScuPrm *prm, Uint32 ch)
     SCU_DXMD(off) = (prm->dxrup << 16) | prm->dxmod | (prm->dxwup << 8) | prm->dxft;
 }
 
+/* NONMATCHING: same code, scheduled differently (the original pushes the
+ * saved registers first and loads pool constants earlier). */
 void DMA_ScuStart(Uint32 ch)
 {
     Sint32 imask;
@@ -72,7 +73,7 @@ void DMA_ScuStart(Uint32 ch)
     dma_scu_save_func[ch] = INT_GetScuFunc(vec);
     dma_scu_save_sint[ch] = SYS_GETSINT(vec);
     dma_scu_busy[ch] = 1;
-    INT_SetScuFunc(vec, (void *)func);
+    INT_SetScuFunc(vec, func);
     SYS_SETSINT(vec, 0);
     SCU_DXEN(ch << 5) = 0x101;
     set_imask(imask);
@@ -89,7 +90,9 @@ void DMA_ScuGetStatus(DmaScuStatus *status, Uint32 ch)
 }
 
 /* End of a level 0/1/2 transfer: clear the busy flag and put back the
- * handlers DMA_ScuStart replaced. */
+ * handlers DMA_ScuStart replaced.
+ * NONMATCHING: the original keeps the flag pointer on the stack instead of in
+ * r14, and schedules the pool loads differently. */
 void dma_ScuEnd0(void)
 {
     Sint32 imask;

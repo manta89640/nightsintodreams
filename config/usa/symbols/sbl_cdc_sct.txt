@@ -1,0 +1,8 @@
+CDC_SetSctLen = 0x0606F9F4; // type:func
+CDC_GetSctData = 0x0606FA1E; // type:func
+CDC_DelSctData = 0x0606FA4C; // type:func
+CDC_GetdelSctData = 0x0606FA7A; // type:func
+CDC_PutSctData = 0x0606FAA8; // type:func
+CDC_CopySctData = 0x0606FAD2; // type:func
+CDC_MoveSctData = 0x0606FB06; // type:func
+CDC_GetCopyErr = 0x0606FB3A; // type:func

@@ -1,0 +1,4 @@
+CDC_TgetToc = 0x0606F348; // type:func
+CDC_GetSes = 0x0606F38C; // type:func
+CDC_CdInit = 0x0606F3CE; // type:func
+CDC_CdOpen = 0x0606F438; // type:func

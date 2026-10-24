@@ -1,0 +1,9 @@
+CDC_SetFiltRange = 0x0606F5BC; // type:func
+CDC_GetFiltRange = 0x0606F5E6; // type:func
+CDC_SetFiltSubh = 0x0606F636; // type:func
+CDC_GetFiltSubh = 0x0606F674; // type:func
+CDC_SetFiltMode = 0x0606F6CA; // type:func
+CDC_GetFiltMode = 0x0606F6F4; // type:func
+CDC_SetFiltCon = 0x0606F738; // type:func
+CDC_GetFiltCon = 0x0606F76C; // type:func
+CDC_ResetSelector = 0x0606F7BA; // type:func

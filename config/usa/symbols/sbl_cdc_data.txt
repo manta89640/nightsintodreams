@@ -1,0 +1,2 @@
+CDC_DataReady = 0x0606F478; // type:func
+CDC_DataEnd = 0x0606F4C2; // type:func

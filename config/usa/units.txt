@@ -217,6 +217,6 @@
 0x0606FB80 sbl/cdc_file
 0x0606FCD8 sbl/cdc_exec
 0x0606FDD0 sbl/dma_scu
-0x06070070 sbl/gfs_06070070
+0x06070070 sbl/stm_tr
 0x060703F4 sbl/gfs_dir
 0x06070C28 sbl/06070C28

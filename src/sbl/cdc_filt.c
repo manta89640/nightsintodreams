@@ -117,6 +117,8 @@ Sint32 CDC_SetFiltCon(Sint32 filtno, Sint32 cflag, Sint32 bufno, Sint32 flnout)
     return cdc_ExecCmd(CDC_HIRQ_ESEL, p);
 }
 
+/* NONMATCHING: the original spills bufno to @(4,r15) and flnout to @r15;
+ * SHC 5 swaps the two slots. */
 Sint32 CDC_GetFiltCon(Sint32 filtno, Sint32 *bufno, Sint32 *flnout)
 {
     CdcCmd cmd;

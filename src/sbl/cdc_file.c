@@ -44,6 +44,7 @@ Sint32 CDC_GetFileScope(Sint32 *fid, Sint32 *infnum, Bool *drend)
     return ret;
 }
 
+/* NONMATCHING: same last-call scheduling difference as CDC_TgetToc. */
 Sint32 CDC_TgetFileInfo(Sint32 fid, void *file)
 {
     CdcCmd cmd;

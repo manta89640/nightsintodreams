@@ -1,0 +1,10 @@
+stm_CallTrFunc = 0x06070070; // type:func
+STM_SetTrFunc = 0x0607008C; // type:func
+STM_StartTrans = 0x0607011E; // type:func
+stm_SetTrBuf = 0x060701AC; // type:func
+STM_SetTrBuf = 0x060701FA; // type:func
+stm_ResetTrBuf = 0x06070276; // type:func
+STM_ResetTrBuf = 0x060702E4; // type:func
+STM_GetLenTrBuf = 0x06070314; // type:func
+stm_IsTrBufFull = 0x0607036E; // type:func
+STM_IsTrBufFull = 0x06070394; // type:func

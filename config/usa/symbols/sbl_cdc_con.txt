@@ -1,0 +1,3 @@
+CDC_CdSetCon = 0x0606F518; // type:func
+CDC_CdGetCon = 0x0606F53E; // type:func
+CDC_CdGetLastBuf = 0x0606F578; // type:func

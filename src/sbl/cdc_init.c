@@ -1,6 +1,8 @@
 #include "sbl/types.h"
 #include "sbl/cdc_cmd.h"
 
+/* NONMATCHING: the original loads toc for the last call before the pool load
+ * and puts the and in the delay slot; SHC 5 does it the other way round. */
 Sint32 CDC_TgetToc(Uint32 *toc)
 {
     CdcCmd cmd;
@@ -40,6 +42,7 @@ Sint32 CDC_GetSes(Sint32 sesno, Uint32 *ses)
     return ret;
 }
 
+/* NONMATCHING: two pool loads use r2 where the original uses r3. */
 Sint32 CDC_CdInit(Sint32 iflag, Sint32 stnby, Sint32 ecc, Sint32 retry)
 {
     CdcCmd cmd;
