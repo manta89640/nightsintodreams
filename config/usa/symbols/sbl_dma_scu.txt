@@ -1,0 +1,9 @@
+DMA_ScuSetPrm = 0x0606FDD0; // type:func
+DMA_ScuStart = 0x0606FE24; // type:func
+DMA_ScuGetStatus = 0x0606FED0; // type:func
+dma_ScuEnd0 = 0x0606FF40; // type:func
+dma_ScuEnd1 = 0x0606FF96; // type:func
+dma_ScuEnd2 = 0x0606FFEC; // type:func
+dma_scu_save_func = 0x06070CB0; // type:data
+dma_scu_save_sint = 0x06070CBC; // type:data
+dma_scu_busy = 0x06070CC8; // type:data

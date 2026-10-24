@@ -1,0 +1,6 @@
+CDC_ChgDir = 0x0606FB80; // type:func
+CDC_ReadDir = 0x0606FBA8; // type:func
+CDC_GetFileScope = 0x0606FBD0; // type:func
+CDC_TgetFileInfo = 0x0606FC20; // type:func
+CDC_ReadFile = 0x0606FC70; // type:func
+CDC_AbortFile = 0x0606FC9A; // type:func

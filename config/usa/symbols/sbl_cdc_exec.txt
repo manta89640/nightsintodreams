@@ -1,0 +1,8 @@
+cdc_ExecCmdRsp = 0x0606FCD8; // type:func
+cdc_ExecCmd = 0x0606FCDC; // type:func
+cdc_ExecCmdSub = 0x0606FCEE; // type:func
+cdc_GetLastStat = 0x0606FD50; // type:func
+cdc_RspToStat = 0x0606FD88; // type:func
+cdc_Wait = 0x0606FDA6; // type:func
+cdc_last_stat = 0x06070CA4; // type:data
+_quick_odd_mvn = 0x060508D0; // type:func
