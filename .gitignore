@@ -1,6 +1,6 @@
 # Copyrighted game data never goes in the repository.
-/dump/
-/extracted/
+/dump
+/extracted
 *.bin
 *.BIN
 *.cue
@@ -14,7 +14,7 @@
 *.TSK
 
 # Build output (Ghidra projects, objects, ROMs)
-/build/
+/build
 *.o
 *.elf
 *.3dsx
@@ -26,7 +26,10 @@ __pycache__/
 .DS_Store
 
 # Locally built toolchains
-/toolchain/
+/toolchain
 
 # Proprietary Hitachi SHC toolchain (supplied locally, never committed)
-/compile/
+/compile
+
+# Agent worktrees
+/.claude/

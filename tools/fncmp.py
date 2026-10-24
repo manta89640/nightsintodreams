@@ -19,6 +19,7 @@ REGION = os.environ.get("REGION", "usa")
 INSN = re.compile(r"^\s*([0-9a-f]+):\s+((?:[0-9a-f]{2} )+)\s*(.*)$")
 RELOC = re.compile(r"^\s*([0-9a-f]+):\s+(R_SH_\w+)\s+(.*)$")
 LABEL = re.compile(r"^([0-9a-f]+) <(.+)>:$")
+display = {}  # name -> rows with disassembly text, from the last functions() call
 
 
 def sizes(obj):
@@ -36,6 +37,7 @@ def functions(obj):
     size = sizes(obj)
     out = subprocess.run([OBJDUMP, "-dr", "-z", obj], capture_output=True, text=True, check=True).stdout
     funcs, cur, base = {}, None, 0
+    display.clear()
     for line in out.splitlines():
         m = LABEL.match(line)
         if m:
@@ -52,17 +54,22 @@ def functions(obj):
             continue
         m = RELOC.match(line)
         if m:
-            funcs[cur].append((int(m.group(1), 16) - base, "reloc %s %s" % (m.group(2), m.group(3).strip())))
+            text = "reloc %s %s" % (m.group(2), m.group(3).strip())
+            funcs[cur].append((int(m.group(1), 16) - base, text, text))
             continue
         m = INSN.match(line)
         if m:
             text = re.sub(r"\s+", " ", m.group(3).split("!")[0]).strip()
-            # PC-relative operands print as absolute offsets; the raw bytes already
-            # pin the displacement, so compare those and show the mnemonic.
-            funcs[cur].append((int(m.group(1), 16) - base, "%s| %s" % (m.group(2).strip(), text)))
+            # Branch targets print as absolute section offsets, which shift when an
+            # earlier function changes size; compare the raw bytes (the displacement)
+            # and only show the disassembly.
+            raw = m.group(2).strip()
+            funcs[cur].append((int(m.group(1), 16) - base, raw, "%s| %s" % (raw, text)))
     for name, rows in funcs.items():
         if size.get(name):
-            funcs[name] = [r for r in rows if r[0] < size[name]]
+            rows = [r for r in rows if r[0] < size[name]]
+        funcs[name] = [(off, key) for off, key, _ in rows]
+        display[name] = [(off, disp) for off, _, disp in rows]
     return funcs
 
 
@@ -74,14 +81,15 @@ def build(unit):
     return [os.path.join(ROOT, o) for o in objs]
 
 
-def side_by_side(name, t, b):
+def side_by_side(name, t, b, tk, bk):
     width = 44
     rows = max(len(t), len(b))
     print("%-*s   %s" % (width, "target " + name, "base"))
     for i in range(rows):
         lt = t[i][1] if i < len(t) else ""
         lb = b[i][1] if i < len(b) else ""
-        mark = "  " if lt == lb else "!!"
+        same = i < len(tk) and i < len(bk) and tk[i][1] == bk[i][1]
+        mark = "  " if same else "!!"
         print("%-*s %s %s" % (width, lt[:width], mark, lb[:width]))
 
 
@@ -90,13 +98,16 @@ def main():
         sys.exit(__doc__)
     unit = sys.argv[1]
     target_obj, base_obj = build(unit)
-    target, base = functions(target_obj), functions(base_obj)
+    target = functions(target_obj)
+    target_text = dict(display)
+    base = functions(base_obj)
+    base_text = dict(display)
     if len(sys.argv) > 2:
         for name in sys.argv[2:]:
             if name not in target:
                 print("%s is not a function in the target" % name)
                 continue
-            side_by_side(name, target[name], base.get(name, []))
+            side_by_side(name, target_text[name], base_text.get(name, []), target[name], base.get(name, []))
         return
     matched = 0
     for name in target:
