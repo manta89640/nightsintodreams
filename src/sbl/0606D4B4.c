@@ -1,3 +1,4 @@
+/* shc-flags: -define=NONMATCHING */
 /* GFS file access through the CD block (the CD part of a file handle). */
 /* This module was built by an older SHC than the 5.0 in compile/: it keeps one
  * code path per return, prefers r0 for temporaries and keeps local addresses

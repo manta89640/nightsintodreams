@@ -1,4 +1,4 @@
-/* shc-flags: -macsave=0 */
+/* shc-flags: -macsave=0 -define=NONMATCHING */
 #include "sbl/types.h"
 #include "sbl/gfs_trn.h"
 

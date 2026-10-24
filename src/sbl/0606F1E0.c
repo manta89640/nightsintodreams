@@ -1,3 +1,4 @@
+/* shc-flags: -define=NONMATCHING */
 /* Start of the CDC command object; it continues in sbl/0606F348. */
 /* This module was built by an older SHC than the 5.0 in compile/: it keeps one
  * code path per return, prefers r0 for temporaries and keeps local addresses

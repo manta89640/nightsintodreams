@@ -1,3 +1,4 @@
+/* shc-flags: -define=NONMATCHING */
 #include "sbl/types.h"
 #include "sbl/int.h"
 

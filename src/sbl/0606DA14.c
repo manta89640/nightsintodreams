@@ -1,3 +1,4 @@
+/* shc-flags: -define=NONMATCHING */
 /* GFS CD-block layer: partition, filter and lock bookkeeping, and the queued
  * CD block requests that gfcd_ExecServer advances. */
 /* This module was built by an older SHC than the 5.0 in compile/: it keeps one
