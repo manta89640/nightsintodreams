@@ -1,0 +1,5 @@
+CDC_GetCurStat = 0x0606F1E0; // type:func
+CDC_GetLastStat = 0x0606F21A; // type:func
+CDC_GetPeriStat = 0x0606F220; // type:func
+cdc_GetPeriRsp = 0x0606F264; // type:func
+CDC_GetHwInfo = 0x0606F2E6; // type:func

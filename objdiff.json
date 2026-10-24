@@ -17,6 +17,10 @@
     {
       "id": "sbl",
       "name": "SBL library (C)"
+    },
+    {
+      "id": "shclib",
+      "name": "Hitachi C runtime"
     }
   ],
   "units": [
@@ -1953,21 +1957,49 @@
     {
       "name": "sbl/06067300",
       "target_path": "build/usa/asm/sbl/06067300.o",
+      "base_path": "build/usa/src/sbl/06067300.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/06067300.s"
       }
     },
     {
       "name": "sbl/06067644",
       "target_path": "build/usa/asm/sbl/06067644.o",
+      "base_path": "build/usa/src/sbl/06067644.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/06067644.c"
+      }
+    },
+    {
+      "name": "sbl/060676D4",
+      "target_path": "build/usa/asm/sbl/060676D4.o",
+      "base_path": "build/usa/src/sbl/060676D4.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/060676D4.c"
+      }
+    },
+    {
+      "name": "sbl/0606772C",
+      "target_path": "build/usa/asm/sbl/0606772C.o",
+      "base_path": "build/usa/src/sbl/0606772C.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/0606772C.c"
       }
     },
     {
@@ -1981,43 +2013,123 @@
       }
     },
     {
-      "name": "sbl/06069474",
-      "target_path": "build/usa/asm/sbl/06069474.o",
+      "name": "sbl/stm_svr",
+      "target_path": "build/usa/asm/sbl/stm_svr.o",
+      "base_path": "build/usa/src/sbl/stm_svr.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/stm_svr.c"
       }
     },
     {
-      "name": "sbl/0606A748",
-      "target_path": "build/usa/asm/sbl/0606A748.o",
+      "name": "sbl/stm_cdplay",
+      "target_path": "build/usa/asm/sbl/stm_cdplay.o",
+      "base_path": "build/usa/src/sbl/stm_cdplay.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/stm_cdplay.c"
       }
     },
     {
-      "name": "sbl/0606C318",
-      "target_path": "build/usa/asm/sbl/0606C318.o",
+      "name": "sbl/stm_cdsct",
+      "target_path": "build/usa/asm/sbl/stm_cdsct.o",
+      "base_path": "build/usa/src/sbl/stm_cdsct.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/stm_cdsct.c"
+      }
+    },
+    {
+      "name": "sbl/gfs",
+      "target_path": "build/usa/asm/sbl/gfs.o",
+      "base_path": "build/usa/src/sbl/gfs.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/gfs.c"
+      }
+    },
+    {
+      "name": "sbl/gfs_acc",
+      "target_path": "build/usa/asm/sbl/gfs_acc.o",
+      "base_path": "build/usa/src/sbl/gfs_acc.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/gfs_acc.c"
+      }
+    },
+    {
+      "name": "sbl/gfs_trn",
+      "target_path": "build/usa/asm/sbl/gfs_trn.o",
+      "base_path": "build/usa/src/sbl/gfs_trn.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/gfs_trn.c"
+      }
+    },
+    {
+      "name": "sbl/gfs_flow",
+      "target_path": "build/usa/asm/sbl/gfs_flow.o",
+      "base_path": "build/usa/src/sbl/gfs_flow.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/gfs_flow.c"
       }
     },
     {
       "name": "sbl/0606D4B4",
       "target_path": "build/usa/asm/sbl/0606D4B4.o",
+      "base_path": "build/usa/src/sbl/0606D4B4.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/0606D4B4.c"
+      }
+    },
+    {
+      "name": "sbl/0606DA14",
+      "target_path": "build/usa/asm/sbl/0606DA14.o",
+      "base_path": "build/usa/src/sbl/0606DA14.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/0606DA14.c"
+      }
+    },
+    {
+      "name": "sbl/0606F1E0",
+      "target_path": "build/usa/asm/sbl/0606F1E0.o",
+      "base_path": "build/usa/src/sbl/0606F1E0.o",
+      "metadata": {
+        "complete": false,
+        "progress_categories": [
+          "sbl"
+        ],
+        "source_path": "src/sbl/0606F1E0.c"
       }
     },
     {
@@ -2043,11 +2155,13 @@
     {
       "name": "sbl/06070C28",
       "target_path": "build/usa/asm/sbl/06070C28.o",
+      "base_path": "build/usa/src/sbl/06070C28.o",
       "metadata": {
         "complete": false,
         "progress_categories": [
           "sbl"
-        ]
+        ],
+        "source_path": "src/sbl/06070C28.c"
       }
     }
   ]

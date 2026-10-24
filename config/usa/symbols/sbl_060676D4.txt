@@ -1,0 +1,1 @@
+dma_cpu0_check = 0x060676D4; // type:func

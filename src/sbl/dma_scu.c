@@ -21,8 +21,8 @@
 #define VEC_DMA2 0x49
 
 /* SCU interrupt function table (sbl/06070C28). */
-void func_06070C28(Uint32 vec, void *func);
-void *func_06070C48(Uint32 vec);
+void INT_SetScuFunc(Uint32 vec, void *func);
+void *INT_GetScuFunc(Uint32 vec);
 
 extern void *dma_scu_save_func[3];   /* SCU table entries replaced while a DMA runs */
 extern void *dma_scu_save_sint[3];   /* vector handlers replaced while a DMA runs */
@@ -69,10 +69,10 @@ void DMA_ScuStart(Uint32 ch)
         vec = VEC_DMA2;
         break;
     }
-    dma_scu_save_func[ch] = func_06070C48(vec);
+    dma_scu_save_func[ch] = INT_GetScuFunc(vec);
     dma_scu_save_sint[ch] = SYS_GETSINT(vec);
     dma_scu_busy[ch] = 1;
-    func_06070C28(vec, (void *)func);
+    INT_SetScuFunc(vec, (void *)func);
     SYS_SETSINT(vec, 0);
     SCU_DXEN(ch << 5) = 0x101;
     set_imask(imask);
@@ -99,7 +99,7 @@ void dma_ScuEnd0(void)
     set_imask(15);
     busy = &dma_scu_busy[0];
     *busy = 0;
-    func_06070C28(VEC_DMA0, dma_scu_save_func[0]);
+    INT_SetScuFunc(VEC_DMA0, dma_scu_save_func[0]);
     SYS_SETSINT(VEC_DMA0, dma_scu_save_sint[0]);
     *busy = 0;
     set_imask(imask);
@@ -114,7 +114,7 @@ void dma_ScuEnd1(void)
     set_imask(15);
     busy = &dma_scu_busy[1];
     *busy = 0;
-    func_06070C28(VEC_DMA1, dma_scu_save_func[1]);
+    INT_SetScuFunc(VEC_DMA1, dma_scu_save_func[1]);
     SYS_SETSINT(VEC_DMA1, dma_scu_save_sint[1]);
     *busy = 0;
     set_imask(imask);
@@ -129,7 +129,7 @@ void dma_ScuEnd2(void)
     set_imask(15);
     busy = &dma_scu_busy[2];
     *busy = 0;
-    func_06070C28(VEC_DMA2, dma_scu_save_func[2]);
+    INT_SetScuFunc(VEC_DMA2, dma_scu_save_func[2]);
     SYS_SETSINT(VEC_DMA2, dma_scu_save_sint[2]);
     *busy = 0;
     set_imask(imask);

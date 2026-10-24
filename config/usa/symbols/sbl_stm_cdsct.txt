@@ -1,0 +1,10 @@
+// sbl/stm_cdsct: CD play and buffer-sector helpers of the stream library (descriptive names)
+stm_CdContinue = 0x0606A89C; // type:func
+stm_CdPlayFrom = 0x0606A8DE; // type:func
+stm_CdPlayTo = 0x0606A936; // type:func
+stm_GetSctInfo = 0x0606A9A2; // type:func
+stm_GetSctData = 0x0606AA20; // type:func
+stm_DelSctData = 0x0606AA54; // type:func
+stm_GetSctNum = 0x0606AA9A; // type:func
+stm_GetFreeBufSiz = 0x0606AABE; // type:func
+stm_WaitCsct = 0x0606AAE4; // type:func

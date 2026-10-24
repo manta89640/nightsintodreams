@@ -433,6 +433,14 @@ class Splitter:
                 cat = c["id"]
         return cat or "main"
 
+    def _unit_category(self, name, start):
+        """A unit's category is its name prefix (game/, sbl/, ...) when that is a
+        configured category, else the category its address falls in."""
+        prefix = name.split("/")[0]
+        if any(c["id"] == prefix for c in self.cfg.get("category", [])):
+            return prefix
+        return self._category(start)
+
     def _units(self):
         """[(name, start, end)] from units.txt, or the whole image as one unit."""
         path = os.path.join(self.cfg_dir, self.cfg.get("units", "units.txt"))
@@ -648,7 +656,7 @@ class Splitter:
         units = []
         for name, start, src, complete in self.unit_objs:
             unit = {"name": name, "target_path": "build/%s/asm/%s.o" % (self.region, name)}
-            meta = {"complete": complete, "progress_categories": [self._category(start)]}
+            meta = {"complete": complete, "progress_categories": [self._unit_category(name, start)]}
             if src:
                 unit["base_path"] = "build/%s/src/%s.o" % (self.region, name)
                 meta["source_path"] = os.path.relpath(src, ROOT)
