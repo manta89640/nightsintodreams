@@ -29,11 +29,12 @@ def winpath(path):
     return "Z:" + os.path.abspath(path).replace("/", "\\")
 
 
-def _run(tool, args, cwd):
-    # SHC's command line is limited to about 128 characters, so paths go in the
-    # environment or are kept relative to cwd.
+def _run(tool, args, cwd, inc=None):
+    # SHC limits its command line and environment strings (about 128 and 100
+    # characters), so it always runs in a short temp dir with relative paths.
     env = dict(os.environ, WINEDEBUG="-all", MVK_CONFIG_LOG_LEVEL="0",
-               SHC_LIB=winpath(SHC_DIR), SHC_TMP=winpath(cwd), SHC_INC=winpath(os.path.join(ROOT, "include")))
+               SHC_LIB=winpath(os.path.realpath(SHC_DIR)), SHC_TMP=winpath(cwd),
+               SHC_INC=winpath(inc or cwd))
     res = subprocess.run(["wine", os.path.join(SHC_DIR, tool)] + args, cwd=cwd, env=env,
                          capture_output=True, text=True, errors="replace")
     out = "\n".join(l for l in res.stdout.splitlines() if "(E)" in l or "(F)" in l or "(W)" in l
@@ -41,44 +42,56 @@ def _run(tool, args, cwd):
     return res, out
 
 
+def short_tempdir():
+    return tempfile.mkdtemp(prefix="shc", dir="/tmp" if os.path.isdir("/tmp") else None)
+
+
 def compile_c(c_path, asm, flags=()):
     """Compile with SHC. Returns the .src (asm=True) or .obj path next to the input."""
-    cwd = os.path.dirname(os.path.abspath(c_path))
     base = os.path.splitext(os.path.basename(c_path))[0]
     out_name = base + (".src" if asm else ".obj")
-    out = os.path.join(cwd, out_name)
+    out = os.path.join(os.path.dirname(os.path.abspath(c_path)), out_name)
     if os.path.exists(out):
         os.remove(out)
-    args = FLAGS + list(flags) + ["-nolistfile", "-objectfile=" + out_name]
-    if asm:
-        args.append("-code=asmcode")
-    res, errors = _run("shc.exe", args + [os.path.basename(c_path)], cwd)
-    if not os.path.exists(out):
-        sys.exit("SHC failed on %s:\n%s" % (c_path, errors or res.stdout))
-    if errors:
-        print(errors, file=sys.stderr)
+    tmp = short_tempdir()
+    try:
+        shutil.copy(c_path, os.path.join(tmp, "in.c"))
+        shutil.copytree(os.path.join(ROOT, "include"), os.path.join(tmp, "inc"))
+        args = FLAGS + list(flags) + ["-nolistfile", "-objectfile=" + out_name]
+        if asm:
+            args.append("-code=asmcode")
+        res, errors = _run("shc.exe", args + ["in.c"], tmp, inc=os.path.join(tmp, "inc"))
+        if not os.path.exists(os.path.join(tmp, out_name)):
+            sys.exit("SHC failed on %s:\n%s" % (c_path, errors or res.stdout))
+        if errors:
+            print(errors, file=sys.stderr)
+        shutil.copy(os.path.join(tmp, out_name), out)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
     return out
 
 
 def link_reference(obj, base, defines):
     """Link one SHC object with the Hitachi linker at `base` (sections P, C, D, B) and
     return the loaded bytes. `defines` gives addresses for external symbols."""
-    cwd = os.path.dirname(obj)
-    abs_ = os.path.join(cwd, "ref.abs")
-    mot = os.path.join(cwd, "ref.mot")
-    sub = os.path.join(cwd, "ref.sub")
-    with open(sub, "w") as f:
-        f.write("INPUT %s\nOUTPUT %s\n" % (winpath(obj), winpath(abs_)))
-        for sym, addr in defines.items():
-            f.write("DEFINE %s(%08X)\n" % (sym, addr))
-        f.write("START P,C,D,B(%08X)\nFORM A\nEXIT\n" % base)
-    res, _ = _run("lnk.exe", ["-subcommand=" + winpath(sub)], cwd)
-    if not os.path.exists(abs_):
-        sys.exit("lnk failed:\n" + res.stdout)
-    _run("cnvs.exe", [winpath(abs_), winpath(mot)], cwd)
-    out = os.path.join(cwd, "ref.bin")
-    subprocess.run([os.path.join(BIN, "sh-elf-objcopy"), "-I", "srec", "-O", "binary", mot, out], check=True)
-    return open(out, "rb").read()
+    cwd = short_tempdir()
+    try:
+        shutil.copy(obj, os.path.join(cwd, "in.obj"))
+        with open(os.path.join(cwd, "ref.sub"), "w") as f:
+            f.write("INPUT in.obj\nOUTPUT ref.abs\n")
+            for sym, addr in defines.items():
+                f.write("DEFINE %s(%08X)\n" % (sym, addr))
+            f.write("START P,C,D,B(%08X)\nFORM A\nEXIT\n" % base)
+        res, _ = _run("lnk.exe", ["-subcommand=ref.sub"], cwd)
+        if not os.path.exists(os.path.join(cwd, "ref.abs")):
+            sys.exit("lnk failed:\n" + res.stdout)
+        _run("cnvs.exe", ["ref.abs", "ref.mot"], cwd)
+        out = os.path.join(cwd, "ref.bin")
+        subprocess.run([os.path.join(BIN, "sh-elf-objcopy"), "-I", "srec", "-O", "binary",
+                        os.path.join(cwd, "ref.mot"), out], check=True)
+        return open(out, "rb").read()
+    finally:
+        shutil.rmtree(cwd, ignore_errors=True)
 
 
 def main():
