@@ -1,0 +1,37 @@
+// Hitachi SHC runtime and C library objects linked after the game code (0x060506E0-0x06050B34).
+// SHC names lose one leading underscore here (tools/shc2gas.py), so __divlu is _divlu.
+_divlu = 0x060506E0; // type:func
+_modls = 0x06050788; // type:func
+memmove = 0x06050850; // type:func
+strcpy = 0x06050894; // type:func
+_divlspnm = 0x060508A8; // type:func
+_quick_evn_mvn = 0x060508C4; // type:func
+_quick_odd_mvn = 0x060508D0; // type:func
+_quick_mvn_0 = 0x06050920; // type:func
+_quick_mvn_4 = 0x0605091E; // type:func
+_quick_mvn_8 = 0x0605091A; // type:func
+_quick_mvn_12 = 0x06050916; // type:func
+_quick_mvn_16 = 0x06050912; // type:func
+_quick_mvn_20 = 0x0605090E; // type:func
+_quick_mvn_24 = 0x0605090A; // type:func
+_quick_mvn_28 = 0x06050906; // type:func
+_quick_mvn_32 = 0x06050902; // type:func
+_quick_mvn_36 = 0x060508FE; // type:func
+_quick_mvn_40 = 0x060508FA; // type:func
+_quick_mvn_44 = 0x060508F6; // type:func
+_quick_mvn_48 = 0x060508F2; // type:func
+_quick_mvn_52 = 0x060508EE; // type:func
+_quick_mvn_56 = 0x060508EA; // type:func
+_quick_mvn_60 = 0x060508E6; // type:func
+_quick_mvn_64 = 0x060508E2; // type:func
+_quick_mvn_tbl = 0x06050924; // type:data
+_slow_mvn = 0x06050968; // type:func
+_slow_strcpy = 0x060509A0; // type:func
+memcmp = 0x060509F0; // type:func
+memset = 0x06050A24; // type:func
+_modlspnm = 0x06050A3C; // type:func
+_quick_strcpy = 0x06050A58; // type:func
+_quick_strcpy_body = 0x06050A5C; // type:func
+strncmp = 0x06050AC0; // type:func
+strncpy = 0x06050B00; // type:func
+errno = 0x060672E0; // type:data
