@@ -1,0 +1,26 @@
+# Copyrighted game data never goes in the repository.
+/dump/
+/extracted/
+*.bin
+*.BIN
+*.cue
+*.iso
+*.chd
+*.wav
+*.PRS
+*.SFD
+*.CPK
+*.ADP
+*.TSK
+
+# Build output (Ghidra projects, objects, ROMs)
+/build/
+*.o
+*.elf
+*.3dsx
+*.cia
+*.smdh
+
+__pycache__/
+*.pyc
+.DS_Store
