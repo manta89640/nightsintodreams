@@ -36,9 +36,9 @@
 	.short 0x0080
 	.byte 0x00, 0x00
 .L06033BD4:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L06033BD8:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06033BDC:
 	.long func_06033054
 .L06033BE0:
@@ -82,7 +82,7 @@
 .L06033C24:
 	.long D_060F30F8
 .L06033C28:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_06033BAE
 
 	glabel func_06033C2C
@@ -107,7 +107,7 @@
 .L06033C50:
 	.long D_0604DBB8
 .L06033C54:
-	.long func_0600D1A0
+	.long obj_free
 .L06033C58:
 	mov.w	r0,@(0,r1)
 	mov.w	@(2,r1),r0
@@ -147,7 +147,7 @@
 .L06033C98:
 	.long D_060F30F8
 .L06033C9C:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_06033C2C
 
 	.section .data.06033CA0,"aw",@progbits

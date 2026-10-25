@@ -24,7 +24,7 @@
 .L06050694:
 	.long D_060517ED
 .L06050698:
-	.long func_06006C12
+	.long cd_load_file
 .L0605069C:
 	.long D_060B9800
 .L060506A0:

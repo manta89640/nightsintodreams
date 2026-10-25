@@ -144,7 +144,7 @@
 	jmp	@r0
 	nop
 .L0603CF80:
-	.long func_0600D1A0
+	.long obj_free
 .L0603CF84:
 	mov.b	@(60,gbr),r0
 	tst	r0,r0
@@ -202,17 +202,17 @@
 	nop
 	.byte 0x00, 0x00
 .L0603CFE8:
-	.long func_0600CA24
+	.long mtx_push
 .L0603CFEC:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0603CFF0:
-	.long func_0600D018
+	.long mtx_scale
 .L0603CFF4:
 	.long .L0603D080
 .L0603CFF8:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L0603CFFC:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603CF94
 
 	glabel func_0603D000
@@ -240,7 +240,7 @@
 	jmp	@r0
 	nop
 .L0603D028:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_0603D014
 
 	glabel func_0603D02C
@@ -285,7 +285,7 @@
 	.short 0xC000
 	.byte 0x00, 0x00
 .L0603D074:
-	.long D_060F3064
+	.long player_obj
 .L0603D078:
 	.long D_06041F8C
 .L0603D07C:
@@ -312,7 +312,7 @@
 	jmp	@r14
 	nop
 .L0603D09C:
-	.long func_0600CA7A
+	.long mtx_rot_x
 	endlabel func_0603D08C
 
 	glabel func_0603D0A0
@@ -325,7 +325,7 @@
 	jmp	@r14
 	nop
 .L0603D0B0:
-	.long func_0600CAF8
+	.long mtx_rot_y
 	endlabel func_0603D0A0
 
 	glabel func_0603D0B4
@@ -338,5 +338,5 @@
 	jmp	@r14
 	nop
 .L0603D0C4:
-	.long func_0600CB68
+	.long mtx_rot_z
 	endlabel func_0603D0B4

@@ -21,9 +21,9 @@
 .L06031FC6:
 	.short 0x00FF
 .L06031FC8:
-	.long D_060FFFD0
+	.long obj_list_load_task
 .L06031FCC:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06031FD0:
 	.long func_06032154
 	endlabel func_06031FAC
@@ -45,9 +45,9 @@
 	rts
 	nop
 .L06031FF0:
-	.long D_060FFFD8
+	.long obj_list_load_scene
 .L06031FF4:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06031FF8:
 	.long func_06032024
 	endlabel func_06031FD4
@@ -69,9 +69,9 @@
 	rts
 	nop
 .L06032018:
-	.long D_060FFFD8
+	.long obj_list_load_scene
 .L0603201C:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06032020:
 	.long func_060320B8
 	endlabel func_06031FFC
@@ -143,11 +143,11 @@
 .L06032096:
 	.short 0x0400
 .L06032098:
-	.long func_06031E00
+	.long math_angle_step_toward
 .L0603209C:
-	.long func_06007BD8
+	.long math_sincos
 .L060320A0:
-	.long D_060F3064
+	.long player_obj
 .L060320A4:
 	.long 0x00300000
 .L060320A8:
@@ -157,7 +157,7 @@
 .L060320B0:
 	.long 0x00DD0000
 .L060320B4:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_0603204C
 
 	glabel func_060320B8
@@ -232,11 +232,11 @@
 	.short 0x0400
 	.byte 0x00, 0x00
 .L06032134:
-	.long func_06031E00
+	.long math_angle_step_toward
 .L06032138:
-	.long func_06007BD8
+	.long math_sincos
 .L0603213C:
-	.long D_060F3064
+	.long player_obj
 .L06032140:
 	.long 0x00300000
 .L06032144:
@@ -246,7 +246,7 @@
 .L0603214C:
 	.long 0x00360000
 .L06032150:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_060320E4
 
 	glabel func_06032154
@@ -325,7 +325,7 @@
 .L060321C6:
 	.short 0x00B7
 .L060321C8:
-	.long D_060F3064
+	.long player_obj
 	endlabel func_060321B8
 
 	glabel func_060321CC
@@ -341,7 +341,7 @@
 .L060321DE:
 	.short 0x00B2
 .L060321E0:
-	.long D_060F3064
+	.long player_obj
 	endlabel func_060321CC
 
 	glabel func_060321E4
@@ -409,7 +409,7 @@
 .L06032258:
 	.long D_060FEA2C
 .L0603225C:
-	.long func_0600E4C4
+	.long snd_seq_start
 	endlabel func_060321E4
 
 	glabel func_06032260
@@ -575,7 +575,7 @@
 	.short 0x0100
 	.byte 0x00, 0x00
 .L0603237C:
-	.long D_060F309C
+	.long cam_obj
 	endlabel func_06032350
 
 	glabel func_06032380

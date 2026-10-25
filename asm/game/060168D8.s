@@ -71,11 +71,11 @@
 	nop
 	.byte 0x00, 0x00
 .L06016944:
-	.long D_060F3064
+	.long player_obj
 .L06016948:
 	.long D_060FFE70
 .L0601694C:
-	.long D_060FFE94
+	.long score_p2
 .L06016950:
 	mov.l	.L060169A4,r7
 	add	#-1,r0
@@ -123,9 +123,9 @@
 .L060169A4:
 	.long D_060FFE70
 .L060169A8:
-	.long D_060F3064
+	.long player_obj
 .L060169AC:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L060169B0:
 	.long D_060168B8
 .L060169B4:
@@ -182,11 +182,11 @@
 .L06016A10:
 	.long func_0601A520
 .L06016A14:
-	.long D_060F3064
+	.long player_obj
 .L06016A18:
-	.long func_06006B20
+	.long cd_pause
 .L06016A1C:
-	.long func_0600E6CC
+	.long snd_bgm_fade_in
 .L06016A20:
 	sts.l	pr,@-r15
 	mov.l	.L06016A38,r2
@@ -230,7 +230,7 @@
 	add	#1,r7
 	.byte 0x00, 0x00
 .L06016A68:
-	.long D_060F3064
+	.long player_obj
 .L06016A6C:
 	.long D_06016A7C
 .L06016A70:
@@ -473,13 +473,13 @@
 	nop
 	.byte 0x00, 0x00
 .L06016C94:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L06016C98:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06016C9C:
 	.long func_06016CAC
 .L06016CA0:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06016CA4:
 	.long D_060168B8
 .L06016CA8:
@@ -504,7 +504,7 @@
 	jmp	@r0
 	nop
 .L06016CCC:
-	.long func_0600D1A0
+	.long obj_free
 .L06016CD0:
 	rts
 	nop
@@ -590,9 +590,9 @@
 	rts
 	nop
 .L06016D64:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L06016D68:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06016D6C:
 	.long func_06019A88
 .L06016D70:
@@ -612,13 +612,13 @@
 .L06016D8C:
 	.long 0x00000000
 .L06016D90:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06016D94:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L06016D98:
 	.long func_06016DA0
 .L06016D9C:
-	.long func_0600E6CC
+	.long snd_bgm_fade_in
 	endlabel func_06016CD4
 
 	glabel func_06016DA0
@@ -653,9 +653,9 @@
 	nop
 	.byte 0x00, 0x00
 .L06016DD8:
-	.long func_06006B20
+	.long cd_pause
 .L06016DDC:
-	.long func_0600D1A0
+	.long obj_free
 	dlabel D_06016DE0
 	.byte 0x08, 0x3C, 0x01, 0xFF
 	dlabel D_06016DE4
@@ -887,11 +887,11 @@
 	mov	#-1,r0
 	endlabel func_06017292
 
-	glabel func_060172DE
+	glabel obj_find_near_player
 	mov.l	@(48,r1),r4
 	mov.l	@(52,r1),r5
 	mov.l	@(56,r1),r6
-	endlabel func_060172DE
+	endlabel obj_find_near_player
 
 	glabel func_060172E4
 	mov.l	r8,@-r15
@@ -938,7 +938,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06017334:
-	.long D_060F3064
+	.long player_obj
 	endlabel func_060172E4
 
 	.section .data.06017338,"aw",@progbits
@@ -948,7 +948,7 @@
 	.byte 0x89, 0x0D, 0x50, 0x9D, 0x30, 0x58, 0x30, 0x0D, 0x00, 0x0A, 0x3A, 0x0C, 0x3A, 0x83, 0x89, 0x06
 	.byte 0x50, 0x9E, 0x30, 0x68, 0x30, 0x0D, 0x00, 0x0A, 0x3A, 0x0C, 0x3A, 0x83, 0x8B, 0x04, 0xE0, 0xFF
 	.byte 0x00, 0x0B, 0x00, 0x09
-	.long D_060F3064
+	.long player_obj
 	.byte 0xE0, 0x00, 0x00, 0x0B, 0x00, 0x09, 0x54, 0x1C, 0x55, 0x1D, 0x56, 0x1E, 0x38, 0x8D, 0x08, 0x0A
 	.byte 0x69, 0x23, 0x50, 0x9C, 0x30, 0x48, 0x30, 0x0D, 0x0A, 0x0A, 0x3A, 0x83, 0x89, 0x0D, 0x50, 0x9D
 	.byte 0x30, 0x58, 0x30, 0x0D, 0x00, 0x0A, 0x3A, 0x0C, 0x3A, 0x83, 0x89, 0x06, 0x50, 0x9E, 0x30, 0x68
@@ -957,4 +957,4 @@
 	.byte 0x60, 0x73, 0x40, 0x08, 0x39, 0x0C, 0x69, 0x92, 0x50, 0x9F, 0x30, 0x48, 0x30, 0x0D, 0x0A, 0x0A
 	.byte 0x3A, 0x83, 0x89, 0x06, 0x50, 0x9D, 0x30, 0x58, 0x30, 0x0D, 0x00, 0x0A, 0x3A, 0x0C, 0x3A, 0x83
 	.byte 0x8B, 0x02, 0x77, 0xFF, 0x47, 0x11, 0x89, 0xEA, 0x00, 0x0B, 0x60, 0x73
-	.long D_060F3064
+	.long player_obj

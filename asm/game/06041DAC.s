@@ -67,9 +67,9 @@
 .L06041E24:
 	.long D_06041EB4
 .L06041E28:
-	.long D_060F3064
+	.long player_obj
 .L06041E2C:
-	.long func_06007BD8
+	.long math_sincos
 .L06041E30:
 	.long func_06041E34
 	endlabel func_06041DAC
@@ -137,15 +137,15 @@
 .L06041EA8:
 	.long 0x00100000
 .L06041EAC:
-	.long D_060F3064
+	.long player_obj
 .L06041EB0:
-	.long func_06007BD8
+	.long math_sincos
 	endlabel func_06041E34
 
 	.section .data.06041EB4,"aw",@progbits
 	.p2align 2
 	dlabel D_06041EB4
-	.long D_060F3068
+	.long player_obj_p2
 	.byte 0x00, 0x00, 0x00, 0x10
 	.long D_060F306C
 	.byte 0x80, 0x00, 0x00, 0x4A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x28

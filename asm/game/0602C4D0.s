@@ -48,7 +48,7 @@
 .L0602C518:
 	.long 0x8002F500
 .L0602C51C:
-	.long D_060F8DF8
+	.long linewin_spans_a
 .L0602C520:
 	.long VDP2_VRAM + 0x5E600
 	endlabel func_0602C4D0

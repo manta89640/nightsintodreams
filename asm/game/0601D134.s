@@ -45,9 +45,9 @@
 	bra	.L0601D16C
 	nop
 .L0601D180:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0601D184:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601D188:
 	.long lbl_0601D374
 .L0601D18C:
@@ -57,7 +57,7 @@
 .L0601D194:
 	.long D_0601D210
 .L0601D198:
-	.long D_060FFE98
+	.long mare_score
 .L0601D19C:
 	.long D_0601D1F8
 .L0601D1A0:
@@ -74,7 +74,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0601D1B8:
-	.long D_060FFEB8
+	.long grade
 .L0601D1BC:
 	.long D_0601D0B1
 	endlabel func_0601D136

@@ -47,7 +47,7 @@
 	jmp	@r0
 	nop
 .L06033138:
-	.long func_0600D1A0
+	.long obj_free
 .L0603313C:
 	mov.w	r0,@(6,r1)
 	rts
@@ -76,7 +76,7 @@
 	jmp	@r0
 	nop
 .L06033168:
-	.long func_0600D1A0
+	.long obj_free
 .L0603316C:
 	mov.w	r0,@(6,r1)
 	rts
@@ -115,7 +115,7 @@
 .L060331A6:
 	.short 0xFF01
 .L060331A8:
-	.long func_0600D1A0
+	.long obj_free
 .L060331AC:
 	mov.w	r0,@(6,r1)
 	rts
@@ -153,9 +153,9 @@
 .L060331E6:
 	.short 0xFFFF
 .L060331E8:
-	.long func_0600D4D0
+	.long vdp_rgb555_lerp
 .L060331EC:
-	.long func_0600D1A0
+	.long obj_free
 .L060331F0:
 	mov.w	r0,@(6,r1)
 	rts
@@ -206,7 +206,7 @@
 	.short 0x003B
 	.byte 0x00, 0x00
 .L0603323C:
-	.long func_0600D1A0
+	.long obj_free
 .L06033240:
 	mov.w	r0,@(6,r1)
 	rts
@@ -394,15 +394,15 @@
 .L0603338E:
 	.short 0x009E
 .L06033390:
-	.long D_060F3064
+	.long player_obj
 .L06033394:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L06033398:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0603339C:
 	.long func_06043A34
 .L060333A0:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L060333A4:
 	.long func_0603347C
 	endlabel func_060332E4
@@ -455,9 +455,9 @@
 	rts
 	nop
 .L06033400:
-	.long func_06007BD8
+	.long math_sincos
 .L06033404:
-	.long D_060F3064
+	.long player_obj
 .L06033408:
 	.long 0x00400000
 	endlabel func_060333A8
@@ -514,7 +514,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0603346C:
-	.long func_06007BD8
+	.long math_sincos
 .L06033470:
 	.long 0x00040000
 .L06033474:
@@ -594,13 +594,13 @@
 .L060334FC:
 	.long D_060329D2
 .L06033500:
-	.long D_060F30A4
+	.long active_cam_obj
 .L06033504:
 	.long D_060F30B0
 .L06033508:
 	.long D_0603EB54
 .L0603350C:
-	.long func_06018EB4
+	.long path_eval
 .L06033510:
 	mov.l	.L0603355C,r6
 	mov.l	.L06033560,r7
@@ -646,13 +646,13 @@
 .L06033560:
 	.long 0x10F00000
 .L06033564:
-	.long func_06007C1C
+	.long math_atan2
 .L06033568:
-	.long func_06007BD8
+	.long math_sincos
 .L0603356C:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L06033570:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06033574:
 	.long func_06032F94
 .L06033578:
@@ -665,7 +665,7 @@
 	jmp	@r0
 	nop
 .L06033588:
-	.long func_0600D1A0
+	.long obj_free
 .L0603358C:
 	bsr	func_0603384C
 	nop
@@ -703,7 +703,7 @@
 .L060335C8:
 	.long D_0603EB54
 .L060335CC:
-	.long func_06018EB4
+	.long path_eval
 .L060335D0:
 	mov.l	.L06033654,r6
 	mov.l	.L06033658,r7
@@ -780,7 +780,7 @@
 .L06033658:
 	.long 0x10F00000
 .L0603365C:
-	.long func_06007C1C
+	.long math_atan2
 .L06033660:
 	.long func_06017440
 .L06033664:
@@ -788,7 +788,7 @@
 .L06033668:
 	.long D_0603EB54
 .L0603366C:
-	.long func_06018EB4
+	.long path_eval
 .L06033670:
 	mov.l	.L060336A4,r6
 	mov.l	.L060336A8,r7
@@ -883,7 +883,7 @@
 .L06033718:
 	.long D_0603EB54
 .L0603371C:
-	.long func_06018EB4
+	.long path_eval
 .L06033720:
 	mov.l	.L0603378C,r6
 	mov.l	.L06033790,r7
@@ -954,11 +954,11 @@
 .L06033798:
 	.long func_0603E964
 .L0603379C:
-	.long D_060F3064
+	.long player_obj
 .L060337A0:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L060337A4:
-	.long func_0600D0D0
+	.long obj_alloc
 .L060337A8:
 	.long func_06033014
 .L060337AC:
@@ -966,7 +966,7 @@
 .L060337B0:
 	.long D_060329D2
 .L060337B4:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_06033598
 
 	glabel func_060337B8
@@ -1014,7 +1014,7 @@
 .L06033806:
 	.short 0x009E
 .L06033808:
-	.long D_060F3064
+	.long player_obj
 .L0603380C:
 	bsr	func_0603340C
 	nop
@@ -1038,9 +1038,9 @@
 	nop
 	.byte 0x00, 0x00
 .L06033834:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L06033838:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0603383C:
 	.long func_06033014
 .L06033840:
@@ -1048,7 +1048,7 @@
 .L06033844:
 	.long D_060329D2
 .L06033848:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_060337B8
 
 	glabel func_0603384C
@@ -1130,17 +1130,17 @@
 	.short 0x0400
 	.byte 0x00, 0x00
 .L060338D8:
-	.long func_0601EF98
+	.long spr_anim_step
 .L060338DC:
-	.long func_0600CA24
+	.long mtx_push
 .L060338E0:
-	.long func_06007C08
+	.long math_sin
 .L060338E4:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060338E8:
-	.long func_060208FA
+	.long spr_draw_billboard_unscaled
 .L060338EC:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603388C
 
 	.section .data.060338F0,"aw",@progbits

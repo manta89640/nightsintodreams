@@ -59,15 +59,15 @@
 	.short 0x00C3
 	.byte 0x00, 0x00
 .L06045F30:
-	.long D_060FFFA0
+	.long obj_list_core
 .L06045F34:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06045F38:
 	.long D_060C011C
 .L06045F3C:
-	.long D_060F3064
+	.long player_obj
 .L06045F40:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_06045F0C
 
 	glabel func_06045F44

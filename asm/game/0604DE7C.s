@@ -111,21 +111,21 @@
 .L0604DF3C:
 	.long func_0600454C
 .L0604DF40:
-	.long func_0600E4F6
+	.long snd_seq_stop
 .L0604DF44:
-	.long func_0600E586
+	.long snd_seq_stop_all
 .L0604DF48:
 	.long func_06007AA8
 .L0604DF4C:
-	.long func_0601F068
+	.long vdp1_cmdlist_begin
 .L0604DF50:
-	.long func_0601F16C
+	.long vdp1_cmdlist_end
 .L0604DF54:
-	.long func_0600D088
+	.long obj_init
 .L0604DF58:
-	.long D_060FFCE0
+	.long vdp2_shadow
 .L0604DF5C:
-	.long D_0602D178
+	.long vdp2_shadow_defaults
 .L0604DF60:
 	.long lbl_0602B7E4
 .L0604DF64:
@@ -187,7 +187,7 @@
 	mov	#14,r9
 	.byte 0x00, 0x00
 .L0604DFC8:
-	.long D_060FFEB8
+	.long grade
 .L0604DFCC:
 	mov.b	@(27,gbr),r0
 	mov	#11,r2
@@ -225,7 +225,7 @@
 	mov	#12,r9
 	.byte 0x00, 0x00
 .L0604E00C:
-	.long D_060FFEB8
+	.long grade
 .L0604E010:
 	mov.b	@(27,gbr),r0
 	mov	#14,r2
@@ -306,9 +306,9 @@
 	bra	.L0604E0A6
 	mov	#18,r9
 .L0604E09C:
-	.long D_060FFE50
+	.long play_state
 .L0604E0A0:
-	.long D_060F3064
+	.long player_obj
 .L0604E0A4:
 	mov	#17,r9
 .L0604E0A6:
@@ -427,9 +427,9 @@
 .L0604E178:
 	.long func_0602C204
 .L0604E17C:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0604E180:
-	.long func_0600D0D0
+	.long obj_alloc
 	endlabel func_0604E0C4
 
 	glabel func_0604E184
@@ -458,9 +458,9 @@
 .L0604E1AC:
 	.long func_0604E1BC
 .L0604E1B0:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0604E1B4:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0604E1B8:
 	.long func_06033034
 	endlabel func_0604E184
@@ -518,9 +518,9 @@
 .L0604E212:
 	.short 0x0080
 .L0604E214:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0604E218:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0604E21C:
 	.long func_06032FB4
 .L0604E220:
@@ -548,7 +548,7 @@
 .L0604E244:
 	.long D_0604DBB8
 .L0604E248:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_0604E224
 
 	glabel func_0604E24C
@@ -584,9 +584,9 @@
 .L0604E280:
 	.long func_0604E290
 .L0604E284:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0604E288:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0604E28C:
 	.long func_06033034
 	endlabel func_0604E24C
@@ -612,7 +612,7 @@
 .L0604E2B0:
 	.long D_0604DBB8
 .L0604E2B4:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_0604E290
 
 	glabel func_0604E2B8
@@ -975,9 +975,9 @@
 .L0604E548:
 	.long D_060FEA2C
 .L0604E54C:
-	.long func_0601CBE0
+	.long txt_cell_addr
 .L0604E550:
-	.long func_0601CC50
+	.long txt_print_hex8
 .L0604E554:
 	.long D_060FEAAC
 .L0604E558:
@@ -1027,7 +1027,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0604E5B0:
-	.long func_06007BD8
+	.long math_sincos
 	endlabel func_0604E2B8
 
 	.section .data.0604E5B4,"aw",@progbits

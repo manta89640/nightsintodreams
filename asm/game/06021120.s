@@ -179,11 +179,11 @@
 .L06021266:
 	.short 0x0270
 .L06021268:
-	.long D_060ED000
+	.long model_texture_table
 .L0602126C:
 	.long 0x0000FFFF
 .L06021270:
-	.long func_0601F1EC
+	.long vdp1_zsort_insert
 	endlabel func_06021120
 
 	glabel func_06021274
@@ -534,7 +534,7 @@
 	mov	r14,r13
 	.byte 0x00, 0x00
 .L060214E0:
-	.long D_060EA000
+	.long poly_vertices
 .L060214E4:
 	add	#-12,r3
 	mov	r14,r13
@@ -669,9 +669,9 @@
 	bra	.L060216CC
 	nop
 .L060215D4:
-	.long D_060EA000
+	.long poly_vertices
 .L060215D8:
-	.long D_060EC000
+	.long poly_scratch
 .L060215DC:
 	.long 0x0000EEE0
 .L060215E0:
@@ -766,7 +766,7 @@
 	.short 0x1000
 	.byte 0x00, 0x00
 .L06021690:
-	.long D_060ED000
+	.long model_texture_table
 .L06021694:
 	bsr	func_060216DC
 	nop
@@ -798,7 +798,7 @@
 .L060216C4:
 	.long D_060213D6
 .L060216C8:
-	.long func_0601F1EC
+	.long vdp1_zsort_insert
 .L060216CC:
 	mov.l	@r15+,r1
 	lds.l	@r15+,pr
@@ -968,7 +968,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06021804:
-	.long D_060FFC00
+	.long gbr_block
 .L06021808:
 	.long D_060FE940
 .L0602180C:
@@ -1234,7 +1234,7 @@
 	.short 0x1000
 	.byte 0x00, 0x00
 .L060219F4:
-	.long D_060ED000
+	.long model_texture_table
 .L060219F8:
 	bsr	func_060216DC
 	nop

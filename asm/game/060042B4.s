@@ -251,7 +251,7 @@
 	.long 0x00001CA2
 	endlabel func_060043CA
 
-	glabel func_06004478
+	glabel smpc_sndon
 	mov.l	.L060044BC,r5
 	mov	#1,r4
 .L0600447C:
@@ -271,9 +271,9 @@
 	bf	.L0600448E
 	rts
 	nop
-	endlabel func_06004478
+	endlabel smpc_sndon
 
-	glabel func_0600449A
+	glabel smpc_sndoff
 	mov	#1,r4
 	mov.l	.L060044BC,r5
 .L0600449E:
@@ -297,7 +297,7 @@
 	.long SMPC_REGS + 0x63
 .L060044C0:
 	.long SMPC_REGS + 0x1F
-	endlabel func_0600449A
+	endlabel smpc_sndoff
 
 	glabel func_060044C4
 	sts.l	pr,@-r15
@@ -356,7 +356,7 @@
 .L0600452E:
 	.short 0xDFF4
 .L06004530:
-	.long D_060FFC00
+	.long gbr_block
 .L06004534:
 	.long SYS_SETUINT
 .L06004538:
@@ -439,7 +439,7 @@
 	.long func_06004CE8
 	endlabel func_06004598
 
-	glabel func_060045BC
+	glabel dma_queue_xfer
 	mov	#-1,r0
 	and	#15,r0
 	mov	r0,r14
@@ -459,7 +459,7 @@
 	mov.w	r0,@(4,gbr)
 	.byte 0x00, 0x00
 .L060045E0:
-	.long D_060F0800
+	.long dma_table_a
 .L060045E4:
 	.long D_060FFC04 + 0x20000000
 .L060045E8:
@@ -483,10 +483,10 @@
 	rts
 	nop
 .L0600460C:
-	.long D_060F0C00
+	.long dma_table_b
 .L06004610:
 	.long D_060FFC06 + 0x20000000
-	endlabel func_060045BC
+	endlabel dma_queue_xfer
 
 	.section .data.06004614,"aw",@progbits
 	.p2align 2

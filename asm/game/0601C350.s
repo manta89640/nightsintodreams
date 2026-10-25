@@ -110,7 +110,7 @@
 .L0601C408:
 	.long 0x006C0000
 .L0601C40C:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_0601C350
 
 	glabel func_0601C410
@@ -168,13 +168,13 @@
 .L0601C46C:
 	.long D_06014246
 .L0601C470:
-	.long func_060204EE
+	.long spr_draw_obj
 .L0601C474:
 	.long D_0601A118
 .L0601C478:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601C47C:
-	.long func_06019D42
+	.long spr_build_number
 	endlabel func_0601C410
 
 	glabel func_0601C480
@@ -283,7 +283,7 @@
 .L0601C538:
 	.long 0x00880000
 .L0601C53C:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_0601C480
 
 	glabel func_0601C540
@@ -343,13 +343,13 @@
 .L0601C5A4:
 	.long D_06014246
 .L0601C5A8:
-	.long func_060204EE
+	.long spr_draw_obj
 .L0601C5AC:
 	.long D_0601B510
 .L0601C5B0:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601C5B4:
-	.long func_06019D42
+	.long spr_build_number
 	endlabel func_0601C540
 
 	glabel func_0601C5B8

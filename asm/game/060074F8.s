@@ -39,7 +39,7 @@
 .L06007534:
 	.long D_06007540
 .L06007538:
-	.long func_06006C12
+	.long cd_load_file
 .L0600753C:
 	.long D_06080000
 	endlabel func_060074F8

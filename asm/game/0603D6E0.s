@@ -68,7 +68,7 @@
 	rts
 	nop
 .L0603D750:
-	.long D_060F3064
+	.long player_obj
 	endlabel func_0603D6F8
 
 	glabel func_0603D754
@@ -154,17 +154,17 @@
 .L0603D7E4:
 	.long D_0603D818
 .L0603D7E8:
-	.long func_06007BD8
+	.long math_sincos
 .L0603D7EC:
 	.long 0x0000000F
 .L0603D7F0:
 	.long D_0603D800
 .L0603D7F4:
-	.long func_06007D96
+	.long math_length3d_capped
 .L0603D7F8:
 	.long VDP1_VRAM + 0xD828
 .L0603D7FC:
-	.long func_0600D4D0
+	.long vdp_rgb555_lerp
 	endlabel func_0603D754
 
 	.section .data.0603D800,"aw",@progbits

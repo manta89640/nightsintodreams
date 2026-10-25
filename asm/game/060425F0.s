@@ -86,7 +86,7 @@
 .L06042680:
 	.long D_060425DC
 .L06042684:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_060425F0
 
 	.section .data.06042688,"aw",@progbits

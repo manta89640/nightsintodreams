@@ -26,7 +26,7 @@
 	jmp	@r0
 	mov	#4,r7
 .L06043D20:
-	.long D_060F3064
+	.long player_obj
 .L06043D24:
 	.long 0x00010000
 .L06043D28:
@@ -85,19 +85,19 @@
 .L06043D8C:
 	.long func_06017A98
 .L06043D90:
-	.long D_060F3064
+	.long player_obj
 .L06043D94:
-	.long func_0600CA24
+	.long mtx_push
 .L06043D98:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06043D9C:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06043DA0:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06043DA4:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06043DA8:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06043DAC:
 	lds.l	@r15+,pr
 	rts
@@ -158,7 +158,7 @@
 	mov.l	r4,@(36,r1)
 	.byte 0xE0, 0xF8, 0x02, 0x1E, 0x84, 0x21, 0x40, 0x11, 0x89, 0x06, 0xE0, 0x01, 0x80, 0x21, 0xD0, 0x01
 	.byte 0x40, 0x2B, 0x00, 0x09
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_06043DB2
 
 	glabel func_06043E24
@@ -185,7 +185,7 @@
 	jmp	@r0
 	mov	#4,r7
 .L06043E50:
-	.long D_060F3064
+	.long player_obj
 .L06043E54:
 	.long .L06043E84
 .L06043E58:
@@ -250,21 +250,21 @@
 .L06043EC8:
 	.long func_06017A98
 .L06043ECC:
-	.long D_060F3064
+	.long player_obj
 .L06043ED0:
-	.long func_0600CA24
+	.long mtx_push
 .L06043ED4:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06043ED8:
-	.long func_0600D018
+	.long mtx_scale
 .L06043EDC:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06043EE0:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06043EE4:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06043EE8:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06043EEC:
 	lds.l	@r15+,pr
 	rts
@@ -336,8 +336,8 @@
 	.byte 0x30, 0x2C, 0xC2, 0xBC, 0x22, 0x59, 0x32, 0x48, 0x50, 0x1E, 0x32, 0x0C, 0x13, 0x2E, 0xC6, 0xBC
 	.byte 0xD2, 0x09, 0x02, 0x07, 0x02, 0x1A, 0xD0, 0x08, 0x30, 0x2C, 0xC2, 0xBC, 0x60, 0x63, 0x81, 0x31
 	.byte 0x60, 0x73, 0x4F, 0x26, 0x00, 0x0B, 0x80, 0x31, 0x00, 0x00
-	.long D_060FFFB8
-	.long func_0600D0D0
+	.long obj_list_effect
+	.long obj_alloc
 	.long func_0604400C
 	.byte 0x41, 0xC6, 0x4E, 0x6D, 0x00, 0x00, 0x30, 0x39
 	dlabel D_06043FE8
@@ -422,15 +422,15 @@
 	lds.l	@r15+,pr
 	.byte 0x00, 0x00
 .L06044084:
-	.long func_0601EF98
+	.long spr_anim_step
 .L06044088:
-	.long func_0600CA24
+	.long mtx_push
 .L0604408C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06044090:
-	.long func_06020906
+	.long spr_draw_billboard
 .L06044094:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06044098:
 	mov.b	@(0,r1),r0
 	add	#-1,r0
@@ -441,14 +441,14 @@
 	jmp	@r0
 	mov.l	@(4,r1),r2
 .L060440A8:
-	.long func_0601EF98
+	.long spr_anim_step
 .L060440AC:
 	mov.l	.L060440B4,r0
 	jmp	@r0
 	nop
 	.byte 0x00, 0x00
 .L060440B4:
-	.long func_0600D1A0
+	.long obj_free
 	.byte 0x20, 0x0A, 0x81, 0x13, 0xD2, 0x08, 0x11, 0x2B, 0xD4, 0x08, 0x85, 0x12, 0x40, 0x18, 0x34, 0x0D
 	.byte 0x00, 0x0A, 0x04, 0x1A, 0x24, 0x0D, 0x11, 0x40, 0x90, 0x04, 0x81, 0x15, 0xD0, 0x04, 0x21, 0x06
 	.byte 0x00, 0x0B, 0x71, 0x04, 0x01, 0x00, 0x00, 0x00
@@ -458,7 +458,7 @@
 	dlabel D_060440EC
 	.byte 0xE0, 0xF8, 0x02, 0x1E, 0x84, 0x21, 0x40, 0x11, 0x89, 0x06, 0xE0, 0x01, 0x80, 0x21, 0xD0, 0x01
 	.byte 0x40, 0x2B, 0x00, 0x09
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_06044058
 
 	glabel func_06044104
@@ -586,7 +586,7 @@
 .L060441EE:
 	.short 0x000A
 .L060441F0:
-	.long func_060172DE
+	.long obj_find_near_player
 .L060441F4:
 	.long D_060402AA
 .L060441F8:
@@ -594,29 +594,29 @@
 .L060441FC:
 	.long func_0601A2BC
 .L06044200:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06044204:
-	.long D_060FFE50
+	.long play_state
 .L06044208:
 	.long func_0604423E
 .L0604420C:
-	.long func_0600CA24
+	.long mtx_push
 .L06044210:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06044214:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06044218:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L0604421C:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06044220:
-	.long func_0600D018
+	.long mtx_scale
 .L06044224:
 	.long D_06080350
 .L06044228:
-	.long func_060208FA
+	.long spr_draw_billboard_unscaled
 .L0604422C:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06044230:
 	mov.w	@(6,r1),r0
 	mov.w	.L0604423C,r2
@@ -718,9 +718,9 @@
 .L060442E4:
 	.long 0x00500000
 .L060442E8:
-	.long func_060172DE
+	.long obj_find_near_player
 .L060442EC:
-	.long D_060F3064
+	.long player_obj
 .L060442F0:
 	.long D_0604437C
 .L060442F4:
@@ -771,7 +771,7 @@
 .L0604434A:
 	.short 0x009E
 .L0604434C:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06044350:
 	.long 0xFFFC0000
 	endlabel func_0604423E
@@ -791,7 +791,7 @@
 	jmp	@r0
 	nop
 .L0604436C:
-	.long func_0600D1A0
+	.long obj_free
 .L06044370:
 	mov.w	r0,@(8,r1)
 	mov.w	@(4,r1),r0
@@ -811,7 +811,7 @@
 	dlabel D_060443B8
 	.byte 0xE0, 0xF8, 0x02, 0x1E, 0x84, 0x21, 0x40, 0x11, 0x89, 0x06, 0xE0, 0x01, 0x80, 0x21, 0xD0, 0x01
 	.byte 0x40, 0x2B, 0x00, 0x09
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_06044354
 
 	glabel func_060443D0
@@ -836,7 +836,7 @@
 	jmp	@r0
 	mov	#4,r7
 .L060443F8:
-	.long D_060F3064
+	.long player_obj
 .L060443FC:
 	.long 0x00010000
 .L06044400:
@@ -895,19 +895,19 @@
 .L06044464:
 	.long func_06017A98
 .L06044468:
-	.long D_060F3064
+	.long player_obj
 .L0604446C:
-	.long func_0600CA24
+	.long mtx_push
 .L06044470:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06044474:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06044478:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L0604447C:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06044480:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06044484:
 	mov.w	@(2,r1),r0
 	mov	r0,r2
@@ -930,7 +930,7 @@
 	mov.l	r5,@(52,r1)
 	.byte 0x00, 0x00
 .L060444AC:
-	.long func_06007C08
+	.long math_sin
 	.byte 0xD0, 0x0C, 0x11, 0x03, 0x85, 0x1B, 0x60, 0x0D, 0x40, 0x19, 0x40, 0x08
 	endlabel func_060443D0
 
@@ -972,7 +972,7 @@
 	jmp	@r0
 	nop
 .L06044500:
-	.long func_0600D1A0
+	.long obj_free
 .L06044504:
 	mov.l	.L06044534,r0
 	mov.l	@r0,r0
@@ -999,7 +999,7 @@
 	jmp	@r0
 	mov	#4,r7
 .L06044534:
-	.long D_060F3064
+	.long player_obj
 .L06044538:
 	.long 0x00010000
 .L0604453C:
@@ -1038,7 +1038,7 @@
 .L0604457C:
 	.long func_06017A98
 .L06044580:
-	.long D_060F3064
+	.long player_obj
 .L06044584:
 	rts
 	nop
@@ -1097,7 +1097,7 @@
 	jmp	@r0
 	nop
 .L060445F8:
-	.long func_0600D1A0
+	.long obj_free
 .L060445FC:
 	mov.l	.L06044644,r0
 	mov.l	@r0,r0
@@ -1136,7 +1136,7 @@
 	mov	#4,r7
 	.byte 0x00, 0x00
 .L06044644:
-	.long D_060F3064
+	.long player_obj
 .L06044648:
 	.long 0x00010000
 .L0604464C:
@@ -1185,7 +1185,7 @@
 .L060446A0:
 	.long func_06017A98
 .L060446A4:
-	.long D_060F3064
+	.long player_obj
 .L060446A8:
 	rts
 	nop
@@ -1217,4 +1217,4 @@
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x84, 0x16, 0x20, 0x08, 0x8B, 0x0C, 0xE0, 0xF8, 0x02, 0x1E, 0x84, 0x21, 0x40, 0x11, 0x89, 0x07
 	.byte 0xE0, 0x01, 0x80, 0x21, 0xD0, 0x01, 0x40, 0x2B, 0x00, 0x09, 0x00, 0x00
-	.long func_0600D1A0
+	.long obj_free

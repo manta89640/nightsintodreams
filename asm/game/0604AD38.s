@@ -156,11 +156,11 @@
 .L0604AE3C:
 	.long D_060CB048
 .L0604AE40:
-	.long func_060055CC
+	.long bup_write_save
 .L0604AE44:
-	.long func_0600598C
+	.long bup_check_devices
 .L0604AE48:
-	.long func_06005C96
+	.long bup_scan_save_files
 .L0604AE4C:
 	.long func_06005910
 	endlabel func_0604ADD0

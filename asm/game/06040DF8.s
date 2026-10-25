@@ -48,25 +48,25 @@
 	jmp	@r0
 	nop
 .L06040E4C:
-	.long func_0600CA24
+	.long mtx_push
 .L06040E50:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06040E54:
-	.long func_0600D018
+	.long mtx_scale
 .L06040E58:
 	.long D_060B883E
 .L06040E5C:
-	.long func_060208FA
+	.long spr_draw_billboard_unscaled
 .L06040E60:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06040E64:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06040E68:
 	.long D_0609BB24
 .L06040E6C:
-	.long func_0601F434
+	.long poly_draw_model
 .L06040E70:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06040DF8
 
 	.section .data.06040E74,"aw",@progbits
@@ -76,4 +76,4 @@
 	dlabel D_06040E84
 	.byte 0xE0, 0xF8, 0x02, 0x1E, 0x84, 0x21, 0x40, 0x11, 0x89, 0x06, 0xE0, 0x01, 0x80, 0x21, 0xD0, 0x01
 	.byte 0x40, 0x2B, 0x00, 0x09
-	.long func_0600D1A0
+	.long obj_free

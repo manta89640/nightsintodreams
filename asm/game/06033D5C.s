@@ -193,33 +193,33 @@
 .L06033EB8:
 	.long D_060342CA
 .L06033EBC:
-	.long func_0600CC8E
+	.long light_set_dir
 .L06033EC0:
 	.long VDP1_VRAM + 0xC870
 .L06033EC4:
-	.long func_0600CA24
+	.long mtx_push
 .L06033EC8:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06033ECC:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06033ED0:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06033ED4:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06033ED8:
-	.long func_0600D018
+	.long mtx_scale
 .L06033EDC:
-	.long func_0600CF6C
+	.long light_shade_model
 .L06033EE0:
-	.long func_0601F434
+	.long poly_draw_model
 .L06033EE4:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06033EE8:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06033EEC:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06033EF0:
-	.long D_060FFFA8
+	.long obj_list_manager
 .L06033EF4:
 	.long func_06033EFE
 .L06033EF8:
@@ -256,9 +256,9 @@
 .L06033F2E:
 	.short 0x1A3E
 .L06033F30:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06033F34:
-	.long D_060FFFA8
+	.long obj_list_manager
 .L06033F38:
 	.long func_06033F40
 .L06033F3C:
@@ -332,11 +332,11 @@
 .L06033FB0:
 	.long 0x00002000
 .L06033FB4:
-	.long func_0600E4F6
+	.long snd_seq_stop
 .L06033FB8:
 	.long D_060D9074
 .L06033FBC:
-	.long func_0600D1A0
+	.long obj_free
 .L06033FC0:
 	mov	#14,r2
 	mov.l	@(32,r1),r0
@@ -360,9 +360,9 @@
 	nop
 	.byte 0x00, 0x00
 .L06033FE8:
-	.long D_060FFFA8
+	.long obj_list_manager
 .L06033FEC:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06033FF0:
 	.long func_06033054
 .L06033FF4:
@@ -454,23 +454,23 @@
 .L0603409C:
 	.long D_060343CA
 .L060340A0:
-	.long func_0600CC8E
+	.long light_set_dir
 .L060340A4:
 	.long VDP1_VRAM + 0xC9F0
 .L060340A8:
-	.long func_0600CA24
+	.long mtx_push
 .L060340AC:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060340B0:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L060340B4:
-	.long func_0600D018
+	.long mtx_scale
 .L060340B8:
-	.long func_0600CF6C
+	.long light_shade_model
 .L060340BC:
-	.long func_0601F434
+	.long poly_draw_model
 .L060340C0:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06033F58
 
 	glabel func_060340C4
@@ -585,27 +585,27 @@
 	nop
 	.byte 0x00, 0x00
 .L0603419C:
-	.long func_06007CF0
+	.long math_sqrt
 .L060341A0:
 	.long 0x00221000
 .L060341A4:
 	.long D_0603434A
 .L060341A8:
-	.long func_0600CC8E
+	.long light_set_dir
 .L060341AC:
 	.long VDP1_VRAM + 0xD1F0
 .L060341B0:
-	.long func_0600CA24
+	.long mtx_push
 .L060341B4:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060341B8:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L060341BC:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L060341C0:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L060341C4:
-	.long func_0600D018
+	.long mtx_scale
 .L060341C8:
 	.long D_0608411C
 .L060341CC:
@@ -639,11 +639,11 @@
 .L06034200:
 	.long D_060852B0
 .L06034204:
-	.long func_0600CF6C
+	.long light_shade_model
 .L06034208:
-	.long func_0601F434
+	.long poly_draw_model
 .L0603420C:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_060340C4
 
 	glabel func_06034210

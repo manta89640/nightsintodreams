@@ -144,7 +144,7 @@
 .L06042138:
 	.long D_06014884
 .L0604213C:
-	.long func_060204EE
+	.long spr_draw_obj
 .L06042140:
 	.long D_06042028
 .L06042144:
@@ -268,7 +268,7 @@
 .L06042218:
 	.long D_06093170
 .L0604221C:
-	.long func_060045BC
+	.long dma_queue_xfer
 .L06042220:
 	.long D_06041FE0
 .L06042224:
@@ -278,7 +278,7 @@
 .L0604222C:
 	.long D_06041FE4
 .L06042230:
-	.long D_060FFE50
+	.long play_state
 .L06042234:
 	cmp/eq	#-1,r0
 	bf	.L06042240
@@ -304,7 +304,7 @@
 	rts
 	mov.l	r0,@r2
 .L0604225C:
-	.long D_060FFEC0
+	.long chips_needed
 .L06042260:
 	.long D_06041FE0
 .L06042264:
@@ -326,7 +326,7 @@
 	add	#4,r1
 	.byte 0x00, 0x00
 .L06042280:
-	.long D_060FFEC0
+	.long chips_needed
 .L06042284:
 	.long D_06014884
 .L06042288:
@@ -363,7 +363,7 @@
 	.short 0x0010
 	.byte 0x00, 0x00
 .L060422C0:
-	.long D_060FFEC0
+	.long chips_needed
 .L060422C4:
 	.long 0x00180000
 .L060422C8:
@@ -421,7 +421,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06042324:
-	.long D_060FFEC0
+	.long chips_needed
 .L06042328:
 	.long .L06042312
 .L0604232C:
@@ -434,7 +434,7 @@
 	rts
 	nop
 .L0604233C:
-	.long func_060204EE
+	.long spr_draw_obj
 .L06042340:
 	mov.l	.L06042358,r2
 	mov.l	@r2,r2
@@ -450,7 +450,7 @@
 	rts
 	nop
 .L06042358:
-	.long D_060FFEC0
+	.long chips_needed
 .L0604235C:
 	.long func_06042364
 .L06042360:
@@ -513,7 +513,7 @@
 	rts
 	nop
 .L060423C0:
-	.long D_060FFEC0
+	.long chips_needed
 .L060423C4:
 	mov.l	.L060423CC,r0
 	mov.l	r0,@-r1
@@ -555,7 +555,7 @@
 	mov.w	r0,@(22,r1)
 	.byte 0x00, 0x00
 .L06042410:
-	.long func_06007C08
+	.long math_sin
 .L06042414:
 	.long 0x00180000
 .L06042418:
@@ -701,11 +701,11 @@
 .L06042514:
 	.long D_06093210
 .L06042518:
-	.long func_060045BC
+	.long dma_queue_xfer
 .L0604251C:
 	.long D_060EEA74
 .L06042520:
-	.long D_060FFE50
+	.long play_state
 .L06042524:
 	.long D_06093450
 .L06042528:
@@ -753,7 +753,7 @@
 .L0604256C:
 	.long D_0604258C
 .L06042570:
-	.long func_060204EE
+	.long spr_draw_obj
 .L06042574:
 	mov.w	@(22,r1),r0
 	add	#-16,r0

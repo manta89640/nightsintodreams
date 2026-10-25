@@ -24,13 +24,13 @@
 	bra	.L0602894E
 	nop
 .L06028928:
-	.long D_060F3064
+	.long player_obj
 .L0602892C:
 	.long D_060FEB0C
 .L06028930:
 	.long D_060FEAAC
 .L06028934:
-	.long func_0600CC8E
+	.long light_set_dir
 .L06028938:
 	mov.l	.L06028988,r0
 	mov.l	r0,@(112,gbr)
@@ -80,7 +80,7 @@
 .L0602898C:
 	.long D_060FEAB8
 .L06028990:
-	.long func_0600CC8E
+	.long light_set_dir
 .L06028994:
 	.long func_06029B94
 .L06028998:

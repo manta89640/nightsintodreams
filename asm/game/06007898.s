@@ -67,7 +67,7 @@
 .L0600790C:
 	.long D_060D900A
 .L06007910:
-	.long func_06006C94
+	.long cd_queue_load
 .L06007914:
 	.long D_06051538
 .L06007918:
@@ -77,11 +77,11 @@
 .L06007920:
 	.long D_060512A0
 .L06007924:
-	.long D_00200000
+	.long lwram_buf
 .L06007928:
 	.long D_060D900E
 .L0600792C:
-	.long func_06006EA0
+	.long cd_service
 .L06007930:
 	.long D_06064FA4
 	endlabel func_06007898
@@ -129,11 +129,11 @@
 .L0600797C:
 	.long D_0600798C
 .L06007980:
-	.long D_060B0000
+	.long vdp1_alt_list_buf
 .L06007984:
 	.long D_060C0000
 .L06007988:
-	.long func_06006C12
+	.long cd_load_file
 	endlabel func_06007934
 
 	.section .data.0600798C,"aw",@progbits

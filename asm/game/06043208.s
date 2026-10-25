@@ -24,11 +24,11 @@
 	.long D_06039594
 	.long D_06039574
 	.long D_060431D4
-	.long D_060F3064
+	.long player_obj
 .L06043238:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0604323C:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06043240:
 	.long func_06043304
 .L06043244:
@@ -103,11 +103,11 @@
 .L060432C0:
 	.long func_060432D0
 .L060432C4:
-	.long func_06007BD8
+	.long math_sincos
 .L060432C8:
-	.long D_060F3064
+	.long player_obj
 .L060432CC:
-	.long func_06018E8C
+	.long path_place_obj
 	endlabel func_06043248
 
 	glabel func_060432D0
@@ -138,7 +138,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06043300:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_060432D0
 
 	glabel func_06043304
@@ -162,7 +162,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06043328:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_06043304
 
 	glabel func_0604332C
@@ -193,9 +193,9 @@
 	add	#4,r1
 	.byte 0x00, 0x00
 .L06043360:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L06043364:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06043368:
 	.long func_060438B4
 .L0604336C:
@@ -224,7 +224,7 @@
 	jmp	@r0
 	lds.l	@r15+,pr
 .L06043398:
-	.long func_0600D1A0
+	.long obj_free
 .L0604339C:
 	mov.l	.L060433C0,r0
 	mov.l	@r0,r2
@@ -246,7 +246,7 @@
 	nop
 	.byte 0x00, 0x00
 .L060433C0:
-	.long D_060F3064
+	.long player_obj
 .L060433C4:
 	mov.l	.L060433D0,r9
 	mov.l	.L060433D4,r0
@@ -335,21 +335,21 @@
 	jmp	@r0
 	lds.l	@r15+,pr
 .L06043468:
-	.long func_0600CA24
+	.long mtx_push
 .L0604346C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06043470:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06043474:
 	.long D_0608C018
 .L06043478:
 	.long D_0608BFCC
 .L0604347C:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06043480:
-	.long func_0601F434
+	.long poly_draw_model
 .L06043484:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06043488:
 	mov.l	r6,@-r15
 	mov.l	r5,@-r15
@@ -525,9 +525,9 @@
 	jmp	@r0
 	nop
 .L060435DC:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L060435E0:
-	.long D_060F3064
+	.long player_obj
 .L060435E4:
 	.long 0x00008000
 .L060435E8:
@@ -553,7 +553,7 @@
 .L06043610:
 	.long func_060429E0
 .L06043614:
-	.long func_0600D1A0
+	.long obj_free
 	dlabel D_06043618
 	.byte 0x00, 0x00, 0x00, 0xB4
 	.long D_06043624
@@ -623,9 +623,9 @@
 	rts
 	nop
 .L060436A4:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L060436A8:
-	.long func_0600D0D0
+	.long obj_alloc
 .L060436AC:
 	.long func_060436C0
 .L060436B0:
@@ -701,19 +701,19 @@
 	jmp	@r0
 	lds.l	@r15+,pr
 .L06043738:
-	.long func_0600CA24
+	.long mtx_push
 .L0604373C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06043740:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06043744:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06043748:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L0604374C:
-	.long func_0601F434
+	.long poly_draw_model
 .L06043750:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06043754:
 	mov.l	.L06043760,r0
 	jsr	@r0
@@ -722,9 +722,9 @@
 	jmp	@r0
 	lds.l	@r15+,pr
 .L06043760:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06043764:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06043768:
 	mov.w	@(0,r1),r0
 	cmp/eq	#60,r0
@@ -783,7 +783,7 @@
 	nop
 	.byte 0x00, 0x00
 .L060437D0:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_060436C0
 
 	glabel func_060437D4
@@ -810,7 +810,7 @@
 	rts
 	sub	r5,r7
 .L06043800:
-	.long func_06018EB4
+	.long path_eval
 	endlabel func_060437D4
 
 	.section .data.06043804,"aw",@progbits

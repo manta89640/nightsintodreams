@@ -51,7 +51,7 @@
 	mov.l	r4,@(8,r2)
 	.byte 0x00, 0x00
 .L0600EE9C:
-	.long D_00200000
+	.long lwram_buf
 .L0600EEA0:
 	.long D_060D9300
 .L0600EEA4:
@@ -552,7 +552,7 @@
 	.long 0xFFFFFE92
 	.byte 0xC0, 0x00, 0x08, 0x00
 .L0600F2C4:
-	.long D_060FFCA0
+	.long camera
 .L0600F2C8:
 	.long SH2_CACHE_DATA
 .L0600F2CC:
@@ -560,7 +560,7 @@
 .L0600F2D0:
 	.long D_060DB2D4
 .L0600F2D4:
-	.long D_060FFC60 + 0x20000000
+	.long vdp1_wp1 + 0x20000000
 .L0600F2D8:
 	.long D_060DB2C8
 .L0600F2DC:
@@ -1809,7 +1809,7 @@
 	bra	.L0600FBA8
 	add	#12,r1
 .L0600FBBC:
-	.long D_060F3064 + 0x20000000
+	.long player_obj + 0x20000000
 .L0600FBC0:
 	.long 0x0B800000
 .L0600FBC4:
@@ -1928,7 +1928,7 @@
 .L0600FC94:
 	.long D_060DB30C
 .L0600FC98:
-	.long D_060FFCD2
+	.long cam_flags
 .L0600FC9C:
 	.long D_060DB560
 .L0600FCA0:
@@ -1954,7 +1954,7 @@
 	bra	.L0600FC4C
 	mov.l	@(8,r2),r2
 .L0600FCC8:
-	.long D_060F3064
+	.long player_obj
 .L0600FCCC:
 	.long D_060DB318
 .L0600FCD0:
@@ -2005,7 +2005,7 @@
 	.short 0x0580
 	.byte 0x00, 0x00
 .L0600FD24:
-	.long D_060FFCD2
+	.long cam_flags
 .L0600FD28:
 	.long D_060DB560
 .L0600FD2C:
@@ -2124,7 +2124,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0600FDFC:
-	.long D_060FFCD2
+	.long cam_flags
 .L0600FE00:
 	.long D_060DB560
 .L0600FE04:
@@ -2576,7 +2576,7 @@
 .L06010140:
 	.long 0xC00000D8
 .L06010144:
-	.long func_06007BF4
+	.long math_cos
 .L06010148:
 	.long SH2_CACHE_DATA + 0x258
 .L0601014C:
@@ -2815,7 +2815,7 @@
 	rts
 	nop
 .L060102FC:
-	.long func_06007CF0
+	.long math_sqrt
 .L06010300:
 	.long D_060DB300
 .L06010304:

@@ -181,9 +181,9 @@
 .L060455AC:
 	.long D_060FFD04
 .L060455B0:
-	.long D_060FFDD8
+	.long vdp2_prina
 .L060455B4:
-	.long D_060FFDD0
+	.long vdp2_prisa
 .L060455B8:
 	.long D_060FFDC0
 .L060455BC:
@@ -199,7 +199,7 @@
 .L060455D0:
 	.long 0x00010000
 .L060455D4:
-	.long func_0600D530
+	.long vdp1_build_fog_cluts
 .L060455D8:
 	.long D_060455DC + 0x90
 	endlabel func_06045460

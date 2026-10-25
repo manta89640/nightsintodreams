@@ -40,9 +40,9 @@
 .L0603D8E0:
 	.long D_060F30F4
 .L0603D8E4:
-	.long D_060FFE50
+	.long play_state
 .L0603D8E8:
-	.long func_06018E8C
+	.long path_place_obj
 .L0603D8EC:
 	.long D_06084F20
 .L0603D8F0:
@@ -50,7 +50,7 @@
 .L0603D8F4:
 	.long 0x000003C8
 .L0603D8F8:
-	.long func_060045BC
+	.long dma_queue_xfer
 .L0603D8FC:
 	.long func_0603D9B6
 	endlabel func_0603D8A0

@@ -16,9 +16,9 @@
 	rts
 	nop
 .L06032D60:
-	.long D_060FFFD0
+	.long obj_list_load_task
 .L06032D64:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06032D68:
 	.long func_06033074
 	endlabel func_06032D4C
@@ -35,9 +35,9 @@
 	rts
 	nop
 .L06032D80:
-	.long D_060FFFD8
+	.long obj_list_load_scene
 .L06032D84:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06032D88:
 	.long func_06032DBC
 	endlabel func_06032D6C
@@ -54,9 +54,9 @@
 	rts
 	nop
 .L06032DA0:
-	.long D_060FFFD8
+	.long obj_list_load_scene
 .L06032DA4:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06032DA8:
 	.long func_06032E98
 	endlabel func_06032D8C
@@ -188,13 +188,13 @@
 .L06032E84:
 	.long D_060F306C
 .L06032E88:
-	.long func_06007BD8
+	.long math_sincos
 .L06032E8C:
-	.long func_06017B7C
+	.long math_rotate_xz
 .L06032E90:
-	.long D_060F3064
+	.long player_obj
 .L06032E94:
-	.long func_06007C08
+	.long math_sin
 	endlabel func_06032DE8
 
 	glabel func_06032E98
@@ -312,15 +312,15 @@
 	.short 0x0111
 	.byte 0x00, 0x00
 .L06032F60:
-	.long D_060F3068
+	.long player_obj_p2
 .L06032F64:
-	.long func_06007BD8
+	.long math_sincos
 .L06032F68:
-	.long func_06017B7C
+	.long math_rotate_xz
 .L06032F6C:
-	.long D_060F3064
+	.long player_obj
 .L06032F70:
-	.long func_06007C08
+	.long math_sin
 	endlabel func_06032EC4
 
 	glabel func_06032F74

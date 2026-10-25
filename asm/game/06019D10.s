@@ -4,7 +4,7 @@
 	.section .text.06019D10,"ax",@progbits
 	.p2align 2
 
-	glabel func_06019D10
+	glabel txt_bcd_to_ascii
 	add	r14,r5
 	add	#-1,r5
 	mov	#10,r2
@@ -34,9 +34,9 @@
 .L06019D3E:
 	rts
 	nop
-	endlabel func_06019D10
+	endlabel txt_bcd_to_ascii
 
-	glabel func_06019D42
+	glabel spr_build_number
 	mov	r0,r4
 	mov	#0,r5
 	mov.l	@(44,r1),r2
@@ -76,7 +76,7 @@
 	.byte 0x00, 0x00
 .L06019D88:
 	.long D_06014486
-	endlabel func_06019D42
+	endlabel spr_build_number
 
 	glabel func_06019D8C
 	mov.b	@(20,gbr),r0
@@ -193,7 +193,7 @@
 .L06019E54:
 	.long VDP1_VRAM + 0xFFF8
 .L06019E58:
-	.long D_060FFE50
+	.long play_state
 .L06019E5C:
 	.long D_0601A118
 .L06019E60:
@@ -205,7 +205,7 @@
 .L06019E6C:
 	.long 0x00000000
 .L06019E70:
-	.long D_060FFE90
+	.long score
 .L06019E74:
 	.long 0x00380000
 .L06019E78:
@@ -295,9 +295,9 @@
 .L06019F30:
 	.long VDP1_VRAM + 0xFFF8
 .L06019F34:
-	.long func_0600D4D0
+	.long vdp_rgb555_lerp
 .L06019F38:
-	.long D_060FFE50
+	.long play_state
 .L06019F3C:
 	add	#-1,r0
 	mov.b	r0,@(2,r7)
@@ -362,7 +362,7 @@
 	.short 0xFFD8
 	.byte 0x00, 0x00
 .L06019FA8:
-	.long D_060FFE50
+	.long play_state
 .L06019FAC:
 	.long func_0601C350
 .L06019FB0:
@@ -370,7 +370,7 @@
 .L06019FB4:
 	.long 0xFFFF8000
 .L06019FB8:
-	.long D_060FFE90
+	.long score
 .L06019FBC:
 	mov.w	.L06019FD8,r10
 	add	r10,r0
@@ -407,7 +407,7 @@
 	jsr	@r14
 	mov	r0,r4
 	mov	#6,r14
-	bsr	func_06019D42
+	bsr	spr_build_number
 	nop
 	mov.b	@(35,gbr),r0
 	tst	r0,r0
@@ -417,7 +417,7 @@
 .L0601A002:
 	.short 0x00E8
 .L0601A004:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601A008:
 	mov.b	@(110,gbr),r0
 	tst	r0,r0
@@ -434,7 +434,7 @@
 	rts
 	nop
 .L0601A020:
-	.long func_060204EE
+	.long spr_draw_obj
 	.byte 0xD7, 0x0F, 0xE0, 0x00, 0x80, 0x70, 0x80, 0x71, 0x80, 0x72, 0x81, 0x77, 0x80, 0x75, 0x90, 0x15
 	.byte 0x81, 0x1E, 0xD2, 0x0C, 0x11, 0x2B, 0xE0, 0x00, 0x81, 0x1A, 0xD0, 0x0B, 0x11, 0x0C, 0xE2, 0x30
 	.byte 0x42, 0x28, 0x11, 0x2D, 0xD0, 0x09, 0x11, 0x0E, 0x90, 0x09, 0x81, 0x1B, 0xD2, 0x08, 0x60, 0x22
@@ -442,7 +442,7 @@
 	.long D_060FFE60
 	.long D_0601A194
 	.byte 0x01, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.long D_060FFE94
+	.long score_p2
 	.long func_0601A07C
 	endlabel func_06019ED6
 
@@ -480,7 +480,7 @@
 .L0601A0B6:
 	.short 0xFF38
 .L0601A0B8:
-	.long D_060FFE94
+	.long score_p2
 .L0601A0BC:
 	mov.w	.L0601A0D8,r10
 	add	r10,r0
@@ -517,7 +517,7 @@
 	jsr	@r14
 	mov	r0,r4
 	mov	#6,r14
-	bsr	func_06019D42
+	bsr	spr_build_number
 	nop
 	mov.b	@(110,gbr),r0
 	tst	r0,r0
@@ -529,14 +529,14 @@
 	.short 0x0100
 	.byte 0x00, 0x00
 .L0601A108:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601A10C:
 	lds.l	@r15+,pr
 	mov.l	.L0601A114,r0
 	jmp	@r0
 	nop
 .L0601A114:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_0601A07C
 
 	.section .data.0601A118,"aw",@progbits

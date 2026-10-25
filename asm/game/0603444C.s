@@ -53,9 +53,9 @@
 	.byte 0x00, 0x00
 	.long D_060F30A8
 .L060344A8:
-	.long D_060FFFA8
+	.long obj_list_manager
 .L060344AC:
-	.long func_0600D0D0
+	.long obj_alloc
 .L060344B0:
 	.long func_060344BC
 .L060344B4:
@@ -134,7 +134,7 @@
 .L0603452C:
 	.long D_06014CCA
 .L06034530:
-	.long func_0601EF98
+	.long spr_anim_step
 .L06034534:
 	bsr	func_06034A3C
 	nop
@@ -158,13 +158,13 @@
 	nop
 	.byte 0x00, 0x00
 .L0603455C:
-	.long func_0600CA24
+	.long mtx_push
 .L06034560:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06034564:
-	.long func_06020906
+	.long spr_draw_billboard
 .L06034568:
-	.long func_0600CA4E
+	.long mtx_pop
 	dlabel D_0603456C
 	.long func_060347F0
 	.long func_060347B4
@@ -323,7 +323,7 @@
 .L0603467C:
 	.long D_060329D4
 .L06034680:
-	.long D_060FFE50
+	.long play_state
 .L06034684:
 	mov.w	.L060346B2,r3
 	mov	#70,r0
@@ -509,9 +509,9 @@
 .L060347AA:
 	.short 0x4000
 .L060347AC:
-	.long D_060F3064
+	.long player_obj
 .L060347B0:
-	.long func_0600E4C4
+	.long snd_seq_start
 	endlabel func_06034772
 
 	glabel func_060347B4
@@ -597,7 +597,7 @@
 	mov.l	r5,@(8,r2)
 	.byte 0x00, 0x00
 .L06034834:
-	.long D_060F3064
+	.long player_obj
 .L06034838:
 	.long D_060FFE28
 	endlabel func_06034804
@@ -829,9 +829,9 @@
 	.short 0x0400
 	.byte 0x00, 0x00
 .L060349C8:
-	.long func_06007C08
+	.long math_sin
 .L060349CC:
-	.long func_06007BD8
+	.long math_sincos
 	endlabel func_06034956
 
 	glabel func_060349D0
@@ -888,7 +888,7 @@
 	rts
 	mov.l	@(28,r14),r5
 .L06034A38:
-	.long func_06007CF0
+	.long math_sqrt
 	endlabel func_060349D0
 
 	glabel func_06034A3C
@@ -997,11 +997,11 @@
 .L06034AFC:
 	.long D_06034BAC
 .L06034B00:
-	.long D_060EE800
+	.long sprite_texture_table
 .L06034B04:
 	.long VDP1_VRAM
 .L06034B08:
-	.long func_060045BC
+	.long dma_queue_xfer
 	endlabel func_06034A3C
 
 	.section .data.06034B0C,"aw",@progbits

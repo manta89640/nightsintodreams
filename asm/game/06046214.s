@@ -119,29 +119,29 @@
 .L060462E6:
 	.short 0xFF01
 .L060462E8:
-	.long func_0600E586
+	.long snd_seq_stop_all
 .L060462EC:
 	.long D_060512D6
 .L060462F0:
-	.long func_06006C12
+	.long cd_load_file
 .L060462F4:
-	.long D_00200000
+	.long lwram_buf
 .L060462F8:
 	.long func_0600454C
 .L060462FC:
 	.long func_0602B94A
 .L06046300:
-	.long func_0601F068
+	.long vdp1_cmdlist_begin
 .L06046304:
-	.long func_0601F16C
+	.long vdp1_cmdlist_end
 .L06046308:
-	.long func_0600D088
+	.long obj_init
 .L0604630C:
-	.long func_0600D3D0
+	.long vdp_init_palette_gouraud
 .L06046310:
-	.long D_060FFCE0
+	.long vdp2_shadow
 .L06046314:
-	.long D_0602D178
+	.long vdp2_shadow_defaults
 .L06046318:
 	.long lbl_0602B7E4
 .L0604631C:
@@ -151,11 +151,11 @@
 .L06046324:
 	.long D_06046428
 .L06046328:
-	.long D_060FFCEE
+	.long vdp2_ramctl
 .L0604632C:
 	.long 0x00000052
 .L06046330:
-	.long D_060FFDD0
+	.long vdp2_prisa
 .L06046334:
 	.long D_0604649C
 .L06046338:
@@ -216,9 +216,9 @@
 	nop
 	.byte 0x00, 0x00
 .L060463A4:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L060463A8:
-	.long func_0600D0D0
+	.long obj_alloc
 .L060463AC:
 	.long func_0604654C
 .L060463B0:
@@ -272,19 +272,19 @@
 	nop
 	.byte 0x00, 0x00
 .L06046408:
-	.long func_06004BAE
+	.long sys_wait_vblank
 .L0604640C:
 	.long func_0602FD1C
 .L06046410:
-	.long func_0600E3DC
+	.long snd_cmd_flush
 .L06046414:
-	.long func_0601F068
+	.long vdp1_cmdlist_begin
 .L06046418:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0604641C:
-	.long func_0600D1F8
+	.long obj_run_list
 .L06046420:
-	.long func_0601F16C
+	.long vdp1_cmdlist_end
 .L06046424:
 	.short 0x5601
 	.byte 0x46, 0x01

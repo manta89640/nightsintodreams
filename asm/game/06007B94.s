@@ -5,7 +5,7 @@
 	.p2align 2
 	.byte 0x84, 0x12
 
-	glabel func_06007B96
+	glabel math_rand
 	mov.l	r9,@-r15
 	mov.l	r8,@-r15
 	mov.l	.L06007BD0,r8
@@ -38,12 +38,12 @@
 	nop
 	.byte 0x00, 0x00
 .L06007BD0:
-	.long D_060FFEF0
+	.long rand_state
 .L06007BD4:
 	.long 0x2A6D365A
-	endlabel func_06007B96
+	endlabel math_rand
 
-	glabel func_06007BD8
+	glabel math_sincos
 	add	#8,r0
 	extu.w	r0,r0
 	mov.l	.L06007BEC,r10
@@ -55,12 +55,12 @@
 	rts
 	mov.w	@(r0,r11),r11
 .L06007BEC:
-	.long D_06007E04
+	.long sin_table
 .L06007BF0:
-	.long D_06008604
-	endlabel func_06007BD8
+	.long cos_table
+	endlabel math_sincos
 
-	glabel func_06007BF4
+	glabel math_cos
 	add	#8,r0
 	extu.w	r0,r0
 	mov.l	.L06007C04,r10
@@ -70,10 +70,10 @@
 	rts
 	mov.w	@(r0,r10),r10
 .L06007C04:
-	.long D_06008604
-	endlabel func_06007BF4
+	.long cos_table
+	endlabel math_cos
 
-	glabel func_06007C08
+	glabel math_sin
 	add	#8,r0
 	extu.w	r0,r0
 	mov.l	.L06007C18,r10
@@ -83,10 +83,10 @@
 	rts
 	mov.w	@(r0,r10),r10
 .L06007C18:
-	.long D_06007E04
-	endlabel func_06007C08
+	.long sin_table
+	endlabel math_sin
 
-	glabel func_06007C1C
+	glabel math_atan2
 	mov	#0,r8
 	cmp/pz	r2
 	bt	.L06007C26
@@ -125,18 +125,18 @@
 	jmp	@r13
 	nop
 .L06007C60:
-	.long D_0600A604
-	endlabel func_06007C1C
+	.long atan_table
+	endlabel math_atan2
 
-	glabel func_06007C64
+	glabel math_atan2_t
 	shlr2	r0
 	shlr	r0
 	and	r8,r0
 	rts
 	mov.w	@(r0,r9),r0
-	endlabel func_06007C64
+	endlabel math_atan2_t
 
-	glabel func_06007C6E
+	glabel math_atan2_180_minus_t
 	shlr2	r0
 	shlr	r0
 	and	r8,r0
@@ -144,9 +144,9 @@
 	sub	r0,r3
 	rts
 	mov	r3,r0
-	endlabel func_06007C6E
+	endlabel math_atan2_180_minus_t
 
-	glabel func_06007C7C
+	glabel math_atan2_minus_t
 	shlr2	r0
 	shlr	r0
 	and	r8,r0
@@ -154,18 +154,18 @@
 	neg	r0,r0
 	rts
 	extu.w	r0,r0
-	endlabel func_06007C7C
+	endlabel math_atan2_minus_t
 
-	glabel func_06007C8A
+	glabel math_atan2_180_plus_t
 	shlr2	r0
 	shlr	r0
 	and	r8,r0
 	mov.w	@(r0,r9),r0
 	rts
 	add	r3,r0
-	endlabel func_06007C8A
+	endlabel math_atan2_180_plus_t
 
-	glabel func_06007C96
+	glabel math_atan2_90_minus_t
 	shlr2	r0
 	shlr	r0
 	and	r8,r0
@@ -173,18 +173,18 @@
 	sub	r0,r2
 	rts
 	mov	r2,r0
-	endlabel func_06007C96
+	endlabel math_atan2_90_minus_t
 
-	glabel func_06007CA4
+	glabel math_atan2_90_plus_t
 	shlr2	r0
 	shlr	r0
 	and	r8,r0
 	mov.w	@(r0,r9),r0
 	rts
 	add	r2,r0
-	endlabel func_06007CA4
+	endlabel math_atan2_90_plus_t
 
-	glabel func_06007CB0
+	glabel math_atan2_270_plus_t
 	shlr2	r0
 	shlr	r0
 	and	r8,r0
@@ -192,9 +192,9 @@
 	add	r2,r3
 	rts
 	add	r3,r0
-	endlabel func_06007CB0
+	endlabel math_atan2_270_plus_t
 
-	glabel func_06007CBE
+	glabel math_atan2_270_minus_t
 	shlr2	r0
 	shlr	r0
 	and	r8,r0
@@ -205,21 +205,21 @@
 	mov	r3,r0
 	.byte 0x00, 0x09
 .L06007CD0:
-	.long func_06007C64
-	.long func_06007C6E
-	.long func_06007C7C
-	.long func_06007C8A
-	.long func_06007C96
-	.long func_06007CA4
-	.long func_06007CB0
-	.long func_06007CBE
-	endlabel func_06007CBE
+	.long math_atan2_t
+	.long math_atan2_180_minus_t
+	.long math_atan2_minus_t
+	.long math_atan2_180_plus_t
+	.long math_atan2_90_minus_t
+	.long math_atan2_90_plus_t
+	.long math_atan2_270_plus_t
+	.long math_atan2_270_minus_t
+	endlabel math_atan2_270_minus_t
 
-	glabel func_06007CF0
+	glabel math_sqrt
 	mov	#1,r8
 	shll16	r8
 	cmp/ge	r8,r0
-	bt	func_06007D10
+	bt	math_sqrt32
 	mov	#4,r8
 	shll8	r8
 	cmp/ge	r8,r0
@@ -233,9 +233,9 @@
 	mov	#8,r8
 	bra	.L06007D12
 	shll16	r0
-	endlabel func_06007CF0
+	endlabel math_sqrt
 
-	glabel func_06007D10
+	glabel math_sqrt32
 	mov	#16,r8
 .L06007D12:
 	mov	r0,r10
@@ -262,18 +262,18 @@
 	add	#-1,r0
 	rts
 	shlr	r0
-	endlabel func_06007D10
+	endlabel math_sqrt32
 
-	glabel func_06007D3E
+	glabel math_sqrt_fx
 	sts.l	pr,@-r15
-	bsr	func_06007D10
+	bsr	math_sqrt32
 	nop
 	lds.l	@r15+,pr
 	rts
 	shll8	r0
-	endlabel func_06007D3E
+	endlabel math_sqrt_fx
 
-	glabel func_06007D4A
+	glabel math_dist2d
 	sub	r2,r4
 	sub	r3,r5
 	muls.w	r4,r4
@@ -281,11 +281,11 @@
 	muls.w	r5,r5
 	sts	macl,r5
 	add	r4,r5
-	bra	func_06007CF0
+	bra	math_sqrt
 	mov	r5,r0
-	endlabel func_06007D4A
+	endlabel math_dist2d
 
-	glabel func_06007D5C
+	glabel math_length3d
 	muls.w	r4,r4
 	sts	macl,r4
 	muls.w	r5,r5
@@ -294,14 +294,34 @@
 	sts	macl,r6
 	add	r4,r5
 	add	r5,r6
-	bra	func_06007CF0
+	bra	math_sqrt
 	mov	r6,r0
-	.byte 0x28, 0x8F, 0x0A, 0x1A, 0xE0, 0x00, 0x24, 0x4F, 0x09, 0x1A, 0x39, 0xA3, 0x89, 0x09, 0x30, 0x9C
-	.byte 0x25, 0x5F, 0x09, 0x1A, 0x39, 0xA3, 0x89, 0x04, 0x30, 0x9C, 0x30, 0xA3, 0x89, 0x01, 0xAF, 0xAF
-	.byte 0x00, 0x09, 0x00, 0x0B, 0x60, 0x83
-	endlabel func_06007D5C
+	endlabel math_length3d
 
-	glabel func_06007D96
+	glabel math_length2d_capped
+	muls.w	r8,r8
+	sts	macl,r10
+	mov	#0,r0
+	muls.w	r4,r4
+	sts	macl,r9
+	cmp/ge	r10,r9
+	bt	.L06007D92
+	add	r9,r0
+	muls.w	r5,r5
+	sts	macl,r9
+	cmp/ge	r10,r9
+	bt	.L06007D92
+	add	r9,r0
+	cmp/ge	r10,r0
+	bt	.L06007D92
+	bra	math_sqrt
+	nop
+.L06007D92:
+	rts
+	mov	r8,r0
+	endlabel math_length2d_capped
+
+	glabel math_length3d_capped
 	muls.w	r8,r8
 	sts	macl,r10
 	mov	#0,r0
@@ -322,14 +342,14 @@
 	add	r9,r0
 	cmp/ge	r10,r0
 	bt	.L06007DC2
-	bra	func_06007CF0
+	bra	math_sqrt
 	nop
 .L06007DC2:
 	rts
 	mov	r8,r0
-	endlabel func_06007D96
+	endlabel math_length3d_capped
 
-	glabel func_06007DC6
+	glabel math_normalize2d
 	sts.l	pr,@-r15
 	mov	r4,r8
 	mov	r5,r9
@@ -342,7 +362,7 @@
 	sts	macl,r0
 	xtrct	r10,r0
 	add	r8,r0
-	bsr	func_06007D3E
+	bsr	math_sqrt_fx
 	nop
 	swap.w	r4,r4
 	exts.w	r4,r8
@@ -361,11 +381,11 @@
 	lds.l	@r15+,pr
 	rts
 	nop
-	endlabel func_06007DC6
+	endlabel math_normalize2d
 
 	.section .data.06007E04,"aw",@progbits
 	.p2align 2
-	dlabel D_06007E04
+	dlabel sin_table
 	.byte 0x00, 0x00, 0x00, 0x19, 0x00, 0x32, 0x00, 0x4B, 0x00, 0x64, 0x00, 0x7D, 0x00, 0x96, 0x00, 0xAF
 	.byte 0x00, 0xC9, 0x00, 0xE2, 0x00, 0xFB, 0x01, 0x14, 0x01, 0x2D, 0x01, 0x46, 0x01, 0x5F, 0x01, 0x78
 	.byte 0x01, 0x92, 0x01, 0xAB, 0x01, 0xC4, 0x01, 0xDD, 0x01, 0xF6, 0x02, 0x0F, 0x02, 0x28, 0x02, 0x41
@@ -497,7 +517,7 @@
 	.byte 0x3F, 0xF8, 0x3F, 0xF9, 0x3F, 0xF9, 0x3F, 0xFA, 0x3F, 0xFB, 0x3F, 0xFB, 0x3F, 0xFC, 0x3F, 0xFC
 	.byte 0x3F, 0xFD, 0x3F, 0xFD, 0x3F, 0xFE, 0x3F, 0xFE, 0x3F, 0xFE, 0x3F, 0xFF, 0x3F, 0xFF, 0x3F, 0xFF
 	.byte 0x3F, 0xFF, 0x3F, 0xFF, 0x3F, 0xFF, 0x3F, 0xFF
-	dlabel D_06008604
+	dlabel cos_table
 	.byte 0x40, 0x00, 0x3F, 0xFF, 0x3F, 0xFF, 0x3F, 0xFF, 0x3F, 0xFF, 0x3F, 0xFF, 0x3F, 0xFF, 0x3F, 0xFF
 	.byte 0x3F, 0xFE, 0x3F, 0xFE, 0x3F, 0xFE, 0x3F, 0xFD, 0x3F, 0xFD, 0x3F, 0xFC, 0x3F, 0xFC, 0x3F, 0xFB
 	.byte 0x3F, 0xFB, 0x3F, 0xFA, 0x3F, 0xF9, 0x3F, 0xF9, 0x3F, 0xF8, 0x3F, 0xF7, 0x3F, 0xF6, 0x3F, 0xF5

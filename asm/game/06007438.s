@@ -70,9 +70,9 @@
 .L060074AC:
 	.long D_060D9000
 .L060074B0:
-	.long func_06006C94
+	.long cd_queue_load
 .L060074B4:
-	.long func_06006EA0
+	.long cd_service
 	endlabel func_06007438
 
 	.section .data.060074B8,"aw",@progbits

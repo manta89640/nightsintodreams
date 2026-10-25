@@ -22,7 +22,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0604386C:
-	.long func_06018E8C
+	.long path_place_obj
 	endlabel func_0604384E
 
 	.section .data.06043870,"aw",@progbits

@@ -35,9 +35,9 @@
 .L0603BB00:
 	.long D_060CFFA2
 .L0603BB04:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0603BB08:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0603BB0C:
 	.long func_0603BD26
 .L0603BB10:
@@ -72,13 +72,13 @@
 	rts
 	nop
 .L0603BB48:
-	.long D_060FFE50
+	.long play_state
 .L0603BB4C:
 	.long func_0603BB88
 .L0603BB50:
 	.long D_0603BE4C
 .L0603BB54:
-	.long func_0601EF98
+	.long spr_anim_step
 .L0603BB58:
 	bsr	func_0603BDA8
 	nop
@@ -97,13 +97,13 @@
 	jmp	@r0
 	lds.l	@r15+,pr
 .L0603BB78:
-	.long func_0600CA24
+	.long mtx_push
 .L0603BB7C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0603BB80:
-	.long func_06020906
+	.long spr_draw_billboard
 .L0603BB84:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603BAD8
 
 	glabel func_0603BB88
@@ -130,9 +130,9 @@
 .L0603BBB0:
 	.long D_060CFFA2
 .L0603BBB4:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0603BBB8:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0603BBBC:
 	.long func_0603BD26
 .L0603BBC0:
@@ -169,11 +169,11 @@
 	bra	.L0603BB30
 	mov.b	r0,@(13,r1)
 .L0603BC00:
-	.long func_060172DE
+	.long obj_find_near_player
 .L0603BC04:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0603BC08:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0603BC0C:
 	.long func_0603BD26
 .L0603BC10:
@@ -224,13 +224,13 @@
 	.short 0x0061
 	.byte 0x00, 0x00
 .L0603BC64:
-	.long D_060FFE50
+	.long play_state
 .L0603BC68:
 	.long func_0601A27C
 .L0603BC6C:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0603BC70:
-	.long D_060F3064
+	.long player_obj
 .L0603BC74:
 	mov.w	.L0603BC82,r0
 .L0603BC76:
@@ -266,9 +266,9 @@
 .L0603BCA6:
 	.short 0x0300
 .L0603BCA8:
-	.long func_060172DE
+	.long obj_find_near_player
 .L0603BCAC:
-	.long func_0600D1A0
+	.long obj_free
 .L0603BCB0:
 	mov	#4,r0
 	bra	.L0603BB30
@@ -300,7 +300,7 @@
 .L0603BCE0:
 	.long func_0603BCE8
 .L0603BCE4:
-	.long func_06007BD8
+	.long math_sincos
 	endlabel func_0603BCB6
 
 	glabel func_0603BCE8
@@ -322,9 +322,9 @@
 .L0603BD06:
 	.short 0x0400
 .L0603BD08:
-	.long func_060172DE
+	.long obj_find_near_player
 .L0603BD0C:
-	.long func_0600D1A0
+	.long obj_free
 .L0603BD10:
 	mov.l	@(32,r1),r0
 	mov.l	@(40,r1),r3
@@ -378,11 +378,11 @@
 .L0603BD68:
 	.long D_06014D12
 .L0603BD6C:
-	.long func_06007BD8
+	.long math_sincos
 .L0603BD70:
 	.long .L0603BD58
 .L0603BD74:
-	.long func_0600D1A0
+	.long obj_free
 .L0603BD78:
 	mov.l	@(32,r1),r3
 	mov.l	@(36,r1),r4
@@ -466,9 +466,9 @@
 .L0603BE06:
 	.short 0x00B4
 .L0603BE08:
-	.long D_060FFE50
+	.long play_state
 .L0603BE0C:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0603BE10:
 	.long D_0603BE34
 .L0603BE14:

@@ -4,7 +4,7 @@
 	.section .text.0601F068,"ax",@progbits
 	.p2align 2
 
-	glabel func_0601F068
+	glabel vdp1_cmdlist_begin
 	sts.l	pr,@-r15
 	mov.w	.L0601F0BE,r0
 	mov.l	.L0601F0C4,r2
@@ -67,7 +67,7 @@
 .L0601F0D8:
 	.long 0x21000000
 .L0601F0DC:
-	.long D_060E8000
+	.long vdp1_zsort_buckets
 .L0601F0E0:
 	.long 0x015F00DF
 .L0601F0E4:
@@ -105,7 +105,7 @@
 	nop
 .L0601F122:
 	.short 0x100A
-	endlabel func_0601F068
+	endlabel vdp1_cmdlist_begin
 
 	glabel func_0601F124
 	mov.l	.L0601F158,r0
@@ -138,7 +138,7 @@
 .L0601F156:
 	.short 0x0200
 .L0601F158:
-	.long D_060FFC00
+	.long gbr_block
 .L0601F15C:
 	.long D_060FFF2C + 0x20000000
 .L0601F160:
@@ -149,7 +149,7 @@
 	.long D_060E9000
 	endlabel func_0601F124
 
-	glabel func_0601F16C
+	glabel vdp1_cmdlist_end
 	mov.l	.L0601F1D8,r3
 	mov.l	.L0601F1DC,r2
 	mov.w	.L0601F1D2,r1
@@ -220,10 +220,10 @@
 .L0601F1E4:
 	.long D_060E9FF8
 .L0601F1E8:
-	.long D_060FFC60 + 0x20000000
-	endlabel func_0601F16C
+	.long vdp1_wp1 + 0x20000000
+	endlabel vdp1_cmdlist_end
 
-	glabel func_0601F1EC
+	glabel vdp1_zsort_insert
 	nop
 	nop
 	shar	r6
@@ -286,7 +286,7 @@
 	mov	r14,r12
 	.byte 0x00, 0x00
 .L0601F260:
-	.long D_060E8000
+	.long vdp1_zsort_buckets
 .L0601F264:
 	mov.w	@(2,r12),r0
 	mov.w	r0,@(2,r3)
@@ -324,7 +324,7 @@
 	mov	#0,r0
 	rts
 	mov.w	r0,@(2,r3)
-	endlabel func_0601F1EC
+	endlabel vdp1_zsort_insert
 
 	glabel func_0601F2A6
 	nop
@@ -453,7 +453,7 @@
 	mov	#-119,r5
 	endlabel func_0601F42C
 
-	glabel func_0601F434
+	glabel poly_draw_model
 	nop
 	nop
 	mov	#-117,r5
@@ -509,9 +509,9 @@
 .L0601F494:
 	.long func_0601F83E
 	.byte 0x00, 0x09, 0x00, 0x09, 0xA0, 0x03, 0xE5, 0x89
-	endlabel func_0601F434
+	endlabel poly_draw_model
 
-	glabel func_0601F4A0
+	glabel poly_draw_model_color
 	nop
 	nop
 	mov	#-117,r5
@@ -521,7 +521,7 @@
 	mov	r0,r14
 	dlabel D_0601F4AE
 	.byte 0x00, 0x09, 0x00, 0x09, 0xE5, 0x8B, 0xDE, 0x0F
-	endlabel func_0601F4A0
+	endlabel poly_draw_model_color
 
 	glabel func_0601F4B6
 	sts.l	pr,@-r15
@@ -803,7 +803,7 @@
 	mov	r9,r6
 	.byte 0x00, 0x00
 .L0601F6D8:
-	.long D_060EA000
+	.long poly_vertices
 .L0601F6DC:
 	mov	#-16,r0
 	and	r0,r6
@@ -968,9 +968,9 @@
 	nop
 	.byte 0x00, 0x00
 .L0601F808:
-	.long D_060EA000
+	.long poly_vertices
 .L0601F80C:
-	.long D_060EC000
+	.long poly_scratch
 .L0601F810:
 	.long .L0601F8BA
 .L0601F814:
@@ -1396,9 +1396,9 @@
 	nop
 	.byte 0x00, 0x00
 .L0601FAF4:
-	.long D_060EC000
+	.long poly_scratch
 .L0601FAF8:
-	.long D_060EA000
+	.long poly_vertices
 .L0601FAFC:
 	mov.w	@(2,r7),r0
 	mov.w	@(r0,r5),r10
@@ -1472,7 +1472,7 @@
 .L0601FB80:
 	.long D_060F0000
 .L0601FB84:
-	.long D_060ED000
+	.long model_texture_table
 .L0601FB88:
 	mov.l	.L0601FBB0,r9
 	add	#-1,r0
@@ -1497,7 +1497,7 @@
 .L0601FBAE:
 	.short 0x0800
 .L0601FBB0:
-	.long D_060ED000
+	.long model_texture_table
 .L0601FBB4:
 	mov.b	@r7+,r0
 	tst	r0,r0
@@ -1537,7 +1537,7 @@
 	mov.w	r0,@(28,r3)
 	mov.l	@(824,gbr),r0
 	add	r0,r6
-	bsr	func_0601F1EC
+	bsr	vdp1_zsort_insert
 	nop
 	add	#2,r7
 	bra	.L0601FAE8
@@ -1632,7 +1632,7 @@
 .L0601FCA4:
 	.long D_060F0000
 .L0601FCA8:
-	.long D_060ED000
+	.long model_texture_table
 .L0601FCAC:
 	.long 0x0000FFFF
 	endlabel func_0601F88C
@@ -1790,7 +1790,7 @@
 	rts
 	nop
 .L0601FDC4:
-	.long D_060FFC00
+	.long gbr_block
 .L0601FDC8:
 	.long func_0602006E
 .L0601FDCC:
@@ -1944,7 +1944,7 @@
 	bf	.L0601FE9C
 	bra	.L0601FFFA
 	mov	r9,r6
-	.long D_060FFC00
+	.long gbr_block
 	.long func_0602006E
 .L0601FF00:
 	.long D_060EB000
@@ -2620,7 +2620,7 @@
 .L060203B0:
 	.long D_060F0000
 .L060203B4:
-	.long D_060ED000
+	.long model_texture_table
 .L060203B8:
 	mov.l	.L060203E0,r9
 	add	#-1,r0
@@ -2645,7 +2645,7 @@
 .L060203DE:
 	.short 0x0800
 .L060203E0:
-	.long D_060ED000
+	.long model_texture_table
 .L060203E4:
 	mov.b	@r7+,r0
 	tst	r0,r0
@@ -2782,7 +2782,7 @@
 .L060204D8:
 	.long D_060F0000
 .L060204DC:
-	.long D_060ED000
+	.long model_texture_table
 .L060204E0:
 	.long 0x0000FFFF
 	endlabel func_060200BC

@@ -36,12 +36,12 @@
 	.byte 0x42, 0x10, 0x3C, 0x00
 	.long VDP1_VRAM + 0xD820
 	.long VDP1_VRAM + 0xD818
-	.long D_060FFFB8
-	.long func_0600D0D0
+	.long obj_list_effect
+	.long obj_alloc
 	.long func_060404CE
 	.long func_0603D336
 .L0603D388:
-	.long func_06007C08
+	.long math_sin
 .L0603D38C:
 	.long 0x00010000
 .L0603D390:
@@ -75,7 +75,7 @@
 .L0603D3C4:
 	.long 0x3FFF0001
 .L0603D3C8:
-	.long D_060FFE50
+	.long play_state
 .L0603D3CC:
 	add	#-1,r0
 	cmp/ge	r8,r0
@@ -298,7 +298,7 @@
 .L0603D558:
 	.long 0x0000C000
 .L0603D55C:
-	.long func_0600D530
+	.long vdp1_build_fog_cluts
 .L0603D560:
 	.long D_060ED6C8
 .L0603D564:
@@ -318,9 +318,9 @@
 .L0603D580:
 	.long D_0603D5F0
 .L0603D584:
-	.long func_06007C08
+	.long math_sin
 .L0603D588:
-	.long func_0600D4D0
+	.long vdp_rgb555_lerp
 .L0603D58C:
 	.long VDP1_VRAM + 0xD828
 .L0603D590:

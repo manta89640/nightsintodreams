@@ -12,7 +12,7 @@
 	mov.w	r0,@(102,gbr)
 	endlabel func_060204E4
 
-	glabel func_060204EE
+	glabel spr_draw_obj
 	nop
 	nop
 	mov.w	.L0602055E,r0
@@ -77,17 +77,17 @@
 	.short 0x1000
 	.byte 0x00, 0x00
 .L06020564:
-	.long D_060EE800
+	.long sprite_texture_table
 .L06020568:
 	.long D_06020630
 .L0602056C:
-	.long func_0601F1EC
+	.long vdp1_zsort_insert
 .L06020570:
 	lds.l	@r15+,pr
 	mov	r3,r0
 	rts
 	mov.l	r0,@(92,gbr)
-	endlabel func_060204EE
+	endlabel spr_draw_obj
 
 	glabel func_06020578
 	nop
@@ -167,11 +167,11 @@
 	.short 0x1000
 	.byte 0x00, 0x00
 .L06020608:
-	.long D_060EE800
+	.long sprite_texture_table
 .L0602060C:
 	.long D_0602061C
 .L06020610:
-	.long func_0601F1EC
+	.long vdp1_zsort_insert
 .L06020614:
 	lds.l	@r15+,pr
 	mov	r3,r0
@@ -306,9 +306,9 @@
 	.short 0xFFF0
 	.byte 0x00, 0x00
 .L06020764:
-	.long D_06007E04
+	.long sin_table
 .L06020768:
-	.long D_06008604
+	.long cos_table
 .L0602076C:
 	.long D_060207EC
 .L06020770:
@@ -521,7 +521,7 @@
 	mov.w	r0,@(22,r3)
 	endlabel func_06020898
 
-	glabel func_060208FA
+	glabel spr_draw_billboard_unscaled
 	nop
 	nop
 	mov.w	.L06020904,r0
@@ -529,9 +529,9 @@
 	mov.w	r0,@(100,gbr)
 .L06020904:
 	.short 0x0100
-	endlabel func_060208FA
+	endlabel spr_draw_billboard_unscaled
 
-	glabel func_06020906
+	glabel spr_draw_billboard
 	nop
 	nop
 	mov.w	@(22,r1),r0
@@ -539,7 +539,7 @@
 .L0602090E:
 	mov.w	.L06020974,r0
 	mov.w	r0,@(102,gbr)
-	endlabel func_06020906
+	endlabel spr_draw_billboard
 
 	glabel func_06020912
 	sts.l	pr,@-r15
@@ -694,11 +694,11 @@
 .L06020A2E:
 	.short 0x1000
 .L06020A30:
-	.long D_060EE800
+	.long sprite_texture_table
 .L06020A34:
 	.long D_0602061C
 .L06020A38:
-	.long func_0601F1EC
+	.long vdp1_zsort_insert
 .L06020A3C:
 	lds.l	@r15+,pr
 	mov	r3,r0

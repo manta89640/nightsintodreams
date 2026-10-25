@@ -76,11 +76,11 @@
 .L060406E0:
 	.long 0x00280000
 .L060406E4:
-	.long func_060172DE
+	.long obj_find_near_player
 .L060406E8:
 	.long 0x00040000
 .L060406EC:
-	.long D_060F3064
+	.long player_obj
 .L060406F0:
 	.long func_0602441C
 .L060406F4:
@@ -88,13 +88,13 @@
 .L060406F8:
 	.long 0x00400000
 .L060406FC:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L06040700:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06040704:
 	.long func_0603E528
 .L06040708:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0604070C:
 	.long D_06040538
 .L06040710:
@@ -143,23 +143,23 @@
 	.short 0xC000
 	.byte 0x00, 0x00
 .L06040764:
-	.long func_0600CA24
+	.long mtx_push
 .L06040768:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0604076C:
-	.long func_0600D018
+	.long mtx_scale
 .L06040770:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06040774:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06040778:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L0604077C:
 	.long D_06082A64
 .L06040780:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06040784:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06040660
 
 	.section .data.06040788,"aw",@progbits
@@ -181,4 +181,4 @@
 	dlabel D_060407C8
 	.byte 0xE0, 0xF8, 0x02, 0x1E, 0x84, 0x21, 0x40, 0x11, 0x89, 0x06, 0xE0, 0x01, 0x80, 0x21, 0xD0, 0x01
 	.byte 0x40, 0x2B, 0x00, 0x09
-	.long func_0600D1A0
+	.long obj_free

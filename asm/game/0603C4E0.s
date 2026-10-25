@@ -86,15 +86,15 @@
 	shlr2	r0
 	rts
 	mov.l	r0,@(40,r7)
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0603C584:
 	.long D_060F3090
 .L0603C588:
-	.long func_06007BD8
+	.long math_sincos
 .L0603C58C:
-	.long func_06007C1C
+	.long math_atan2
 .L0603C590:
-	.long func_06007CF0
+	.long math_sqrt
 	endlabel func_0603C4E2
 
 	glabel func_0603C594
@@ -187,7 +187,7 @@
 	rts
 	sett
 .L0603C640:
-	.long func_06007BD8
+	.long math_sincos
 	endlabel func_0603C594
 
 	.section .data.0603C644,"aw",@progbits

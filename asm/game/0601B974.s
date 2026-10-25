@@ -69,11 +69,11 @@
 	nop
 	.byte 0x00, 0x00
 .L0601B9F0:
-	.long D_060FFE50
+	.long play_state
 .L0601B9F4:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0601B9F8:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601B9FC:
 	.long func_06019A88
 .L0601BA00:
@@ -91,17 +91,17 @@
 .L0601BA18:
 	.long 0x00000000
 .L0601BA1C:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601BA20:
 	.long D_0601BA42
 .L0601BA24:
-	.long func_06019D10
+	.long txt_bcd_to_ascii
 .L0601BA28:
 	.long D_0601BA51
 .L0601BA2C:
-	.long D_060FFEC0
+	.long chips_needed
 .L0601BA30:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_0601B974
 
 	.section .data.0601BA34,"aw",@progbits

@@ -30,7 +30,7 @@
 .L06045694:
 	.long 0x00008000
 .L06045698:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_0604566E
 
 	glabel func_0604569C
@@ -47,7 +47,7 @@
 	rts
 	nop
 .L060456B4:
-	.long func_0601EF98
+	.long spr_anim_step
 .L060456B8:
 	mov.l	@(92,gbr),r0
 	mov	r0,r3
@@ -107,7 +107,7 @@
 .L06045720:
 	.long 0x04B8A000
 .L06045724:
-	.long func_0601F1EC
+	.long vdp1_zsort_insert
 .L06045728:
 	lds.l	@r15+,pr
 	mov	r3,r0

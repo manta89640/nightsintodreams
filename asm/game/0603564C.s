@@ -24,9 +24,9 @@
 	.long D_06035A6C
 	.byte 0xDE, 0xAD, 0x0B, 0xAD
 .L06035674:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06035678:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0603567C:
 	.long func_06035688
 .L06035680:
@@ -66,7 +66,7 @@
 	mov.w	r0,@r3
 	.byte 0x00, 0x00
 .L060356BC:
-	.long D_060CFFD0
+	.long snd_variant_weights_cur
 .L060356C0:
 	.long D_060CFFCC
 .L060356C4:
@@ -76,7 +76,7 @@
 .L060356CC:
 	.long 0x002FF000
 .L060356D0:
-	.long D_060CFFA0
+	.long snd_tone_select
 .L060356D4:
 	mov.b	@(20,gbr),r0
 	tst	#1,r0
@@ -304,7 +304,7 @@
 .L0603587C:
 	.long 0x002FC000
 .L06035880:
-	.long D_060CFFA0
+	.long snd_tone_select
 .L06035884:
 	.long D_060394E0
 .L06035888:
@@ -316,7 +316,7 @@
 .L06035894:
 	.long D_060CFFCC
 .L06035898:
-	.long D_060CFFD0
+	.long snd_variant_weights_cur
 .L0603589C:
 	mov	r2,r8
 	mov.w	.L060358CA,r0
@@ -480,13 +480,13 @@
 .L060359CC:
 	.long D_06039584
 .L060359D0:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L060359D4:
-	.long func_0600D0D0
+	.long obj_alloc
 .L060359D8:
 	.long func_060391F8
 .L060359DC:
-	.long D_060FFFA8
+	.long obj_list_manager
 .L060359E0:
 	.long D_06035648
 .L060359E4:
@@ -557,7 +557,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06035A50:
-	.long func_0600D4D0
+	.long vdp_rgb555_lerp
 .L06035A54:
 	.long 0x00000000
 .L06035A58:

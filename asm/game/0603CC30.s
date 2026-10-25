@@ -13,13 +13,13 @@
 	bra	.L0603CCE4
 	mov.b	r0,@(0,r1)
 	.byte 0x00, 0x00
-	.long D_060FFFA0
-	.long func_0600D0D0
+	.long obj_list_core
+	.long obj_alloc
 	.long func_0603CD20
-	.long D_060F3064
+	.long player_obj
 	.long D_060F3090
-	.long func_06007C1C
-	.long func_06007D4A
+	.long math_atan2
+	.long math_dist2d
 .L0603CC5C:
 	mov.w	@(10,r1),r0
 	mov	r0,r2
@@ -89,9 +89,9 @@
 	lds.l	@r15+,pr
 	.byte 0x00, 0x00
 .L0603CCDC:
-	.long func_06007BD8
+	.long math_sincos
 .L0603CCE0:
-	.long func_0600D1A0
+	.long obj_free
 .L0603CCE4:
 	mov.l	.L0603CD0C,r0
 	jsr	@r0
@@ -114,15 +114,15 @@
 	lds.l	@r15+,pr
 	.byte 0x00, 0x00
 .L0603CD0C:
-	.long func_0600CA24
+	.long mtx_push
 .L0603CD10:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0603CD14:
-	.long func_0601EF98
+	.long spr_anim_step
 .L0603CD18:
-	.long func_06020906
+	.long spr_draw_billboard
 .L0603CD1C:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603CC30
 
 	glabel func_0603CD20
@@ -152,9 +152,9 @@
 .L0603CD4C:
 	.long .L0603CD36
 .L0603CD50:
-	.long D_060F3064
+	.long player_obj
 .L0603CD54:
-	.long func_0600D1A0
+	.long obj_free
 .L0603CD58:
 	rts
 	nop

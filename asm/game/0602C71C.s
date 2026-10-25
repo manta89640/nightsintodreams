@@ -279,7 +279,7 @@
 	rts
 	nop
 .L0602C96C:
-	.long func_06007DC6
+	.long math_normalize2d
 .L0602C970:
 	.long 0x00200000
 .L0602C974:
@@ -481,9 +481,9 @@
 .L0602CAD6:
 	.short 0x015F
 .L0602CAD8:
-	.long D_060FFC5C
+	.long vdp1_wp0
 .L0602CADC:
-	.long func_0601F1EC
+	.long vdp1_zsort_insert
 	endlabel func_0602CA86
 
 	glabel func_0602CAE0
@@ -518,7 +518,7 @@
 	.long D_060CA034
 	.long D_0602CF58
 	.long D_060CA4E0
-	.long D_060FFE50
+	.long play_state
 	.byte 0x20, 0x08, 0x8B, 0x21, 0xD6, 0x02, 0x66, 0x62, 0x26, 0x68, 0x8B, 0x03, 0xA0, 0x82, 0x00, 0x09
 	.long D_060F30F4
 	.byte 0x84, 0x6E, 0x20, 0x08

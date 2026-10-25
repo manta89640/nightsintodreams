@@ -4,7 +4,7 @@
 	.section .text.0601EF98,"ax",@progbits
 	.p2align 2
 
-	glabel func_0601EF98
+	glabel spr_anim_step
 	mov.b	@(15,r1),r0
 	add	#-1,r0
 	cmp/pl	r0
@@ -34,7 +34,7 @@
 	rts
 	nop
 	.byte 0x85, 0x1F
-	endlabel func_0601EF98
+	endlabel spr_anim_step
 
 	.section .data.0601EFCC,"aw",@progbits
 	.p2align 2

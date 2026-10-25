@@ -95,7 +95,7 @@
 .L06040398:
 	.long 0x00500000
 .L0604039C:
-	.long func_060172DE
+	.long obj_find_near_player
 .L060403A0:
 	.long D_060402AA
 .L060403A4:
@@ -103,9 +103,9 @@
 .L060403A8:
 	.long func_0601A2BC
 .L060403AC:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L060403B0:
-	.long D_060FFE50
+	.long play_state
 .L060403B4:
 	.long func_060404B0
 .L060403B8:
@@ -160,23 +160,23 @@
 	.short 0x0100
 	.byte 0x00, 0x00
 .L06040418:
-	.long func_0600CA24
+	.long mtx_push
 .L0604041C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06040420:
-	.long func_0600D018
+	.long mtx_scale
 .L06040424:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06040428:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L0604042C:
 	.long D_060806D0
 .L06040430:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06040434:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06040438:
-	.long func_0600CA4E
+	.long mtx_pop
 .L0604043C:
 	mov.w	@(2,r1),r0
 	shlr2	r0
@@ -227,17 +227,17 @@
 	rts
 	nop
 .L06040498:
-	.long func_0600CA24
+	.long mtx_push
 .L0604049C:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L060404A0:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L060404A4:
-	.long func_0600CA4E
+	.long mtx_pop
 .L060404A8:
 	.long 0x00800000
 .L060404AC:
-	.long func_0600CBDA
+	.long mtx_translate
 	endlabel func_060402F4
 
 	glabel func_060404B0
@@ -248,7 +248,7 @@
 	jmp	@r0
 	nop
 .L060404BC:
-	.long func_0600D1A0
+	.long obj_free
 .L060404C0:
 	mov.w	r0,@(8,r1)
 	sts.l	pr,@-r15
@@ -322,4 +322,4 @@
 	dlabel D_06040538
 	.byte 0x00, 0x00, 0x00, 0x00, 0xE0, 0xF8, 0x02, 0x1E, 0x84, 0x21, 0x40, 0x11, 0x89, 0x06, 0xE0, 0x01
 	.byte 0x80, 0x21, 0xD0, 0x01, 0x40, 0x2B, 0x00, 0x09
-	.long func_0600D1A0
+	.long obj_free

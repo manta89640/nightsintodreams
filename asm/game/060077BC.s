@@ -71,11 +71,11 @@
 .L06007834:
 	.long D_06007858
 .L06007838:
-	.long D_00200000
+	.long lwram_buf
 .L0600783C:
 	.long D_060D9002
 .L06007840:
-	.long func_06006C94
+	.long cd_queue_load
 .L06007844:
 	.long D_06007878
 .L06007848:
@@ -83,7 +83,7 @@
 .L0600784C:
 	.long D_060D900A
 .L06007850:
-	.long func_06006EA0
+	.long cd_service
 .L06007854:
 	.long D_06064FA4
 	endlabel func_060077BC

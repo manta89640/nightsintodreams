@@ -38,11 +38,11 @@
 .L0602C380:
 	.long D_0602D298
 .L0602C384:
-	.long D_060FFCEE
+	.long vdp2_ramctl
 .L0602C388:
 	.long 0x00000052
 .L0602C38C:
-	.long D_060FFDD0
+	.long vdp2_prisa
 	endlabel func_0602C34A
 
 	glabel func_0602C390
@@ -160,7 +160,7 @@
 .L0602C460:
 	.long 0x000001C0
 .L0602C464:
-	.long func_060045BC
+	.long dma_queue_xfer
 .L0602C468:
 	.long VDP2_VRAM + 0x5EE00
 .L0602C46C:

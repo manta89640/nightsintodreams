@@ -48,21 +48,21 @@
 	bra	.L0602C5EC
 	nop
 .L0602C588:
-	.long D_060F3064
+	.long player_obj
 .L0602C58C:
 	.long 0x7C000000
 .L0602C590:
-	.long D_060FFE50
+	.long play_state
 .L0602C594:
-	.long func_0600E4F6
+	.long snd_seq_stop
 .L0602C598:
 	.long 0x0000EA24
 .L0602C59C:
 	.long func_060255C8
 .L0602C5A0:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0602C5A4:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0602C5A8:
 	.long func_0603E500
 .L0602C5AC:
@@ -92,13 +92,13 @@
 	.short 0x0082
 	.byte 0x00, 0x00
 .L0602C5DC:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0602C5E0:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0602C5E4:
 	.long func_06033054
 .L0602C5E8:
-	.long D_060FFE98
+	.long mare_score
 .L0602C5EC:
 	lds.l	@r15+,pr
 	rts

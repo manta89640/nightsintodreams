@@ -46,9 +46,9 @@
 	nop
 	.byte 0x00, 0x00
 .L0601B7E4:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0601B7E8:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601B7EC:
 	.long func_0601B974
 	endlabel func_0601B7B2
@@ -74,9 +74,9 @@
 	rts
 	nop
 .L0601B814:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0601B818:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601B81C:
 	.long func_0601BA80
 	endlabel func_0601B7F0
@@ -98,9 +98,9 @@
 	nop
 	.byte 0x00, 0x00
 .L0601B83C:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0601B840:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601B844:
 	.long func_0601BB26
 	endlabel func_0601B820
@@ -122,9 +122,9 @@
 	nop
 	.byte 0x00, 0x00
 .L0601B864:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0601B868:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601B86C:
 	.long func_0601D0B4
 	endlabel func_0601B848
@@ -201,11 +201,11 @@
 	rts
 	nop
 .L0601B8F8:
-	.long D_060FFE50
+	.long play_state
 .L0601B8FC:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0601B900:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601B904:
 	.long func_06019A88
 .L0601B908:
@@ -225,11 +225,11 @@
 .L0601B924:
 	.long D_0604DBB3
 .L0601B928:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601B92C:
 	.long D_0601B944
 .L0601B930:
-	.long func_06019D10
+	.long txt_bcd_to_ascii
 .L0601B934:
 	.long D_0601B952
 	endlabel func_0601B870

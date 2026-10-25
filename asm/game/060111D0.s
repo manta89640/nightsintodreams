@@ -191,15 +191,15 @@
 	rts
 	nop
 .L0601132C:
-	.long D_060F1000
+	.long player_trail
 .L06011330:
 	.long D_060FD7FE
 .L06011334:
-	.long D_060FFF70
+	.long spawn_win
 .L06011338:
 	.long D_060FD7FF
 .L0601133C:
-	.long D_060FFF74
+	.long spawn_win_p2
 	endlabel func_0601125A
 
 	glabel func_06011340
@@ -235,11 +235,11 @@
 	nop
 	.byte 0x00, 0x00
 .L0601137C:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L06011380:
 	.long D_06011398
 .L06011384:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06011388:
 	.long D_06011A24
 .L0601138C:
@@ -289,7 +289,7 @@
 .L060113D6:
 	.short 0x00FF
 .L060113D8:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L060113DC:
 	.long D_060FD7FC
 .L060113E0:
@@ -440,7 +440,7 @@
 	nop
 	.byte 0x00, 0x00
 .L060114E0:
-	.long func_0600D0D0
+	.long obj_alloc
 .L060114E4:
 	.long D_06011A24
 .L060114E8:
@@ -527,15 +527,15 @@
 	rts
 	nop
 .L06011574:
-	.long D_060F1000
+	.long player_trail
 .L06011578:
 	.long D_060FD7FE
 .L0601157C:
-	.long D_060FFF70
+	.long spawn_win
 .L06011580:
 	.long D_060FD7FF
 .L06011584:
-	.long D_060FFF74
+	.long spawn_win_p2
 .L06011588:
 	.long func_0601158C
 	endlabel func_06011538
@@ -563,11 +563,11 @@
 .L060115B0:
 	.long D_060FD7FE
 .L060115B4:
-	.long D_060FFF70
+	.long spawn_win
 .L060115B8:
 	.long D_060FD7FF
 .L060115BC:
-	.long D_060FFF74
+	.long spawn_win_p2
 	endlabel func_0601158C
 
 	glabel func_060115C0
@@ -606,11 +606,11 @@
 .L060115FE:
 	.short 0x0FF0
 .L06011600:
-	.long D_060F1000
+	.long player_trail
 .L06011604:
-	.long D_060F3060
+	.long player_trail_head
 .L06011608:
-	.long D_060F3064
+	.long player_obj
 	endlabel func_060115C0
 
 	glabel func_0601160C
@@ -768,11 +768,11 @@
 	.short 0x0FF0
 	.byte 0x00, 0x00
 .L06011720:
-	.long D_060F1000
+	.long player_trail
 .L06011724:
-	.long D_060F3060
+	.long player_trail_head
 .L06011728:
-	.long D_060F3064
+	.long player_obj
 .L0601172C:
 	mov.l	.L06011764,r10
 	cmp/gt	r0,r4

@@ -33,9 +33,9 @@
 	lds.l	@r15+,pr
 	.long func_0601A27C
 .L0603CB64:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0603CB68:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_0603CB2E
 
 	.section .data.0603CB6C,"aw",@progbits

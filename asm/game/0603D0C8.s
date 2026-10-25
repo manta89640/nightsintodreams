@@ -35,9 +35,9 @@
 	.short 0x0300
 	.byte 0x00, 0x00
 .L0603D100:
-	.long D_060F309C
+	.long cam_obj
 .L0603D104:
-	.long func_06007D5C
+	.long math_length3d
 	endlabel func_0603D0C8
 
 	glabel func_0603D108
@@ -52,7 +52,7 @@
 	jmp	@r0
 	nop
 .L0603D11C:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_0603D108
 
 	glabel func_0603D120
@@ -71,7 +71,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0603D13C:
-	.long func_0601EF98
+	.long spr_anim_step
 .L0603D140:
 	mov.l	.L0603D160,r0
 	jsr	@r0
@@ -90,13 +90,13 @@
 	nop
 	.byte 0x00, 0x00
 .L0603D160:
-	.long func_0600CA24
+	.long mtx_push
 .L0603D164:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0603D168:
-	.long func_06020906
+	.long spr_draw_billboard
 .L0603D16C:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603D120
 
 	glabel func_0603D170
@@ -111,7 +111,7 @@
 	jmp	@r0
 	nop
 .L0603D184:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_0603D170
 
 	glabel func_0603D188
@@ -141,13 +141,13 @@
 	jmp	@r0
 	nop
 .L0603D1B8:
-	.long func_0600CA24
+	.long mtx_push
 .L0603D1BC:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0603D1C0:
-	.long func_06020906
+	.long spr_draw_billboard
 .L0603D1C4:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603D188
 
 	.section .data.0603D1C8,"aw",@progbits
@@ -159,4 +159,4 @@
 	dlabel D_0603D1E8
 	.byte 0xE0, 0xF8, 0x02, 0x1E, 0x84, 0x21, 0x40, 0x11, 0x89, 0x06, 0xE0, 0x01, 0x80, 0x21, 0xD0, 0x01
 	.byte 0x40, 0x2B, 0x00, 0x09
-	.long func_0600D1A0
+	.long obj_free

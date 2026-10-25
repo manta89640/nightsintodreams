@@ -4,7 +4,7 @@
 	.section .text.0600C9C8,"ax",@progbits
 	.p2align 2
 
-	glabel func_0600C9C8
+	glabel mtx_init
 	mov	#0,r0
 	mov.w	r0,@(124,gbr)
 	mov.l	.L0600CAF4,r0
@@ -26,9 +26,9 @@
 	mov.l	r2,@(44,r0)
 	rts
 	nop
-	endlabel func_0600C9C8
+	endlabel mtx_init
 
-	glabel func_0600C9F2
+	glabel mtx_push_identity
 	mov.w	@(124,gbr),r0
 	add	#1,r0
 	mov.w	r0,@(124,gbr)
@@ -53,9 +53,9 @@
 	rts
 	mov	#1,r0
 	.byte 0x00, 0x0B, 0xE0, 0x00
-	endlabel func_0600C9F2
+	endlabel mtx_push_identity
 
-	glabel func_0600CA24
+	glabel mtx_push
 	mov.w	@(124,gbr),r0
 	add	#1,r0
 	mov.w	r0,@(124,gbr)
@@ -78,9 +78,9 @@
 	mov.l	r0,@(120,gbr)
 	rts
 	mov	#1,r0
-	endlabel func_0600CA24
+	endlabel mtx_push
 
-	glabel func_0600CA4E
+	glabel mtx_pop
 	mov.w	@(124,gbr),r0
 	cmp/pl	r0
 	bf	.L0600CA5E
@@ -92,9 +92,9 @@
 .L0600CA5E:
 	rts
 	mov	#1,r0
-	endlabel func_0600CA4E
+	endlabel mtx_pop
 
-	glabel func_0600CA62
+	glabel math_sincos_fx
 	add	#8,r0
 	extu.w	r0,r0
 	mov.l	.L0600CAEC,r4
@@ -107,11 +107,11 @@
 	shll2	r4
 	rts
 	shll2	r5
-	endlabel func_0600CA62
+	endlabel math_sincos_fx
 
-	glabel func_0600CA7A
+	glabel mtx_rot_x
 	sts.l	pr,@-r15
-	bsr	func_0600CA62
+	bsr	math_sincos_fx
 	nop
 	lds.l	@r15+,pr
 	mov.l	r5,@-r15
@@ -168,16 +168,16 @@
 	rts
 	mov.l	r3,@(40,r6)
 .L0600CAEC:
-	.long D_06007E04
+	.long sin_table
 .L0600CAF0:
-	.long D_06008604
+	.long cos_table
 .L0600CAF4:
-	.long D_0600C608
-	endlabel func_0600CA7A
+	.long mtx_stack
+	endlabel mtx_rot_x
 
-	glabel func_0600CAF8
+	glabel mtx_rot_y
 	sts.l	pr,@-r15
-	bsr	func_0600CA62
+	bsr	math_sincos_fx
 	nop
 	lds.l	@r15+,pr
 	mov.l	r5,@-r15
@@ -232,11 +232,11 @@
 	xtrct	r2,r3
 	rts
 	mov.l	r3,@(32,r6)
-	endlabel func_0600CAF8
+	endlabel mtx_rot_y
 
-	glabel func_0600CB68
+	glabel mtx_rot_z
 	sts.l	pr,@-r15
-	bsr	func_0600CA62
+	bsr	math_sincos_fx
 	nop
 	lds.l	@r15+,pr
 	mov.l	r5,@-r15
@@ -292,9 +292,9 @@
 	xtrct	r2,r3
 	rts
 	mov.l	r3,@(36,r6)
-	endlabel func_0600CB68
+	endlabel mtx_rot_z
 
-	glabel func_0600CBDA
+	glabel mtx_translate
 	mov.l	r6,@-r15
 	mov.l	r5,@-r15
 	mov.l	r8,@-r15
@@ -340,9 +340,9 @@
 	mov.l	@r15+,r8
 	rts
 	add	#8,r15
-	endlabel func_0600CBDA
+	endlabel mtx_translate
 
-	glabel func_0600CC34
+	glabel mtx_transform_points
 	mov.l	@(120,gbr),r0
 	mov	r0,r6
 	add	#32,r6
@@ -389,9 +389,9 @@
 	nop
 	rts
 	nop
-	endlabel func_0600CC34
+	endlabel mtx_transform_points
 
-	glabel func_0600CC8E
+	glabel light_set_dir
 	mov	#1,r0
 	shll16	r0
 	cmp/eq	r4,r0
@@ -487,18 +487,18 @@
 	nop
 	.byte 0x00, 0x00
 .L0600CD48:
-	.long func_06007BD8
+	.long math_sincos
 .L0600CD4C:
-	.long D_0600CD60
-	endlabel func_0600CC8E
+	.long light_normal
+	endlabel light_set_dir
 
 	.section .data.0600CD50,"aw",@progbits
 	.p2align 2
-	dlabel D_0600CD50
+	dlabel light
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	dlabel D_0600CD60
+	dlabel light_normal
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	dlabel D_0600CD6C
+	dlabel light_vertex_colors
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00

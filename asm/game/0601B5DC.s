@@ -102,9 +102,9 @@
 	.short 0x8000
 	.byte 0x00, 0x00
 .L0601B688:
-	.long D_060FFE50
+	.long play_state
 .L0601B68C:
-	.long D_060FFF64
+	.long mare_max_link
 .L0601B690:
 	.long D_0601B5A4
 .L0601B694:
@@ -145,11 +145,11 @@
 	nop
 	.byte 0x00, 0x00
 .L0601B6D8:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601B6DC:
 	.long D_0601B6F6
 .L0601B6E0:
-	.long func_06019D42
+	.long spr_build_number
 .L0601B6E4:
 	.long func_060204E4
 .L0601B6E8:

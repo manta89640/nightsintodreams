@@ -143,27 +143,27 @@
 .L06033A70:
 	.long func_0600454C
 .L06033A74:
-	.long func_0600E4F6
+	.long snd_seq_stop
 .L06033A78:
 	.long func_0604DF68
 .L06033A7C:
 	.long func_06007A08
 .L06033A80:
-	.long func_0600E586
+	.long snd_seq_stop_all
 .L06033A84:
-	.long func_06006A20
+	.long cd_play_track
 .L06033A88:
-	.long func_0601F068
+	.long vdp1_cmdlist_begin
 .L06033A8C:
-	.long func_0601F16C
+	.long vdp1_cmdlist_end
 .L06033A90:
 	.long func_0601EC24
 .L06033A94:
-	.long func_0600D088
+	.long obj_init
 .L06033A98:
-	.long D_060FFCE0
+	.long vdp2_shadow
 .L06033A9C:
-	.long D_0602D178
+	.long vdp2_shadow_defaults
 .L06033AA0:
 	.long func_0602B960
 .L06033AA4:
@@ -189,9 +189,9 @@
 .L06033ACC:
 	.long D_0020A1B4
 .L06033AD0:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L06033AD4:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06033AD8:
 	.long func_06033B0A
 .L06033ADC:

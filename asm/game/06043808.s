@@ -26,15 +26,15 @@
 	lds.l	@r15+,pr
 	.byte 0x00, 0x00
 .L06043830:
-	.long func_0600CA24
+	.long mtx_push
 .L06043834:
-	.long func_0601EF98
+	.long spr_anim_step
 .L06043838:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0604383C:
-	.long func_06020906
+	.long spr_draw_billboard
 .L06043840:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0604380A
 
 	.section .data.06043844,"aw",@progbits

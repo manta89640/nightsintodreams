@@ -56,7 +56,7 @@
 .L06019AE0:
 	.long func_0601C9C2
 .L06019AE4:
-	.long func_0600D1A0
+	.long obj_free
 .L06019AE8:
 	mov.l	r0,@(56,r1)
 	mov.l	@(48,r1),r4

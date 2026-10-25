@@ -130,9 +130,9 @@
 .L060408C4:
 	.long 0x00000080
 .L060408C8:
-	.long func_060172DE
+	.long obj_find_near_player
 .L060408CC:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L060408D0:
 	.long D_060806F0
 .L060408D4:
@@ -169,7 +169,7 @@
 	.short 0x000A
 	.byte 0x00, 0x00
 .L0604090C:
-	.long D_060FFE50
+	.long play_state
 .L06040910:
 	.long func_0603D6E0
 .L06040914:
@@ -184,7 +184,7 @@
 	jmp	@r0
 	nop
 .L06040924:
-	.long func_0600D1A0
+	.long obj_free
 .L06040928:
 	mov.w	r0,@(8,r1)
 	sts.l	pr,@-r15
@@ -272,27 +272,27 @@
 	nop
 	.byte 0x00, 0x00
 .L060409C8:
-	.long func_0600CA24
+	.long mtx_push
 .L060409CC:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060409D0:
 	.long D_0603D2F8
 .L060409D4:
-	.long func_0600D018
+	.long mtx_scale
 .L060409D8:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L060409DC:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L060409E0:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L060409E4:
 	.long func_0603D6E0
 .L060409E8:
 	.long D_06040A50
 .L060409EC:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L060409F0:
-	.long func_0600CA4E
+	.long mtx_pop
 .L060409F4:
 	mov.w	@(2,r1),r0
 	shlr2	r0
@@ -335,13 +335,13 @@
 .L06040A3C:
 	.long D_06040A50
 .L06040A40:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06040A44:
 	.long 0x00800000
 .L06040A48:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06040A4C:
-	.long func_0600CA4E
+	.long mtx_pop
 	dlabel D_06040A50
 	.long D_06082154
 	.long D_06082168
@@ -517,35 +517,35 @@
 	.short 0x0100
 	.byte 0x00, 0x00
 .L06040BBC:
-	.long func_0600C9F2
+	.long mtx_push_identity
 .L06040BC0:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06040BC4:
-	.long func_0600D018
+	.long mtx_scale
 .L06040BC8:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06040BCC:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06040BD0:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06040BD4:
 	.long D_06040C00
 .L06040BD8:
-	.long func_0600CC34
+	.long mtx_transform_points
 .L06040BDC:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06040BE0:
-	.long D_060F3064
+	.long player_obj
 .L06040BE4:
-	.long func_06007BD8
+	.long math_sincos
 .L06040BE8:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L06040BEC:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06040BF0:
 	.long func_06040CCC
 .L06040BF4:
-	.long func_06007B96
+	.long math_rand
 .L06040BF8:
 	.long 0x0007FFFF
 .L06040BFC:

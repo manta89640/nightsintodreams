@@ -53,21 +53,21 @@
 	rts
 	nop
 .L0603D2C8:
-	.long func_0600CA24
+	.long mtx_push
 .L0603D2CC:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0603D2D0:
-	.long func_0600D018
+	.long mtx_scale
 .L0603D2D4:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L0603D2D8:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L0603D2DC:
 	.long D_0609BBBC
 .L0603D2E0:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L0603D2E4:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603D26C
 
 	.section .data.0603D2E8,"aw",@progbits

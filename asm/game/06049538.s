@@ -61,7 +61,7 @@
 .L0604959C:
 	.long D_060CB000
 .L060495A0:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L060495A4:
 	.long func_0604B7DC
 .L060495A8:
@@ -93,7 +93,7 @@
 	.long D_060CB000
 	.long D_0604AE50
 	.long D_06047F1E
-	.long func_0600E4C4
+	.long snd_seq_start
 	.long func_060497D4
 	.long func_06047980
 	.long D_060497D0

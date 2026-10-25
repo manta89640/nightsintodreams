@@ -41,11 +41,11 @@
 	jmp	@r0
 	nop
 .L0601BAC4:
-	.long D_060FFE50
+	.long play_state
 .L0601BAC8:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0601BACC:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601BAD0:
 	.long func_06019A88
 .L0601BAD4:
@@ -63,7 +63,7 @@
 .L0601BAEC:
 	.long 0x00000000
 .L0601BAF0:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_0601BA80
 
 	.section .data.0601BAF4,"aw",@progbits

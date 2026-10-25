@@ -4,7 +4,7 @@
 	.section .text.0600D3D0,"ax",@progbits
 	.p2align 2
 
-	glabel func_0600D3D0
+	glabel vdp_init_palette_gouraud
 	mov.l	.L0600D3FC,r3
 	mova	.L0600D5F8,r0
 	mov.w	.L0600D400,r1
@@ -30,22 +30,80 @@
 	rts
 	nop
 .L0600D3FC:
-	.long D_060CA000
+	.long vdp2_cram_shadow
 .L0600D400:
 	.short 0x0100
 .L0600D402:
 	.short 0x0421
 .L0600D404:
 	.long VDP1_VRAM + 0xC000
-	.byte 0x98, 0x08, 0x69, 0x26, 0x60, 0x26, 0x23, 0x92, 0x13, 0x01, 0x73, 0x08, 0x48, 0x10, 0x8B, 0xF8
-	.byte 0x00, 0x0B, 0x00, 0x09, 0x00, 0x40, 0x98, 0x08, 0x69, 0x26, 0x60, 0x26, 0x23, 0x92, 0x13, 0x01
-	.byte 0x73, 0x08, 0x48, 0x10, 0x8B, 0xF8, 0x00, 0x0B, 0x00, 0x09, 0x00, 0x18, 0x98, 0x08, 0x69, 0x26
-	.byte 0x60, 0x26, 0x23, 0x92, 0x13, 0x01, 0x73, 0x08, 0x48, 0x10, 0x8B, 0xF8, 0x00, 0x0B, 0x00, 0x09
-	.byte 0x00, 0x08, 0x98, 0x08, 0x69, 0x26, 0x60, 0x26, 0x23, 0x92, 0x13, 0x01, 0x73, 0x08, 0x48, 0x10
-	.byte 0x8B, 0xF8, 0x00, 0x0B, 0x00, 0x09, 0x00, 0x04
-	endlabel func_0600D3D0
+	endlabel vdp_init_palette_gouraud
 
-	glabel func_0600D460
+	glabel vdp_copy_pairs_64
+	mov.w	.L0600D41C,r8
+.L0600D40A:
+	mov.l	@r2+,r9
+	mov.l	@r2+,r0
+	mov.l	r9,@r3
+	mov.l	r0,@(4,r3)
+	add	#8,r3
+	dt	r8
+	bf	.L0600D40A
+	rts
+	nop
+.L0600D41C:
+	.short 0x0040
+	endlabel vdp_copy_pairs_64
+
+	glabel vdp_copy_pairs_24
+	mov.w	.L0600D432,r8
+.L0600D420:
+	mov.l	@r2+,r9
+	mov.l	@r2+,r0
+	mov.l	r9,@r3
+	mov.l	r0,@(4,r3)
+	add	#8,r3
+	dt	r8
+	bf	.L0600D420
+	rts
+	nop
+.L0600D432:
+	.short 0x0018
+	endlabel vdp_copy_pairs_24
+
+	glabel vdp_copy_pairs_8
+	mov.w	.L0600D448,r8
+.L0600D436:
+	mov.l	@r2+,r9
+	mov.l	@r2+,r0
+	mov.l	r9,@r3
+	mov.l	r0,@(4,r3)
+	add	#8,r3
+	dt	r8
+	bf	.L0600D436
+	rts
+	nop
+.L0600D448:
+	.short 0x0008
+	endlabel vdp_copy_pairs_8
+
+	glabel vdp_copy_pairs_4
+	mov.w	.L0600D45E,r8
+.L0600D44C:
+	mov.l	@r2+,r9
+	mov.l	@r2+,r0
+	mov.l	r9,@r3
+	mov.l	r0,@(4,r3)
+	add	#8,r3
+	dt	r8
+	bf	.L0600D44C
+	rts
+	nop
+.L0600D45E:
+	.short 0x0004
+	endlabel vdp_copy_pairs_4
+
+	glabel vdp2_cram_upload
 	mov.l	.L0600D49C,r3
 	mov.l	.L0600D4A0,r4
 	mov.w	.L0600D498,r5
@@ -80,7 +138,7 @@
 .L0600D49A:
 	.short 0x0101
 .L0600D49C:
-	.long D_060CA000
+	.long vdp2_cram_shadow
 .L0600D4A0:
 	.long VDP2_CRAM
 .L0600D4A4:
@@ -89,11 +147,30 @@
 	.long 0x00010030
 .L0600D4AC:
 	.long SCU_REGS
-	.byte 0x98, 0x0B, 0xDA, 0x06, 0x69, 0x26, 0x60, 0x26, 0x29, 0xAB, 0x20, 0xAB, 0x23, 0x92, 0x13, 0x01
-	.byte 0x73, 0x08, 0x48, 0x10, 0x8B, 0xF6, 0x00, 0x0B, 0x00, 0x09, 0x00, 0x04, 0x80, 0x00, 0x80, 0x00
-	endlabel func_0600D460
+	endlabel vdp2_cram_upload
 
-	glabel func_0600D4D0
+	glabel vdp_copy_colors_4
+	mov.w	.L0600D4CA,r8
+	mov.l	.L0600D4CC,r10
+.L0600D4B4:
+	mov.l	@r2+,r9
+	mov.l	@r2+,r0
+	or	r10,r9
+	or	r10,r0
+	mov.l	r9,@r3
+	mov.l	r0,@(4,r3)
+	add	#8,r3
+	dt	r8
+	bf	.L0600D4B4
+	rts
+	nop
+.L0600D4CA:
+	.short 0x0004
+.L0600D4CC:
+	.long 0x80008000
+	endlabel vdp_copy_colors_4
+
+	glabel vdp_rgb555_lerp
 	mov	#-1,r8
 	extu.w	r8,r8
 	shlr	r8
@@ -142,9 +219,9 @@
 	or	r12,r0
 	rts
 	or	r13,r0
-	endlabel func_0600D4D0
+	endlabel vdp_rgb555_lerp
 
-	glabel func_0600D530
+	glabel vdp1_build_fog_cluts
 	mov.l	r1,@-r15
 	shll2	r7
 	shll2	r7
@@ -282,9 +359,9 @@
 	.byte 0xFD, 0xE8, 0xFF, 0xFF, 0xFC, 0x00, 0x82, 0x40, 0x81, 0x60, 0xFF, 0xFF, 0x89, 0x54, 0xA2, 0x79
 	.byte 0xFF, 0xFF, 0xF8, 0x00, 0xF0, 0x00, 0xE8, 0x00, 0xE0, 0x00, 0xD8, 0x00, 0xD0, 0x00, 0xC8, 0x00
 	.byte 0xC0, 0x00, 0xB8, 0x00, 0xB0, 0x00, 0xA8, 0x00, 0xA0, 0x00, 0x98, 0x00, 0x90, 0x00, 0x88, 0x00
-	endlabel func_0600D530
+	endlabel vdp1_build_fog_cluts
 
-	glabel func_0600D7F8
+	glabel linewin_spawn
 	sts.l	pr,@-r15
 	mov.l	.L0600D82C,r2
 	mov.l	.L0600D830,r0
@@ -314,24 +391,24 @@
 	rts
 	nop
 .L0600D82C:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0600D830:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0600D834:
-	.long func_0600D84C
+	.long linewin_task
 .L0600D838:
 	.long .L0600D810
 .L0600D83C:
-	.long D_060F8DF8
+	.long linewin_spans_a
 .L0600D840:
 	.long 0x000000E0
 .L0600D844:
-	.long D_060F95F8
+	.long linewin_shapes_a
 .L0600D848:
-	.long D_060F9DF8
-	endlabel func_0600D7F8
+	.long linewin_shapes_b
+	endlabel linewin_spawn
 
-	glabel func_0600D84C
+	glabel linewin_task
 	sts.l	pr,@-r15
 	mov.l	.L0600D85C,r14
 	jsr	@r14
@@ -341,10 +418,10 @@
 	nop
 	.byte 0x00, 0x00
 .L0600D85C:
-	.long func_0600D9A6
-	endlabel func_0600D84C
+	.long linewin_rasterize_all
+	endlabel linewin_task
 
-	glabel func_0600D860
+	glabel linewin_project_shape
 	sts.l	pr,@-r15
 	mov.l	@(48,r1),r4
 	mov.l	@(52,r1),r5
@@ -421,7 +498,7 @@
 	rts
 	nop
 .L0600D8F4:
-	.long D_060FFCA0
+	.long camera
 .L0600D8F8:
 	mov.w	@(190,gbr),r0
 	mov	#-128,r1
@@ -513,9 +590,9 @@
 	lds.l	@r15+,pr
 	rts
 	nop
-	endlabel func_0600D860
+	endlabel linewin_project_shape
 
-	glabel func_0600D9A6
+	glabel linewin_rasterize_all
 	sts.l	pr,@-r15
 	mov.l	r1,@-r15
 	mov.l	.L0600D9D4,r1
@@ -524,7 +601,7 @@
 	mov.w	@r1+,r7
 	cmp/pz	r7
 	bf	.L0600D9BA
-	bsr	func_0600D9E4
+	bsr	linewin_rasterize_poly
 	nop
 .L0600D9BA:
 	mov.l	.L0600D9DC,r1
@@ -533,7 +610,7 @@
 	mov.w	@r1+,r7
 	cmp/pz	r7
 	bf	.L0600D9CA
-	bsr	func_0600D9E4
+	bsr	linewin_rasterize_poly
 	nop
 .L0600D9CA:
 	mov.l	@r15+,r1
@@ -542,16 +619,16 @@
 	nop
 	.byte 0x00, 0x00
 .L0600D9D4:
-	.long D_060F95F8
+	.long linewin_shapes_a
 .L0600D9D8:
-	.long D_060F8DF8
+	.long linewin_spans_a
 .L0600D9DC:
-	.long D_060F9DF8
+	.long linewin_shapes_b
 .L0600D9E0:
-	.long D_060F9178
-	endlabel func_0600D9A6
+	.long linewin_spans_b
+	endlabel linewin_rasterize_all
 
-	glabel func_0600D9E4
+	glabel linewin_rasterize_poly
 	sts.l	pr,@-r15
 	mov.w	@r1+,r0
 	mov	r1,r8
@@ -599,7 +676,7 @@
 	bra	.L0600DA18
 	mov	r13,r2
 .L0600DA3C:
-	.long D_060EC000
+	.long poly_scratch
 .L0600DA40:
 	bra	.L0600DA18
 	add	#8,r2
@@ -646,7 +723,7 @@
 	add	#8,r8
 	.byte 0x00, 0x00
 .L0600DA8C:
-	.long D_060EC000
+	.long poly_scratch
 .L0600DA90:
 	mov	r0,r5
 .L0600DA92:
@@ -706,7 +783,7 @@
 	mov.l	r6,@-r15
 	mov.l	r5,@-r15
 	mov	r12,r14
-	bsr	func_0600DB0C
+	bsr	linewin_fill_edge_spans
 	nop
 	mov.l	@r15+,r5
 	mov.l	@r15+,r6
@@ -716,9 +793,9 @@
 	mov.l	@r15+,r9
 	bra	.L0600DA66
 	nop
-	endlabel func_0600D9E4
+	endlabel linewin_rasterize_poly
 
-	glabel func_0600DB0C
+	glabel linewin_fill_edge_spans
 	cmp/pl	r14
 	bt	.L0600DB14
 	rts
@@ -803,9 +880,9 @@
 	rts
 	nop
 	.byte 0x00, 0x00
-	endlabel func_0600DB0C
+	endlabel linewin_fill_edge_spans
 
-	glabel func_0600DB9C
+	glabel snd_wait_driver_idle
 	mov.w	.L0600DBC0,r13
 .L0600DB9E:
 	mov	#0,r8
@@ -835,11 +912,11 @@
 	.long SCSP_RAM + 0x700
 .L0600DBC8:
 	.long 0x000C3500
-	endlabel func_0600DB9C
+	endlabel snd_wait_driver_idle
 
-	glabel func_0600DBCC
+	glabel snd_init_stage
 	sts.l	pr,@-r15
-	bsr	func_0600DB9C
+	bsr	snd_wait_driver_idle
 	nop
 	mov.l	.L0600DC78,r4
 	mov	#1,r0
@@ -850,7 +927,7 @@
 	mov.b	r0,@(6,r4)
 	mov	#16,r0
 	mov.b	r0,@(0,r4)
-	bsr	func_0600DB9C
+	bsr	snd_wait_driver_idle
 	nop
 	mov.l	.L0600DC7C,r0
 	jsr	@r0
@@ -873,7 +950,7 @@
 	mov.l	.L0600DC84,r0
 	jsr	@r0
 	nop
-	bsr	func_0600DD64
+	bsr	snd_upload_area_map_tones
 	nop
 .L0600DC16:
 	mov.l	.L0600DC88,r2
@@ -893,7 +970,7 @@
 	mov.b	r0,@(56,gbr)
 	mov.b	r0,@(57,gbr)
 	mov.b	r0,@(58,gbr)
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	mov	#16,r0
 	mov.b	r0,@r3
@@ -908,15 +985,15 @@
 	mov.b	r0,@r3
 	add	#1,r3
 	mov.b	r0,@r3
-	bsr	func_0600E3DC
+	bsr	snd_cmd_flush
 	nop
-	bsr	func_0600E48E
+	bsr	snd_init_cdda_mix
 	nop
 	mov.l	.L0600DC90,r0
 	jsr	@r0
 	nop
 	mov	#0,r4
-	bsr	func_0600E5A2
+	bsr	snd_map_change
 	nop
 	mov.b	@(20,gbr),r0
 	tst	#1,r0
@@ -931,7 +1008,7 @@
 .L0600DC78:
 	.long SCSP_RAM + 0x700
 .L0600DC7C:
-	.long func_0600449A
+	.long smpc_sndoff
 .L0600DC80:
 	.long func_06007438
 .L0600DC84:
@@ -939,13 +1016,13 @@
 .L0600DC88:
 	.long SCSP_RAM + 0xA000
 .L0600DC8C:
-	.long func_06004478
+	.long smpc_sndon
 .L0600DC90:
-	.long func_0600DD28
+	.long snd_apply_stereo_mono
 .L0600DC94:
 	mov	#0,r4
 .L0600DC96:
-	bsr	func_0600E5C2
+	bsr	snd_effect_change
 	nop
 	mov.b	@(20,gbr),r0
 	tst	#1,r0
@@ -958,16 +1035,16 @@
 	mov	#0,r4
 	mov	#0,r5
 .L0600DCAC:
-	bsr	func_0600E5E2
+	bsr	snd_mixer_change
 	nop
 	lds.l	@r15+,pr
 	rts
 	nop
-	endlabel func_0600DBCC
+	endlabel snd_init_stage
 
-	glabel func_0600DCB6
+	glabel snd_reset
 	sts.l	pr,@-r15
-	bsr	func_0600DB9C
+	bsr	snd_wait_driver_idle
 	nop
 	mov.l	.L0600DD20,r4
 	mov	#1,r0
@@ -978,13 +1055,13 @@
 	mov.b	r0,@(6,r4)
 	mov	#16,r0
 	mov.b	r0,@(0,r4)
-	bsr	func_0600DB9C
+	bsr	snd_wait_driver_idle
 	nop
 	mov	#0,r0
 	mov.b	r0,@(56,gbr)
 	mov.b	r0,@(57,gbr)
 	mov.b	r0,@(58,gbr)
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	mov	#16,r0
 	mov.b	r0,@r3
@@ -999,22 +1076,22 @@
 	mov.b	r0,@r3
 	add	#1,r3
 	mov.b	r0,@r3
-	bsr	func_0600E3DC
+	bsr	snd_cmd_flush
 	nop
-	bsr	func_0600E48E
+	bsr	snd_init_cdda_mix
 	nop
 	mov.l	.L0600DD24,r0
 	jsr	@r0
 	nop
 	mov	#0,r4
-	bsr	func_0600E5A2
+	bsr	snd_map_change
 	nop
 	mov	#0,r4
-	bsr	func_0600E5C2
+	bsr	snd_effect_change
 	nop
 	mov	#0,r4
 	mov	#0,r5
-	bsr	func_0600E5E2
+	bsr	snd_mixer_change
 	nop
 	lds.l	@r15+,pr
 	rts
@@ -1022,10 +1099,10 @@
 .L0600DD20:
 	.long SCSP_RAM + 0x700
 .L0600DD24:
-	.long func_0600DD28
-	endlabel func_0600DCB6
+	.long snd_apply_stereo_mono
+	endlabel snd_reset
 
-	glabel func_0600DD28
+	glabel snd_apply_stereo_mono
 	sts.l	pr,@-r15
 	mov.l	.L0600DD5C,r2
 	mov.b	@r2,r0
@@ -1040,7 +1117,7 @@
 .L0600DD3E:
 	mov.l	.L0600DD60,r2
 	mov.b	r0,@r2
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600DD56
@@ -1058,9 +1135,9 @@
 	.long D_060CB000
 .L0600DD60:
 	.long SCSP_RAM + 0x483
-	endlabel func_0600DD28
+	endlabel snd_apply_stereo_mono
 
-	glabel func_0600DD64
+	glabel snd_upload_area_map_tones
 	sts.l	pr,@-r15
 	mov.b	@(107,gbr),r0
 	cmp/eq	#1,r0
@@ -1102,7 +1179,7 @@
 .L0600DDA8:
 	.long 0x002FC000
 .L0600DDAC:
-	.long D_060CFFA0
+	.long snd_tone_select
 .L0600DDB0:
 	mov.b	@(20,gbr),r0
 	shll2	r0
@@ -1119,7 +1196,7 @@
 	mov.l	.L0600DDF8,r4
 	mov.l	.L0600DDFC,r5
 	mov.w	.L0600DDEA,r6
-	bsr	func_0600DEB4
+	bsr	mem_copy_bytes
 	nop
 	mov.l	.L0600DE00,r2
 	mov.b	@(20,gbr),r0
@@ -1140,15 +1217,15 @@
 .L0600DDEC:
 	.long 0x002FF000
 .L0600DDF0:
-	.long D_060CFFA0
+	.long snd_tone_select
 .L0600DDF4:
-	.long D_060CFFA4
+	.long snd_tone_variants
 .L0600DDF8:
-	.long D_00200000
+	.long lwram_buf
 .L0600DDFC:
 	.long SCSP_RAM + 0xA000
 .L0600DE00:
-	.long D_0600E140
+	.long snd_tone_bank_table
 .L0600DE04:
 	cmp/pl	r14
 	bf	.L0600DE94
@@ -1214,7 +1291,7 @@
 	and	r0,r6
 	mov.l	.L0600DE90,r0
 	add	r0,r5
-	bsr	func_0600DEB4
+	bsr	mem_copy_bytes
 	nop
 	add	#16,r2
 	add	#8,r9
@@ -1222,7 +1299,7 @@
 	add	#-1,r14
 	.byte 0x00, 0x00
 .L0600DE88:
-	.long D_0600DE9C
+	.long snd_variant_order_table
 .L0600DE8C:
 	.long 0x0007FFFF
 .L0600DE90:
@@ -1232,27 +1309,27 @@
 	rts
 	nop
 	.byte 0x00, 0x09
-	dlabel D_0600DE9C
+	dlabel snd_variant_order_table
 	.byte 0x00, 0x03, 0x01, 0x02, 0x00, 0x01, 0x03, 0x02, 0x00, 0x01, 0x02, 0x03, 0x00, 0x02, 0x01, 0x03
 	.byte 0x00, 0x01, 0x03, 0x02, 0x00, 0x03, 0x02, 0x01
-	endlabel func_0600DD64
+	endlabel snd_upload_area_map_tones
 
-	glabel func_0600DEB4
+	glabel mem_copy_bytes
 	mov.b	@r4+,r0
 	mov.b	r0,@r5
 	dt	r6
-	bf/s	func_0600DEB4
+	bf/s	mem_copy_bytes
 	add	#1,r5
 	rts
 	nop
 	.byte 0x00, 0x09
-	dlabel D_0600DEC4
+	dlabel snd_weights_cur
 	.byte 0x00, 0x00, 0x00, 0x00
-	dlabel D_0600DEC8
+	dlabel snd_weights_new
 	.byte 0x00, 0x00, 0x00, 0x00
-	endlabel func_0600DEB4
+	endlabel mem_copy_bytes
 
-	glabel func_0600DECC
+	glabel snd_reroll_tone_variants
 	sts.l	pr,@-r15
 	mov.l	.L0600DEDC,r2
 	mov.b	@(22,gbr),r0
@@ -1262,7 +1339,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0600DEDC:
-	.long D_0600E140
+	.long snd_tone_bank_table
 .L0600DEE0:
 	shlr	r0
 	shll2	r0
@@ -1293,13 +1370,13 @@
 	bra	.L0600DF3C
 	nop
 .L0600DF18:
-	.long D_060CFFD0
+	.long snd_variant_weights_cur
 .L0600DF1C:
-	.long D_0600DEC4
+	.long snd_weights_cur
 .L0600DF20:
-	.long D_060CFFD4
+	.long snd_variant_weights_new
 .L0600DF24:
-	.long D_0600DEC8
+	.long snd_weights_new
 .L0600DF28:
 	.long D_060CC000
 .L0600DF2C:
@@ -1314,11 +1391,11 @@
 .L0600DF3C:
 	mov.l	.L0600DFB8,r8
 	mov.l	.L0600DFBC,r9
-	bsr	func_0600E090
+	bsr	math_apportion4
 	nop
 	mov.l	.L0600DFC0,r8
 	mov.l	.L0600DFC4,r9
-	bsr	func_0600E090
+	bsr	math_apportion4
 	nop
 	mov.l	.L0600DFBC,r8
 	mov.l	.L0600DFC4,r9
@@ -1361,7 +1438,7 @@
 	add	#1,r0
 	mov.b	r0,@r8
 	mov.b	@r10,r0
-	bsr	func_0600E068
+	bsr	math_rand_range
 	nop
 	mov	r9,r12
 	mov	#8,r2
@@ -1377,17 +1454,17 @@
 	mov.b	r13,@r12
 	.byte 0x00, 0x00
 .L0600DFB8:
-	.long D_0600DEC4
+	.long snd_weights_cur
 .L0600DFBC:
-	.long D_0600E128
+	.long snd_variant_counts_cur
 .L0600DFC0:
-	.long D_0600DEC8
+	.long snd_weights_new
 .L0600DFC4:
-	.long D_0600E124
+	.long snd_variant_counts_new
 .L0600DFC8:
-	.long D_0600E12C
+	.long snd_variant_counts_delta
 .L0600DFCC:
-	.long D_060CFFA4
+	.long snd_tone_variants
 .L0600DFD0:
 	add	#1,r11
 .L0600DFD2:
@@ -1418,7 +1495,7 @@
 	add	#-1,r0
 	mov.b	r0,@r8
 	mov	r14,r0
-	bsr	func_0600E068
+	bsr	math_rand_range
 	nop
 	mov	r9,r12
 	mov	#8,r2
@@ -1433,7 +1510,7 @@
 	mov.b	r3,@r12
 	.byte 0x00, 0x00
 .L0600E01C:
-	.long D_0600E12C
+	.long snd_variant_counts_delta
 .L0600E020:
 	add	#1,r11
 .L0600E022:
@@ -1476,12 +1553,12 @@
 	nop
 	.byte 0x00, 0x00
 .L0600E060:
-	.long D_060CFFA4
+	.long snd_tone_variants
 .L0600E064:
-	.long D_0600E124
-	endlabel func_0600DECC
+	.long snd_variant_counts_new
+	endlabel snd_reroll_tone_variants
 
-	glabel func_0600E068
+	glabel math_rand_range
 	mov.l	r13,@-r15
 	sts.l	pr,@-r15
 	mov.l	r0,@-r15
@@ -1501,10 +1578,10 @@
 	nop
 	.byte 0x00, 0x00
 .L0600E08C:
-	.long func_06007B96
-	endlabel func_0600E068
+	.long math_rand
+	endlabel math_rand_range
 
-	glabel func_0600E090
+	glabel math_apportion4
 	mov.b	@(0,r8),r0
 	mov	r0,r13
 	mov.b	@(1,r8),r0
@@ -1585,23 +1662,23 @@
 	nop
 	.byte 0x00, 0x00
 .L0600E120:
-	.long D_0600E130
-	dlabel D_0600E124
+	.long apportion_remainders
+	dlabel snd_variant_counts_new
 	.byte 0x00, 0x00, 0x00, 0x00
-	dlabel D_0600E128
+	dlabel snd_variant_counts_cur
 	.byte 0x00, 0x00, 0x00, 0x00
-	dlabel D_0600E12C
+	dlabel snd_variant_counts_delta
 	.byte 0x00, 0x00, 0x00, 0x00
-	dlabel D_0600E130
+	dlabel apportion_remainders
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	dlabel D_0600E140
-	.long D_0600E158
-	.long D_0600E1CC
-	.long D_0600E230
-	.long D_0600E284
-	.long D_0600E2E8
-	.long D_0600E34C
-	dlabel D_0600E158
+	dlabel snd_tone_bank_table
+	.long snd_tone_banks_0
+	.long snd_tone_banks_1
+	.long snd_tone_banks_2
+	.long snd_tone_banks_3
+	.long snd_tone_banks_4
+	.long snd_tone_banks_5
+	dlabel snd_tone_banks_0
 	.byte 0x00, 0x00, 0x00, 0x07, 0x00, 0x20, 0x10, 0x00, 0x00, 0x20, 0x15, 0x48, 0x00, 0x20, 0x19, 0xDA
 	.byte 0x00, 0x20, 0x1F, 0xBC, 0x00, 0x20, 0x23, 0xB0, 0x00, 0x20, 0x33, 0x66, 0x00, 0x20, 0x41, 0x0C
 	.byte 0x00, 0x20, 0x4F, 0x66, 0x00, 0x20, 0x5D, 0x02, 0x00, 0x20, 0x67, 0x82, 0x00, 0x20, 0x74, 0x36
@@ -1610,7 +1687,7 @@
 	.byte 0x00, 0x20, 0xE8, 0xF2, 0x00, 0x20, 0xF0, 0x46, 0x00, 0x20, 0xFC, 0x1C, 0x00, 0x21, 0x09, 0xCA
 	.byte 0x00, 0x21, 0x17, 0xAE, 0x00, 0x21, 0x25, 0x80, 0x00, 0x21, 0x3C, 0x10, 0x00, 0x21, 0x4C, 0x40
 	.byte 0x00, 0x21, 0x61, 0x3A
-	dlabel D_0600E1CC
+	dlabel snd_tone_banks_1
 	.byte 0x00, 0x00, 0x00, 0x06, 0x00, 0x20, 0x10, 0x00, 0x00, 0x20, 0x1B, 0xF6, 0x00, 0x20, 0x21, 0xB8
 	.byte 0x00, 0x20, 0x2F, 0x36, 0x00, 0x20, 0x3C, 0x72, 0x00, 0x20, 0x55, 0x02, 0x00, 0x20, 0x6F, 0xDC
 	.byte 0x00, 0x20, 0x8E, 0x0E, 0x00, 0x20, 0xAE, 0x5C, 0x00, 0x20, 0xBC, 0xE6, 0x00, 0x20, 0xC8, 0x82
@@ -1618,14 +1695,14 @@
 	.byte 0x00, 0x21, 0x13, 0x9A, 0x00, 0x21, 0x21, 0x12, 0x00, 0x21, 0x4B, 0xCC, 0x00, 0x21, 0x67, 0x94
 	.byte 0x00, 0x21, 0x8E, 0x8A, 0x00, 0x21, 0xAA, 0x1E, 0x00, 0x21, 0xD8, 0x4A, 0x00, 0x21, 0xF2, 0x5E
 	.byte 0x00, 0x22, 0x14, 0xFA
-	dlabel D_0600E230
+	dlabel snd_tone_banks_2
 	.byte 0x00, 0x00, 0x00, 0x05, 0x00, 0x20, 0x10, 0x00, 0x00, 0x20, 0x12, 0xB8, 0x00, 0x20, 0x17, 0xDE
 	.byte 0x00, 0x20, 0x1B, 0x78, 0x00, 0x20, 0x20, 0x10, 0x00, 0x20, 0x47, 0xFC, 0x00, 0x20, 0x69, 0xEA
 	.byte 0x00, 0x20, 0x95, 0xD2, 0x00, 0x20, 0xC4, 0xEA, 0x00, 0x20, 0xCE, 0x20, 0x00, 0x20, 0xD7, 0xAC
 	.byte 0x00, 0x20, 0xDF, 0x5E, 0x00, 0x20, 0xE8, 0x4E, 0x00, 0x20, 0xFE, 0x1E, 0x00, 0x21, 0x10, 0x26
 	.byte 0x00, 0x21, 0x28, 0x28, 0x00, 0x21, 0x40, 0x48, 0x00, 0x21, 0x5B, 0x38, 0x00, 0x21, 0x6D, 0xCE
 	.byte 0x00, 0x21, 0x89, 0x70
-	dlabel D_0600E284
+	dlabel snd_tone_banks_3
 	.byte 0x00, 0x00, 0x00, 0x06, 0x00, 0x20, 0x10, 0x00, 0x00, 0x20, 0x19, 0x68, 0x00, 0x20, 0x20, 0x78
 	.byte 0x00, 0x20, 0x26, 0x98, 0x00, 0x20, 0x2E, 0x76, 0x00, 0x20, 0x49, 0xA4, 0x00, 0x20, 0x67, 0x12
 	.byte 0x00, 0x20, 0x93, 0x26, 0x00, 0x20, 0xB4, 0xB2, 0x00, 0x20, 0xC8, 0x42, 0x00, 0x20, 0xDB, 0x5C
@@ -1633,7 +1710,7 @@
 	.byte 0x00, 0x21, 0x2E, 0x8A, 0x00, 0x21, 0x3E, 0x84, 0x00, 0x21, 0x49, 0xAE, 0x00, 0x21, 0x56, 0x6A
 	.byte 0x00, 0x21, 0x62, 0x90, 0x00, 0x21, 0x6F, 0x76, 0x00, 0x21, 0x8E, 0x5A, 0x00, 0x21, 0xA5, 0x1E
 	.byte 0x00, 0x21, 0xC5, 0xAE
-	dlabel D_0600E2E8
+	dlabel snd_tone_banks_4
 	.byte 0x00, 0x00, 0x00, 0x06, 0x00, 0x20, 0x10, 0x00, 0x00, 0x20, 0x16, 0x88, 0x00, 0x20, 0x1E, 0x6E
 	.byte 0x00, 0x20, 0x28, 0x9A, 0x00, 0x20, 0x30, 0x30, 0x00, 0x20, 0x3B, 0x2E, 0x00, 0x20, 0x4D, 0x3E
 	.byte 0x00, 0x20, 0x5A, 0x36, 0x00, 0x20, 0x6A, 0x8E, 0x00, 0x20, 0x77, 0x74, 0x00, 0x20, 0x89, 0xF0
@@ -1641,7 +1718,7 @@
 	.byte 0x00, 0x20, 0xD0, 0xCA, 0x00, 0x20, 0xE0, 0x90, 0x00, 0x20, 0xF4, 0xC0, 0x00, 0x21, 0x0B, 0x12
 	.byte 0x00, 0x21, 0x24, 0x56, 0x00, 0x21, 0x3D, 0x70, 0x00, 0x21, 0x54, 0xA0, 0x00, 0x21, 0x69, 0x02
 	.byte 0x00, 0x21, 0x80, 0x8E
-	dlabel D_0600E34C
+	dlabel snd_tone_banks_5
 	.byte 0x00, 0x00, 0x00, 0x06, 0x00, 0x20, 0x10, 0x00, 0x00, 0x20, 0x19, 0xC8, 0x00, 0x20, 0x21, 0x2C
 	.byte 0x00, 0x20, 0x2E, 0x60, 0x00, 0x20, 0x39, 0x06, 0x00, 0x20, 0x54, 0xC8, 0x00, 0x20, 0x6E, 0x10
 	.byte 0x00, 0x20, 0x8A, 0x1E, 0x00, 0x20, 0xA3, 0x1A, 0x00, 0x20, 0xBD, 0x42, 0x00, 0x20, 0xD6, 0x4A
@@ -1649,9 +1726,9 @@
 	.byte 0x00, 0x21, 0x5B, 0xD8, 0x00, 0x21, 0x80, 0xA4, 0x00, 0x21, 0x97, 0xAC, 0x00, 0x21, 0xAE, 0x12
 	.byte 0x00, 0x21, 0xC5, 0x22, 0x00, 0x21, 0xE1, 0x3E, 0x00, 0x21, 0xE8, 0x68, 0x00, 0x21, 0xF2, 0x80
 	.byte 0x00, 0x21, 0xFE, 0xD8
-	endlabel func_0600E090
+	endlabel math_apportion4
 
-	glabel func_0600E3B0
+	glabel snd_cmd_alloc
 	mov.b	@(57,gbr),r0
 	mov	r0,r3
 	mov.b	@(56,gbr),r0
@@ -1671,13 +1748,13 @@
 	mov.l	r0,@r3
 	.byte 0x00, 0x00
 .L0600E3D4:
-	.long D_060FE4CC
+	.long snd_cmd_ring
 .L0600E3D8:
 	rts
 	mov	#-1,r0
-	endlabel func_0600E3B0
+	endlabel snd_cmd_alloc
 
-	glabel func_0600E3DC
+	glabel snd_cmd_flush
 	mov.b	@(56,gbr),r0
 	mov	r0,r8
 	mov.b	@(57,gbr),r0
@@ -1764,7 +1841,7 @@
 .L0600E478:
 	.long SCSP_RAM + 0x700
 .L0600E47C:
-	.long D_060FE4CC
+	.long snd_cmd_ring
 .L0600E480:
 	sts.l	pr,@-r15
 	mov.l	.L0600E4BC,r0
@@ -1773,11 +1850,11 @@
 	lds.l	@r15+,pr
 	trapa	#1
 	nop
-	endlabel func_0600E3DC
+	endlabel snd_cmd_flush
 
-	glabel func_0600E48E
+	glabel snd_init_cdda_mix
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E4C0
@@ -1786,7 +1863,7 @@
 	mov	#-64,r0
 	mov.b	r0,@(2,r3)
 	mov.b	r0,@(3,r3)
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E4C0
@@ -1800,20 +1877,20 @@
 	rts
 	nop
 .L0600E4BC:
-	.long func_0600449A
+	.long smpc_sndoff
 .L0600E4C0:
 	bra	.L0600E4C0
 	nop
-	endlabel func_0600E48E
+	endlabel snd_init_cdda_mix
 
-	glabel func_0600E4C4
+	glabel snd_seq_start
 	mov.l	r0,@-r15
 	mov.b	@(107,gbr),r0
 	cmp/pz	r0
 	bf	.L0600E4F2
 	mov.l	r3,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E4EE
@@ -1834,13 +1911,13 @@
 .L0600E4F2:
 	rts
 	mov.l	@r15+,r0
-	endlabel func_0600E4C4
+	endlabel snd_seq_start
 
-	glabel func_0600E4F6
+	glabel snd_seq_stop
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E50C
@@ -1854,13 +1931,13 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E4F6
+	endlabel snd_seq_stop
 
-	glabel func_0600E516
+	glabel snd_seq_pause
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E52C
@@ -1874,15 +1951,15 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E516
+	endlabel snd_seq_pause
 
-	glabel func_0600E536
+	glabel snd_seq_pause_all
 	mov.l	r7,@-r15
 	sts.l	pr,@-r15
 	mov	#8,r7
 .L0600E53C:
 	mov	r7,r4
-	bsr	func_0600E516
+	bsr	snd_seq_pause
 	add	#-1,r4
 	dt	r7
 	bf	.L0600E53C
@@ -1890,13 +1967,13 @@
 	mov.l	@r15+,r7
 	rts
 	nop
-	endlabel func_0600E536
+	endlabel snd_seq_pause_all
 
-	glabel func_0600E54E
+	glabel snd_seq_continue
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E564
@@ -1910,15 +1987,15 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E54E
+	endlabel snd_seq_continue
 
-	glabel func_0600E56E
+	glabel snd_seq_continue_all
 	mov.l	r7,@-r15
 	sts.l	pr,@-r15
 	mov	#8,r7
 .L0600E574:
 	mov	r7,r4
-	bsr	func_0600E54E
+	bsr	snd_seq_continue
 	add	#-1,r4
 	dt	r7
 	bf	.L0600E574
@@ -1926,13 +2003,13 @@
 	mov.l	@r15+,r7
 	rts
 	nop
-	endlabel func_0600E56E
+	endlabel snd_seq_continue_all
 
-	glabel func_0600E586
+	glabel snd_seq_stop_all
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E598
@@ -1944,13 +2021,13 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E586
+	endlabel snd_seq_stop_all
 
-	glabel func_0600E5A2
+	glabel snd_map_change
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E5B8
@@ -1964,13 +2041,13 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E5A2
+	endlabel snd_map_change
 
-	glabel func_0600E5C2
+	glabel snd_effect_change
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E5D8
@@ -1984,13 +2061,13 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E5C2
+	endlabel snd_effect_change
 
-	glabel func_0600E5E2
+	glabel snd_mixer_change
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E5FC
@@ -2006,13 +2083,13 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E5E2
+	endlabel snd_mixer_change
 
-	glabel func_0600E606
+	glabel snd_seq_volume
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E624
@@ -2030,13 +2107,13 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E606
+	endlabel snd_seq_volume
 
-	glabel func_0600E62E
+	glabel snd_seq_level
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E648
@@ -2052,19 +2129,19 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E62E
+	endlabel snd_seq_level
 
-	glabel func_0600E652
+	glabel snd_set_ctrl_volume
 	mov.l	.L0600E65C,r2
 	mov	r4,r0
 	mov.b	r5,@(r0,r2)
 	rts
 	nop
 .L0600E65C:
-	.long D_060FE71C
-	endlabel func_0600E652
+	.long snd_ctrl_volume
+	endlabel snd_set_ctrl_volume
 
-	glabel func_0600E660
+	glabel snd_bgm_fade_out
 	sts.l	pr,@-r15
 	mov	#0,r4
 	mov	#1,r5
@@ -2076,10 +2153,10 @@
 	nop
 	.byte 0x00, 0x00
 .L0600E674:
-	.long func_0600E606
-	endlabel func_0600E660
+	.long snd_seq_volume
+	endlabel snd_bgm_fade_out
 
-	glabel func_0600E678
+	glabel snd_spawn_level_fadeout
 	sts.l	pr,@-r15
 	mov.l	.L0600E68C,r2
 	mov.l	.L0600E690,r0
@@ -2091,14 +2168,14 @@
 	rts
 	nop
 .L0600E68C:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0600E690:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0600E694:
-	.long func_0600E698
-	endlabel func_0600E678
+	.long snd_level_fadeout_task
+	endlabel snd_spawn_level_fadeout
 
-	glabel func_0600E698
+	glabel snd_level_fadeout_task
 	sts.l	pr,@-r15
 	mov.w	@(0,r1),r0
 	add	#2,r0
@@ -2123,12 +2200,12 @@
 	rts
 	nop
 .L0600E6C4:
-	.long func_0600D1A0
+	.long obj_free
 .L0600E6C8:
-	.long func_0600E62E
-	endlabel func_0600E698
+	.long snd_seq_level
+	endlabel snd_level_fadeout_task
 
-	glabel func_0600E6CC
+	glabel snd_bgm_fade_in
 	sts.l	pr,@-r15
 	mov	#0,r4
 	mov	#127,r5
@@ -2140,10 +2217,10 @@
 	nop
 	.byte 0x00, 0x00
 .L0600E6E0:
-	.long func_0600E606
-	endlabel func_0600E6CC
+	.long snd_seq_volume
+	endlabel snd_bgm_fade_in
 
-	glabel func_0600E6E4
+	glabel snd_spawn_level_fadein
 	sts.l	pr,@-r15
 	mov.l	.L0600E6F8,r2
 	mov.l	.L0600E6FC,r0
@@ -2155,14 +2232,14 @@
 	rts
 	nop
 .L0600E6F8:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0600E6FC:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0600E700:
-	.long func_0600E704
-	endlabel func_0600E6E4
+	.long snd_level_fadein_task
+	endlabel snd_spawn_level_fadein
 
-	glabel func_0600E704
+	glabel snd_level_fadein_task
 	sts.l	pr,@-r15
 	mov.w	@(0,r1),r0
 	add	#2,r0
@@ -2187,12 +2264,12 @@
 	rts
 	nop
 .L0600E730:
-	.long func_0600D1A0
+	.long obj_free
 .L0600E734:
-	.long func_0600E62E
-	endlabel func_0600E704
+	.long snd_seq_level
+	endlabel snd_level_fadein_task
 
-	glabel func_0600E738
+	glabel snd_bgm_duck
 	sts.l	pr,@-r15
 	mov	#0,r4
 	mov	#96,r5
@@ -2204,10 +2281,10 @@
 	nop
 	.byte 0x00, 0x00
 .L0600E74C:
-	.long func_0600E606
-	endlabel func_0600E738
+	.long snd_seq_volume
+	endlabel snd_bgm_duck
 
-	glabel func_0600E750
+	glabel snd_spawn_level_dip
 	sts.l	pr,@-r15
 	mov.l	.L0600E764,r2
 	mov.l	.L0600E768,r0
@@ -2219,14 +2296,14 @@
 	rts
 	nop
 .L0600E764:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0600E768:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0600E76C:
-	.long func_0600E770
-	endlabel func_0600E750
+	.long snd_level_dip_task
+	endlabel snd_spawn_level_dip
 
-	glabel func_0600E770
+	glabel snd_level_dip_task
 	sts.l	pr,@-r15
 	mov.w	@(0,r1),r0
 	add	#1,r0
@@ -2251,12 +2328,12 @@
 	rts
 	nop
 .L0600E79C:
-	.long func_0600D1A0
+	.long obj_free
 .L0600E7A0:
-	.long func_0600E62E
-	endlabel func_0600E770
+	.long snd_seq_level
+	endlabel snd_level_dip_task
 
-	glabel func_0600E7A4
+	glabel snd_bgm_unduck
 	sts.l	pr,@-r15
 	mov	#0,r4
 	mov	#127,r5
@@ -2268,10 +2345,10 @@
 	nop
 	.byte 0x00, 0x00
 .L0600E7B8:
-	.long func_0600E606
-	endlabel func_0600E7A4
+	.long snd_seq_volume
+	endlabel snd_bgm_unduck
 
-	glabel func_0600E7BC
+	glabel snd_spawn_level_undip
 	sts.l	pr,@-r15
 	mov.l	.L0600E7D0,r2
 	mov.l	.L0600E7D4,r0
@@ -2283,14 +2360,14 @@
 	rts
 	nop
 .L0600E7D0:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0600E7D4:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0600E7D8:
-	.long func_0600E7DC
-	endlabel func_0600E7BC
+	.long snd_level_undip_task
+	endlabel snd_spawn_level_undip
 
-	glabel func_0600E7DC
+	glabel snd_level_undip_task
 	sts.l	pr,@-r15
 	mov.w	@(0,r1),r0
 	add	#1,r0
@@ -2315,12 +2392,12 @@
 	rts
 	nop
 .L0600E808:
-	.long func_0600D1A0
+	.long obj_free
 .L0600E80C:
-	.long func_0600E62E
-	endlabel func_0600E7DC
+	.long snd_seq_level
+	endlabel snd_level_undip_task
 
-	glabel func_0600E810
+	glabel snd_set_chan_pan
 	mov.l	.L0600E81C,r2
 	mov	r4,r0
 	mov.b	r5,@(r0,r2)
@@ -2328,14 +2405,14 @@
 	nop
 	.byte 0x00, 0x00
 .L0600E81C:
-	.long D_060FE70C
-	endlabel func_0600E810
+	.long snd_pan
+	endlabel snd_set_chan_pan
 
-	glabel func_0600E820
+	glabel snd_cmd16
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E83A
@@ -2351,13 +2428,13 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E820
+	endlabel snd_cmd16
 
-	glabel func_0600E844
+	glabel snd_seq_transpose
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E85E
@@ -2373,13 +2450,13 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E844
+	endlabel snd_seq_transpose
 
-	glabel func_0600E868
+	glabel snd_seq_pan
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E886
@@ -2397,9 +2474,9 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600E868
+	endlabel snd_seq_pan
 
-	glabel func_0600E890
+	glabel snd_voice_mgr_init
 	mov	#0,r0
 	mov.l	.L0600E8C0,r2
 	mov	#8,r7
@@ -2426,16 +2503,16 @@
 	nop
 	.byte 0x00, 0x00
 .L0600E8C0:
-	.long D_060FE6CC
+	.long snd_voices
 .L0600E8C4:
-	.long D_060FE70C
+	.long snd_pan
 .L0600E8C8:
-	.long D_060FE71C
+	.long snd_ctrl_volume
 .L0600E8CC:
-	.long func_0600E8D0
-	endlabel func_0600E890
+	.long snd_voice_mgr_task
+	endlabel snd_voice_mgr_init
 
-	glabel func_0600E8D0
+	glabel snd_voice_mgr_task
 	sts.l	pr,@-r15
 	mov.l	.L0600E95C,r2
 	mov	#8,r7
@@ -2460,7 +2537,7 @@
 	cmp/eq	r0,r8
 	bt	.L0600E924
 	mov.l	r0,@(8,r2)
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600E924
@@ -2502,7 +2579,7 @@
 	mov	r7,r4
 	mov	#-128,r5
 	add	r0,r5
-	bsr	func_0600E62E
+	bsr	snd_seq_level
 	nop
 .L0600E94E:
 	add	#-1,r2
@@ -2513,14 +2590,14 @@
 	rts
 	nop
 .L0600E95C:
-	.long D_060FE6CC
+	.long snd_voices
 .L0600E960:
-	.long D_060FE70C
+	.long snd_pan
 .L0600E964:
-	.long D_060FE71C
-	endlabel func_0600E8D0
+	.long snd_ctrl_volume
+	endlabel snd_voice_mgr_task
 
-	glabel func_0600E968
+	glabel snd_play_positional
 	mov.b	@(107,gbr),r0
 	cmp/pz	r0
 	bt	.L0600E972
@@ -2546,7 +2623,7 @@
 .L0600E992:
 	mov.w	r9,@r2
 	mov.l	r1,@(4,r2)
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600EA1C
@@ -2568,7 +2645,7 @@
 	mov	r4,r0
 	mov.b	r0,@(3,r2)
 	mov	r10,r5
-	bsr	func_0600E652
+	bsr	snd_set_ctrl_volume
 	nop
 	mov	#4,r0
 	cmp/ge	r0,r8
@@ -2603,18 +2680,18 @@
 .L0600E9FE:
 	.short 0x003E
 .L0600EA00:
-	.long D_060FE6CC
+	.long snd_voices
 .L0600EA04:
-	.long D_060FE724
+	.long snd_ctrl_volume_sent
 .L0600EA08:
-	.long func_06007C1C
+	.long math_atan2
 .L0600EA0C:
 	bra	.L0600EA12
 	mov	#0,r5
 .L0600EA10:
 	mov	#30,r5
 .L0600EA12:
-	bsr	func_0600E810
+	bsr	snd_set_chan_pan
 	nop
 .L0600EA16:
 	lds.l	@r15+,pr
@@ -2624,9 +2701,9 @@
 	lds.l	@r15+,pr
 	rts
 	mov	#-1,r0
-	endlabel func_0600E968
+	endlabel snd_play_positional
 
-	glabel func_0600EA22
+	glabel snd_calc_distance_volume
 	mov.l	.L0600EA78,r7
 	mov.l	@r7,r7
 	mov.l	@(48,r1),r4
@@ -2674,16 +2751,16 @@
 	.short 0x0400
 	.byte 0x00, 0x00
 .L0600EA78:
-	.long D_060F3064
+	.long player_obj
 .L0600EA7C:
-	.long func_06007D5C
+	.long math_length3d
 .L0600EA80:
 	sett
 	rts
 	nop
-	endlabel func_0600EA22
+	endlabel snd_calc_distance_volume
 
-	glabel func_0600EA86
+	glabel snd_stop_positional
 	sts.l	pr,@-r15
 	mov.l	.L0600EAA8,r2
 	mov	r8,r0
@@ -2696,21 +2773,21 @@
 	mov	#0,r0
 	mov.l	r0,@(0,r2)
 	mov.l	r0,@(4,r2)
-	bsr	func_0600E4F6
+	bsr	snd_seq_stop
 	nop
 .L0600EAA2:
 	lds.l	@r15+,pr
 	rts
 	nop
 .L0600EAA8:
-	.long D_060FE6CC
-	endlabel func_0600EA86
+	.long snd_voices
+	endlabel snd_stop_positional
 
-	glabel func_0600EAAC
+	glabel snd_midi_direct
 	mov.l	r3,@-r15
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
-	bsr	func_0600E3B0
+	bsr	snd_cmd_alloc
 	nop
 	tst	r0,r0
 	bf	.L0600EACE
@@ -2730,9 +2807,9 @@
 	mov.l	@r15+,r3
 	rts
 	nop
-	endlabel func_0600EAAC
+	endlabel snd_midi_direct
 
-	glabel func_0600EAD8
+	glabel dbg_sound_test_init
 	sts.l	pr,@-r15
 	mov.w	@(28,gbr),r0
 	tst	#8,r0
@@ -2793,19 +2870,19 @@
 	nop
 	.byte 0x00, 0x00
 .L0600EB48:
-	.long D_0600EC2C
+	.long str_sound_test_clear
 .L0600EB4C:
-	.long func_0601C97C
+	.long txt_print_at
 .L0600EB50:
-	.long D_0600EBD8
+	.long str_sound_test
 .L0600EB54:
-	.long D_060CFFA4
+	.long snd_tone_variants
 .L0600EB58:
-	.long D_0600E140
+	.long snd_tone_bank_table
 .L0600EB5C:
 	.long func_0601CA2E
 .L0600EB60:
-	.long func_0600ECF0
+	.long dbg_sound_test_task
 .L0600EB64:
 	mov.b	@(20,gbr),r0
 	tst	#1,r0
@@ -2854,44 +2931,44 @@
 	rts
 	nop
 .L0600EBBC:
-	.long D_0600ECA4
+	.long str_dss_info_clear
 .L0600EBC0:
-	.long func_0601C97C
+	.long txt_print_at
 .L0600EBC4:
-	.long D_0600EC80
+	.long str_dss_info
 .L0600EBC8:
-	.long D_060CFFA4
+	.long snd_tone_variants
 .L0600EBCC:
-	.long D_0600E140
+	.long snd_tone_bank_table
 .L0600EBD0:
 	.long func_0601CA2E
 .L0600EBD4:
-	.long func_0600ECC8
-	dlabel D_0600EBD8
+	.long dbg_sound_info_task
+	dlabel str_sound_test
 	.byte 0x00, 0x0F, 0x00, 0x0C, 0x3C, 0x20, 0x53, 0x4F, 0x55, 0x4E, 0x44, 0x20, 0x54, 0x45, 0x53, 0x54
 	.byte 0x20, 0x3E, 0xFF, 0x09, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20
 	.byte 0x20, 0x20, 0xFF, 0x09, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x3A, 0x20, 0x20, 0x20, 0x20, 0x20
 	.byte 0x20, 0x20, 0xFF, 0x09, 0x20, 0x3C, 0x20, 0x44, 0x53, 0x53, 0x20, 0x49, 0x4E, 0x46, 0x4F, 0x20
 	.byte 0x3E, 0x20, 0xFF, 0x09, 0x20, 0x20, 0x20, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x20
 	.byte 0x20, 0x20, 0xFE, 0x09
-	dlabel D_0600EC2C
+	dlabel str_sound_test_clear
 	.byte 0x00, 0x0F, 0x00, 0x0C, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20
 	.byte 0x20, 0x20, 0xFF, 0x09, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20
 	.byte 0x20, 0x20, 0xFF, 0x09, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20
 	.byte 0x20, 0x20, 0xFF, 0x09, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20
 	.byte 0x20, 0x20, 0xFF, 0x09, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20
 	.byte 0x20, 0x20, 0xFE, 0x09
-	dlabel D_0600EC80
+	dlabel str_dss_info
 	.byte 0x00, 0x0F, 0x00, 0x17, 0x20, 0x3C, 0x20, 0x44, 0x53, 0x53, 0x20, 0x49, 0x4E, 0x46, 0x4F, 0x20
 	.byte 0x3E, 0x20, 0xFF, 0x09, 0x20, 0x20, 0x20, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x20
 	.byte 0x20, 0x20, 0xFE, 0x09
-	dlabel D_0600ECA4
+	dlabel str_dss_info_clear
 	.byte 0x00, 0x0F, 0x00, 0x17, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20
 	.byte 0x20, 0x20, 0xFF, 0x09, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20
 	.byte 0x20, 0x20, 0xFE, 0x09
-	endlabel func_0600EAD8
+	endlabel dbg_sound_test_init
 
-	glabel func_0600ECC8
+	glabel dbg_sound_info_task
 	mov.b	@(79,gbr),r0
 	cmp/pz	r0
 	bt	.L0600ECEC
@@ -2905,17 +2982,17 @@
 	jmp	@r0
 	nop
 .L0600ECE0:
-	.long D_0600ECA4
+	.long str_dss_info_clear
 .L0600ECE4:
-	.long func_0601C97C
+	.long txt_print_at
 .L0600ECE8:
-	.long func_0600D1A0
+	.long obj_free
 .L0600ECEC:
 	rts
 	nop
-	endlabel func_0600ECC8
+	endlabel dbg_sound_info_task
 
-	glabel func_0600ECF0
+	glabel dbg_sound_test_task
 	sts.l	pr,@-r15
 	mov.b	@(79,gbr),r0
 	cmp/pz	r0
@@ -2933,11 +3010,11 @@
 	jmp	@r0
 	nop
 .L0600ED10:
-	.long D_0600EC2C
+	.long str_sound_test_clear
 .L0600ED14:
-	.long func_0601C97C
+	.long txt_print_at
 .L0600ED18:
-	.long func_0600D1A0
+	.long obj_free
 .L0600ED1C:
 	mov.b	@(0,r1),r0
 	mov	r0,r4
@@ -3040,16 +3117,16 @@
 	mov.b	r0,@(3,r1)
 	mov	r0,r5
 	mov	#0,r4
-	bsr	func_0600E810
+	bsr	snd_set_chan_pan
 	nop
 	mov	#1,r4
-	bsr	func_0600E810
+	bsr	snd_set_chan_pan
 	nop
 	mov	#2,r4
-	bsr	func_0600E810
+	bsr	snd_set_chan_pan
 	nop
 	mov	#3,r4
-	bsr	func_0600E810
+	bsr	snd_set_chan_pan
 	nop
 .L0600EDE4:
 	mov.b	@(78,gbr),r0
@@ -3061,16 +3138,16 @@
 	mov.b	r0,@(3,r1)
 	mov	r0,r5
 	mov	#0,r4
-	bsr	func_0600E810
+	bsr	snd_set_chan_pan
 	nop
 	mov	#1,r4
-	bsr	func_0600E810
+	bsr	snd_set_chan_pan
 	nop
 	mov	#2,r4
-	bsr	func_0600E810
+	bsr	snd_set_chan_pan
 	nop
 	mov	#3,r4
-	bsr	func_0600E810
+	bsr	snd_set_chan_pan
 	nop
 .L0600EE0C:
 	mov.b	@(0,r1),r0
@@ -3096,11 +3173,11 @@
 	nop
 	.byte 0x00, 0x00
 .L0600EE38:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0600EE3C:
-	.long func_0600E4F6
+	.long snd_seq_stop
 .L0600EE40:
-	.long func_0600E586
+	.long snd_seq_stop_all
 .L0600EE44:
 	.long func_0601CA58
-	endlabel func_0600ECF0
+	endlabel dbg_sound_test_task

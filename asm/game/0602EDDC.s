@@ -32,7 +32,7 @@
 .L0602EE0A:
 	.short 0x00FF
 .L0602EE0C:
-	.long func_0600D1A0
+	.long obj_free
 .L0602EE10:
 	.long VDP2_REGS + 0x114
 	endlabel func_0602EDDE
@@ -65,7 +65,7 @@
 	.short 0xFF01
 	.byte 0x00, 0x00
 .L0602EE44:
-	.long func_0600D1A0
+	.long obj_free
 .L0602EE48:
 	.long VDP2_REGS + 0x114
 	endlabel func_0602EE14
@@ -124,6 +124,6 @@
 	.byte 0x09, 0x00, 0x27, 0x00
 	.asciz "\nSPOL"
 	.byte 0x09, 0x00, 0x27, 0x00, 0x0B, 0x4C, 0x49, 0x4E, 0x4B, 0x00, 0x09, 0xFF, 0xFF, 0x00, 0x09
-	.long D_060DC000
-	.long D_060B0000
-	.long D_060DC000
+	.long vdp1_list_buf
+	.long vdp1_alt_list_buf
+	.long vdp1_list_buf

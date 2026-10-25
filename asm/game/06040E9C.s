@@ -77,19 +77,19 @@
 .L06040F22:
 	.short 0x00FF
 .L06040F24:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L06040F28:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06040F2C:
 	.long func_06040F48
 .L06040F30:
-	.long func_06007B96
+	.long math_rand
 .L06040F34:
-	.long func_06007BD8
+	.long math_sincos
 .L06040F38:
-	.long func_06017BA6
+	.long math_rotate2d_inv
 .L06040F3C:
-	.long func_06017B7C
+	.long math_rotate_xz
 .L06040F40:
 	.long 0x00007FFF
 .L06040F44:
@@ -130,7 +130,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06040F80:
-	.long func_0600D1A0
+	.long obj_free
 .L06040F84:
 	mov.w	r0,@(8,r1)
 	endlabel func_06040F70
@@ -209,23 +209,23 @@
 	nop
 	.byte 0x00, 0x00
 .L06041010:
-	.long func_0600CA24
+	.long mtx_push
 .L06041014:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06041018:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L0604101C:
 	.long 0x00004000
 .L06041020:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06041024:
-	.long func_0600D018
+	.long mtx_scale
 .L06041028:
 	.long D_060A2558
 .L0604102C:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06041030:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06040F86
 
 	.section .data.06041034,"aw",@progbits
@@ -237,4 +237,4 @@
 	dlabel D_06041040
 	.byte 0x00, 0x00, 0xFF, 0xB0, 0x00, 0x64, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0xE0, 0xF8, 0x02, 0x1E
 	.byte 0x84, 0x21, 0x40, 0x11, 0x89, 0x06, 0xE0, 0x01, 0x80, 0x21, 0xD0, 0x01, 0x40, 0x2B, 0x00, 0x09
-	.long func_0600D1A0
+	.long obj_free

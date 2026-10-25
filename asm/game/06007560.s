@@ -88,11 +88,11 @@
 .L060075FC:
 	.long D_0600777C
 .L06007600:
-	.long D_06073000
+	.long bss_start
 .L06007604:
 	.long D_060D900A
 .L06007608:
-	.long func_06006C94
+	.long cd_queue_load
 .L0600760C:
 	.long D_060515E4
 .L06007610:
@@ -192,7 +192,7 @@
 .L060076C8:
 	.long D_060D900C
 .L060076CC:
-	.long func_06006C94
+	.long cd_queue_load
 .L060076D0:
 	.long D_0605159C
 .L060076D4:
@@ -212,7 +212,7 @@
 .L060076F0:
 	.long D_060D9012
 .L060076F4:
-	.long func_06006EA0
+	.long cd_service
 .L060076F8:
 	.long D_06064FA4
 	endlabel func_06007560

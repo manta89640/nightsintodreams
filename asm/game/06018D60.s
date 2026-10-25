@@ -33,7 +33,7 @@
 	sub	r4,r7
 	.byte 0x00, 0x00
 .L06018D90:
-	.long D_060F3064
+	.long player_obj
 .L06018D94:
 	.long D_06018CBC
 .L06018D98:
@@ -175,7 +175,7 @@
 	nop
 	endlabel func_06018D64
 
-	glabel func_06018E8C
+	glabel path_place_obj
 	mov.l	.L06018EAC,r10
 	sts.l	pr,@-r15
 	mov.l	.L06018EB0,r2
@@ -196,9 +196,9 @@
 	.long D_06018CBC
 .L06018EB0:
 	.long D_06018ECC
-	endlabel func_06018E8C
+	endlabel path_place_obj
 
-	glabel func_06018EB4
+	glabel path_eval
 	mov.l	.L06018EC4,r10
 	mov	r0,r8
 	mov.l	.L06018EC8,r2
@@ -297,7 +297,7 @@
 	dlabel D_06019184
 	.long D_0601914C
 	.byte 0x2F, 0x12, 0x00, 0x00, 0xFF, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0x00
-	endlabel func_06018EB4
+	endlabel path_eval
 
 	glabel func_06019194
 	sts.l	pr,@-r15
@@ -551,7 +551,7 @@
 .L06019354:
 	.long SH2_DVSR
 .L06019358:
-	.long func_06007BD8
+	.long math_sincos
 	endlabel func_06019194
 
 	glabel func_0601935C
@@ -758,7 +758,7 @@
 .L060194CC:
 	.long SH2_DVSR
 .L060194D0:
-	.long func_06007BD8
+	.long math_sincos
 	endlabel func_0601935C
 
 	.section .data.060194D4,"aw",@progbits

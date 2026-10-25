@@ -16,9 +16,9 @@
 	rts
 	mov.l	r1,@(16,r3)
 .L0601BEB0:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0601BEB4:
-	.long func_0600D0D0
+	.long obj_alloc
 	endlabel func_0601BE9C
 
 	glabel func_0601BEB8
@@ -55,7 +55,7 @@
 	rts
 	nop
 .L0601BEEC:
-	.long D_060FFE50
+	.long play_state
 	endlabel func_0601BEE0
 
 	glabel func_0601BEF0
@@ -66,7 +66,7 @@
 	rts
 	nop
 .L0601BEFC:
-	.long D_060FFE50
+	.long play_state
 	endlabel func_0601BEF0
 
 	glabel func_0601BF00
@@ -184,7 +184,7 @@
 .L0601BFC0:
 	.long 0x0000A000
 .L0601BFC4:
-	.long func_06007BF4
+	.long math_cos
 .L0601BFC8:
 	.long VDP1_VRAM + 0xFFD8
 .L0601BFCC:
@@ -196,7 +196,7 @@
 .L0601BFD8:
 	.long 0x00000000
 .L0601BFDC:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_0601BF48
 
 	glabel func_0601BFE0
@@ -306,7 +306,7 @@
 .L0601C09C:
 	.long D_060CB003
 .L0601C0A0:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601C0A4:
 	bra	.L0601C0AA
 	add	#9,r0
@@ -360,7 +360,7 @@
 	.short 0x0060
 	.byte 0x00, 0x00
 .L0601C100:
-	.long func_060204EE
+	.long spr_draw_obj
 .L0601C104:
 	.long D_0601C200
 .L0601C108:
@@ -370,9 +370,9 @@
 .L0601C110:
 	.long D_060CB003
 .L0601C114:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601C118:
-	.long func_06019D42
+	.long spr_build_number
 	endlabel func_0601C024
 
 	glabel func_0601C11C
@@ -484,15 +484,15 @@
 .L0601C1E0:
 	.long D_06013DA8
 .L0601C1E4:
-	.long func_060204EE
+	.long spr_draw_obj
 .L0601C1E8:
 	.long D_0601C320
 .L0601C1EC:
 	.long D_0601C81C
 .L0601C1F0:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601C1F4:
-	.long func_06019D42
+	.long spr_build_number
 .L0601C1F8:
 	.long 0x00180000
 .L0601C1FC:

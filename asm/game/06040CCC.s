@@ -12,7 +12,7 @@
 	jmp	@r0
 	nop
 .L06040CD8:
-	.long func_0600D1A0
+	.long obj_free
 .L06040CDC:
 	mov.w	r0,@(8,r1)
 	endlabel func_06040CCC
@@ -84,7 +84,7 @@
 .L06040D54:
 	.long D_06014238
 .L06040D58:
-	.long func_0601EF98
+	.long spr_anim_step
 .L06040D5C:
 	mov.l	.L06040D80,r0
 	jsr	@r0
@@ -105,13 +105,13 @@
 	nop
 	.byte 0x00, 0x00
 .L06040D80:
-	.long func_0600CA24
+	.long mtx_push
 .L06040D84:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06040D88:
-	.long func_060208FA
+	.long spr_draw_billboard_unscaled
 .L06040D8C:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06040D90:
 	mov.l	.L06040DA4,r2
 	mov.l	.L06040DA8,r14
@@ -126,7 +126,7 @@
 .L06040DA4:
 	.long D_0601421E
 .L06040DA8:
-	.long func_0601EF98
+	.long spr_anim_step
 .L06040DAC:
 	mov.l	.L06040DD0,r0
 	jsr	@r0
@@ -147,17 +147,17 @@
 	nop
 	.byte 0x00, 0x00
 .L06040DD0:
-	.long func_0600CA24
+	.long mtx_push
 .L06040DD4:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06040DD8:
-	.long func_060208FA
+	.long spr_draw_billboard_unscaled
 .L06040DDC:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06040CDE
 
 	.section .data.06040DE0,"aw",@progbits
 	.p2align 2
 	.byte 0xE0, 0xF8, 0x02, 0x1E, 0x84, 0x21, 0x40, 0x11, 0x89, 0x06, 0xE0, 0x01, 0x80, 0x21, 0xD0, 0x01
 	.byte 0x40, 0x2B, 0x00, 0x09
-	.long func_0600D1A0
+	.long obj_free

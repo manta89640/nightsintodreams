@@ -27,7 +27,7 @@
 	.short 0x007F
 	.byte 0x00, 0x00
 .L0603FE98:
-	.long func_06007B96
+	.long math_rand
 .L0603FE9C:
 	.long D_06013FCE
 .L0603FEA0:
@@ -120,17 +120,17 @@
 .L0603FF40:
 	.long 0x00018000
 .L0603FF44:
-	.long func_06007BD8
+	.long math_sincos
 .L0603FF48:
-	.long func_06017BA6
+	.long math_rotate2d_inv
 .L0603FF4C:
-	.long func_06017B7C
+	.long math_rotate_xz
 .L0603FF50:
-	.long D_060F3064
+	.long player_obj
 .L0603FF54:
 	.long D_06014076
 .L0603FF58:
-	.long func_0601EF98
+	.long spr_anim_step
 .L0603FF5C:
 	bsr	func_06040028
 	nop
@@ -151,7 +151,7 @@
 	jmp	@r0
 	nop
 .L0603FF78:
-	.long func_0600D1A0
+	.long obj_free
 .L0603FF7C:
 	mov.w	r0,@(8,r1)
 	mov.l	@(60,r1),r4
@@ -200,15 +200,15 @@
 .L0603FFD4:
 	.long 0xFFFFF000
 .L0603FFD8:
-	.long func_06007BD8
+	.long math_sincos
 .L0603FFDC:
-	.long func_06017BA6
+	.long math_rotate2d_inv
 .L0603FFE0:
-	.long func_06017B7C
+	.long math_rotate_xz
 .L0603FFE4:
-	.long D_060F3064
+	.long player_obj
 .L0603FFE8:
-	.long func_0601EF98
+	.long spr_anim_step
 .L0603FFEC:
 	bsr	func_0603FFF6
 	nop
@@ -236,13 +236,13 @@
 	nop
 	.byte 0x00, 0x00
 .L06040018:
-	.long func_0600CA24
+	.long mtx_push
 .L0604001C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06040020:
-	.long func_06020906
+	.long spr_draw_billboard
 .L06040024:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603FFF6
 
 	glabel func_06040028
@@ -272,13 +272,13 @@
 	.short 0x00A0
 	.byte 0x00, 0x00
 .L06040058:
-	.long func_0600CA24
+	.long mtx_push
 .L0604005C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06040060:
-	.long func_06020906
+	.long spr_draw_billboard
 .L06040064:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06040028
 
 	.section .data.06040068,"aw",@progbits
@@ -318,4 +318,4 @@
 	.long D_0608A09C
 	.byte 0x00, 0x00, 0x0C, 0xCC, 0xE0, 0xF8, 0x02, 0x1E, 0x84, 0x21, 0x40, 0x11, 0x89, 0x06, 0xE0, 0x01
 	.byte 0x80, 0x21, 0xD0, 0x01, 0x40, 0x2B, 0x00, 0x09
-	.long func_0600D1A0
+	.long obj_free

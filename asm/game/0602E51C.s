@@ -172,11 +172,11 @@
 .L0602E65C:
 	.long func_0600454C
 .L0602E660:
-	.long func_0601F068
+	.long vdp1_cmdlist_begin
 .L0602E664:
-	.long func_0601F16C
+	.long vdp1_cmdlist_end
 .L0602E668:
-	.long func_0600D088
+	.long obj_init
 .L0602E66C:
 	.long func_0602C390
 .L0602E670:
@@ -184,9 +184,9 @@
 .L0602E674:
 	.long D_060D9074
 .L0602E678:
-	.long func_0600C9C8
+	.long mtx_init
 .L0602E67C:
-	.long func_0600C9F2
+	.long mtx_push_identity
 .L0602E680:
 	.long func_060450F0
 .L0602E684:
@@ -194,13 +194,13 @@
 .L0602E688:
 	.long 0x03000000
 .L0602E68C:
-	.long D_060FFFA0
+	.long obj_list_core
 .L0602E690:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0602E694:
 	.long func_0602FF50
 .L0602E698:
-	.long D_060FFFA8
+	.long obj_list_manager
 .L0602E69C:
 	.long func_06021E2A
 .L0602E6A0:
@@ -214,9 +214,9 @@
 .L0602E6B0:
 	.long D_060F30A8
 .L0602E6B4:
-	.long func_0601F434
+	.long poly_draw_model
 .L0602E6B8:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L0602E6BC:
 	.long D_0601F4AE
 .L0602E6C0:
@@ -224,19 +224,19 @@
 .L0602E6C4:
 	.long func_06020578
 .L0602E6C8:
-	.long func_060204EE
+	.long spr_draw_obj
 .L0602E6CC:
-	.long func_060208FA
+	.long spr_draw_billboard_unscaled
 .L0602E6D0:
-	.long func_06020906
+	.long spr_draw_billboard
 .L0602E6D4:
-	.long func_0600D1F8
+	.long obj_run_list
 .L0602E6D8:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0602E6DC:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0602E6E0:
-	.long D_060FFFC8
+	.long obj_list_pause
 	dlabel lbl_0602E6E4
 	mov	#-1,r0
 	and	#15,r0
@@ -412,15 +412,15 @@
 	bra	.L0602E8AE
 	mov.b	r0,@(21,gbr)
 .L0602E830:
-	.long func_0600D290
+	.long obj_free_load_lists
 .L0602E834:
-	.long D_060F309C
+	.long cam_obj
 .L0602E838:
-	.long D_060FFFD8
+	.long obj_list_load_scene
 .L0602E83C:
-	.long func_0600D2A8
+	.long obj_move_to_list
 .L0602E840:
-	.long D_060F3064
+	.long player_obj
 .L0602E844:
 	.long D_060F30C0
 .L0602E848:
@@ -428,13 +428,13 @@
 .L0602E84C:
 	.long D_060F306C
 .L0602E850:
-	.long D_060F30A4
+	.long active_cam_obj
 .L0602E854:
 	.long D_060F30A8
 .L0602E858:
-	.long D_060FFFD0
+	.long obj_list_load_task
 .L0602E85C:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0602E860:
 	.long D_06031E74
 .L0602E864:
@@ -444,17 +444,17 @@
 .L0602E86C:
 	.long func_0602B93E
 .L0602E870:
-	.long func_0600D24A
+	.long obj_free_level_lists
 .L0602E874:
 	.long func_060450F0
 .L0602E878:
 	.long func_060450FC
 .L0602E87C:
-	.long D_060FFE50
+	.long play_state
 .L0602E880:
 	.long func_0604DE7C
 .L0602E884:
-	.long D_060FFF64
+	.long mare_max_link
 .L0602E888:
 	.long D_060F30F0
 .L0602E88C:
@@ -733,13 +733,13 @@
 .L0602EA9A:
 	.short 0x0400
 .L0602EA9C:
-	.long D_060FFE98
+	.long mare_score
 .L0602EAA0:
 	.long D_06043AB8
 .L0602EAA4:
 	.long D_060431D4
 .L0602EAA8:
-	.long D_060FFE50
+	.long play_state
 .L0602EAAC:
 	.long D_0602F06C
 .L0602EAB0:
@@ -757,15 +757,15 @@
 .L0602EAC8:
 	.long D_060FBBFC
 .L0602EACC:
-	.long D_060FFFA0
+	.long obj_list_core
 .L0602EAD0:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0602EAD4:
 	.long lbl_060167D0
 .L0602EAD8:
-	.long D_060FFFA8
+	.long obj_list_manager
 .L0602EADC:
-	.long func_0600E890
+	.long snd_voice_mgr_init
 .L0602EAE0:
 	.long func_06019D8C
 .L0602EAE4:
@@ -789,17 +789,17 @@
 .L0602EB08:
 	.long func_0601B736
 .L0602EB0C:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0602EB10:
 	.long func_06011538
 .L0602EB14:
-	.long func_0600D7F8
+	.long linewin_spawn
 .L0602EB18:
 	.long lbl_060426B0
 .L0602EB1C:
-	.long func_06006A20
+	.long cd_play_track
 .L0602EB20:
-	.long func_06006B20
+	.long cd_pause
 .L0602EB24:
 	.long func_0602B5CC
 .L0602EB28:
@@ -841,7 +841,7 @@
 .L0602EB6C:
 	.long D_0602F0AC
 .L0602EB70:
-	.long func_0601C97C
+	.long txt_print_at
 .L0602EB74:
 	mov.l	.L0602EB98,r2
 .L0602EB76:
@@ -865,7 +865,7 @@
 .L0602EB98:
 	.long D_0602F0B8
 .L0602EB9C:
-	.long func_0601CBE0
+	.long txt_cell_addr
 .L0602EBA0:
 	.long func_0601CC88
 .L0602EBA4:
@@ -917,9 +917,9 @@
 .L0602EBF4:
 	.long func_0602EDDE
 .L0602EBF8:
-	.long D_060FFFD0
+	.long obj_list_load_task
 .L0602EBFC:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0602EC00:
 	mov.b	@(107,gbr),r0
 	cmp/pz	r0
@@ -1100,31 +1100,31 @@
 .L0602ED4E:
 	.short 0x0000
 .L0602ED50:
-	.long func_0600E606
+	.long snd_seq_volume
 .L0602ED54:
-	.long func_06004BAE
+	.long sys_wait_vblank
 .L0602ED58:
-	.long func_0600E4F6
+	.long snd_seq_stop
 .L0602ED5C:
 	.long D_0602FF48
 .L0602ED60:
-	.long D_060F309C
+	.long cam_obj
 .L0602ED64:
-	.long D_060F3064
+	.long player_obj
 .L0602ED68:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0602ED6C:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0602ED70:
 	.long func_0603E4D0
 .L0602ED74:
-	.long D_060FFF98
+	.long next_game_mode
 .L0602ED78:
 	.long func_06004574
 .L0602ED7C:
-	.long D_060FFFA0
+	.long obj_list_core
 .L0602ED80:
-	.long func_0600D2A8
+	.long obj_move_to_list
 .L0602ED84:
 	.long D_0600F0C4
 .L0602ED88:
@@ -1132,11 +1132,11 @@
 .L0602ED8C:
 	.long D_060F30A8
 .L0602ED90:
-	.long D_060FFFA8
+	.long obj_list_manager
 .L0602ED94:
-	.long func_0600C9C8
+	.long mtx_init
 .L0602ED98:
-	.long func_0600C9F2
+	.long mtx_push_identity
 	endlabel func_0602E51E
 
 	.section .data.0602ED9C,"aw",@progbits

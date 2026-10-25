@@ -53,7 +53,7 @@
 .L06007AFC:
 	.long D_06007A94
 .L06007B00:
-	.long func_06006C12
+	.long cd_load_file
 .L06007B04:
 	.long D_06080000
 	endlabel func_06007AA8
@@ -86,9 +86,9 @@
 .L06007B38:
 	.long D_0605167C
 .L06007B3C:
-	.long func_06006C12
+	.long cd_load_file
 .L06007B40:
-	.long D_00200000
+	.long lwram_buf
 	endlabel func_06007B08
 
 	.section .data.06007B44,"aw",@progbits

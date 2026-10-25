@@ -19,7 +19,7 @@
 	.byte 0x00, 0x00
 	.long func_06041D52
 .L06041D6C:
-	.long func_0600D1A0
+	.long obj_free
 .L06041D70:
 	mov	#30,r0
 	mov.b	@(r0,r1),r0

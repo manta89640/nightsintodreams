@@ -4,7 +4,7 @@
 	.section .text.0601C97C,"ax",@progbits
 	.p2align 2
 
-	glabel func_0601C97C
+	glabel txt_print_at
 	mov.w	@r2+,r4
 	mov.w	@r2+,r5
 	dlabel lbl_0601C980
@@ -28,7 +28,7 @@
 	bra	.L0601C98C
 	add	#2,r5
 .L0601C9A4:
-	.long func_0601CBE0
+	.long txt_cell_addr
 .L0601C9A8:
 	add	#1,r2
 	mov	#-2,r0
@@ -43,12 +43,12 @@
 	lds.l	@r15+,pr
 	rts
 	nop
-	endlabel func_0601C97C
+	endlabel txt_print_at
 
-	glabel func_0601C9BE
+	glabel txt_print_big_at
 	mov.w	@r2+,r4
 	mov.w	@r2+,r5
-	endlabel func_0601C9BE
+	endlabel txt_print_big_at
 
 	glabel func_0601C9C2
 	sts.l	pr,@-r15
@@ -79,7 +79,7 @@
 .L0601C9F2:
 	.short 0x0080
 .L0601C9F4:
-	.long func_0601CBE0
+	.long txt_cell_addr
 .L0601C9F8:
 	.long D_06019C08
 .L0601C9FC:
@@ -132,7 +132,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0601CA50:
-	.long func_0601CBE0
+	.long txt_cell_addr
 .L0601CA54:
 	.long func_0601CC2C
 	endlabel func_0601CA2E
@@ -155,7 +155,7 @@
 	rts
 	nop
 .L0601CA78:
-	.long func_0601CBE0
+	.long txt_cell_addr
 .L0601CA7C:
 	.long func_0601CC2C
 	endlabel func_0601CA58
@@ -283,7 +283,7 @@
 	.short 0xC350
 	endlabel func_0601CA80
 
-	glabel func_0601CB9A
+	glabel math_bin_to_bcd
 	mov.l	r1,@-r15
 	mova	.L0601CBC4,r0
 	mov	#0,r6
@@ -310,9 +310,9 @@
 .L0601CBC4:
 	.byte 0x00, 0x98, 0x96, 0x80, 0x00, 0x0F, 0x42, 0x40, 0x00, 0x01, 0x86, 0xA0, 0x00, 0x00, 0x27, 0x10
 	.byte 0x00, 0x00, 0x03, 0xE8, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x0A
-	endlabel func_0601CB9A
+	endlabel math_bin_to_bcd
 
-	glabel func_0601CBE0
+	glabel txt_cell_addr
 	mov.l	r1,@-r15
 	mov.w	@(296,gbr),r0
 	shll	r4
@@ -329,7 +329,7 @@
 	mov.l	@r15+,r1
 	rts
 	add	r5,r0
-	endlabel func_0601CBE0
+	endlabel txt_cell_addr
 
 	glabel func_0601CC00
 	mov.l	r1,@-r15
@@ -380,7 +380,7 @@
 	nop
 	endlabel func_0601CC2C
 
-	glabel func_0601CC50
+	glabel txt_print_hex8
 	mov	#8,r14
 	mov	#2,r0
 	mulu.w	r0,r14
@@ -414,7 +414,7 @@
 .L0601CC84:
 	rts
 	nop
-	endlabel func_0601CC50
+	endlabel txt_print_hex8
 
 	glabel func_0601CC88
 	mov.b	@r4+,r0

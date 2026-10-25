@@ -53,11 +53,11 @@
 .L06034CA2:
 	.short 0x04B0
 .L06034CA4:
-	.long D_060F3064
+	.long player_obj
 .L06034CA8:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L06034CAC:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06034CB0:
 	.long func_06035280
 .L06034CB4:
@@ -136,7 +136,7 @@
 	rts
 	nop
 .L06034D34:
-	.long D_060F3064
+	.long player_obj
 	dlabel D_06034D38
 	.byte 0x00, 0x0C, 0x00, 0x42, 0x00, 0x78, 0x00, 0xAE, 0x00, 0xEC, 0x01, 0x2E, 0xD0, 0x0A, 0x65, 0x02
 	.byte 0x84, 0x56
@@ -162,18 +162,18 @@
 	rts
 	nop
 	.byte 0x00, 0x00
-	.long D_060F3064
+	.long player_obj
 .L06034D74:
 	mov	#2,r0
 	rts
 	mov.b	r0,@(12,r1)
 	.byte 0xD0, 0x04, 0x65, 0x02, 0x84, 0x56, 0x88, 0x00, 0x89, 0x05, 0xE0, 0x02, 0x00, 0x0B, 0x80, 0x1C
 	.byte 0x00, 0x00
-	.long D_060F3064
+	.long player_obj
 	.byte 0xE0, 0x48, 0xD4, 0x03, 0x03, 0x1E, 0x33, 0x4C, 0x43, 0x15, 0x8B, 0x03, 0x00, 0x0B, 0x01, 0x36
 	.byte 0xFF, 0xFF, 0xFE, 0x00, 0xE3, 0x00, 0x01, 0x36, 0x4F, 0x26, 0xE0, 0x00, 0x00, 0x0B, 0x80, 0x1C
 	.byte 0xD0, 0x03, 0x65, 0x02, 0x84, 0x56, 0x88, 0x00, 0x8B, 0x04, 0xE0, 0x01, 0x00, 0x0B, 0x80, 0x1C
-	.long D_060F3064
+	.long player_obj
 	.byte 0xE4, 0x01, 0x44, 0x28, 0xE0, 0x48, 0x03, 0x1E, 0x33, 0x43, 0x89, 0x05, 0xD4, 0x01, 0x33, 0x4C
 	.byte 0x00, 0x0B, 0x01, 0x36, 0x00, 0x00, 0x10, 0x00, 0x63, 0x43, 0x01, 0x36, 0xE0, 0x03, 0x00, 0x0B
 	.byte 0x80, 0x1C
@@ -205,9 +205,9 @@
 	mov.b	r0,@(12,r1)
 	.byte 0x00, 0x00
 .L06034E14:
-	.long D_060FFE50
+	.long play_state
 .L06034E18:
-	.long D_060F3064
+	.long player_obj
 .L06034E1C:
 	bsr	func_06034EC6
 	nop
@@ -300,7 +300,7 @@
 	rts
 	nop
 .L06034EBC:
-	.long D_060FFE50
+	.long play_state
 .L06034EC0:
 	.long func_06034EC4
 	endlabel func_06034E8C
@@ -413,7 +413,7 @@
 	.short 0x0020
 	.byte 0x00, 0x00
 .L06034F70:
-	.long func_060172DE
+	.long obj_find_near_player
 .L06034F74:
 	mov.l	@(48,r5),r2
 	mov.l	@(48,r1),r4
@@ -556,9 +556,9 @@
 	.short 0x0780
 	.byte 0x00, 0x00
 .L06035070:
-	.long func_06007C1C
+	.long math_atan2
 .L06035074:
-	.long func_06007BD8
+	.long math_sincos
 .L06035078:
 	.long 0x00900000
 .L0603507C:
@@ -566,7 +566,7 @@
 .L06035080:
 	.long 0x00020000
 .L06035084:
-	.long D_060F3064
+	.long player_obj
 .L06035088:
 	.long 0x00090000
 .L0603508C:
@@ -627,9 +627,9 @@
 .L060350F8:
 	.long func_060349D0
 .L060350FC:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L06035100:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06035104:
 	.long func_06043A34
 	endlabel func_06034ED4
@@ -803,35 +803,35 @@
 	.short 0x001E
 	.byte 0x00, 0x00
 .L06035244:
-	.long func_0600CA24
+	.long mtx_push
 .L06035248:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0603524C:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06035250:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06035254:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06035258:
 	.long 0x00018000
 .L0603525C:
-	.long func_0600D018
+	.long mtx_scale
 .L06035260:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06035264:
 	.long D_0608B194
 .L06035268:
-	.long func_0601F434
+	.long poly_draw_model
 .L0603526C:
 	.long D_0608B1F0
 .L06035270:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06035274:
 	.long D_0608B24C
 .L06035278:
-	.long func_0600EA22
+	.long snd_calc_distance_volume
 .L0603527C:
-	.long func_0600E968
+	.long snd_play_positional
 	endlabel func_06035108
 
 	glabel func_06035280
@@ -881,7 +881,7 @@
 	sts.l	pr,@-r15
 	.byte 0x00, 0x00
 .L060352CC:
-	.long D_060F3064
+	.long player_obj
 .L060352D0:
 	.long 0xFFFFFE00
 .L060352D4:
@@ -977,17 +977,17 @@
 .L0603537C:
 	.long VDP1_VRAM + 0x67FA0
 .L06035380:
-	.long func_0600CA24
+	.long mtx_push
 .L06035384:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06035388:
-	.long func_0600D018
+	.long mtx_scale
 .L0603538C:
-	.long func_0601F434
+	.long poly_draw_model
 .L06035390:
 	.long D_06080000
 .L06035394:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06035398:
 	rts
 	nop
@@ -1071,7 +1071,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06035430:
-	.long func_06007BD8
+	.long math_sincos
 .L06035434:
 	.long D_060902BC
 .L06035438:
@@ -1159,13 +1159,13 @@
 	rts
 	mov.l	r0,@(16,gbr)
 .L060354CC:
-	.long func_060172DE
+	.long obj_find_near_player
 .L060354D0:
-	.long D_060F3064
+	.long player_obj
 .L060354D4:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L060354D8:
-	.long func_0600D0D0
+	.long obj_alloc
 .L060354DC:
 	.long func_06035574
 .L060354E0:
@@ -1181,7 +1181,7 @@
 	nop
 	.byte 0x00, 0x00
 .L060354F4:
-	.long func_060172DE
+	.long obj_find_near_player
 .L060354F8:
 	mov.l	r6,@-r15
 	mov.l	r5,@-r15
@@ -1246,9 +1246,9 @@
 .L0603556A:
 	.short 0x4000
 .L0603556C:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06035570:
-	.long D_060F3064
+	.long player_obj
 	endlabel func_0603547A
 
 	glabel func_06035574
@@ -1319,7 +1319,7 @@
 .L060355E8:
 	.long D_06090658
 .L060355EC:
-	.long func_060045BC
+	.long dma_queue_xfer
 .L060355F0:
 	.long VDP1_VRAM + 0x67FA0
 .L060355F4:
@@ -1329,9 +1329,9 @@
 .L060355FC:
 	.long 0x0000C000
 .L06035600:
-	.long D_060ED000
+	.long model_texture_table
 .L06035604:
-	.long func_0600D530
+	.long vdp1_build_fog_cluts
 	endlabel func_06035584
 
 	.section .data.06035608,"aw",@progbits

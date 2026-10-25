@@ -38,7 +38,7 @@
 	.short 0x8000
 	endlabel func_060389D4
 
-	glabel func_060389DC
+	glabel obj_heading_xz
 	mov.l	.L060389FC,r10
 	sts.l	pr,@-r15
 	jsr	@r10
@@ -56,8 +56,8 @@
 	rts
 	xtrct	r11,r2
 .L060389FC:
-	.long func_06007BD8
-	endlabel func_060389DC
+	.long math_sincos
+	endlabel obj_heading_xz
 
 	glabel func_06038A00
 	mov.l	.L06038A20,r10
@@ -77,7 +77,7 @@
 	rts
 	xtrct	r10,r2
 .L06038A20:
-	.long func_06007BD8
+	.long math_sincos
 	endlabel func_06038A00
 
 	glabel func_06038A24
@@ -98,7 +98,7 @@
 	mov.l	r3,@(52,r1)
 	shll16	r2
 	mov.l	r0,@(36,r1)
-	bsr	func_060389DC
+	bsr	obj_heading_xz
 	mov.l	r0,@(40,r1)
 	mov.l	@(56,r1),r0
 	mov.l	@(48,r1),r4
@@ -141,7 +141,7 @@
 	bt	.L06038A92
 	neg	r2,r2
 .L06038A92:
-	bsr	func_060389DC
+	bsr	obj_heading_xz
 	shll16	r2
 	mov.l	@(56,r1),r0
 	mov	#-3,r5
@@ -203,7 +203,7 @@
 	neg	r2,r2
 	neg	r4,r4
 .L06038B04:
-	bsr	func_060389DC
+	bsr	obj_heading_xz
 	mov.l	r4,@(32,r1)
 	mov.l	@(56,r1),r10
 	mov.l	@(48,r1),r11
@@ -255,7 +255,7 @@
 	neg	r2,r2
 	neg	r4,r4
 .L06038B62:
-	bsr	func_060389DC
+	bsr	obj_heading_xz
 	mov.l	r4,@(32,r1)
 	mov.l	@(56,r1),r10
 	mov.l	@(48,r1),r11
@@ -294,7 +294,7 @@
 	shll16	r2
 	neg	r2,r2
 .L06038BA8:
-	bsr	func_060389DC
+	bsr	obj_heading_xz
 	mov.l	r5,@(52,r1)
 	mov.l	@(56,r1),r10
 	mov.l	@(48,r1),r11
@@ -345,9 +345,9 @@
 .L06038C00:
 	.long D_0603A914
 .L06038C04:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06038C08:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L06038C0C:
 	.long func_06039170
 .L06038C10:
@@ -486,7 +486,7 @@
 	jmp	@r9
 	lds.l	@r15+,pr
 .L06038CF4:
-	.long func_0600D1A0
+	.long obj_free
 .L06038CF8:
 	mov.w	@(2,r1),r0
 	mov.l	.L06038D20,r3
@@ -511,7 +511,7 @@
 .L06038D20:
 	.long D_0603A790
 .L06038D24:
-	.long func_0601EF98
+	.long spr_anim_step
 .L06038D28:
 	.long D_060396FC
 .L06038D2C:
@@ -532,13 +532,13 @@
 	lds.l	@r15+,pr
 	.byte 0x00, 0x00
 .L06038D4C:
-	.long func_0600CA24
+	.long mtx_push
 .L06038D50:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06038D54:
 	.long func_06036F10
 .L06038D58:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06038CCC
 
 	glabel func_06038D5C
@@ -565,7 +565,7 @@
 .L06038D84:
 	.long D_0603A790
 .L06038D88:
-	.long func_0601EF98
+	.long spr_anim_step
 .L06038D8C:
 	.long D_060396FC
 .L06038D90:
@@ -586,13 +586,13 @@
 	lds.l	@r15+,pr
 	.byte 0x00, 0x00
 .L06038DB0:
-	.long func_0600CA24
+	.long mtx_push
 .L06038DB4:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06038DB8:
 	.long func_06036F10
 .L06038DBC:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06038D5C
 
 	glabel func_06038DC0
@@ -651,7 +651,7 @@
 	add	r2,r0
 	mov.l	r0,@(52,r1)
 	sts.l	pr,@-r15
-	bsr	func_060389DC
+	bsr	obj_heading_xz
 	mov.l	@(32,r1),r2
 	mov.l	@(48,r1),r0
 	lds.l	@r15+,pr
@@ -723,7 +723,7 @@
 	add	r2,r0
 	mov.l	r0,@(52,r1)
 	sts.l	pr,@-r15
-	bsr	func_060389DC
+	bsr	obj_heading_xz
 	mov.l	@(32,r1),r2
 	mov.l	@(48,r1),r0
 	lds.l	@r15+,pr
@@ -825,7 +825,7 @@
 	sts	macl,r2
 	sts.l	pr,@-r15
 	xtrct	r3,r2
-	bsr	func_060389DC
+	bsr	obj_heading_xz
 	mov.l	r2,@(32,r1)
 	mov.l	@(56,r1),r0
 	lds.l	@r15+,pr
@@ -897,7 +897,7 @@
 	add	r2,r0
 	sts.l	pr,@-r15
 	mov.l	r0,@(52,r1)
-	bsr	func_060389DC
+	bsr	obj_heading_xz
 	mov.l	@(32,r1),r2
 	mov.l	@(48,r1),r4
 	lds.l	@r15+,pr
@@ -915,7 +915,7 @@
 	jmp	@r9
 	lds.l	@r15+,pr
 .L06038FD4:
-	.long func_0600D1A0
+	.long obj_free
 .L06038FD8:
 	rts
 	nop
@@ -933,7 +933,7 @@
 	jmp	@r9
 	lds.l	@r15+,pr
 .L06038FF0:
-	.long func_0600D1A0
+	.long obj_free
 .L06038FF4:
 	mov.w	.L06038FFA,r0
 	rts
@@ -954,7 +954,7 @@
 	jmp	@r9
 	lds.l	@r15+,pr
 .L06039010:
-	.long func_0600D1A0
+	.long obj_free
 .L06039014:
 	mov.w	.L0603901A,r0
 	rts
@@ -975,7 +975,7 @@
 	jmp	@r9
 	lds.l	@r15+,pr
 .L06039030:
-	.long func_0600D1A0
+	.long obj_free
 .L06039034:
 	mov.w	.L0603903A,r0
 	rts
@@ -1146,7 +1146,7 @@
 	sts.l	pr,@-r15
 	neg	r2,r2
 .L0603914A:
-	bsr	func_060389DC
+	bsr	obj_heading_xz
 	shll16	r2
 	mov.l	@(48,r4),r5
 	lds.l	@r15+,pr
@@ -1197,7 +1197,7 @@
 	lds.l	@r15+,pr
 	.byte 0x00, 0x00
 .L0603919C:
-	.long func_0600D1A0
+	.long obj_free
 .L060391A0:
 	mov.l	@(52,r4),r5
 	mov.l	r5,@(52,r1)
@@ -1238,13 +1238,13 @@
 	.short 0x0100
 	.byte 0x00, 0x00
 .L060391E8:
-	.long func_0600CA24
+	.long mtx_push
 .L060391EC:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060391F0:
 	.long func_06037024
 .L060391F4:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603917C
 
 	glabel func_060391F8
@@ -1257,9 +1257,9 @@
 	nop
 	.byte 0x00, 0x00
 .L06039208:
-	.long D_060CFFA0
+	.long snd_tone_select
 .L0603920C:
-	.long func_0600D1A0
+	.long obj_free
 .L06039210:
 	mov.l	.L06039288,r3
 	mov.b	@r3,r4
@@ -1330,9 +1330,9 @@
 .L06039290:
 	.long D_06039734
 .L06039294:
-	.long func_06018E8C
+	.long path_place_obj
 .L06039298:
-	.long func_06007BD8
+	.long math_sincos
 .L0603929C:
 	.long func_060392A0
 	endlabel func_060391F8
@@ -1351,7 +1351,7 @@
 	nop
 	.byte 0x00, 0x00
 .L060392B8:
-	.long func_060172DE
+	.long obj_find_near_player
 .L060392BC:
 	mov.b	@(110,gbr),r0
 	tst	r0,r0
@@ -1411,11 +1411,11 @@
 .L06039326:
 	.short 0x0200
 .L06039328:
-	.long func_0600CA24
+	.long mtx_push
 .L0603932C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06039330:
-	.long D_060CFFA0
+	.long snd_tone_select
 .L06039334:
 	.long D_0603B228
 .L06039338:
@@ -1432,14 +1432,14 @@
 	bra	.L060392E6
 	mov.l	@r15+,r12
 .L06039350:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06039354:
 	mov.l	.L0603935C,r0
 	jmp	@r0
 	lds.l	@r15+,pr
 	.byte 0x00, 0x00
 .L0603935C:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_060392A0
 
 	.section .data.06039360,"aw",@progbits

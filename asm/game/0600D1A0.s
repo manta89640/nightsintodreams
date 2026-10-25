@@ -4,7 +4,7 @@
 	.section .text.0600D1A0,"ax",@progbits
 	.p2align 2
 
-	glabel func_0600D1A0
+	glabel obj_free
 	add	#-16,r1
 	mov.l	@(0,r1),r2
 	mov.l	@(4,r1),r3
@@ -24,9 +24,9 @@
 	mov.l	r0,@r4
 	.byte 0x00, 0x00
 .L0600D1C4:
-	.long D_060FFFE0
+	.long obj_free_head
 .L0600D1C8:
-	.long D_060FFFE4
+	.long obj_count
 .L0600D1CC:
 	mov.l	r2,@(0,r3)
 	neg	r2,r2
@@ -45,14 +45,14 @@
 	rts
 	mov.l	r0,@r4
 .L0600D1EC:
-	.long D_060FFFA4
+	.long obj_list_tails
 .L0600D1F0:
-	.long D_060FFFE0
+	.long obj_free_head
 .L0600D1F4:
-	.long D_060FFFE4
-	endlabel func_0600D1A0
+	.long obj_count
+	endlabel obj_free
 
-	glabel func_0600D1F8
+	glabel obj_run_list
 	sts.l	pr,@-r15
 	mov.l	@r2,r1
 .L0600D1FC:
@@ -77,7 +77,7 @@
 	bra	.L0600D1FC
 	mov.l	@(0,r1),r1
 .L0600D220:
-	.long D_060FFFE0
+	.long obj_free_head
 .L0600D224:
 	lds.l	@r15+,pr
 	rts
@@ -86,16 +86,16 @@
 	mov	r0,r1
 	bra	.L0600D210
 	nop
-	endlabel func_0600D1F8
+	endlabel obj_run_list
 
-	glabel func_0600D230
+	glabel obj_free_list
 	sts.l	pr,@-r15
 	mov.l	@r5,r1
 .L0600D234:
 	cmp/pl	r1
 	bf	.L0600D244
 	add	#16,r1
-	bsr	func_0600D1A0
+	bsr	obj_free
 	nop
 	mov	r2,r1
 	bra	.L0600D234
@@ -104,62 +104,62 @@
 	lds.l	@r15+,pr
 	rts
 	nop
-	endlabel func_0600D230
+	endlabel obj_free_list
 
-	glabel func_0600D24A
+	glabel obj_free_level_lists
 	sts.l	pr,@-r15
 	mov.l	.L0600D278,r5
-	bsr	func_0600D230
+	bsr	obj_free_list
 	nop
 	mov.l	.L0600D27C,r5
-	bsr	func_0600D230
+	bsr	obj_free_list
 	nop
 	mov.l	.L0600D280,r5
-	bsr	func_0600D230
+	bsr	obj_free_list
 	nop
 	mov.l	.L0600D284,r5
-	bsr	func_0600D230
+	bsr	obj_free_list
 	nop
 	mov.l	.L0600D288,r5
-	bsr	func_0600D230
+	bsr	obj_free_list
 	nop
 	mov.l	.L0600D28C,r5
-	bsr	func_0600D230
+	bsr	obj_free_list
 	nop
 	lds.l	@r15+,pr
 	rts
 	nop
 	.byte 0x00, 0x00
 .L0600D278:
-	.long D_060FFFA0
+	.long obj_list_core
 .L0600D27C:
-	.long D_060FFFA8
+	.long obj_list_manager
 .L0600D280:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0600D284:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0600D288:
-	.long D_060FFFC0
+	.long obj_list_unused
 .L0600D28C:
-	.long D_060FFFC8
-	endlabel func_0600D24A
+	.long obj_list_pause
+	endlabel obj_free_level_lists
 
-	glabel func_0600D290
+	glabel obj_free_load_lists
 	sts.l	pr,@-r15
 	mov.l	.L0600D2A0,r5
-	bsr	func_0600D230
+	bsr	obj_free_list
 	nop
 	lds.l	@r15+,pr
 	mov.l	.L0600D2A4,r5
-	bra	func_0600D230
+	bra	obj_free_list
 	nop
 .L0600D2A0:
-	.long D_060FFFD0
+	.long obj_list_load_task
 .L0600D2A4:
-	.long D_060FFFD8
-	endlabel func_0600D290
+	.long obj_list_load_scene
+	endlabel obj_free_load_lists
 
-	glabel func_0600D2A8
+	glabel obj_move_to_list
 	add	#-16,r1
 	mov.l	@(0,r1),r2
 	mov.l	@(4,r1),r3
@@ -190,29 +190,100 @@
 	nop
 	.byte 0x00, 0x00
 .L0600D2DC:
-	.long D_060FFFA4
-	endlabel func_0600D2A8
+	.long obj_list_tails
+	endlabel obj_move_to_list
 
-	.section .data.0600D2E0,"aw",@progbits
+	glabel obj_chain_alloc
+	mov.l	.L0600D32C,r4
+	mov.l	@r4,r3
+	cmp/pl	r3
+	bf	.L0600D334
+	mov.l	@(0,r3),r0
+	mov.l	r0,@r4
+	mov.l	@r1,r0
+	mov.l	r0,@r3
+	mov.l	r3,@r1
+	mov	#0,r0
+	add	#96,r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	mov.l	r0,@-r3
+	add	#-4,r3
+	mov.l	.L0600D330,r4
+	mov.l	@r4,r0
+	add	#1,r0
+	mov.l	r0,@r4
+	rts
+	clrt
+	.byte 0x00, 0x00
+.L0600D32C:
+	.long obj_free_head
+.L0600D330:
+	.long obj_count
+.L0600D334:
+	mov.l	.L0600D33C,r3
+	rts
+	sett
+	.byte 0x00, 0x00
+.L0600D33C:
+	.long obj_chain_dummy_node
+	endlabel obj_chain_alloc
+
+	.section .data.0600D340,"aw",@progbits
 	.p2align 2
-	.byte 0xD4, 0x12, 0x63, 0x42, 0x43, 0x15, 0x8B, 0x25, 0x50, 0x30, 0x24, 0x02, 0x60, 0x12, 0x23, 0x02
-	.byte 0x21, 0x32, 0xE0, 0x00, 0x73, 0x60, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06
-	.byte 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06
-	.byte 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x73, 0xFC, 0xD4, 0x04
-	.byte 0x60, 0x42, 0x70, 0x01, 0x24, 0x02, 0x00, 0x0B, 0x00, 0x08, 0x00, 0x00
-	.long D_060FFFE0
-	.long D_060FFFE4
-	.byte 0xD3, 0x01, 0x00, 0x0B, 0x00, 0x18, 0x00, 0x00
-	.long D_0600D340
-	dlabel D_0600D340
+	dlabel obj_chain_dummy_node
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x62, 0x12, 0x22, 0x28, 0x89, 0x0F, 0x72, 0xF0, 0xD4, 0x03, 0x63, 0x42, 0x24, 0x22, 0x64, 0x22
-	.byte 0x24, 0x48, 0x89, 0x03, 0xAF, 0xFB, 0x62, 0x43
-	.long D_060FFFE0
-	.byte 0x12, 0x30, 0xD4, 0x03, 0x60, 0x42, 0x70, 0xFF, 0x24, 0x02, 0x00, 0x0B, 0x00, 0x09, 0x00, 0x00
-	.long D_060FFFE4
+
+	.section .text.0600D3A0,"ax",@progbits
+	.p2align 2
+
+	glabel obj_chain_free
+	mov.l	@r1,r2
+	tst	r2,r2
+	bt	.L0600D3C6
+	add	#-16,r2
+	mov.l	.L0600D3B8,r4
+	mov.l	@r4,r3
+	mov.l	r2,@r4
+.L0600D3AE:
+	mov.l	@r2,r4
+	tst	r4,r4
+	bt	.L0600D3BC
+	bra	.L0600D3AE
+	mov	r4,r2
+.L0600D3B8:
+	.long obj_free_head
+.L0600D3BC:
+	mov.l	r3,@(0,r2)
+	mov.l	.L0600D3CC,r4
+	mov.l	@r4,r0
+	add	#-1,r0
+	mov.l	r0,@r4
+.L0600D3C6:
+	rts
+	nop
+	.byte 0x00, 0x00
+.L0600D3CC:
+	.long obj_count
+	endlabel obj_chain_free

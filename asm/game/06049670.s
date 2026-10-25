@@ -31,7 +31,7 @@
 	.long D_0604AE50
 	.long D_06047F1E
 .L060496A8:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L060496AC:
 	.long func_06048258
 	.byte 0xC8, 0xE0, 0x89, 0x35, 0x84, 0xC7, 0x88, 0x00, 0x89, 0x10, 0x88, 0x01, 0x89, 0x18, 0xD0, 0x06
@@ -130,7 +130,7 @@
 .L06049820:
 	.long D_06047F1E
 .L06049824:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06049828:
 	.long func_06048258
 .L0604982C:
@@ -157,7 +157,7 @@
 	bra	.L060498A2
 	nop
 .L06049858:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0604985C:
 	.long func_06048258
 .L06049860:
@@ -423,7 +423,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06049A34:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L06049A38:
 	.long func_06047A14
 	dlabel D_06049A3C
@@ -479,7 +479,7 @@
 .L06049A9C:
 	.long D_0604B3C4
 .L06049AA0:
-	.long func_06047BCC
+	.long spr_draw_2d
 .L06049AA4:
 	.long D_0604B468
 .L06049AA8:
@@ -584,7 +584,7 @@
 	rts
 	nop
 .L06049B64:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06049B68:
 	.long func_06048258
 	endlabel func_06049B38
@@ -662,7 +662,7 @@
 .L06049BF0:
 	.long func_06048090
 .L06049BF4:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06049BF8:
 	mov.l	r6,@-r15
 	mov.l	r5,@-r15
@@ -701,7 +701,7 @@
 .L06049C3A:
 	.short 0x0008
 .L06049C3C:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06049C40:
 	.long D_060CA220
 .L06049C44:
@@ -746,7 +746,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06049C90:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06049C94:
 	.long func_06049C98
 	endlabel func_06049B6C
@@ -772,7 +772,7 @@
 	rts
 	nop
 .L06049CBC:
-	.long func_0604792C
+	.long txt_print_big_vdp2
 .L06049CC0:
 	.long D_06047F1E
 .L06049CC4:
@@ -816,7 +816,7 @@
 .L06049D08:
 	.long D_060CB000
 .L06049D0C:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06049D10:
 	.long func_06049D18
 .L06049D14:
@@ -898,11 +898,11 @@
 	nop
 	.byte 0x00, 0x00
 .L06049DA0:
-	.long func_0600E4F6
+	.long snd_seq_stop
 .L06049DA4:
-	.long func_06006B20
+	.long cd_pause
 .L06049DA8:
-	.long func_0600DBCC
+	.long snd_init_stage
 .L06049DAC:
 	.long func_06006A7E
 .L06049DB0:
@@ -990,7 +990,7 @@
 .L06049E44:
 	.long D_0604BC94
 .L06049E48:
-	.long func_0604792C
+	.long txt_print_big_vdp2
 .L06049E4C:
 	.long func_06047C34
 .L06049E50:
@@ -1064,15 +1064,15 @@
 .L06049ED0:
 	.long D_0604A24F
 .L06049ED4:
-	.long func_0600E4F6
+	.long snd_seq_stop
 .L06049ED8:
-	.long func_06006B20
+	.long cd_pause
 .L06049EDC:
 	.long D_06049FF4
 .L06049EE0:
 	.long D_06049F54
 .L06049EE4:
-	.long func_0600DBCC
+	.long snd_init_stage
 .L06049EE8:
 	.long D_0604C14C
 .L06049EEC:
@@ -1099,7 +1099,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06049F18:
-	.long func_0600DBCC
+	.long snd_init_stage
 .L06049F1C:
 	mov.l	.L06049F48,r2
 	mov.b	@(r0,r2),r0
@@ -1126,7 +1126,7 @@
 .L06049F48:
 	.long D_06049F54
 .L06049F4C:
-	.long func_0600DBCC
+	.long snd_init_stage
 .L06049F50:
 	.long D_0604C14C
 	dlabel D_06049F54
@@ -1219,12 +1219,12 @@
 	.long D_060CB000
 	.long D_0604AE50
 	.long D_0604B3C4
-	.long func_06047BCC
+	.long spr_draw_2d
 	.long D_06047F1E
 	.byte 0xC8, 0x10, 0x89, 0x13, 0xE4, 0x00, 0xD0, 0x06, 0x40, 0x0B, 0x00, 0x09, 0x2F, 0x16, 0xD0, 0x05
 	.byte 0x40, 0x0B, 0x00, 0x09, 0x61, 0xF6, 0xD0, 0x04, 0x21, 0x06, 0x71, 0x04, 0xA0, 0x4C, 0x00, 0x09
-	.long func_0600E4F6
-	.long func_06006B20
+	.long snd_seq_stop
+	.long cd_pause
 	.long func_06049D18
 	.byte 0xB6, 0x4C, 0x00, 0x09, 0x42, 0x15, 0x89, 0x06, 0x42, 0x11, 0x8B, 0x01, 0xA0, 0x06, 0x00, 0x09
 	.byte 0xE0, 0x00, 0xA0, 0x3B, 0x80, 0x16, 0xE0, 0x01, 0xA0, 0x38, 0x80, 0x16, 0xD0, 0x04, 0x40, 0x0B
@@ -1245,27 +1245,27 @@
 	.byte 0x02, 0x2E, 0xE3, 0x64, 0xE4, 0x08, 0xD0, 0x07, 0x40, 0x0B, 0xE5, 0x14, 0x61, 0xF6, 0x4F, 0x26
 	.byte 0x00, 0x0B, 0x00, 0x09
 	.long func_06047980
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 	.long func_06047A14
 	.long D_0604BC94
-	.long func_0604792C
+	.long txt_print_big_vdp2
 	.long D_0604BCDC
 	.byte 0x84, 0x16, 0x20, 0x08, 0x8B, 0x12, 0xD2, 0x07, 0x50, 0xCE, 0x40, 0x08, 0x03, 0x2E, 0x84, 0x14
 	.byte 0x40, 0x00, 0xE4, 0x07, 0x05, 0x3C, 0x70, 0x01, 0x06, 0x3C, 0xD0, 0x03, 0x40, 0x0B, 0x00, 0x09
 	.byte 0xAF, 0xA4, 0x00, 0x09
 	.long D_0604C100
-	.long func_0600E4C4
+	.long snd_seq_start
 	.byte 0xE4, 0x00, 0xD0, 0x0C, 0x40, 0x0B, 0x00, 0x09, 0x2F, 0x16, 0xD0, 0x0B, 0x40, 0x0B, 0x00, 0x09
 	.byte 0x61, 0xF6, 0x50, 0xCE, 0x88, 0x06, 0x89, 0x21, 0x88, 0x0A, 0x89, 0x2D, 0x88, 0x0D, 0x89, 0x25
 	.byte 0x88, 0x0E, 0x89, 0x2F, 0xE3, 0x06, 0x30, 0x37, 0x89, 0x0A, 0xD0, 0x04, 0x40, 0x0B, 0x00, 0x09
 	.byte 0xAF, 0x86, 0x00, 0x09
-	.long func_0600E4F6
-	.long func_06006B20
+	.long snd_seq_stop
+	.long cd_pause
 	.long func_060325AC
 	.byte 0x70, 0xF9, 0xD2, 0x04, 0x04, 0x2C, 0x2F, 0x16, 0xD0, 0x03, 0x40, 0x0B, 0x00, 0x09, 0x61, 0xF6
 	.byte 0xAF, 0x76, 0x00, 0x09
 	.long D_0604A240
-	.long func_06006A20
+	.long cd_play_track
 	.byte 0xD0, 0x02, 0x40, 0x0B, 0x00, 0x09, 0xAF, 0x6D, 0x00, 0x09, 0x00, 0x00
 	.long func_060327A0
 	.byte 0xD2, 0x01, 0xA0, 0x0A, 0x00, 0x09, 0x00, 0x00
@@ -1275,7 +1275,7 @@
 	.byte 0xD2, 0x05, 0x84, 0x15, 0x00, 0x2C, 0x64, 0x03, 0x2F, 0x16, 0xD0, 0x04, 0x40, 0x0B, 0x00, 0x09
 	.byte 0x61, 0xF6, 0xAF, 0x53, 0x00, 0x09, 0x00, 0x00
 	.long D_0604A247
-	.long func_06006A20
+	.long cd_play_track
 	dlabel D_0604A240
 	.byte 0x08, 0x09, 0x0A, 0x0B, 0x0D, 0x0E, 0x10
 	dlabel D_0604A247
@@ -1318,7 +1318,7 @@
 	nop
 	.long D_060CB000
 .L0604A288:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0604A28C:
 	.long D_0604A290
 	dlabel D_0604A290
@@ -1359,7 +1359,7 @@
 	.byte 0x00, 0x00
 	.long D_060CB000
 .L0604A30C:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0604A310:
 	.long D_0604A314
 	dlabel D_0604A314
@@ -1412,11 +1412,11 @@
 .L0604A3A4:
 	.long D_06047F1E
 .L0604A3A8:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0604A3AC:
 	.long func_06048258
 .L0604A3B0:
-	.long func_0600DD28
+	.long snd_apply_stereo_mono
 .L0604A3B4:
 	mov.l	r6,@-r15
 	mov.l	r5,@-r15
@@ -1439,7 +1439,7 @@
 	bra	.L0604A43C
 	nop
 .L0604A3DC:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0604A3E0:
 	.long func_06048258
 .L0604A3E4:
@@ -1466,7 +1466,7 @@
 	mov.b	r0,@(7,r12)
 	.byte 0x00, 0x00
 .L0604A410:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0604A414:
 	mov.b	@(7,r12),r0
 	cmp/eq	#0,r0
@@ -1501,7 +1501,7 @@
 .L0604A44E:
 	.short 0x0088
 .L0604A450:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0604A454:
 	mov.w	.L0604A46A,r2
 	mov.w	.L0604A46C,r3
@@ -1616,7 +1616,7 @@
 .L0604A518:
 	.long 0x00000528
 .L0604A51C:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0604A520:
 	.long func_06048090
 .L0604A524:
@@ -1662,7 +1662,7 @@
 .L0604A56C:
 	.long D_0604B438
 .L0604A570:
-	.long func_06047B44
+	.long spr_draw_list
 	endlabel func_0604A548
 
 	glabel func_0604A574
@@ -1683,7 +1683,7 @@
 .L0604A590:
 	.long D_0604B440
 .L0604A594:
-	.long func_06047B44
+	.long spr_draw_list
 	endlabel func_0604A574
 
 	glabel func_0604A598
@@ -1702,7 +1702,7 @@
 .L0604A5B0:
 	.long D_0604B438
 .L0604A5B4:
-	.long func_06047BCC
+	.long spr_draw_2d
 	endlabel func_0604A598
 
 	glabel func_0604A5B8
@@ -2174,7 +2174,7 @@
 .L0604A8DC:
 	.long D_060CB000
 .L0604A8E0:
-	.long func_0600DD28
+	.long snd_apply_stereo_mono
 .L0604A8E4:
 	.long D_060CB001
 .L0604A8E8:

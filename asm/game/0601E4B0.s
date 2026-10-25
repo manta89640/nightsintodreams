@@ -18,9 +18,9 @@
 	rts
 	nop
 .L0601E4C8:
-	.long D_060FFFD8
+	.long obj_list_load_scene
 .L0601E4CC:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601E4D0:
 	.long func_0601E4D4
 	endlabel func_0601E4B2
@@ -86,15 +86,15 @@
 .L0601E53A:
 	.short 0x0400
 .L0601E53C:
-	.long func_06031E00
+	.long math_angle_step_toward
 .L0601E540:
-	.long func_06007BD8
+	.long math_sincos
 .L0601E544:
 	.long 0x00B00000
 .L0601E548:
 	.long 0x00C60000
 .L0601E54C:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_0601E500
 
 	glabel func_0601E550
@@ -124,9 +124,9 @@
 	nop
 	.byte 0x00, 0x00
 .L0601E580:
-	.long D_060FFFD8
+	.long obj_list_load_scene
 .L0601E584:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601E588:
 	.long func_0601E598
 .L0601E58C:
@@ -170,7 +170,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0601E5CC:
-	.long func_0600D1A0
+	.long obj_free
 .L0601E5D0:
 	sts.l	pr,@-r15
 	mov.b	@(110,gbr),r0
@@ -196,13 +196,13 @@
 	nop
 	.byte 0x00, 0x00
 .L0601E5FC:
-	.long D_060FFE90
+	.long score
 .L0601E600:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601E604:
-	.long func_06019D42
+	.long spr_build_number
 .L0601E608:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_0601E5BC
 
 	glabel func_0601E60C
@@ -228,9 +228,9 @@
 	nop
 	.byte 0x00, 0x00
 .L0601E634:
-	.long D_060FFFD8
+	.long obj_list_load_scene
 .L0601E638:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601E63C:
 	.long func_0601E648
 .L0601E640:
@@ -273,7 +273,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0601E680:
-	.long func_0600D1A0
+	.long obj_free
 .L0601E684:
 	sts.l	pr,@-r15
 	mov.l	.L0601E6B0,r0
@@ -302,7 +302,7 @@
 .L0601E6B0:
 	.long func_06047444
 .L0601E6B4:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_0601E670
 
 	glabel func_0601E6B8
@@ -348,9 +348,9 @@
 	bra	.L0601E6F4
 	nop
 .L0601E708:
-	.long D_060FFFD8
+	.long obj_list_load_scene
 .L0601E70C:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601E710:
 	.long func_0601E290
 .L0601E714:
@@ -362,7 +362,7 @@
 .L0601E720:
 	.long D_0601D210
 .L0601E724:
-	.long D_060FFE90
+	.long score
 .L0601E728:
 	.long D_0601D1F8
 .L0601E72C:
@@ -380,7 +380,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0601E744:
-	.long D_060FFEB8
+	.long grade
 .L0601E748:
 	.long D_0601D0B1
 	endlabel func_0601E6B8
@@ -405,9 +405,9 @@
 	nop
 	.byte 0x00, 0x00
 .L0601E770:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L0601E774:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601E778:
 	.long func_0601E788
 .L0601E77C:
@@ -518,19 +518,19 @@
 	nop
 	.byte 0x00, 0x00
 .L0601E838:
-	.long func_0600C9F2
+	.long mtx_push_identity
 .L0601E83C:
 	.long 0x01000000
 .L0601E840:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0601E844:
 	.long 0x00020000
 .L0601E848:
 	.long 0x00030000
 .L0601E84C:
-	.long func_0600D018
+	.long mtx_scale
 .L0601E850:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L0601E854:
 	.long D_06051D48
 .L0601E858:
@@ -538,7 +538,7 @@
 .L0601E85C:
 	.long func_0601F428
 .L0601E860:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0601E7C8
 
 	glabel func_0601E864
@@ -577,7 +577,7 @@
 	.short 0x0048
 	.byte 0x00, 0x00
 .L0601E8A0:
-	.long func_06031E00
+	.long math_angle_step_toward
 .L0601E8A4:
 	.long VDP1_VRAM + 0xD900
 .L0601E8A8:
@@ -746,9 +746,9 @@
 .L0601E9C4:
 	.long D_060F0000
 .L0601E9C8:
-	.long D_060DC000
+	.long vdp1_list_buf
 .L0601E9CC:
-	.long D_060B0000
+	.long vdp1_alt_list_buf
 	.byte 0x00, 0xA0, 0x00, 0x70, 0x00, 0xA0, 0x00, 0x78, 0x00, 0xB0, 0x00, 0x70, 0x00, 0xB0, 0x00, 0x78
 .L0601E9E0:
 	.byte 0x00, 0x01
@@ -911,7 +911,7 @@
 .L0601EB58:
 	.long D_0601EB66
 .L0601EB5C:
-	.long func_0601F1EC
+	.long vdp1_zsort_insert
 .L0601EB60:
 	.long func_0601F2A6
 	dlabel D_0601EB64

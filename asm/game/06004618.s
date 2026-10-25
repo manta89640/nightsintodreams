@@ -40,7 +40,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0600465C:
-	.long D_060FFC00
+	.long gbr_block
 .L06004660:
 	.long func_060069B4
 .L06004664:
@@ -240,23 +240,23 @@
 .L060047C8:
 	.long 0x00006D60
 .L060047CC:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L060047D0:
-	.long func_0601CBE0
+	.long txt_cell_addr
 .L060047D4:
-	.long func_0601CC50
+	.long txt_print_hex8
 .L060047D8:
 	.long D_060FF068
 .L060047DC:
 	.long D_060FFC08 + 0x20000000
 .L060047E0:
-	.long D_060FFFD0
+	.long obj_list_load_task
 .L060047E4:
-	.long func_0600D1F8
+	.long obj_run_list
 .L060047E8:
-	.long func_0600D460
+	.long vdp2_cram_upload
 .L060047EC:
-	.long D_060F8DF8
+	.long linewin_spans_a
 .L060047F0:
 	.long VDP2_VRAM + 0x5E600
 .L060047F4:
@@ -266,13 +266,13 @@
 .L060047FC:
 	.long SCU_REGS
 .L06004800:
-	.long D_060FFCE0
+	.long vdp2_shadow
 .L06004804:
 	.long VDP2_REGS
 .L06004808:
 	.long D_060FFC04 + 0x20000000
 .L0600480C:
-	.long D_060F0800
+	.long dma_table_a
 .L06004810:
 	.long 0x80000000
 .L06004814:
@@ -280,7 +280,7 @@
 .L06004818:
 	.long VDP1_ENDR
 .L0600481C:
-	.long D_060B0000
+	.long vdp1_alt_list_buf
 .L06004820:
 	.long VDP1_VRAM
 .L06004824:
@@ -439,7 +439,7 @@
 .L06004940:
 	.long D_060FFC06 + 0x20000000
 .L06004944:
-	.long D_060F0C00
+	.long dma_table_b
 .L06004948:
 	.long 0x80000000
 .L0600494C:
@@ -453,13 +453,13 @@
 .L0600495C:
 	.long VDP1_ENDR
 .L06004960:
-	.long D_060DC000
+	.long vdp1_list_buf
 .L06004964:
 	.long VDP1_VRAM
 .L06004968:
-	.long D_060FFC5C
+	.long vdp1_wp0
 .L0600496C:
-	.long D_060FFC60 + 0x20000000
+	.long vdp1_wp1 + 0x20000000
 .L06004970:
 	mov.b	@(111,gbr),r0
 	add	#1,r0
@@ -719,7 +719,7 @@
 	bra	.L06004B78
 	nop
 .L06004B48:
-	.long D_060FFC00
+	.long gbr_block
 .L06004B4C:
 	.long VDP1_FBCR
 .L06004B50:
@@ -772,7 +772,7 @@
 	mov.l	@r15+,r0
 	endlabel func_06004AF8
 
-	glabel func_06004BAE
+	glabel sys_wait_vblank
 	mov.l	r0,@-r15
 	sts.l	pr,@-r15
 	mov.l	r7,@-r15
@@ -841,12 +841,12 @@
 	.short 0xFFF7
 	.byte 0x00, 0x00
 .L06004C2C:
-	.long D_060FFC00
+	.long gbr_block
 .L06004C30:
 	.long SYS_SETSCUIM
 .L06004C34:
 	.long SCU_REGS + 0x98
-	endlabel func_06004BAE
+	endlabel sys_wait_vblank
 
 	glabel func_06004C38
 	mov.l	r0,@-r15
@@ -876,7 +876,7 @@
 	bra	.L06004CA4
 	nop
 .L06004C6C:
-	.long D_060FFC00
+	.long gbr_block
 .L06004C70:
 	mov.b	@(35,gbr),r0
 	tst	r0,r0
@@ -934,11 +934,11 @@
 .L06004CD4:
 	.long VDP2_REGS + 0xA
 .L06004CD8:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L06004CDC:
-	.long func_0601CBE0
+	.long txt_cell_addr
 .L06004CE0:
-	.long func_0601CC50
+	.long txt_print_hex8
 	endlabel func_06004C38
 
 	glabel func_06004CE4
@@ -979,7 +979,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06004D24:
-	.long D_060FFC00
+	.long gbr_block
 .L06004D28:
 	.long func_060069B4
 .L06004D2C:
@@ -1001,9 +1001,9 @@
 	bra	.L06004E20
 	nop
 .L06004D4C:
-	.long D_060FFFD0
+	.long obj_list_load_task
 .L06004D50:
-	.long func_0600D1F8
+	.long obj_run_list
 .L06004D54:
 	mov	#0,r0
 	mov.w	r0,@(6,gbr)
@@ -1104,7 +1104,7 @@
 .L06004E08:
 	.long VDP1_VRAM
 .L06004E0C:
-	.long D_060FFC5C
+	.long vdp1_wp0
 .L06004E10:
 	.long SCU_REGS + 0x7C
 .L06004E14:
@@ -1112,7 +1112,7 @@
 .L06004E18:
 	.long SCU_REGS
 .L06004E1C:
-	.long D_060FFC60 + 0x20000000
+	.long vdp1_wp1 + 0x20000000
 .L06004E20:
 	mov.b	@(111,gbr),r0
 	add	#1,r0
@@ -1146,7 +1146,7 @@
 	mov.l	@r15+,r0
 	.byte 0x00, 0x00
 .L06004E5C:
-	.long func_0600E3DC
+	.long snd_cmd_flush
 	endlabel func_06004CE8
 
 	glabel func_06004E60
@@ -1195,7 +1195,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06004EB8:
-	.long D_060FFC00
+	.long gbr_block
 .L06004EBC:
 	.long VDP1_FBCR
 .L06004EC0:
@@ -1303,9 +1303,9 @@
 .L06004F80:
 	.long func_06004CE4
 .L06004F84:
-	.long func_0601F434
+	.long poly_draw_model
 .L06004F88:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06004F8C:
 	.long D_0601F4AE
 .L06004F90:
@@ -1313,19 +1313,19 @@
 .L06004F94:
 	.long func_06020578
 .L06004F98:
-	.long func_060204EE
+	.long spr_draw_obj
 .L06004F9C:
-	.long func_060208FA
+	.long spr_draw_billboard_unscaled
 .L06004FA0:
-	.long func_06020906
+	.long spr_draw_billboard
 .L06004FA4:
-	.long func_0601F068
+	.long vdp1_cmdlist_begin
 .L06004FA8:
-	.long D_060FFFD8
+	.long obj_list_load_scene
 .L06004FAC:
-	.long func_0600D1F8
+	.long obj_run_list
 .L06004FB0:
-	.long func_0601F16C
+	.long vdp1_cmdlist_end
 	endlabel func_06004F24
 
 	.section .data.06004FB4,"aw",@progbits

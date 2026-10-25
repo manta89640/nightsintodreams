@@ -27,11 +27,13 @@
     {
       "name": "game/06004000",
       "target_path": "build/usa/asm/game/06004000.o",
+      "base_path": "build/usa/src/game/06004000.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
           "game"
-        ]
+        ],
+        "source_path": "src/game/06004000.s"
       }
     },
     {
@@ -157,11 +159,13 @@
     {
       "name": "game/06007B94",
       "target_path": "build/usa/asm/game/06007B94.o",
+      "base_path": "build/usa/src/game/06007B94.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
           "game"
-        ]
+        ],
+        "source_path": "src/game/06007B94.s"
       }
     },
     {
@@ -207,41 +211,49 @@
     {
       "name": "game/0600C9C8",
       "target_path": "build/usa/asm/game/0600C9C8.o",
+      "base_path": "build/usa/src/game/0600C9C8.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
           "game"
-        ]
+        ],
+        "source_path": "src/game/0600C9C8.s"
       }
     },
     {
       "name": "game/0600CF6C",
       "target_path": "build/usa/asm/game/0600CF6C.o",
+      "base_path": "build/usa/src/game/0600CF6C.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
           "game"
-        ]
+        ],
+        "source_path": "src/game/0600CF6C.s"
       }
     },
     {
       "name": "game/0600D1A0",
       "target_path": "build/usa/asm/game/0600D1A0.o",
+      "base_path": "build/usa/src/game/0600D1A0.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
           "game"
-        ]
+        ],
+        "source_path": "src/game/0600D1A0.s"
       }
     },
     {
       "name": "game/0600D3D0",
       "target_path": "build/usa/asm/game/0600D3D0.o",
+      "base_path": "build/usa/src/game/0600D3D0.o",
       "metadata": {
-        "complete": false,
+        "complete": true,
         "progress_categories": [
           "game"
-        ]
+        ],
+        "source_path": "src/game/0600D3D0.s"
       }
     },
     {

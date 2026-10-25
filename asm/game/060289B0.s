@@ -358,29 +358,29 @@
 	.short 0x4000
 	.byte 0x00, 0x00
 .L06028C5C:
-	.long func_0600C9F2
+	.long mtx_push_identity
 .L06028C60:
-	.long func_06007BD8
+	.long math_sincos
 .L06028C64:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06028C68:
-	.long func_0600D018
+	.long mtx_scale
 .L06028C6C:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06028C70:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06028C74:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06028C78:
-	.long func_0600CA24
+	.long mtx_push
 .L06028C7C:
 	.long D_060289A4
 .L06028C80:
 	.long D_0602AF54
 .L06028C84:
-	.long func_0600CC34
+	.long mtx_transform_points
 .L06028C88:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06028C8C:
 	.long D_060F30CC
 .L06028C90:
@@ -609,23 +609,23 @@
 .L06028E38:
 	.long func_06029518
 .L06028E3C:
-	.long func_0600CA24
+	.long mtx_push
 .L06028E40:
-	.long func_06007BD8
+	.long math_sincos
 .L06028E44:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06028E48:
-	.long func_0600D018
+	.long mtx_scale
 .L06028E4C:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06028E50:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06028E54:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06028E58:
-	.long func_0600CF6C
+	.long light_shade_model
 .L06028E5C:
-	.long func_0601F434
+	.long poly_draw_model
 .L06028E60:
 	mov.l	.L06028EBC,r0
 	jsr	@r0
@@ -676,19 +676,19 @@
 	nop
 	.byte 0x00, 0x00
 .L06028EBC:
-	.long func_0600CA24
+	.long mtx_push
 .L06028EC0:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06028EC4:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06028EC8:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06028ECC:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06028ED0:
-	.long func_0600CF6C
+	.long light_shade_model
 .L06028ED4:
-	.long func_0601F434
+	.long poly_draw_model
 .L06028ED8:
 	mov.l	.L06028F34,r0
 	jsr	@r0
@@ -739,19 +739,19 @@
 	nop
 	.byte 0x00, 0x00
 .L06028F34:
-	.long func_0600CA24
+	.long mtx_push
 .L06028F38:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06028F3C:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06028F40:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06028F44:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06028F48:
-	.long func_0600CF6C
+	.long light_shade_model
 .L06028F4C:
-	.long func_0601F434
+	.long poly_draw_model
 .L06028F50:
 	mov.l	.L06028FA8,r0
 	jsr	@r0
@@ -800,21 +800,21 @@
 	nop
 	.byte 0x00, 0x00
 .L06028FA8:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06028FAC:
-	.long func_0600CA24
+	.long mtx_push
 .L06028FB0:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06028FB4:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06028FB8:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06028FBC:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06028FC0:
-	.long func_0600CF6C
+	.long light_shade_model
 .L06028FC4:
-	.long func_0601F434
+	.long poly_draw_model
 .L06028FC8:
 	mov.l	@r14+,r4
 	mov.l	@r14+,r5
@@ -857,17 +857,17 @@
 	nop
 	.byte 0x00, 0x00
 .L06029014:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06029018:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L0602901C:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06029020:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06029024:
-	.long func_0600CF6C
+	.long light_shade_model
 .L06029028:
-	.long func_0601F434
+	.long poly_draw_model
 .L0602902C:
 	mov.l	@r14+,r4
 	mov.l	@r14+,r5
@@ -910,17 +910,17 @@
 	nop
 	.byte 0x00, 0x00
 .L06029078:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0602907C:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06029080:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06029084:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06029088:
-	.long func_0600CF6C
+	.long light_shade_model
 .L0602908C:
-	.long func_0601F434
+	.long poly_draw_model
 .L06029090:
 	mov.l	.L060290E0,r0
 	jsr	@r0
@@ -965,19 +965,19 @@
 	bra	.L060290FC
 	nop
 .L060290E0:
-	.long func_0600CA4E
+	.long mtx_pop
 .L060290E4:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060290E8:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L060290EC:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L060290F0:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L060290F4:
-	.long func_0600CF6C
+	.long light_shade_model
 .L060290F8:
-	.long func_0601F434
+	.long poly_draw_model
 .L060290FC:
 	mov.l	@r14+,r4
 	mov.l	@r14+,r5
@@ -1020,17 +1020,17 @@
 	nop
 	.byte 0x00, 0x00
 .L06029148:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0602914C:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06029150:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06029154:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06029158:
-	.long func_0600CF6C
+	.long light_shade_model
 .L0602915C:
-	.long func_0601F434
+	.long poly_draw_model
 .L06029160:
 	mov.l	@r14+,r4
 	mov.l	@r14+,r5
@@ -1073,17 +1073,17 @@
 	nop
 	.byte 0x00, 0x00
 .L060291AC:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060291B0:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L060291B4:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L060291B8:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L060291BC:
-	.long func_0600CF6C
+	.long light_shade_model
 .L060291C0:
-	.long func_0601F434
+	.long poly_draw_model
 .L060291C4:
 	mov.l	.L06029224,r0
 	jsr	@r0
@@ -1136,21 +1136,21 @@
 	bra	.L06029244
 	nop
 .L06029224:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06029228:
-	.long func_0600CA24
+	.long mtx_push
 .L0602922C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06029230:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06029234:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06029238:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L0602923C:
-	.long func_0600CF6C
+	.long light_shade_model
 .L06029240:
-	.long func_0601F434
+	.long poly_draw_model
 .L06029244:
 	mov.l	@(12,r1),r3
 	mov.b	@(2,r3),r0
@@ -1218,17 +1218,17 @@
 	nop
 	.byte 0x00, 0x00
 .L060292C0:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060292C4:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L060292C8:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L060292CC:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L060292D0:
-	.long func_0600CF6C
+	.long light_shade_model
 .L060292D4:
-	.long func_0601F434
+	.long poly_draw_model
 .L060292D8:
 	mov.l	@r14+,r4
 	mov.l	@r14+,r5
@@ -1271,17 +1271,17 @@
 	nop
 	.byte 0x00, 0x00
 .L06029324:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06029328:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L0602932C:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06029330:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06029334:
-	.long func_0600CF6C
+	.long light_shade_model
 .L06029338:
-	.long func_0601F434
+	.long poly_draw_model
 .L0602933C:
 	mov.l	.L06029398,r0
 	jsr	@r0
@@ -1332,19 +1332,19 @@
 	nop
 	.byte 0x00, 0x00
 .L06029398:
-	.long func_0600CA4E
+	.long mtx_pop
 .L0602939C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060293A0:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L060293A4:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L060293A8:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L060293AC:
-	.long func_0600CF6C
+	.long light_shade_model
 .L060293B0:
-	.long func_0601F434
+	.long poly_draw_model
 .L060293B4:
 	mov.l	@(12,r1),r3
 	mov.b	@(2,r3),r0
@@ -1404,17 +1404,17 @@
 	nop
 	.byte 0x00, 0x00
 .L06029420:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06029424:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06029428:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L0602942C:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06029430:
-	.long func_0600CF6C
+	.long light_shade_model
 .L06029434:
-	.long func_0601F434
+	.long poly_draw_model
 .L06029438:
 	mov.l	@r14+,r4
 	mov.l	@r14+,r5
@@ -1457,17 +1457,17 @@
 	nop
 	.byte 0x00, 0x00
 .L06029484:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06029488:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L0602948C:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06029490:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06029494:
-	.long func_0600CF6C
+	.long light_shade_model
 .L06029498:
-	.long func_0601F434
+	.long poly_draw_model
 .L0602949C:
 	mov.l	.L060294A8,r0
 	jsr	@r0
@@ -1476,7 +1476,7 @@
 	rts
 	nop
 .L060294A8:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06028CC8
 
 	.section .data.060294AC,"aw",@progbits

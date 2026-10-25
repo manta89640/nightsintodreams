@@ -4,7 +4,7 @@
 	.section .text.0600CF6C,"ax",@progbits
 	.p2align 2
 
-	glabel func_0600CF6C
+	glabel light_shade_model
 	mov.l	@(4,r2),r9
 	mov.l	@(20,r2),r10
 	mov.l	.L0600D010,r7
@@ -92,12 +92,12 @@
 	rts
 	nop
 .L0600D010:
-	.long D_0600CD50
+	.long light
 .L0600D014:
-	.long D_0600CD6C
-	endlabel func_0600CF6C
+	.long light_vertex_colors
+	endlabel light_shade_model
 
-	glabel func_0600D018
+	glabel mtx_scale
 	mov.l	@(120,gbr),r0
 	mov.l	@(0,r0),r2
 	dmuls.l	r4,r2
@@ -154,9 +154,9 @@
 	xtrct	r2,r3
 	rts
 	mov.l	r3,@(40,r0)
-	endlabel func_0600D018
+	endlabel mtx_scale
 
-	glabel func_0600D088
+	glabel obj_init
 	mov	#0,r2
 	mov.l	.L0600D0C0,r1
 	mov	#8,r7
@@ -190,16 +190,16 @@
 .L0600D0BE:
 	.short 0x0180
 .L0600D0C0:
-	.long D_060FFFA0
+	.long obj_list_core
 .L0600D0C4:
-	.long D_060FFFE4
+	.long obj_count
 .L0600D0C8:
-	.long D_060D0000
+	.long obj_pool
 .L0600D0CC:
-	.long D_060FFFE0
-	endlabel func_0600D088
+	.long obj_free_head
+	endlabel obj_init
 
-	glabel func_0600D0D0
+	glabel obj_alloc
 	mov.l	.L0600D12C,r8
 	mov.l	@r8,r3
 	cmp/pl	r3
@@ -248,21 +248,21 @@
 	clrt
 	.byte 0x00, 0x00
 .L0600D12C:
-	.long D_060FFFE0
+	.long obj_free_head
 .L0600D130:
-	.long D_060FFFE4
+	.long obj_count
 .L0600D134:
 	mov.l	.L0600D13C,r3
 	rts
 	sett
 	.byte 0x00, 0x00
 .L0600D13C:
-	.long D_0600D140
-	endlabel func_0600D0D0
+	.long obj_dummy_node
+	endlabel obj_alloc
 
 	.section .data.0600D140,"aw",@progbits
 	.p2align 2
-	dlabel D_0600D140
+	dlabel obj_dummy_node
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00

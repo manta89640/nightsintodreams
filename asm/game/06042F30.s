@@ -114,7 +114,7 @@
 	jmp	@r0
 	nop
 .L06042FE4:
-	.long func_0600D1A0
+	.long obj_free
 .L06042FE8:
 	sts.l	pr,@-r15
 	mov	#32,r8
@@ -182,23 +182,23 @@
 	lds.l	@r15+,pr
 	.byte 0x00, 0x00
 .L06043068:
-	.long func_060172DE
+	.long obj_find_near_player
 .L0604306C:
-	.long func_0600CA24
+	.long mtx_push
 .L06043070:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06043074:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06043078:
-	.long func_0600D018
+	.long mtx_scale
 .L0604307C:
 	.long 0x001C0000
 .L06043080:
 	.long D_0608E808
 .L06043084:
-	.long func_0601F434
+	.long poly_draw_model
 .L06043088:
-	.long func_0600CA4E
+	.long mtx_pop
 .L0604308C:
 	.long 0xFFE40000
 .L06043090:
@@ -236,7 +236,7 @@
 	.short 0x5555
 	.byte 0x00, 0x00
 .L060430D0:
-	.long func_06007C08
+	.long math_sin
 .L060430D4:
 	.long 0x00200000
 .L060430D8:
@@ -267,9 +267,9 @@
 	jmp	@r0
 	nop
 .L0604310C:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06043110:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_06042FD0
 
 	glabel func_06043114
@@ -286,11 +286,11 @@
 .L06043128:
 	.long D_0608D424
 .L0604312C:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06043130:
 	.long D_0608D660
 .L06043134:
-	.long func_0601F434
+	.long poly_draw_model
 	endlabel func_06043114
 
 	glabel func_06043138
@@ -315,11 +315,11 @@
 .L0604315C:
 	.long D_0608DD10
 .L06043160:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06043164:
 	.long D_0608DDFC
 .L06043168:
-	.long func_0601F434
+	.long poly_draw_model
 .L0604316C:
 	.long D_0608DE88
 .L06043170:
@@ -340,11 +340,11 @@
 .L06043188:
 	.long D_0608E534
 .L0604318C:
-	.long func_0601F4A0
+	.long poly_draw_model_color
 .L06043190:
 	.long D_0608E620
 .L06043194:
-	.long func_0601F434
+	.long poly_draw_model
 	endlabel func_06043174
 
 	glabel func_06043198
@@ -356,7 +356,7 @@
 	.short 0x0258
 	.byte 0x00, 0x00
 .L060431A4:
-	.long D_060FFE50
+	.long play_state
 	endlabel func_06043198
 
 	glabel func_060431A8
@@ -371,9 +371,9 @@
 	mov.l	r0,@(12,r3)
 	.byte 0x00, 0x00
 .L060431BC:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L060431C0:
-	.long func_0600D0D0
+	.long obj_alloc
 .L060431C4:
 	.long D_060431D8
 	endlabel func_060431A8
@@ -384,7 +384,7 @@
 	rts
 	mov.b	r0,@(7,r14)
 .L060431D0:
-	.long D_060FFE50
+	.long play_state
 	endlabel func_060431C8
 
 	.section .data.060431D4,"aw",@progbits

@@ -41,14 +41,14 @@
 	nop
 	.byte 0x00, 0x00
 .L060414F0:
-	.long D_060F3064
+	.long player_obj
 .L060414F4:
 	mov.l	.L060414FC,r0
 	jmp	@r0
 	nop
 	.byte 0x00, 0x00
 .L060414FC:
-	.long func_0600D1A0
+	.long obj_free
 .L06041500:
 	sts.l	pr,@-r15
 	mov.b	@(63,gbr),r0
@@ -256,13 +256,13 @@
 .L060416B0:
 	.long 0x00100000
 .L060416B4:
-	.long func_06007C1C
+	.long math_atan2
 .L060416B8:
-	.long func_06007BD8
+	.long math_sincos
 .L060416BC:
-	.long func_06017B7C
+	.long math_rotate_xz
 .L060416C0:
-	.long func_06017BA6
+	.long math_rotate2d_inv
 .L060416C4:
 	.long 0x0000C000
 .L060416C8:
@@ -309,13 +309,13 @@
 .L06041714:
 	.long 0x00200020
 .L06041718:
-	.long func_060172DE
+	.long obj_find_near_player
 .L0604171C:
 	.long func_060429B4
 .L06041720:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06041724:
-	.long func_0600D1A0
+	.long obj_free
 .L06041728:
 	mov.l	.L0604175C,r0
 	jsr	@r0
@@ -348,7 +348,7 @@
 .L06041760:
 	.long func_060429B4
 .L06041764:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06041768:
 	mov.l	.L06041770,r0
 	jmp	@r0
@@ -387,7 +387,7 @@
 	nop
 	.byte 0x00, 0x00
 .L060417A8:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_060414E0
 
 	glabel func_060417AC
@@ -452,7 +452,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06041818:
-	.long func_0600D1A0
+	.long obj_free
 .L0604181C:
 	mov.w	r0,@(8,r1)
 	sts.l	pr,@-r15
@@ -497,7 +497,7 @@
 .L06041868:
 	.long D_060B87BC
 .L0604186C:
-	.long func_0601EF98
+	.long spr_anim_step
 .L06041870:
 	mov.l	.L060418D8,r0
 	jsr	@r0
@@ -552,21 +552,21 @@
 	nop
 	.byte 0x00, 0x00
 .L060418D8:
-	.long func_0600CA24
+	.long mtx_push
 .L060418DC:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060418E0:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L060418E4:
-	.long func_06007C08
+	.long math_sin
 .L060418E8:
 	.long 0x00004000
 .L060418EC:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L060418F0:
-	.long func_060208FA
+	.long spr_draw_billboard_unscaled
 .L060418F4:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06041808
 
 	glabel func_060418F8
@@ -600,7 +600,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0604192C:
-	.long func_0600D1A0
+	.long obj_free
 .L06041930:
 	mov.w	r0,@(8,r1)
 	sts.l	pr,@-r15
@@ -663,17 +663,17 @@
 .L060419A0:
 	.long 0x00001000
 .L060419A4:
-	.long func_06007BD8
+	.long math_sincos
 .L060419A8:
-	.long func_06017BA6
+	.long math_rotate2d_inv
 .L060419AC:
-	.long func_06017B7C
+	.long math_rotate_xz
 .L060419B0:
 	.long 0x0000C000
 .L060419B4:
 	.long D_060B87BC
 .L060419B8:
-	.long func_0601EF98
+	.long spr_anim_step
 .L060419BC:
 	mov.l	.L06041A20,r0
 	jsr	@r0
@@ -726,19 +726,19 @@
 	nop
 	.byte 0x00, 0x00
 .L06041A20:
-	.long func_0600CA24
+	.long mtx_push
 .L06041A24:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06041A28:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06041A2C:
 	.long 0x00004000
 .L06041A30:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06041A34:
-	.long func_060208FA
+	.long spr_draw_billboard_unscaled
 .L06041A38:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0604191C
 
 	glabel func_06041A3C
@@ -766,9 +766,9 @@
 .L06041A62:
 	.short 0x006E
 .L06041A64:
-	.long func_0600EA22
+	.long snd_calc_distance_volume
 .L06041A68:
-	.long func_0600E968
+	.long snd_play_positional
 .L06041A6C:
 	.long func_0603D014
 	endlabel func_06041A3C
@@ -793,9 +793,9 @@
 	nop
 	.byte 0x00, 0x00
 .L06041A94:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L06041A98:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06041A9C:
 	.long func_06041AA0
 	endlabel func_06041A70
@@ -810,7 +810,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06041AB0:
-	.long func_0600D1A0
+	.long obj_free
 .L06041AB4:
 	mov.w	r0,@(4,r1)
 	mov.l	@(12,gbr),r0
@@ -887,23 +887,23 @@
 	.short 0x0180
 	.byte 0x00, 0x00
 .L06041B40:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L06041B44:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06041B48:
 	.long func_06041B68
 .L06041B4C:
-	.long func_06007B96
+	.long math_rand
 .L06041B50:
 	.long 0x0007FFFF
 .L06041B54:
 	.long 0x00040000
 .L06041B58:
-	.long func_06007BD8
+	.long math_sincos
 .L06041B5C:
-	.long func_06017B7C
+	.long math_rotate_xz
 .L06041B60:
-	.long func_06017BA6
+	.long math_rotate2d_inv
 .L06041B64:
 	.long D_060139CC
 	endlabel func_06041AA0
@@ -918,7 +918,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06041B78:
-	.long func_0600D1A0
+	.long obj_free
 .L06041B7C:
 	mov.w	r0,@(4,r1)
 	sts.l	pr,@-r15
@@ -945,7 +945,7 @@
 .L06041BA8:
 	.long D_06013A8C
 .L06041BAC:
-	.long func_0601EF98
+	.long spr_anim_step
 .L06041BB0:
 	mov.l	.L06041BD4,r0
 	jsr	@r0
@@ -966,13 +966,13 @@
 	nop
 	.byte 0x00, 0x00
 .L06041BD4:
-	.long func_0600CA24
+	.long mtx_push
 .L06041BD8:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06041BDC:
-	.long func_06020906
+	.long spr_draw_billboard
 .L06041BE0:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06041B68
 
 	.section .data.06041BE4,"aw",@progbits

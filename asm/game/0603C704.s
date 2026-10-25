@@ -20,7 +20,7 @@
 	mov.l	r0,@(52,r1)
 	.byte 0x00, 0x00
 .L0603C720:
-	.long func_06007C08
+	.long math_sin
 	endlabel func_0603C704
 
 	.section .data.0603C724,"aw",@progbits

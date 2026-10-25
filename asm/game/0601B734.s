@@ -51,7 +51,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0601B784:
-	.long D_060FFE50
+	.long play_state
 .L0601B788:
 	.long D_0601B78C
 	endlabel func_0601B74C

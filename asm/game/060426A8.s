@@ -50,7 +50,7 @@
 .L060426F8:
 	.long D_06042838
 .L060426FC:
-	.long D_060FFE50
+	.long play_state
 .L06042700:
 	.long func_06042704
 	endlabel func_060426A8
@@ -98,7 +98,7 @@
 .L0604274E:
 	.short 0x0130
 .L06042750:
-	.long D_060FFE50
+	.long play_state
 .L06042754:
 	.long D_0604283E
 .L06042758:
@@ -146,7 +146,7 @@
 .L060427A0:
 	.long D_0604283C
 .L060427A4:
-	.long func_060204EE
+	.long spr_draw_obj
 .L060427A8:
 	mov	#4,r0
 	mov.l	r0,@(8,r1)
@@ -245,4 +245,4 @@
 	dlabel D_06042868
 	.byte 0xE0, 0xF8, 0x02, 0x1E, 0x84, 0x21, 0x40, 0x11, 0x89, 0x06, 0xE0, 0x01, 0x80, 0x21, 0xD0, 0x01
 	.byte 0x40, 0x2B, 0x00, 0x09
-	.long func_0600D1A0
+	.long obj_free

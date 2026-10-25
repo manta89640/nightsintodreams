@@ -104,11 +104,11 @@
 .L060267E2:
 	.short 0x0060
 .L060267E4:
-	.long D_060F3064
+	.long player_obj
 .L060267E8:
 	.long func_06024F04
 .L060267EC:
-	.long D_060F3068
+	.long player_obj_p2
 .L060267F0:
 	.long func_06022152
 .L060267F4:
@@ -169,7 +169,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06026860:
-	.long D_060F3064
+	.long player_obj
 .L06026864:
 	.long func_06024F04
 .L06026868:
@@ -241,7 +241,7 @@
 .L060268E2:
 	.short 0x0000
 .L060268E4:
-	.long D_060F3064
+	.long player_obj
 .L060268E8:
 	.long 0x00010000
 .L060268EC:
@@ -367,11 +367,11 @@
 	rts
 	nop
 .L060269D0:
-	.long func_06007C1C
+	.long math_atan2
 .L060269D4:
 	.long 0x00004000
 .L060269D8:
-	.long func_06007CF0
+	.long math_sqrt
 .L060269DC:
 	mov.b	@(2,r12),r0
 	tst	r0,r0
@@ -495,7 +495,7 @@
 .L06026AB8:
 	.long 0x80000000
 .L06026ABC:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06026AC0:
 	.long func_06022C9C
 .L06026AC4:

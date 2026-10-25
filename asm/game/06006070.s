@@ -22,7 +22,7 @@
 .L0600608C:
 	.long D_060FFC2C + 0x20000000
 .L06006090:
-	.long D_060FE48C + 0x20000000
+	.long slave_job_ring + 0x20000000
 	endlabel func_06006070
 
 	glabel func_06006094
@@ -1262,12 +1262,12 @@
 	.long D_060FF069
 	endlabel func_06006304
 
-	glabel func_060069AC
+	glabel sys_exec_dmp
 	mov.l	.L06006AE0,r2
 	mov.l	@r2,r3
 	jmp	@r3
 	nop
-	endlabel func_060069AC
+	endlabel sys_exec_dmp
 
 	glabel func_060069B4
 	sts.l	pr,@-r15
@@ -1293,7 +1293,7 @@
 	nop
 	tst	#32,r0
 	bt	.L060069DE
-	bsr	func_060069AC
+	bsr	sys_exec_dmp
 	nop
 .L060069DE:
 	mov	#1,r3
@@ -1332,7 +1332,7 @@
 	mov.l	r2,@r3
 	endlabel func_060069CE
 
-	glabel func_06006A20
+	glabel cd_play_track
 	sts.l	pr,@-r15
 	add	#-24,r15
 	mov.l	.L06006B10,r3
@@ -1341,7 +1341,7 @@
 	nop
 	tst	#32,r0
 	bt	.L06006A34
-	bsr	func_060069AC
+	bsr	sys_exec_dmp
 	nop
 .L06006A34:
 	mov	#2,r5
@@ -1381,7 +1381,7 @@
 	lds.l	@r15+,pr
 	rts
 	nop
-	endlabel func_06006A20
+	endlabel cd_play_track
 
 	glabel func_06006A7E
 	sts.l	pr,@-r15
@@ -1392,7 +1392,7 @@
 	nop
 	tst	#32,r0
 	bt	.L06006A92
-	bsr	func_060069AC
+	bsr	sys_exec_dmp
 	nop
 .L06006A92:
 	mov	#2,r5
@@ -1469,7 +1469,7 @@
 	.long 0x000615F6
 	endlabel func_06006A7E
 
-	glabel func_06006B20
+	glabel cd_pause
 	sts.l	pr,@-r15
 	add	#-8,r15
 	mov.l	.L06006C28,r3
@@ -1477,7 +1477,7 @@
 	nop
 	tst	#32,r0
 	bt	.L06006B32
-	bsr	func_060069AC
+	bsr	sys_exec_dmp
 	nop
 .L06006B32:
 	mov	r15,r2
@@ -1491,7 +1491,7 @@
 	lds.l	@r15+,pr
 	rts
 	nop
-	endlabel func_06006B20
+	endlabel cd_pause
 
 	glabel func_06006B48
 	sts.l	pr,@-r15
@@ -1501,7 +1501,7 @@
 	nop
 	tst	#32,r0
 	bt	.L06006B5A
-	bsr	func_060069AC
+	bsr	sys_exec_dmp
 	nop
 .L06006B5A:
 	mov	#3,r4
@@ -1534,7 +1534,7 @@
 	nop
 	tst	#32,r0
 	bt	.L06006B94
-	bsr	func_060069AC
+	bsr	sys_exec_dmp
 	nop
 .L06006B94:
 	mov.l	.L06006C40,r13
@@ -1607,11 +1607,11 @@
 	mov.l	@r15+,r14
 	endlabel func_06006B7C
 
-	glabel func_06006C12
+	glabel cd_load_file
 	mov.l	r14,@-r15
 	sts.l	pr,@-r15
 	mov.l	.L06006C60,r6
-	bsr	func_06006C94
+	bsr	cd_queue_load
 	mov	#2,r7
 	mov.l	.L06006C64,r14
 	bra	.L06006C6C
@@ -1654,7 +1654,7 @@
 .L06006C64:
 	.long D_06064FA4
 .L06006C68:
-	bsr	func_06006EA0
+	bsr	cd_service
 	nop
 .L06006C6C:
 	mov.l	@r14,r0
@@ -1663,7 +1663,7 @@
 	lds.l	@r15+,pr
 	rts
 	mov.l	@r15+,r14
-	endlabel func_06006C12
+	endlabel cd_load_file
 
 	glabel func_06006C78
 	mov.l	r14,@-r15
@@ -1673,7 +1673,7 @@
 .L06006C80:
 	mov.l	@r14+,r5
 	mov.l	@r14+,r6
-	bsr	func_06006C94
+	bsr	cd_queue_load
 	mov.l	@r14+,r7
 .L06006C88:
 	mov.l	@r14+,r4
@@ -1684,7 +1684,7 @@
 	mov.l	@r15+,r14
 	endlabel func_06006C78
 
-	glabel func_06006C94
+	glabel cd_queue_load
 	mov.l	.L06006DDC,r0
 	mov.l	.L06006DE0,r1
 	mov.l	@r1,r3
@@ -1720,7 +1720,7 @@
 	and	#15,r0
 	bra	func_06006CDA
 	mov.l	r0,@r1
-	endlabel func_06006C94
+	endlabel cd_queue_load
 
 	glabel func_06006CDA
 	mov.l	r14,@-r15
@@ -1751,7 +1751,7 @@
 	nop
 	tst	#32,r0
 	bt	.L06006D12
-	bsr	func_060069AC
+	bsr	sys_exec_dmp
 	nop
 .L06006D12:
 	mov.l	.L06006DDC,r11
@@ -1960,7 +1960,7 @@
 	.short 0x1800
 	endlabel func_06006CDA
 
-	glabel func_06006EA0
+	glabel cd_service
 	mov.l	r14,@-r15
 	mov.l	r13,@-r15
 	mov.l	r12,@-r15
@@ -2013,7 +2013,7 @@
 	nop
 	tst	#32,r0
 	bt	.L06006F04
-	bsr	func_060069AC
+	bsr	sys_exec_dmp
 	nop
 .L06006F04:
 	mov.l	.L06006FB8,r12
@@ -2647,7 +2647,7 @@
 	mov.l	@r15+,r13
 	rts
 	mov.l	@r15+,r14
-	endlabel func_06006EA0
+	endlabel cd_service
 
 	glabel func_06007380
 	sts.l	pr,@-r15
@@ -2656,7 +2656,7 @@
 	nop
 	tst	#32,r0
 	bt	.L06007390
-	bsr	func_060069AC
+	bsr	sys_exec_dmp
 	nop
 .L06007390:
 	mov.l	.L060073B8,r2
@@ -2728,9 +2728,9 @@
 .L0600740C:
 	.long D_06007418
 .L06007410:
-	.long func_06006C12
+	.long cd_load_file
 .L06007414:
-	.long D_00200000
+	.long lwram_buf
 	endlabel func_060073CC
 
 	.section .data.06007418,"aw",@progbits

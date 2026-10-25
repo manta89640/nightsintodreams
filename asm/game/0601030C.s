@@ -224,7 +224,7 @@
 	.short 0x0400
 	.byte 0x00, 0x00
 .L0601048C:
-	.long D_060F3064
+	.long player_obj
 .L06010490:
 	mov	#0,r4
 	mov.w	.L06010498,r5
@@ -264,7 +264,7 @@
 .L060104C6:
 	.short 0x1400
 .L060104C8:
-	.long D_060F3064
+	.long player_obj
 .L060104CC:
 	mov.w	.L060104D6,r4
 	shll16	r4
@@ -420,7 +420,7 @@
 .L060105DC:
 	.long D_060FBBFC
 .L060105E0:
-	.long func_06007BD8
+	.long math_sincos
 .L060105E4:
 	sub	r2,r12
 	sub	r3,r13
@@ -1503,15 +1503,15 @@
 	.short 0x009E
 	.byte 0x00, 0x00
 .L06010DC4:
-	.long D_060F3064
+	.long player_obj
 .L06010DC8:
 	.long D_060DB308
 .L06010DCC:
 	.long D_060DB318
 .L06010DD0:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06010DD4:
-	.long func_06007C1C
+	.long math_atan2
 .L06010DD8:
 	add	#1,r3
 	dt	r8
@@ -1564,13 +1564,13 @@
 	.short 0x005A
 	.byte 0x00, 0x00
 .L06010E30:
-	.long D_060F3064
+	.long player_obj
 .L06010E34:
 	.long D_060DB560
 .L06010E38:
-	.long func_0600EA22
+	.long snd_calc_distance_volume
 .L06010E3C:
-	.long func_0600E968
+	.long snd_play_positional
 .L06010E40:
 	mov	#0,r0
 	mov.w	r0,@r2
@@ -1605,7 +1605,7 @@
 	jmp	@r0
 	lds.l	@r15+,pr
 .L06010E80:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06010E84:
 	.long func_06024BAC
 .L06010E88:

@@ -174,11 +174,11 @@
 .L0601ECD8:
 	.long VDP1_VRAM
 .L0601ECDC:
-	.long D_060ED000
+	.long model_texture_table
 .L0601ECE0:
 	.long D_06012E00
 .L0601ECE4:
-	.long D_060EE800
+	.long sprite_texture_table
 	endlabel func_0601EC94
 
 	glabel func_0601ECE8
@@ -414,7 +414,7 @@
 	.short 0x0010
 	.byte 0x00, 0x00
 .L0601EE84:
-	.long func_0600D4D0
+	.long vdp_rgb555_lerp
 .L0601EE88:
 	shlr2	r0
 	tst	r0,r6
@@ -472,7 +472,7 @@
 .L0601EEE4:
 	.long 0x07FFFFFF
 .L0601EEE8:
-	.long func_0600D4D0
+	.long vdp_rgb555_lerp
 .L0601EEEC:
 	mov	r9,r0
 	shll2	r6
@@ -543,5 +543,5 @@
 	.byte 0x40, 0x00, 0x35, 0x0C, 0x60, 0x65, 0x60, 0x0D, 0x6A, 0x03, 0x4A, 0x19, 0xC9, 0xFF, 0x6B, 0x03
 	.byte 0x2A, 0xBE, 0x06, 0x1A, 0x60, 0x46, 0x25, 0x02, 0x46, 0x10, 0x8F, 0xFB, 0x75, 0x04, 0x4F, 0x26
 	.byte 0x00, 0x0B, 0x00, 0x09
-	.long D_060ED000
+	.long model_texture_table
 	.long VDP1_VRAM

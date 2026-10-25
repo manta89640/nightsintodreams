@@ -77,7 +77,9 @@ $(BUILD)/asm/%.s: $(BUILD)/$(MAIN).ld ;
 $(BUILD)/asm/%.o: $(BUILD)/asm/%.s include/macro.inc | $(AS)
 	$(AS) $(ASFLAGS) -o $@ $<
 
-$(BUILD)/src/%.o: src/%.s include/macro.inc include/saturn.inc | $(AS)
+ASM_INCLUDES := $(shell find include -name '*.inc' 2>/dev/null)
+
+$(BUILD)/src/%.o: src/%.s $(ASM_INCLUDES) | $(AS)
 	@mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) -o $@ $<
 

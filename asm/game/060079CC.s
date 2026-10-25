@@ -32,7 +32,7 @@
 .L060079FC:
 	.long D_060512AA
 .L06007A00:
-	.long func_06006C12
+	.long cd_load_file
 .L06007A04:
 	.long D_060C0000
 	endlabel func_060079CC
@@ -65,9 +65,9 @@
 .L06007A38:
 	.long D_060512E3
 .L06007A3C:
-	.long func_06006C12
+	.long cd_load_file
 .L06007A40:
-	.long D_00200000
+	.long lwram_buf
 	endlabel func_06007A08
 
 	glabel func_06007A44
@@ -98,7 +98,7 @@
 .L06007A74:
 	.long D_06051334
 .L06007A78:
-	.long func_06006C12
+	.long cd_load_file
 .L06007A7C:
 	.long D_060C0000
 	endlabel func_06007A44

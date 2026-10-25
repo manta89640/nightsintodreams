@@ -28,7 +28,7 @@
 .L0603B6BC:
 	.long D_06039A2E
 .L0603B6C0:
-	.long func_0601EF98
+	.long spr_anim_step
 .L0603B6C4:
 	mov.l	.L0603B6E4,r0
 	jsr	@r0
@@ -48,11 +48,11 @@
 	.short 0x0100
 	.byte 0x00, 0x00
 .L0603B6E4:
-	.long func_0600CA24
+	.long mtx_push
 .L0603B6E8:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0603B6EC:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603B694
 
 	glabel func_0603B6F0
@@ -235,11 +235,11 @@
 .L0603B83C:
 	.long D_060CFFEC
 .L0603B840:
-	.long func_06007BD8
+	.long math_sincos
 .L0603B844:
 	.long func_06036EE0
 .L0603B848:
-	.long func_0601F1EC
+	.long vdp1_zsort_insert
 	endlabel func_0603B6F0
 
 	glabel func_0603B84C
@@ -278,7 +278,7 @@
 .L0603B886:
 	.short 0x0080
 .L0603B888:
-	.long D_060CFFD4
+	.long snd_variant_weights_new
 .L0603B88C:
 	.long D_060CC000
 .L0603B890:
@@ -467,7 +467,7 @@
 .L0603B9EE:
 	.short 0x0080
 .L0603B9F0:
-	.long D_060CFFD4
+	.long snd_variant_weights_new
 .L0603B9F4:
 	mov	#0,r11
 	bra	.L0603B9E6
@@ -536,7 +536,7 @@
 .L0603BA64:
 	.long 0x002FF000
 .L0603BA68:
-	.long D_060CFFA0
+	.long snd_tone_select
 	endlabel func_0603BA0C
 
 	.section .data.0603BA6C,"aw",@progbits
@@ -550,7 +550,7 @@
 	.byte 0x8B, 0x10, 0xD7, 0x06, 0xE0, 0x04, 0x07, 0x7C, 0xE8, 0x02, 0x37, 0x83, 0x8B, 0x02, 0xD0, 0x04
 	.byte 0x21, 0x06, 0x71, 0x04, 0x00, 0x0B, 0x00, 0x09
 	.long D_060CFFA2
-	.long D_060FFE50
+	.long play_state
 	.long func_0603BAD8
 	.byte 0xE0, 0xF8, 0x02, 0x1E, 0xE0, 0x02, 0x80, 0x21, 0xD0, 0x01, 0x40, 0x2B, 0x00, 0x09, 0x00, 0x00
-	.long func_0600D1A0
+	.long obj_free

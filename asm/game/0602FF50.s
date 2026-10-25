@@ -103,11 +103,11 @@
 .L06030006:
 	.short 0x0000
 .L06030008:
-	.long D_060F309C
+	.long cam_obj
 .L0603000C:
 	.long D_060F30A0
 .L06030010:
-	.long D_060F30A4
+	.long active_cam_obj
 .L06030014:
 	.long D_0602FF4C
 .L06030018:
@@ -119,7 +119,7 @@
 .L06030024:
 	.long D_0602FF30
 .L06030028:
-	.long func_06007BD8
+	.long math_sincos
 .L0603002C:
 	.long D_06030054
 .L06030030:

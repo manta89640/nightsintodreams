@@ -68,7 +68,7 @@
 	nop
 	.byte 0x00, 0x00
 .L06033D40:
-	.long func_060204EE
+	.long spr_draw_obj
 	endlabel func_06033D30
 
 	.section .data.06033D44,"aw",@progbits

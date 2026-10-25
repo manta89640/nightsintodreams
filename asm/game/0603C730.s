@@ -72,7 +72,7 @@
 	.short 0x060C
 	.long func_0601A27C
 .L0603C7B0:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0603C7B4:
 	mov.l	@(32,r1),r2
 	mov.l	@(36,r1),r3
@@ -110,7 +110,7 @@
 	bra	.L0603C98E
 	nop
 .L0603C7F8:
-	.long func_06018E8C
+	.long path_place_obj
 .L0603C7FC:
 	swap.w	r2,r0
 	mov.b	r0,@(13,r1)
@@ -131,7 +131,7 @@
 	nop
 	.byte 0x00, 0x00
 .L0603C820:
-	.long func_06007C1C
+	.long math_atan2
 .L0603C824:
 	mov.l	@(60,r1),r2
 	mov.l	@(52,r1),r3
@@ -242,11 +242,11 @@
 .L0603C8F0:
 	.long D_060C0000
 .L0603C8F4:
-	.long func_06007BD8
+	.long math_sincos
 .L0603C8F8:
-	.long func_06007D4A
+	.long math_dist2d
 .L0603C8FC:
-	.long func_06018E8C
+	.long path_place_obj
 .L0603C900:
 	.long D_060CFFCE
 .L0603C904:
@@ -299,11 +299,11 @@
 	nop
 	.byte 0x00, 0x00
 .L0603C964:
-	.long D_060F3064
+	.long player_obj
 .L0603C968:
 	.long D_060D9080
 .L0603C96C:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0603C970:
 	mov.l	r6,@-r15
 	mov.l	r5,@-r15
@@ -346,11 +346,11 @@
 	rts
 	nop
 .L0603C9BC:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0603C9C0:
 	.long func_06035FBA
 .L0603C9C4:
-	.long func_0601EF98
+	.long spr_anim_step
 .L0603C9C8:
 	mov.l	.L0603C9E4,r0
 	jsr	@r0
@@ -367,13 +367,13 @@
 	jmp	@r0
 	lds.l	@r15+,pr
 .L0603C9E4:
-	.long func_0600CA24
+	.long mtx_push
 .L0603C9E8:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0603C9EC:
-	.long func_06020906
+	.long spr_draw_billboard
 .L0603C9F0:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603C732
 
 	glabel func_0603C9F4
@@ -436,7 +436,7 @@
 	bra	.L0603CA7A
 	mov	#24,r2
 .L0603CA64:
-	.long func_06007BD8
+	.long math_sincos
 .L0603CA68:
 	shll	r3
 	sub	r3,r0
@@ -462,9 +462,9 @@
 	.byte 0x30, 0x0D, 0x0A, 0x0A, 0x3A, 0x93, 0x89, 0x07, 0x58, 0x3E, 0x50, 0x1E, 0x30, 0x88, 0x30, 0x0D
 	.byte 0x00, 0x0A, 0x3A, 0x0C, 0x3A, 0x93, 0x8B, 0x11, 0x72, 0x04, 0x77, 0xFF, 0x47, 0x11, 0x89, 0xEB
 	.byte 0xE0, 0xF8, 0x02, 0x1E, 0xE0, 0x02, 0x80, 0x21, 0xD0, 0x03, 0x40, 0x2B, 0x00, 0x09, 0x00, 0x00
-	.long D_060F3064
+	.long player_obj
 	.byte 0x00, 0x01, 0x00, 0x00
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_0603C9F4
 
 	glabel func_0603CAD4
@@ -498,15 +498,15 @@
 	lds.l	@r15+,pr
 	.byte 0x00, 0x00
 .L0603CB0C:
-	.long func_0600CA24
+	.long mtx_push
 .L0603CB10:
-	.long func_0600CBDA
+	.long mtx_translate
 .L0603CB14:
-	.long func_0601EF98
+	.long spr_anim_step
 .L0603CB18:
-	.long func_06020906
+	.long spr_draw_billboard
 .L0603CB1C:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_0603CAD4
 
 	.section .data.0603CB20,"aw",@progbits

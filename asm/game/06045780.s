@@ -180,9 +180,9 @@
 .L060458B6:
 	.short 0x00F0
 .L060458B8:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L060458BC:
-	.long func_0600D0D0
+	.long obj_alloc
 .L060458C0:
 	.long func_0604566E
 .L060458C4:
@@ -258,9 +258,9 @@
 .L06045948:
 	.long D_06046160
 .L0604594C:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L06045950:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06045954:
 	.long func_06032FB4
 .L06045958:
@@ -296,7 +296,7 @@
 .L06045992:
 	.short 0x00FF
 .L06045994:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L06045998:
 	.long func_060459A8
 .L0604599C:
@@ -333,9 +333,9 @@
 .L060459D2:
 	.short 0x0030
 .L060459D4:
-	.long D_060FFFB0
+	.long obj_list_stage
 .L060459D8:
-	.long func_0600D0D0
+	.long obj_alloc
 .L060459DC:
 	.long func_06032FD4
 .L060459E0:
@@ -388,7 +388,7 @@
 .L06045A3C:
 	.long lbl_0602B7E4
 .L06045A40:
-	.long D_060F30A4
+	.long active_cam_obj
 .L06045A44:
 	.long 0x10300000
 .L06045A48:
@@ -479,13 +479,13 @@
 	.short 0x6000
 	.byte 0x00, 0x00
 .L06045AEC:
-	.long D_060FFFA0
+	.long obj_list_core
 .L06045AF0:
-	.long func_0600D0D0
+	.long obj_alloc
 .L06045AF4:
 	.long func_0602FF50
 .L06045AF8:
-	.long D_060FFFA8
+	.long obj_list_manager
 .L06045AFC:
 	.long func_06021E2A
 .L06045B00:
@@ -559,11 +559,11 @@
 .L06045BFA:
 	.short 0x9D00
 .L06045BFC:
-	.long D_060F309C
+	.long cam_obj
 .L06045C00:
-	.long D_060F30A4
+	.long active_cam_obj
 .L06045C04:
-	.long D_060F3064
+	.long player_obj
 .L06045C08:
 	.long func_06045C0C
 	endlabel func_06045BC0
@@ -759,7 +759,7 @@
 .L06045DEC:
 	.long D_060D9074
 .L06045DF0:
-	.long D_06073000
+	.long bss_start
 .L06045DF4:
 	mov.b	@(107,gbr),r0
 	tst	r0,r0
@@ -784,9 +784,9 @@
 	mov.w	r0,@r2
 	.byte 0x00, 0x00
 .L06045E1C:
-	.long D_060FFF96
+	.long movie_id
 .L06045E20:
-	.long D_06004212
+	.long soft_reset_allowed
 .L06045E24:
 	mov.l	.L06045E88,r4
 	mov.l	@r4,r4
@@ -844,18 +844,18 @@
 	.short 0x1801
 	.byte 0x00, 0x00
 .L06045E88:
-	.long D_060F3064
+	.long player_obj
 .L06045E8C:
-	.long D_06004212
+	.long soft_reset_allowed
 .L06045E90:
-	.long D_060F30A4
+	.long active_cam_obj
 	endlabel func_06045D8E
 
 	.section .data.06045E94,"aw",@progbits
 	.p2align 2
 	.byte 0x60, 0x11, 0x70, 0xFF, 0x21, 0x01, 0x20, 0x08, 0x89, 0x01, 0xAD, 0x7F, 0x00, 0x09, 0xD2, 0x03
 	.byte 0xE0, 0xFF, 0x22, 0x01, 0xE0, 0x04, 0xC0, 0x00, 0xAD, 0x78, 0x00, 0x09
-	.long D_06004212
+	.long soft_reset_allowed
 	.byte 0x60, 0x11, 0x70, 0xFF, 0x21, 0x01, 0x20, 0x08, 0x89, 0x01, 0xAD, 0x6F, 0x00, 0x09, 0xD2, 0x03
 	.byte 0xE0, 0xFF, 0x22, 0x01, 0xE0, 0x0A, 0xC0, 0x00, 0xAD, 0x68, 0x00, 0x09
-	.long D_06004212
+	.long soft_reset_allowed

@@ -189,9 +189,9 @@
 .L06004150:
 	.long BIOS_WORK_HI + 0x1C00
 .L06004154:
-	.long D_060FFC00
+	.long gbr_block
 .L06004158:
-	.long D_06073000
+	.long bss_start
 .L0600415C:
 	.long 0x00023400
 .L06004160:
@@ -209,9 +209,9 @@
 .L06004178:
 	.long 0x00006000
 .L0600417C:
-	.long D_060DC000
+	.long vdp1_list_buf
 .L06004180:
-	.long D_060B0000
+	.long vdp1_alt_list_buf
 .L06004184:
 	.long func_060043CA
 .L06004188:
@@ -225,15 +225,15 @@
 .L06004198:
 	.long D_0602E514
 .L0600419C:
-	.long func_06004BAE
+	.long sys_wait_vblank
 .L060041A0:
-	.long D_06004210
+	.long reset_combo_held
 .L060041A4:
-	.long D_06004212
+	.long soft_reset_allowed
 .L060041A8:
 	.long D_060FFF97
 .L060041AC:
-	.long func_060069AC
+	.long sys_exec_dmp
 .L060041B0:
 	mov	#-1,r0
 	and	#15,r0
@@ -280,22 +280,22 @@
 .L06004200:
 	.long func_060044C4
 .L06004204:
-	.long D_06004210
+	.long reset_combo_held
 .L06004208:
-	.long D_06004214
+	.long game_mode_table
 .L0600420C:
-	.long func_06006EA0
+	.long cd_service
 	endlabel _start
 
 	.section .data.06004210,"aw",@progbits
 	.p2align 2
-	dlabel D_06004210
+	dlabel reset_combo_held
 	.byte 0xFF, 0xFF
-	dlabel D_06004212
+	dlabel soft_reset_allowed
 	.byte 0x00, 0x00
-	dlabel D_06004214
+	dlabel game_mode_table
 	.long lbl_0602E6E4
-	.long func_0602F104
+	.long game_mode_play
 	.long func_06044DEC
 	.long func_0604510E
 	.long func_06044DEC

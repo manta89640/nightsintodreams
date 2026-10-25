@@ -14,7 +14,7 @@
 .L06043A18:
 	.long lbl_06042B8A
 	.byte 0xD0, 0x01, 0x40, 0x2B, 0x00, 0x09, 0x00, 0x00
-	.long func_0600D1A0
+	.long obj_free
 .L06043A28:
 	mov	#2,r0
 	mov.l	.L06043A30,r2
@@ -66,13 +66,13 @@
 	jmp	@r0
 	lds.l	@r15+,pr
 .L06043A7C:
-	.long func_0600CA24
+	.long mtx_push
 .L06043A80:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06043A84:
-	.long func_06020906
+	.long spr_draw_billboard
 .L06043A88:
-	.long func_0600CA4E
+	.long mtx_pop
 .L06043A8C:
 	mov.w	@(0,r1),r0
 	add	#-1,r0
@@ -87,14 +87,14 @@
 .L06043AA0:
 	.long D_06014AA0
 .L06043AA4:
-	.long func_0601EF98
+	.long spr_anim_step
 .L06043AA8:
 	mov.l	.L06043AB0,r0
 	jmp	@r0
 	nop
 	.byte 0x00, 0x00
 .L06043AB0:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_06043A58
 
 	.section .data.06043AB4,"aw",@progbits

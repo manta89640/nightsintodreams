@@ -76,15 +76,15 @@
 .L0601BD18:
 	.long func_0603B84C
 .L0601BD1C:
-	.long func_0600DECC
+	.long snd_reroll_tone_variants
 .L0601BD20:
 	.long func_0603BA0C
 .L0601BD24:
-	.long func_06006B20
+	.long cd_pause
 .L0601BD28:
-	.long func_0600E4C4
+	.long snd_seq_start
 .L0601BD2C:
-	.long D_060F3064
+	.long player_obj
 .L0601BD30:
 	.long .L0601BD12
 	endlabel func_0601BC94

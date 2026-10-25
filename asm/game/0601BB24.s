@@ -36,11 +36,11 @@
 	bra	.L0601BB92
 	mov	#4,r0
 .L0601BB60:
-	.long D_060FFE50
+	.long play_state
 .L0601BB64:
-	.long D_060FFFB8
+	.long obj_list_effect
 .L0601BB68:
-	.long func_0600D0D0
+	.long obj_alloc
 .L0601BB6C:
 	.long func_06019A88
 .L0601BB70:
@@ -58,7 +58,7 @@
 .L0601BB88:
 	.long 0x00000000
 .L0601BB8C:
-	.long D_060FFEA8
+	.long mare_time
 .L0601BB90:
 	mov.b	@(3,r7),r0
 .L0601BB92:
@@ -97,13 +97,13 @@
 	bra	.L0601BBE6
 	mov	#4,r0
 .L0601BBD4:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601BBD8:
 	.long D_0601B944
 .L0601BBDC:
-	.long func_06019D10
+	.long txt_bcd_to_ascii
 .L0601BBE0:
-	.long D_060FFE98
+	.long mare_score
 .L0601BBE4:
 	mov.b	@(3,r7),r0
 .L0601BBE6:
@@ -125,13 +125,13 @@
 	jmp	@r0
 	nop
 .L0601BC08:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601BC0C:
 	.long D_0601B956
 .L0601BC10:
-	.long func_06019D10
+	.long txt_bcd_to_ascii
 .L0601BC14:
-	.long func_0600D1A0
+	.long obj_free
 	endlabel func_0601BB26
 
 	.section .data.0601BC18,"aw",@progbits

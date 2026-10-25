@@ -82,7 +82,7 @@
 	bra	.L06029658
 	nop
 .L06029534:
-	.long func_0600CA24
+	.long mtx_push
 .L06029538:
 	mov.w	@(22,r1),r0
 	mov.l	.L06029648,r10
@@ -221,13 +221,13 @@
 	bra	.L0602977A
 	mov	#0,r8
 .L06029648:
-	.long func_06007BD8
+	.long math_sincos
 .L0602964C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06029650:
-	.long func_0600D018
+	.long mtx_scale
 .L06029654:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06029658:
 	neg	r9,r9
 	mov.w	@(22,r1),r0
@@ -397,15 +397,15 @@
 	nop
 	.byte 0x00, 0x00
 .L060297A4:
-	.long func_06007BD8
+	.long math_sincos
 .L060297A8:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060297AC:
-	.long func_0600D018
+	.long mtx_scale
 .L060297B0:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L060297B4:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L060297B8:
 	mov.l	@r14+,r4
 	mov.l	@r14+,r5
@@ -889,19 +889,19 @@
 	nop
 	.byte 0x00, 0x00
 .L06029B5C:
-	.long func_0600CBDA
+	.long mtx_translate
 .L06029B60:
-	.long func_0600CB68
+	.long mtx_rot_z
 .L06029B64:
-	.long func_0600CAF8
+	.long mtx_rot_y
 .L06029B68:
-	.long func_0600CA7A
+	.long mtx_rot_x
 .L06029B6C:
 	.long func_0601F42C
 .L06029B70:
-	.long func_0600CA24
+	.long mtx_push
 .L06029B74:
-	.long func_0600CA4E
+	.long mtx_pop
 	endlabel func_06029518
 
 	glabel func_06029B78

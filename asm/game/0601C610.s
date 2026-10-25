@@ -150,7 +150,7 @@
 .L0601C718:
 	.long 0x004C0000
 .L0601C71C:
-	.long func_060204EE
+	.long spr_draw_obj
 .L0601C720:
 	.long 0x00100000
 .L0601C724:
@@ -254,15 +254,15 @@
 .L0601C7CC:
 	.long D_0601C27C
 .L0601C7D0:
-	.long func_0601CB9A
+	.long math_bin_to_bcd
 .L0601C7D4:
-	.long func_06019D42
+	.long spr_build_number
 .L0601C7D8:
 	.long 0x00E80000
 .L0601C7DC:
 	.long 0x00B40000
 .L0601C7E0:
-	.long func_060204EE
+	.long spr_draw_obj
 .L0601C7E4:
 	.long D_06014246
 .L0601C7E8:

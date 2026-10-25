@@ -14,7 +14,7 @@
 .L06043898:
 	.long lbl_06042898
 	.byte 0xD0, 0x01, 0x40, 0x2B, 0x00, 0x09, 0x00, 0x00
-	.long func_0600D1A0
+	.long obj_free
 .L060438A8:
 	mov	#2,r0
 	mov.l	.L060438B0,r2
@@ -154,19 +154,19 @@
 	rts
 	nop
 .L060439A4:
-	.long func_06007C08
+	.long math_sin
 .L060439A8:
 	.long 0xFE200000
 .L060439AC:
-	.long func_06018E8C
+	.long path_place_obj
 .L060439B0:
-	.long func_0600CA24
+	.long mtx_push
 .L060439B4:
-	.long func_0600CBDA
+	.long mtx_translate
 .L060439B8:
-	.long func_060208FA
+	.long spr_draw_billboard_unscaled
 .L060439BC:
-	.long func_0600CA4E
+	.long mtx_pop
 .L060439C0:
 	mov.w	.L060439F6,r3
 	mov.w	.L060439F8,r14
@@ -207,7 +207,7 @@
 .L060439FC:
 	.long D_06014076
 .L06043A00:
-	.long func_0601EF98
+	.long spr_anim_step
 	endlabel func_0604393E
 
 	.section .data.06043A04,"aw",@progbits
