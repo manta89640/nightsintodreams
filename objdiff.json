@@ -2135,7 +2135,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/06067644.nc"
+        "source_path": "src/sbl/06067644.s"
       }
     },
     {
@@ -2147,7 +2147,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/060676D4.nc"
+        "source_path": "src/sbl/060676D4.s"
       }
     },
     {
@@ -2159,7 +2159,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/0606772C.nc"
+        "source_path": "src/sbl/0606772C.s"
       }
     },
     {
@@ -2171,7 +2171,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/cdc_play.nc"
+        "source_path": "src/sbl/cdc_play.s"
       }
     },
     {
@@ -2183,7 +2183,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/cdc_reg.nc"
+        "source_path": "src/sbl/cdc_reg.s"
       }
     },
     {
@@ -2195,7 +2195,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/csh.nc"
+        "source_path": "src/sbl/csh.s"
       }
     },
     {
@@ -2207,7 +2207,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/dma_cpu.nc"
+        "source_path": "src/sbl/dma_cpu.s"
       }
     },
     {
@@ -2219,7 +2219,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/stm_grp.nc"
+        "source_path": "src/sbl/stm_grp.s"
       }
     },
     {
@@ -2231,7 +2231,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/stm_svr.nc"
+        "source_path": "src/sbl/stm_svr.s"
       }
     },
     {
@@ -2243,7 +2243,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/stm_cdplay.nc"
+        "source_path": "src/sbl/stm_cdplay.s"
       }
     },
     {
@@ -2255,7 +2255,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/stm_cdsct.nc"
+        "source_path": "src/sbl/stm_cdsct.s"
       }
     },
     {
@@ -2267,7 +2267,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/gfs.nc"
+        "source_path": "src/sbl/gfs.s"
       }
     },
     {
@@ -2291,7 +2291,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/gfs_trn.nc"
+        "source_path": "src/sbl/gfs_trn.s"
       }
     },
     {
@@ -2303,7 +2303,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/gfs_flow.nc"
+        "source_path": "src/sbl/gfs_flow.s"
       }
     },
     {
@@ -2315,7 +2315,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/0606D4B4.nc"
+        "source_path": "src/sbl/0606D4B4.s"
       }
     },
     {
@@ -2327,7 +2327,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/0606DA14.nc"
+        "source_path": "src/sbl/0606DA14.s"
       }
     },
     {
@@ -2339,7 +2339,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/0606F1E0.nc"
+        "source_path": "src/sbl/0606F1E0.s"
       }
     },
     {
@@ -2351,7 +2351,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/cdc_init.nc"
+        "source_path": "src/sbl/cdc_init.s"
       }
     },
     {
@@ -2363,7 +2363,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/cdc_data.nc"
+        "source_path": "src/sbl/cdc_data.s"
       }
     },
     {
@@ -2387,7 +2387,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/cdc_filt.nc"
+        "source_path": "src/sbl/cdc_filt.s"
       }
     },
     {
@@ -2399,7 +2399,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/cdc_buf.nc"
+        "source_path": "src/sbl/cdc_buf.s"
       }
     },
     {
@@ -2423,7 +2423,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/cdc_file.nc"
+        "source_path": "src/sbl/cdc_file.s"
       }
     },
     {
@@ -2435,7 +2435,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/cdc_exec.nc"
+        "source_path": "src/sbl/cdc_exec.s"
       }
     },
     {
@@ -2447,7 +2447,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/dma_scu.nc"
+        "source_path": "src/sbl/dma_scu.s"
       }
     },
     {
@@ -2459,7 +2459,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/stm_tr.nc"
+        "source_path": "src/sbl/stm_tr.s"
       }
     },
     {
@@ -2471,7 +2471,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/gfs_dir.nc"
+        "source_path": "src/sbl/gfs_dir.s"
       }
     },
     {
@@ -2483,7 +2483,7 @@
         "progress_categories": [
           "sbl"
         ],
-        "source_path": "src/sbl/06070C28.nc"
+        "source_path": "src/sbl/06070C28.s"
       }
     }
   ]

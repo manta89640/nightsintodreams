@@ -64,40 +64,51 @@ when the code actually uses them as addresses.
 
 ## Units and progress
 
-`0NIGHTS` is split into 203 units in two progress categories: `game` (hand-written
-assembly) and `sbl` (the SBL library, compiled C). A unit can only start where no
-PC-relative reference crosses. `split.py --units` proposes boundaries, and `split.py`
-rejects any boundary that breaks the rule.
+`0NIGHTS` is split into units in three progress categories: `game` (hand-written
+assembly), `sbl` (the SBL library) and `shclib` (the Hitachi C runtime). A unit can
+only start where no PC-relative reference crosses. `split.py --units` proposes
+boundaries, and `split.py` rejects any boundary that breaks the rule.
 
 Every unit is generated into `build/usa/asm/` as the objdiff **target**. A unit counts
-as done once its source is committed under `src/`. That source is assembled as the
+as done once its matching source is committed under `src/`. That source is built as the
 objdiff **base** and linked in place of the generated file, so `make check` always
 verifies the committed source.
 
-To claim a unit:
+There are two kinds of source:
+
+- **Matching source** (`src/<unit>.s`, or C for SBL objects that SHC 5.0 compiles
+  exactly). It rebuilds the original byte for byte. The game was written in assembly,
+  so its matching source is reviewed assembly.
+- **Port source** (`port/<unit>.c`). This is readable C for the 3DS port. It doesn't
+  match byte for byte, but it must behave the same as the original, which the c2asm
+  SH-2 interpreter and differential test check (see [docs/c2asm.md](docs/c2asm.md)).
+
+To claim a game unit (details in [docs/conversion.md](docs/conversion.md)):
 
 1. Copy `build/usa/asm/<unit>.s` to `src/<unit>.s`.
-2. Give its functions and data real names in `config/usa/symbols.txt`, and use the same
-   names in the file. objdiff matches symbols by name.
-3. Comment the parts that are hard to follow, and nothing else.
+2. Give its functions and data real names with `tools/rename.py` (which updates the
+   symbol files and every source). objdiff matches symbols by name.
+3. Replace raw struct and GBR offsets with named constants from `include/game/*.inc`,
+   and comment the parts that are hard to follow, and nothing else.
 4. Run `make check`, then `make report` (the unit should show 100%). Commit and `make upload`.
 
-### SBL units (C)
+### SBL
 
-SBL units are written in C under `src/sbl/` and compiled with Hitachi SHC 5.0
-(`-cpu=sh2 -optimize=1 -rtnext`; a file can add flags with a first-line
-`/* shc-flags: ... */` comment). `tools/shc.py` runs SHC under wine, and
-`tools/shc2gas.py` turns its assembly into GNU as source. `make test` checks that
-translation against Hitachi's own linker, byte for byte.
+The SBL library was C, built by an older Hitachi SHC than any available today.
 
+- Objects that SHC 5.0 reproduces exactly are linked as C (`src/sbl/<unit>.c`,
+  marked `complete` in `units.txt`).
+- Every other object's matching source is its labelled assembly (`src/sbl/<unit>.s`),
+  with the C kept beside it as `<unit>.ref.c`. `make refc` compiles every `.ref.c` and
+  reports how many functions still match as C.
+- `tools/shc.py` runs SHC 5.0 under wine (`-cpu=sh2 -optimize=1 -rtnext`; a file can
+  add flags with a first-line `/* shc-flags: ... */` comment). `tools/shc2gas.py`
+  turns SHC's assembly into GNU as source, and `make test` checks that translation
+  against Hitachi's own linker, byte for byte.
 - `python3 tools/fncmp.py sbl/<unit>` lists which functions match. Add a function
   name for an instruction-by-instruction diff.
-- SHC pools constants per source file, so a C file has to contain the same
-  functions, in the same order, as the original object.
-- A C unit counts on objdiff function by function. It is only linked into the
-  rebuilt program once `units.txt` marks it `complete`.
-- Name functions and data in `config/usa/symbols/<unit>.txt`, with one file per unit
-  so units can be worked on in parallel.
+- SHC pools constants per source file, so a C file has to contain the same functions,
+  in the same order, as the original object.
 
 ## Layout
 

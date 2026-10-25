@@ -1,0 +1,290 @@
+! sbl/cdc_buf: matching source. The readable C for this object is cdc_buf.ref.c;
+! SHC 5.0 cannot reproduce the 1996 compiler's output for all of it.
+	.include "macro.inc"
+	.include "saturn.inc"
+
+	.section .text.0606F7F0,"ax",@progbits
+	.p2align 2
+
+	glabel CDC_GetBufSiz
+	mov.l	r14,@-r15
+	mov	#80,r3
+	mov.l	.L0606F9E4,r2
+	mov.l	r13,@-r15
+	sts.l	pr,@-r15
+	mov	#0,r13
+	add	#-28,r15
+	mov	r15,r14
+	mov.l	r4,@(4,r15)
+	add	#12,r14
+	mov.l	r5,@r15
+	mov	r15,r5
+	mov.l	r6,@(8,r15)
+	add	#20,r5
+	mov.l	r13,@r5
+	mov	r14,r6
+	mov.l	r13,@(4,r5)
+	mov.b	r3,@r5
+	jsr	@r2
+	mov	r13,r4
+	mov.l	@(8,r15),r3
+	mov	r0,r4
+	mov.w	@(2,r14),r0
+	extu.w	r0,r0
+	mov.l	r0,@r3
+	mov.l	@r15,r3
+	mov.b	@(4,r14),r0
+	extu.b	r0,r0
+	mov.l	r0,@r3
+	mov.l	@(4,r15),r3
+	mov.w	@(6,r14),r0
+	extu.w	r0,r0
+	mov.l	r0,@r3
+	mov	r4,r0
+	add	#28,r15
+	lds.l	@r15+,pr
+	mov.l	@r15+,r13
+	rts
+	mov.l	@r15+,r14
+	endlabel CDC_GetBufSiz
+
+	glabel CDC_GetSctNum
+	mov	#81,r3
+	mov.l	r14,@-r15
+	mov	r4,r0
+	mov.l	r13,@-r15
+	mov	#0,r13
+	mov.l	r12,@-r15
+	sts.l	pr,@-r15
+	add	#-20,r15
+	mov	r15,r14
+	mov.l	r5,@r15
+	mov	r15,r12
+	add	#12,r14
+	add	#4,r12
+	mov.l	r13,@r14
+	mov	r14,r5
+	mov.l	r13,@(4,r14)
+	mov	r12,r6
+	mov.b	r3,@r14
+	mov.b	r0,@(4,r14)
+	mov.l	.L0606F9E4,r3
+	jsr	@r3
+	mov	r13,r4
+	mov	r0,r4
+	mov.l	@r15,r2
+	mov.w	@(6,r12),r0
+	extu.w	r0,r0
+	mov.l	r0,@r2
+	mov	r4,r0
+	add	#20,r15
+	lds.l	@r15+,pr
+	mov.l	@r15+,r12
+	mov.l	@r15+,r13
+	rts
+	mov.l	@r15+,r14
+	endlabel CDC_GetSctNum
+
+	glabel CDC_CalActSiz
+	mov	#0,r7
+	mov.l	r14,@-r15
+	mov	#82,r3
+	sts.l	pr,@-r15
+	mov	r5,r0
+	add	#-8,r15
+	mov	r15,r14
+	mov.l	r7,@r14
+	mov	r14,r5
+	mov.l	r7,@(4,r14)
+	mov.b	r3,@r14
+	mov.w	r0,@(2,r14)
+	mov	r4,r0
+	mov.l	.L0606F9E8,r3
+	mov.b	r0,@(4,r14)
+	mov	r6,r0
+	mov.w	r0,@(6,r14)
+	jsr	@r3
+	mov	#64,r4
+	add	#8,r15
+	lds.l	@r15+,pr
+	rts
+	mov.l	@r15+,r14
+	endlabel CDC_CalActSiz
+
+	glabel CDC_GetActSiz
+	mov.l	r14,@-r15
+	mov	#0,r5
+	sts.l	pr,@-r15
+	mov	#83,r3
+	add	#-20,r15
+	mov	r15,r14
+	mov.l	r4,@r15
+	add	#4,r14
+	mov	r15,r4
+	add	#12,r4
+	mov.l	r5,@r4
+	mov.l	r5,@(4,r4)
+	mov.b	r3,@r4
+	bsr	cdc_ExecAfterEsel
+	mov	r14,r5
+	mov	r0,r4
+	mov.l	@r15,r3
+	mov	r4,r0
+	mov.l	.L0606F9EC,r2
+	mov.l	@r14,r1
+	and	r2,r1
+	mov.l	r1,@r3
+	add	#20,r15
+	lds.l	@r15+,pr
+	rts
+	mov.l	@r15+,r14
+	endlabel CDC_GetActSiz
+
+	glabel cdc_ExecAfterEsel
+	sts.l	pr,@-r15
+	add	#-8,r15
+	mov.l	.L0606F9F0,r3
+	mov.l	r4,@(4,r15)
+	mov.l	r5,@r15
+	jsr	@r3
+	nop
+	mov	r0,r4
+	mov	#64,r2
+	tst	r2,r4
+	bf	.L0606F902
+	add	#8,r15
+	lds.l	@r15+,pr
+	rts
+	mov	#-1,r0
+.L0606F902:
+	mov.l	@r15,r6
+	mov.l	@(4,r15),r5
+	mov.l	.L0606F9E4,r3
+	jsr	@r3
+	mov	#0,r4
+	add	#8,r15
+	lds.l	@r15+,pr
+	rts
+	nop
+	endlabel cdc_ExecAfterEsel
+
+	glabel CDC_GetSctInfo
+	mov.l	r14,@-r15
+	mov	#84,r3
+	mov.l	r13,@-r15
+	mov	r5,r0
+	mov.l	r12,@-r15
+	mov	r6,r12
+	mov.l	r11,@-r15
+	mov	#0,r11
+	sts.l	pr,@-r15
+	add	#-16,r15
+	mov	r15,r14
+	add	#8,r14
+	mov.l	r11,@r14
+	mov	r15,r13
+	mov.l	r11,@(4,r14)
+	mov	r14,r5
+	mov.b	r3,@r14
+	mov	r13,r6
+	mov.w	r0,@(2,r14)
+	mov	r4,r0
+	mov.l	.L0606F9E4,r3
+	mov.b	r0,@(4,r14)
+	jsr	@r3
+	mov	r11,r4
+	mov.l	.L0606F9EC,r3
+	mov	r0,r4
+	mov.l	@r13,r2
+	and	r3,r2
+	mov.l	r2,@r12
+	mov.b	@(4,r13),r0
+	mov.b	r0,@(4,r12)
+	mov.b	@(5,r13),r0
+	mov.b	r0,@(5,r12)
+	mov.b	@(6,r13),r0
+	mov.b	r0,@(6,r12)
+	mov.b	@(7,r13),r0
+	mov.b	r0,@(7,r12)
+	mov	r4,r0
+	add	#16,r15
+	lds.l	@r15+,pr
+	mov.l	@r15+,r11
+	mov.l	@r15+,r12
+	mov.l	@r15+,r13
+	rts
+	mov.l	@r15+,r14
+	endlabel CDC_GetSctInfo
+
+	glabel CDC_ExeFadSearch
+	mov	#0,r7
+	mov.l	r14,@-r15
+	mov	#85,r3
+	sts.l	pr,@-r15
+	mov	r5,r0
+	add	#-8,r15
+	mov	r15,r14
+	mov.l	r7,@r14
+	mov	r14,r5
+	mov.l	r7,@(4,r14)
+	mov.b	r3,@r14
+	mov.w	r0,@(2,r14)
+	mov	r4,r0
+	mov.l	.L0606F9E8,r3
+	mov.l	r6,@(4,r14)
+	mov.b	r0,@(4,r14)
+	jsr	@r3
+	mov	#64,r4
+	add	#8,r15
+	lds.l	@r15+,pr
+	rts
+	mov.l	@r15+,r14
+	endlabel CDC_ExeFadSearch
+
+	glabel CDC_GetFadSearch
+	mov	#86,r3
+	mov.l	r14,@-r15
+	sts.l	pr,@-r15
+	add	#-28,r15
+	mov	r15,r14
+	mov.l	r4,@r15
+	add	#12,r14
+	mov.l	r5,@(8,r15)
+	mov	r15,r4
+	mov.l	r6,@(4,r15)
+	mov	#0,r5
+	add	#20,r4
+	mov.l	r5,@r4
+	mov.l	r5,@(4,r4)
+	mov.b	r3,@r4
+	bsr	cdc_ExecAfterEsel
+	mov	r14,r5
+	mov.l	@(8,r15),r3
+	mov	r0,r4
+	mov.l	.L0606F9EC,r2
+	mov.w	@(2,r14),r0
+	extu.w	r0,r0
+	mov.l	r0,@r3
+	mov.l	@r15,r3
+	mov.b	@(4,r14),r0
+	extu.b	r0,r0
+	mov.l	r0,@r3
+	mov.l	@(4,r15),r3
+	mov	r4,r0
+	mov.l	@(4,r14),r1
+	and	r2,r1
+	mov.l	r1,@r3
+	add	#28,r15
+	lds.l	@r15+,pr
+	rts
+	mov.l	@r15+,r14
+	.byte 0x00, 0x00
+.L0606F9E4:
+	.long cdc_ExecCmdRsp
+.L0606F9E8:
+	.long cdc_ExecCmd
+.L0606F9EC:
+	.long 0x00FFFFFF
+.L0606F9F0:
+	.long CDC_GetHirqReq
+	endlabel CDC_GetFadSearch

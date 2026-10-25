@@ -1,4 +1,9 @@
-# c2asm: C-syntax source for the hand-written game code
+# c2asm: C-syntax assembly, SH-2 interpreter and differential test
+
+> The project's matching source is reviewed assembly (`src/<unit>.s`), not this
+> dialect. c2asm's SH-2 interpreter and differential test are what check the
+> non-matching port C (`port/`) against the original code. The dialect is still a
+> convenient way to read a unit as structured code (`c2asm lift`).
 
 The game code in `0NIGHTS` is hand-written SH-2 assembly, so no C compiler can
 reproduce it. `tools/c2asm` is a project-specific compiler for a C dialect in which
