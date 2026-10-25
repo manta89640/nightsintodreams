@@ -382,7 +382,7 @@
 .L06045A32:
 	.short 0xFFF0
 .L06045A34:
-	.long func_060079CC
+	.long load_sel_program
 .L06045A38:
 	.long func_06045F0C
 .L06045A3C:

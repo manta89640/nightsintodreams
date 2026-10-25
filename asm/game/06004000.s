@@ -215,9 +215,9 @@
 .L06004184:
 	.long func_060043CA
 .L06004188:
-	.long func_060069CE
+	.long file_init
 .L0600418C:
-	.long func_06006B7C
+	.long load_sound_driver
 .L06004190:
 	.long D_060CB061
 .L06004194:
@@ -284,7 +284,7 @@
 .L06004208:
 	.long game_mode_table
 .L0600420C:
-	.long cd_service
+	.long file_server
 	endlabel _start
 
 	.section .data.06004210,"aw",@progbits
@@ -309,7 +309,7 @@
 	.long func_060463C6
 	.long func_0602E51E
 	.long func_0604C88E
-	.long func_060506B0
-	.long func_06050674
+	.long run_end_program
+	.long run_movie_program
 	.long D_060506A4
 	.long func_0604DEA0

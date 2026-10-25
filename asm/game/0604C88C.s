@@ -417,7 +417,7 @@
 .L0604CB8C:
 	.long lwram_buf
 .L0604CB90:
-	.long cd_load_file
+	.long file_load
 .L0604CB94:
 	.long D_0604D454
 .L0604CB98:

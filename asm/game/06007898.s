@@ -4,7 +4,7 @@
 	.section .text.06007898,"ax",@progbits
 	.p2align 2
 
-	glabel func_06007898
+	glabel load_title_data
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -67,7 +67,7 @@
 .L0600790C:
 	.long D_060D900A
 .L06007910:
-	.long cd_queue_load
+	.long file_queue
 .L06007914:
 	.long D_06051538
 .L06007918:
@@ -81,12 +81,12 @@
 .L06007928:
 	.long D_060D900E
 .L0600792C:
-	.long cd_service
+	.long file_server
 .L06007930:
-	.long D_06064FA4
-	endlabel func_06007898
+	.long file_busy_count
+	endlabel load_title_data
 
-	glabel func_06007934
+	glabel load_dream_program
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -127,18 +127,18 @@
 	nop
 	.byte 0x00, 0x00
 .L0600797C:
-	.long D_0600798C
+	.long dream_program_names
 .L06007980:
 	.long vdp1_alt_list_buf
 .L06007984:
 	.long D_060C0000
 .L06007988:
-	.long cd_load_file
-	endlabel func_06007934
+	.long file_load
+	endlabel load_dream_program
 
 	.section .data.0600798C,"aw",@progbits
 	.p2align 2
-	dlabel D_0600798C
+	dlabel dream_program_names
 	.long D_06051761
 	.long D_060517A7
 	.long D_0605176B

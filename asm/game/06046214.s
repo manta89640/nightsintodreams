@@ -123,7 +123,7 @@
 .L060462EC:
 	.long D_060512D6
 .L060462F0:
-	.long cd_load_file
+	.long file_load
 .L060462F4:
 	.long lwram_buf
 .L060462F8:

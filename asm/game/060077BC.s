@@ -4,7 +4,7 @@
 	.section .text.060077BC,"ax",@progbits
 	.p2align 2
 
-	glabel func_060077BC
+	glabel load_landscape
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -69,28 +69,28 @@
 	rts
 	nop
 .L06007834:
-	.long D_06007858
+	.long landscape_grd_names
 .L06007838:
 	.long lwram_buf
 .L0600783C:
 	.long D_060D9002
 .L06007840:
-	.long cd_queue_load
+	.long file_queue
 .L06007844:
-	.long D_06007878
+	.long landscape_gtx_names
 .L06007848:
 	.long VDP1_VRAM_CACHED + 0x68800
 .L0600784C:
 	.long D_060D900A
 .L06007850:
-	.long cd_service
+	.long file_server
 .L06007854:
-	.long D_06064FA4
-	endlabel func_060077BC
+	.long file_busy_count
+	endlabel load_landscape
 
 	.section .data.06007858,"aw",@progbits
 	.p2align 2
-	dlabel D_06007858
+	dlabel landscape_grd_names
 	.long D_060516BC
 	.long D_060516C8
 	.long D_060516D4
@@ -99,7 +99,7 @@
 	.long D_06051708
 	.long D_060516BC
 	.long D_060516BC
-	dlabel D_06007878
+	dlabel landscape_gtx_names
 	.long D_06051715
 	.long D_06051721
 	.long D_0605172D

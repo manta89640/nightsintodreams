@@ -4,7 +4,7 @@
 	.section .text.06050674,"ax",@progbits
 	.p2align 2
 
-	glabel func_06050674
+	glabel run_movie_program
 	sts.l	pr,@-r15
 	mov	#-1,r0
 	and	#15,r0
@@ -24,12 +24,12 @@
 .L06050694:
 	.long D_060517ED
 .L06050698:
-	.long cd_load_file
+	.long file_load
 .L0605069C:
 	.long D_060B9800
 .L060506A0:
 	.long D_060B9804
-	endlabel func_06050674
+	endlabel run_movie_program
 
 	.section .data.060506A4,"aw",@progbits
 	.p2align 2

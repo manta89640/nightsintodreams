@@ -1286,7 +1286,7 @@
 	nop
 	endlabel func_060069B4
 
-	glabel func_060069CE
+	glabel file_init
 	sts.l	pr,@-r15
 	mov.l	.L06006AE8,r1
 	bsrf	r1
@@ -1330,7 +1330,7 @@
 	lds.l	@r15+,pr
 	rts
 	mov.l	r2,@r3
-	endlabel func_060069CE
+	endlabel file_init
 
 	glabel cd_play_track
 	sts.l	pr,@-r15
@@ -1454,11 +1454,11 @@
 .L06006B00:
 	.long 0x000621D4
 .L06006B04:
-	.long D_06067194
+	.long file_queue_head
 .L06006B08:
-	.long D_06067190
+	.long file_queue_tail
 .L06006B0C:
-	.long D_06064FA4
+	.long file_busy_count
 .L06006B10:
 	.long 0x000617A2
 .L06006B14:
@@ -1523,7 +1523,7 @@
 	nop
 	endlabel func_06006B48
 
-	glabel func_06006B7C
+	glabel load_sound_driver
 	mov.l	r14,@-r15
 	mov.l	r13,@-r15
 	mov.l	r12,@-r15
@@ -1605,13 +1605,13 @@
 	mov.l	@r15+,r13
 	rts
 	mov.l	@r15+,r14
-	endlabel func_06006B7C
+	endlabel load_sound_driver
 
-	glabel cd_load_file
+	glabel file_load
 	mov.l	r14,@-r15
 	sts.l	pr,@-r15
 	mov.l	.L06006C60,r6
-	bsr	cd_queue_load
+	bsr	file_queue
 	mov	#2,r7
 	mov.l	.L06006C64,r14
 	bra	.L06006C6C
@@ -1652,9 +1652,9 @@
 .L06006C60:
 	.long D_060671CC
 .L06006C64:
-	.long D_06064FA4
+	.long file_busy_count
 .L06006C68:
-	bsr	cd_service
+	bsr	file_server
 	nop
 .L06006C6C:
 	mov.l	@r14,r0
@@ -1663,9 +1663,9 @@
 	lds.l	@r15+,pr
 	rts
 	mov.l	@r15+,r14
-	endlabel cd_load_file
+	endlabel file_load
 
-	glabel func_06006C78
+	glabel file_queue_list
 	mov.l	r14,@-r15
 	sts.l	pr,@-r15
 	bra	.L06006C88
@@ -1673,7 +1673,7 @@
 .L06006C80:
 	mov.l	@r14+,r5
 	mov.l	@r14+,r6
-	bsr	cd_queue_load
+	bsr	file_queue
 	mov.l	@r14+,r7
 .L06006C88:
 	mov.l	@r14+,r4
@@ -1682,9 +1682,9 @@
 	lds.l	@r15+,pr
 	rts
 	mov.l	@r15+,r14
-	endlabel func_06006C78
+	endlabel file_queue_list
 
-	glabel cd_queue_load
+	glabel file_queue
 	mov.l	.L06006DDC,r0
 	mov.l	.L06006DE0,r1
 	mov.l	@r1,r3
@@ -1718,11 +1718,11 @@
 	mov.l	@r1,r0
 	add	#1,r0
 	and	#15,r0
-	bra	func_06006CDA
+	bra	file_open_next
 	mov.l	r0,@r1
-	endlabel cd_queue_load
+	endlabel file_queue
 
-	glabel func_06006CDA
+	glabel file_open_next
 	mov.l	r14,@-r15
 	mov.l	r13,@-r15
 	mov.l	r12,@-r15
@@ -1857,13 +1857,13 @@
 	nop
 	.byte 0x00, 0x00
 .L06006DDC:
-	.long D_060671D0
+	.long file_queue_entries
 .L06006DE0:
-	.long D_06067190
+	.long file_queue_tail
 .L06006DE4:
-	.long D_06067194
+	.long file_queue_head
 .L06006DE8:
-	.long D_06064FA4
+	.long file_busy_count
 .L06006DEC:
 	.long 0x000614C4
 .L06006DF0:
@@ -1881,7 +1881,7 @@
 .L06006E08:
 	.long 0x00064B1A
 .L06006E0C:
-	.long D_06067290
+	.long file_open_table
 .L06006E10:
 	.long 0x000499FC
 .L06006E14:
@@ -1958,9 +1958,9 @@
 	mov.l	@r15+,r14
 .L06006E9E:
 	.short 0x1800
-	endlabel func_06006CDA
+	endlabel file_open_next
 
-	glabel cd_service
+	glabel file_server
 	mov.l	r14,@-r15
 	mov.l	r13,@-r15
 	mov.l	r12,@-r15
@@ -2098,11 +2098,11 @@
 	.short 0x2000
 	.byte 0x00, 0x00
 .L06006F9C:
-	.long D_06064FA4
+	.long file_busy_count
 .L06006FA0:
-	.long D_06067290
+	.long file_open_table
 .L06006FA4:
-	.long D_0606719C
+	.long prs_state
 .L06006FA8:
 	.long D_06067198
 .L06006FAC:
@@ -2601,7 +2601,7 @@
 	mov.l	@r3,r0
 	add	#-1,r0
 	mov.l	r0,@r3
-	bsr	func_06006CDA
+	bsr	file_open_next
 	nop
 	bra	.L0600736C
 	nop
@@ -2623,7 +2623,7 @@
 .L06007350:
 	.long 0x00063C70
 .L06007354:
-	.long D_06064FA4
+	.long file_busy_count
 .L06007358:
 	mov.w	@(4,r10),r0
 	add	#-1,r0
@@ -2647,7 +2647,7 @@
 	mov.l	@r15+,r13
 	rts
 	mov.l	@r15+,r14
-	endlabel cd_service
+	endlabel file_server
 
 	glabel func_06007380
 	sts.l	pr,@-r15
@@ -2684,14 +2684,14 @@
 .L060073BC:
 	.long 0x00063AB0
 .L060073C0:
-	.long D_06067194
+	.long file_queue_head
 .L060073C4:
-	.long D_06067190
+	.long file_queue_tail
 .L060073C8:
-	.long D_06064FA4
+	.long file_busy_count
 	endlabel func_06007380
 
-	glabel func_060073CC
+	glabel load_sequence
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -2726,16 +2726,16 @@
 	nop
 	.byte 0x00, 0x00
 .L0600740C:
-	.long D_06007418
+	.long sequence_names
 .L06007410:
-	.long cd_load_file
+	.long file_load
 .L06007414:
 	.long lwram_buf
-	endlabel func_060073CC
+	endlabel load_sequence
 
 	.section .data.06007418,"aw",@progbits
 	.p2align 2
-	dlabel D_06007418
+	dlabel sequence_names
 	.long D_060514F2
 	.long D_060514FE
 	.long D_0605150A

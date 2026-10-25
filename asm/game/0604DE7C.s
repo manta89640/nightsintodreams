@@ -115,7 +115,7 @@
 .L0604DF44:
 	.long snd_seq_stop_all
 .L0604DF48:
-	.long func_06007AA8
+	.long load_hint
 .L0604DF4C:
 	.long vdp1_cmdlist_begin
 .L0604DF50:

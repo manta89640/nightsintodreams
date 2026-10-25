@@ -3491,9 +3491,9 @@
 .L060481D8:
 	.long D_060D900A
 .L060481DC:
-	.long cd_queue_load
+	.long file_queue
 .L060481E0:
-	.long cd_service
+	.long file_server
 .L060481E4:
 	.long func_06006A7E
 .L060481E8:
@@ -4011,7 +4011,7 @@
 .L060485AC:
 	.long D_06047F1E
 .L060485B0:
-	.long func_06007A44
+	.long load_end_program
 	dlabel D_060485B4
 	.byte 0xDC, 0x14
 	endlabel func_06048590
