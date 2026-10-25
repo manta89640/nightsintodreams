@@ -32,6 +32,8 @@ class Analysis:
     def __init__(self, image):
         self.img = image
         self.insns = {}        # addr -> Insn
+        self.walked = set()    # insns followed as a path (a delay slot alone is not)
+        self.data = set()      # halfwords declared as data (symbols with type:data)
         self.pools = {}        # addr -> 2 or 4
         self.functions = set()
         self.jump_tables = {}  # table addr -> (entry size, [targets], dispatch pc)
@@ -42,7 +44,7 @@ class Analysis:
         committing. A speculative trace returns None if it hits an invalid opcode,
         known data, or overlaps its own literal pool."""
         img = self.img
-        insns, pools, calls = {}, {}, set()
+        insns, pools, calls, walked = {}, {}, set(), set()
 
         def note_pool(insn):
             if insn.kind in ("pool_w", "pool_l") and img.contains(insn.target, 4):
@@ -53,9 +55,11 @@ class Analysis:
         while work:
             pc = work.pop()
             while True:
-                if pc in insns or pc in self.insns:
+                # A delay slot that is also a branch target still has to be followed
+                # past: execution entering there continues after it.
+                if pc in walked or pc in self.walked:
                     break
-                if not img.contains(pc, 2) or pc & 1 or pc in self.pools or pc in pools:
+                if not img.contains(pc, 2) or pc & 1 or pc in self.pools or pc in pools or pc in self.data:
                     if speculative:
                         return None
                     break
@@ -65,9 +69,16 @@ class Analysis:
                         return None
                     break
                 insns[pc] = insn
+                walked.add(pc)
                 note_pool(insn)
                 if insn.mnemonic in ("braf", "jmp"):
                     work += self._jump_table(pc, insns)
+                if insn.mnemonic in ("jsr", "jmp"):
+                    rel = self._offset_table(pc, insns)
+                    if insn.mnemonic == "jsr":
+                        calls.update(rel)
+                    else:
+                        work += rel
                 if insn.kind in ("branch", "jump") and insn.target is not None:
                     work.append(insn.target)
                 elif insn.kind == "call" and insn.target is not None:
@@ -89,7 +100,7 @@ class Analysis:
                 pc += 4
         if speculative and any(a in insns for p, size in pools.items() for a in range(p, p + size, 2)):
             return None
-        return insns, pools, calls
+        return insns, pools, calls, walked
 
     def _jump_table(self, pc, insns):
         """Switch dispatch: `mova T,r0` then `mov.w @(r0,rX),r0; braf r0` (16-bit
@@ -129,9 +140,53 @@ class Analysis:
         self.jump_tables[table] = (size, out, pc)
         return out
 
+    def _offset_table(self, pc, insns):
+        """Call/jump through a table of 16-bit offsets from its own start:
+        `mov.l #T,rB ... mov.w @(r0,rB),rT; add rB,rT; jsr @rT` (or jmp). The
+        handlers follow the table, so it ends where the nearest one begins.
+        Returns the handler addresses; every entry is recorded in jump_tables
+        (with dispatch = T - 4, so entries are emitted as `target - T`)."""
+        jump = insns[pc]
+        add, load = insns.get(pc - 2), insns.get(pc - 4)
+        rt = jump.ops[1:]
+        if not add or not load or add.mnemonic != "add" or load.mnemonic != "mov.w":
+            return []
+        rb, dst = add.ops.split(",")
+        if dst != rt or rb == rt or load.ops != "@(r0,%s),%s" % (rb, rt):
+            return []
+        table = None
+        for a in range(pc - 6, pc - 40, -2):
+            i = insns.get(a)
+            if i is None:
+                return []
+            if i.kind == "pool_l" and i.ops.endswith("," + rb) and self.img.contains(i.target, 4):
+                table = self.img.u32(i.target)
+                break
+            if i.ops.endswith("," + rb) or i.ops == rb:
+                return []
+        if table is None or not self.img.contains(table, 2) or table & 1:
+            return []
+        entries, first = [], None
+        for k in range(64):
+            a = table + 2 * k
+            if first is not None and a >= first or not self.img.contains(a, 2):
+                break
+            v = self.img.u16(a)
+            t = table + (v - 0x10000 if v & 0x8000 else v)
+            entries.append(t)
+            if t >= a + 2 and not t & 1 and self.img.contains(t, 2):
+                first = t if first is None else min(first, t)
+        end = table + 2 * len(entries)
+        handlers = [t for t in entries if not (table <= t < end) and not t & 1 and self.img.contains(t, 2)]
+        if not handlers:
+            return []
+        self.jump_tables[table] = (2, entries, table - 4)
+        return handlers
+
     def _commit(self, result, func):
-        insns, pools, calls = result
+        insns, pools, calls, walked = result
         self.insns.update(insns)
+        self.walked |= walked
         for a in insns:
             self.owner.setdefault(a, func)
         for p, s in pools.items():
@@ -142,6 +197,8 @@ class Analysis:
     def add_function(self, addr, speculative=False):
         if addr in self.functions:
             return True
+        if addr in self.data:
+            return False
         res = self._trace(addr, speculative)
         if res is None:
             return False
@@ -215,7 +272,11 @@ class Analysis:
                     return True
         return False
 
-    def run(self, entries):
+    def run(self, entries, data=()):
+        """entries: known function starts; data: (address, size) ranges that are
+        data even though something points at them or they decode as code"""
+        for a, size in data:
+            self.data.update(range(a, a + size, 2))
         for e in entries:
             self.add_function(e)
         pointers = self._image_pointers()
@@ -224,7 +285,7 @@ class Analysis:
             changed = False
             pool_targets = self.pool_call_targets()
             for v in sorted(set(pointers) | pool_targets):
-                if v in self.functions or v in self.insns or v in self.pools:
+                if v in self.functions or v in self.insns or v in self.pools or v in self.data:
                     continue
                 trusted = v in pool_targets or self._in_function_table(pointers.get(v, ()))
                 if not trusted and not self._looks_like_start(v):

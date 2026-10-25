@@ -111,8 +111,10 @@ class Splitter:
 
     def analyze(self, extra_seeds=()):
         funcs = [a for a, (_, attrs) in self.symbols.items() if attrs.get("type") == "func"]
+        data = [(a, int(attrs.get("size", "2"), 0)) for a, (_, attrs) in self.symbols.items()
+                if attrs.get("type") == "data"]
         seeds = [self.vram] + sorted(set(funcs) | set(extra_seeds))
-        self.an = sh2analyze.Analysis(self.img).run(seeds)
+        self.an = sh2analyze.Analysis(self.img).run(seeds, data)
         self.kinds = self.an.classify()
         return self.an
 
