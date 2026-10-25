@@ -4,6 +4,11 @@ Can the game code in `0NIGHTS` (hand-written SH-2 assembly) be written as C, or 
 that a project-specific compiler turns back into the original bytes? And could that same C
 serve the 3DS port?
 
+> **Status:** the prototype described here is now `tools/c2asm`, documented in
+> [../c2asm.md](../c2asm.md). It covers the whole instruction set, and every game
+> unit lifts to the dialect and recompiles byte for byte. The paths under
+> `build/research/c2asm/` in this report refer to the original prototype.
+
 ## Summary
 
 - **Matching is feasible, but only with a deterministic "structured assembler" that uses C

@@ -39,7 +39,7 @@ Other targets:
 
 | Target | What it does |
 |---|---|
-| `make test` | Exhaustive SH-2 disassembler round-trip test (all 65536 opcodes) |
+| `make test` | Tool tests: SH-2 disassembler round trip (all 65536 opcodes), the SHC translation, and [c2asm](docs/c2asm.md) (every game unit lifted to the C dialect and recompiled byte for byte) |
 | `make report` | objdiff progress report in `build/usa/report.json` |
 | `make upload` | Upload that report to [bytematch.dev](https://bytematch.dev/manta89640/nightsintodreams). Needs `BYTEMATCH_TOKEN`. |
 | `make ghidra` | Headless Ghidra project with the Saturn memory map, in `build/ghidra/` |

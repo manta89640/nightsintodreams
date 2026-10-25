@@ -103,6 +103,7 @@ check: $(BUILD)/$(MAIN)
 test: | $(AS)
 	$(PYTHON) tests/test_sh2dis.py
 	$(PYTHON) tests/test_shc2gas.py
+	$(PYTHON) tests/test_c2asm.py
 
 # objdiff progress report, and upload to bytematch.dev. The game can't be built in
 # public CI, so reports are uploaded from a machine with a dump. Needs BYTEMATCH_TOKEN
