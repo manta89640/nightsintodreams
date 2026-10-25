@@ -503,7 +503,7 @@ class Splitter:
     # ---- emission -------------------------------------------------------
 
     def _src_path(self, unit):
-        for ext in (".s", ".c"):
+        for ext in (".s", ".nc", ".c"):
             p = os.path.join(ROOT, "src", unit + ext)
             if os.path.exists(p):
                 return p
@@ -542,8 +542,9 @@ class Splitter:
                 self._emit_range(out, rs, re_, self.ends, globals_, self.jt_entries)
             write_if_changed(path, out.getvalue())
             src = self._src_path(name)
-            # Hand-maintained asm is always linked; C only once the unit is marked complete.
-            complete = bool(src) and (src.endswith(".s") or "complete" in self.unit_flags.get(name, ()))
+            # Asm and dialect sources reproduce the unit by construction and are always
+            # linked (make check proves it); SHC C only once the unit is marked complete.
+            complete = bool(src) and (src.endswith((".s", ".nc")) or "complete" in self.unit_flags.get(name, ()))
             self.unit_objs.append((name, start, src, complete))
         self._emit_linker_script()
         self._emit_build_files()

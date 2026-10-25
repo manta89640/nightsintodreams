@@ -49,7 +49,7 @@ $(OBJDIFF):
 
 # Regenerate assembly from the dump. The output is derived from the game and stays in
 # build/; units that have been reviewed live in src/ and are linked in their place.
-SRC_FILES := $(shell find src -name '*.s' -o -name '*.c' 2>/dev/null | sort)
+SRC_FILES := $(shell find src -name '*.s' -o -name '*.c' -o -name '*.nc' 2>/dev/null | sort)
 # Adding or removing a src/ file changes which object is linked, so force a re-split.
 # (Deleting the outputs rather than comparing mtimes: make 3.81 has 1 s resolution.)
 SRC_LIST  := $(BUILD)/src_files.txt
@@ -86,6 +86,13 @@ C_HEADERS := $(shell find include -name '*.h' 2>/dev/null)
 
 $(BUILD)/src/%.s: src/%.c $(C_HEADERS) tools/shc.py tools/shc2gas.py
 	$(PYTHON) tools/shc.py cc $< $@
+
+# Game units in the c2asm dialect (docs/c2asm.md).
+NC_HEADERS := $(shell find include -name '*.nch' 2>/dev/null)
+
+$(BUILD)/src/%.s: src/%.nc $(NC_HEADERS) $(wildcard tools/c2asm/*.py)
+	@mkdir -p $(dir $@)
+	$(PYTHON) tools/c2asm compile $< -o $@
 
 $(BUILD)/src/%.o: $(BUILD)/src/%.s | $(AS)
 	$(AS) $(ASFLAGS) -o $@ $<

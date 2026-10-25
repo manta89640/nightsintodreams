@@ -30,6 +30,20 @@ def game_units():
     raise SystemExit("no UNITS in units.mk; run make check first")
 
 
+def read_source(path):
+    """A dialect file, run through the C preprocessor if it uses #include/#define,
+    so units can share headers in include/. Files without directives are read as
+    is, which keeps parser error line numbers exact."""
+    text = open(path).read()
+    if not any(l.lstrip().startswith("#") for l in text.splitlines()):
+        return text
+    res = subprocess.run(["cc", "-E", "-P", "-x", "c", "-I", os.path.join(ROOT, "include"), path],
+                         capture_output=True, text=True)
+    if res.returncode:
+        raise SystemExit(res.stderr)
+    return res.stdout
+
+
 def assemble(src, obj):
     subprocess.run([os.path.join(BIN, "sh-elf-as"), "--isa=sh2", "-big", "-I", os.path.join(ROOT, "include"),
                     "-o", obj, src], check=True, capture_output=True, text=True)
@@ -103,11 +117,11 @@ def main():
     a = ap.parse_args()
     try:
         if a.cmd == "compile":
-            open(a.out, "w").write(sh.compile_source(open(a.src).read()))
+            open(a.out, "w").write(sh.compile_source(read_source(a.src)))
         elif a.cmd == "emit-c":
             from c2asm import portc
             from c2asm.difftest import symbols    # addresses from build/<region>/0NIGHTS.elf
-            open(a.out, "w").write(portc.compile_source(open(a.src).read(), symbols()))
+            open(a.out, "w").write(portc.compile_source(read_source(a.src), symbols()))
         elif a.cmd == "lift":
             text, _ = lift.lift(open(a.src).read())
             open(a.out, "w").write(text)
