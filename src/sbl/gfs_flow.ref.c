@@ -31,8 +31,8 @@ typedef struct {
     Sint32 fad;
 } GfsCdStat;
 
-extern Sint32 D_06070C90;       /* last CD state (gfsFlow_GetCdStat) */
-extern Sint32 D_06070C94;       /* last CD pickup FAD */
+extern Sint32 gfs_last_cd_stat;       /* last CD state (gfsFlow_GetCdStat) */
+extern Sint32 gfs_last_cd_fad;       /* last CD pickup FAD */
 extern Sint32 gfcd_err;       /* CD error, 0 if none */
 
 extern Sint32 gfcf_Open(GfsFlow *flow);
@@ -64,10 +64,10 @@ Sint32 gfsFlow_InitCd(Sint32 arg)
 {
     Sint32 ret;
 
-    D_06070C78->flags &= ~1;
-    ret = gfcd_Init(D_06070C78->cd, arg);
+    gfs_mng->flags &= ~1;
+    ret = gfcd_Init(gfs_mng->cd, arg);
     if (ret == 0) {
-        D_06070C78->flags |= 1;
+        gfs_mng->flags |= 1;
     }
     switch (ret) {
     case 0:
@@ -194,8 +194,8 @@ Sint32 gfsFlow_Read(GfsFlow *flow)
     Sint32 cdstat;
 
     cdstat = gfsFlow_GetCdStat(&fad, &flag);
-    D_06070C90 = cdstat;
-    D_06070C94 = fad;
+    gfs_last_cd_stat = cdstat;
+    gfs_last_cd_fad = fad;
     if (!gfsFlow_CheckCd(flow, cdstat, &ret)) {
         return ret;
     }
@@ -218,14 +218,14 @@ Sint32 gfsFlow_Read(GfsFlow *flow)
             return 8;
         }
         flow->sctcnt += nsct;
-        D_06070C78->rdsfad = ply.start.fad;
-        D_06070C78->rdefad = dtsrc->efad;
+        gfs_mng->rdsfad = ply.start.fad;
+        gfs_mng->rdefad = dtsrc->efad;
         return 1;
     }
     if (fad >= dtsrc->efad && ((flag & 4) || cdstat == 0)) {
         gfcf_Unlock(dtsrc);
-        if (flow->sctcnt == flow->sct && D_06070C78->rdefad <= fad && cdstat != 2) {
-            D_06070C78->rdsfad = D_06070C78->rdefad;
+        if (flow->sctcnt == flow->sct && gfs_mng->rdefad <= fad && cdstat != 2) {
+            gfs_mng->rdsfad = gfs_mng->rdefad;
             return 4;
         }
         return 2;
@@ -242,8 +242,8 @@ void gfsFlow_StopRead(GfsFlow *flow, Sint32 flag)
     GfsCdPos pos;
     Sint32 fad;
 
-    D_06070C78->rdefad = 0;
-    D_06070C78->rdsfad = 0;
+    gfs_mng->rdefad = 0;
+    gfs_mng->rdsfad = 0;
     pos.ptype = 3;
     gfcf_CdSeek(dtsrc, &pos);
     if (flag) {
@@ -253,8 +253,8 @@ void gfsFlow_StopRead(GfsFlow *flow, Sint32 flag)
     if (gfcf_IsLocked(dtsrc)) {
         gfcf_Unlock(dtsrc);
         gfsFlow_GetCdStat(&fad, NULL);
-        if (D_06070C78->rdefad <= fad) {
-            D_06070C78->rdsfad = D_06070C78->rdefad;
+        if (gfs_mng->rdefad <= fad) {
+            gfs_mng->rdsfad = gfs_mng->rdefad;
         }
     }
 }
@@ -448,8 +448,8 @@ static Sint32 gfsFlow_CheckCd(GfsFlow *flow, Sint32 cdstat, Sint32 *ret)
     if (flow->gmode != 1 && flow->stat == 0) {
         gfcf_Flush(dtsrc);
         flow->sctcnt = 0;
-        D_06070C78->rdefad = 0;
-        D_06070C78->rdsfad = 0;
+        gfs_mng->rdefad = 0;
+        gfs_mng->rdsfad = 0;
     }
     *ret = 1;
     return TRUE;
@@ -457,7 +457,7 @@ static Sint32 gfsFlow_CheckCd(GfsFlow *flow, Sint32 cdstat, Sint32 *ret)
 #endif
 
 #ifdef NONMATCHING
-/* NONMATCHING: target reloads &D_06070C78 instead of keeping it in r12; register use differs */
+/* NONMATCHING: target reloads &gfs_mng instead of keeping it in r12; register use differs */
 static Sint32 gfsFlow_SetRange(GfsFlow *flow, Sint32 *nsct, Sint32 *ret)
 {
     GfsDtsrc *dtsrc = &flow->dtsrc;
@@ -472,8 +472,8 @@ static Sint32 gfsFlow_SetRange(GfsFlow *flow, Sint32 *nsct, Sint32 *ret)
         if (n < 0) {
             n = 0;
         }
-        if (n > 0 && sfad < D_06070C78->rdsfad) {
-            n -= D_06070C78->rdsfad - sfad;
+        if (n > 0 && sfad < gfs_mng->rdsfad) {
+            n -= gfs_mng->rdsfad - sfad;
         }
     } else {
         n = 0;
@@ -482,19 +482,19 @@ static Sint32 gfsFlow_SetRange(GfsFlow *flow, Sint32 *nsct, Sint32 *ret)
         flow->sctcnt += *nsct;
         if (flow->sctcnt == flow->sct) {
             *ret = 4;
-            D_06070C78->rdsfad = D_06070C78->rdefad;
+            gfs_mng->rdsfad = gfs_mng->rdefad;
         } else {
             *ret = 2;
-            D_06070C78->rdsfad = sfad;
+            gfs_mng->rdsfad = sfad;
         }
         return FALSE;
     }
     *nsct -= n;
     dtsrc->sfad = sfad;
     dtsrc->efad = gfsFlow_SctToFad(flow, *nsct + gfcf_Tell(dtsrc)) + flow->finfo.rec.fad;
-    if (D_06070C78->rdsfad <= dtsrc->sfad && dtsrc->sfad < D_06070C78->rdefad
-        && D_06070C78->rdsfad < dtsrc->efad && dtsrc->efad <= D_06070C78->rdefad) {
-        D_06070C78->rdsfad = dtsrc->sfad;
+    if (gfs_mng->rdsfad <= dtsrc->sfad && dtsrc->sfad < gfs_mng->rdefad
+        && gfs_mng->rdsfad < dtsrc->efad && dtsrc->efad <= gfs_mng->rdefad) {
+        gfs_mng->rdsfad = dtsrc->sfad;
         *ret = 1;
         return FALSE;
     }

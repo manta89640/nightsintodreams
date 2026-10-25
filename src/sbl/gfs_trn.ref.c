@@ -59,8 +59,8 @@ typedef struct {
     Uint32 *dst;
 } GfsDmaTail;
 
-extern Sint32 D_06070C80;       /* SCU DMA in progress */
-extern GfsDmaTail D_06070C84;
+extern Sint32 gfs_scu_dma_busy;       /* SCU DMA in progress */
+extern GfsDmaTail gfs_cpu_dma_tail;
 
 extern GfsDataPack *gfsAcc_GetPack(GfsFile *gfs, Sint32 nsct);
 extern Sint32 gfsAcc_PreparePack(GfsDataPack *dp, GfsFlow *flow);
@@ -179,10 +179,10 @@ void gfsTrn_Stop(GfsFile *gfs, Sint32 nsct)
     Sint32 done;
     Sint32 stat;
 
-    D_06070C78->tmcnt = 0;
+    gfs_mng->tmcnt = 0;
     while ((stat = trans->stat) != GFS_TSTAT_SRC && stat != GFS_TSTAT_END && stat != GFS_TSTAT_STOP) {
         gfsTrn_Step(gfs, &done);
-        if (++D_06070C78->tmcnt > 0x600000) {
+        if (++gfs_mng->tmcnt > 0x600000) {
             break;
         }
     }
@@ -418,7 +418,7 @@ void gfsTrn_ScuTrans(Uint32 *dst, Sint32 dinc, Uint32 *src, Sint32 sinc, Uint32 
     prm.dxwup = 0;
     prm.dxft = 7;
     prm.msk = 3;
-    D_06070C80 = 1;
+    gfs_scu_dma_busy = 1;
     DMA_ScuSetPrm(&prm, 0);
     DMA_ScuStart(0);
     CSH_Purge(dst, size);
@@ -435,7 +435,7 @@ Sint32 gfsTrn_ScuWait(void)
     if (stat == 1) {
         return TRUE;
     }
-    D_06070C80 = 0;
+    gfs_scu_dma_busy = 0;
     return FALSE;
 }
 #endif
@@ -485,20 +485,20 @@ static void gfsTrn_SdmaTrans(Sint32 ch, Uint32 *dst, Sint32 dinc, Uint32 *src, S
         DMA_CpuStart(ch);
         CSH_Purge(dst, size);
     }
-    D_06070C84.rem = size & 3;
-    D_06070C84.dst = dst + n * dinc;
-    D_06070C84.src = src + n * sinc;
+    gfs_cpu_dma_tail.rem = size & 3;
+    gfs_cpu_dma_tail.dst = dst + n * dinc;
+    gfs_cpu_dma_tail.src = src + n * sinc;
 }
 #endif
 
 #ifdef NONMATCHING
-/* NONMATCHING: target reloads &D_06070C84 three times instead of keeping it in r14; empty jsr delay slot */
+/* NONMATCHING: target reloads &gfs_cpu_dma_tail three times instead of keeping it in r14; empty jsr delay slot */
 static Sint32 gfsTrn_SdmaWait(Sint32 ch)
 {
     if (DMA_CpuGetStatus(ch) == 0) {
         return TRUE;
     }
-    gfsTrn_CopyTail(D_06070C84.rem, (Uint8 *)D_06070C84.dst, D_06070C84.src);
+    gfsTrn_CopyTail(gfs_cpu_dma_tail.rem, (Uint8 *)gfs_cpu_dma_tail.dst, gfs_cpu_dma_tail.src);
     return FALSE;
 }
 #endif
@@ -602,7 +602,7 @@ static Sint32 gfsTrn_PrepPack(GfsTrans *trans)
         }
         break;
     }
-    return D_06071144[mode].fn();
+    return gfs_trn_func_tbl[mode].prepare();
 }
 #endif
 
@@ -651,7 +651,7 @@ static Sint32 gfsTrn_TransPack(GfsFile *gfs)
             mode = GFS_TMODE_CPU;
         }
     }
-    D_06071148[mode].fn(dst, dinc, src, dps->adlt, size);
+    gfs_trn_func_tbl[mode].transfer(dst, dinc, src, dps->adlt, size);
     trans->asize += size;
     return TRUE;
 }
@@ -677,7 +677,7 @@ static Sint32 gfsTrn_WaitPack(GfsTrans *trans)
         }
         break;
     }
-    return D_0607114C[mode].fn();
+    return gfs_trn_func_tbl[mode].wait();
 }
 #endif
 
@@ -714,7 +714,7 @@ Sint32 gfsTrn_GetFree(GfsTrans *trans)
 /* NONMATCHING: target loads dp->used into r0 for the test; SHC 5.0 uses r1 */
 static GfsDataPack *gfsTrn_AllocDstPack(GfsTrans *trans, Sint32 len)
 {
-    GfsDataPack *dp = &D_06070C78->dpd;
+    GfsDataPack *dp = &gfs_mng->dpd;
 
     if (dp->used) {
         return NULL;

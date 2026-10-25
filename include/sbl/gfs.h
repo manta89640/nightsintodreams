@@ -188,12 +188,12 @@ typedef struct {
 #define GFS_CHGSCUIM(and_, or_) \
     ((**(void (**)(Uint32, Uint32))0x06000344)((and_), (or_)))
 
-extern GfsMng *D_06070C78;
-extern Sint32 D_06070C80;
-extern Sint32 D_06070C90;
-extern Sint32 D_06070C94;
+extern GfsMng *gfs_mng;
+extern Sint32 gfs_scu_dma_busy;
+extern Sint32 gfs_last_cd_stat;
+extern Sint32 gfs_last_cd_fad;
 extern Sint32 gfcd_err;
-extern Sint8  D_0607110C[];
+extern Sint8  gfs_iso_vd_id[];
 
 /* Outside this unit (CD layer, directory reader, C library). */
 Sint32 gfsFlow_InitCd(Bool nodir);

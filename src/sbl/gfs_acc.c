@@ -8,7 +8,7 @@ Sint32 gfsAcc_CountSct(GfsFile *gfs, Sint32 max, Sint32 flag)
     GfsFlow *flow = &gfs->flow;
     Sint32 type = flow->dtsrc.type;
 
-    return D_06071114[type].fn(flow, max, flag);
+    return gfs_acc_func_tbl[type].count_sct(flow, max, flag);
 }
 
 Sint32 gfsAcc_CountSctAll(GfsFile *gfs)
@@ -16,7 +16,7 @@ Sint32 gfsAcc_CountSctAll(GfsFile *gfs)
     GfsFlow *flow = &gfs->flow;
     Sint32 type = flow->dtsrc.type;
 
-    return D_06071114[type].fn(flow, 0xFFFF, 0);
+    return gfs_acc_func_tbl[type].count_sct(flow, 0xFFFF, 0);
 }
 
 GfsDataPack *gfsAcc_GetPack(GfsFile *gfs, Sint32 nsct)
@@ -24,14 +24,14 @@ GfsDataPack *gfsAcc_GetPack(GfsFile *gfs, Sint32 nsct)
     GfsFlow *flow = &gfs->flow;
     Sint32 type = flow->dtsrc.type;
 
-    return D_06071118[type].fn(flow, nsct);
+    return gfs_acc_func_tbl[type].get_pack(flow, nsct);
 }
 
 Sint32 gfsAcc_PreparePack(GfsDataPack *dp, GfsFlow *flow)
 {
     Sint32 type = flow->dtsrc.type;
 
-    return D_0607111C[type].fn(dp, &flow->dtsrc);
+    return gfs_acc_func_tbl[type].prepare_pack(dp, &flow->dtsrc);
 }
 
 void gfsAcc_ReleasePack(GfsFile *gfs, GfsDataPack *dp, Sint32 nsct)
@@ -39,7 +39,7 @@ void gfsAcc_ReleasePack(GfsFile *gfs, GfsDataPack *dp, Sint32 nsct)
     GfsFlow *flow = &gfs->flow;
     Sint32 type = flow->dtsrc.type;
 
-    D_06071120[type].fn(flow, dp, nsct);
+    gfs_acc_func_tbl[type].release_pack(flow, dp, nsct);
 }
 
 Sint32 gfsAcc_ReturnTrue(void)

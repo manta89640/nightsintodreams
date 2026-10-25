@@ -14,6 +14,9 @@ extern_ranges = [
     [0x00200000, 0x00300000],
 ]
 
+# Game data values that equal addresses inside SBL code but are not pointers to it.
+not_pointers = [0x06070500, 0x06070609]
+
 # Translation units (start address + name), proposed by `split.py --units` and
 # then edited by hand as module boundaries are worked out.
 units = "units.txt"

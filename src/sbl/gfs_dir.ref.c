@@ -222,7 +222,7 @@ static Sint32 gfs_ReadDirName(GfsHn gfs, GfsDirName *dir, Sint32 ndir)
 static void gfs_RdrInit(GfsDirRdr *rdr, GfsHn gfs)
 {
     rdr->gfs = gfs;
-    rdr->buf = (Uint8 *)D_06070C78 + 0x460;
+    rdr->buf = (Uint8 *)gfs_mng + 0x460;
     rdr->pos = -1;
     rdr->nsct = gfs->flow.finfo.nsct;
     rdr->sct = 0;

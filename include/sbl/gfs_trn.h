@@ -82,7 +82,7 @@ typedef struct {
     GfsTrans trans;
 } GfsFile;
 
-/* The library work area that D_06070C78 points to. */
+/* The library work area that gfs_mng points to. */
 typedef struct {
     Uint8 pad000[0xAC];
     Sint32 rdsfad;              /* 0xAC: FAD range the CD is reading into its buffer */
@@ -94,39 +94,26 @@ typedef struct {
     GfsDataPack dpd;            /* 0x44C: the one destination pack */
 } GfsWork;
 
-extern GfsWork *D_06070C78;
+extern GfsWork *gfs_mng;
 
-/* Data-source access functions: one row of four per source type. Each column
- * is its own symbol in the target, so each is declared as a 16-byte-stride array. */
+/* Data-source access functions, one row per source type. */
 typedef struct {
-    Sint32 (*fn)();
-    void *pad[3];
-} GfsAccSlot;
+    Sint32 (*count_sct)();
+    GfsDataPack *(*get_pack)();
+    Sint32 (*prepare_pack)();
+    void (*release_pack)();
+} GfsAccFuncs;
 
+extern GfsAccFuncs gfs_acc_func_tbl[];
+
+/* Transfer functions, one row per transfer mode. */
 typedef struct {
-    GfsDataPack *(*fn)();
-    void *pad[3];
-} GfsAccPackSlot;
+    Sint32 (*prepare)();
+    Sint32 (*transfer)();
+    Sint32 (*wait)();
+} GfsTrnFuncs;
 
-typedef struct {
-    void (*fn)();
-    void *pad[3];
-} GfsAccVoidSlot;
-
-extern GfsAccSlot D_06071114[];
-extern GfsAccPackSlot D_06071118[];
-extern GfsAccSlot D_0607111C[];
-extern GfsAccVoidSlot D_06071120[];
-
-/* Transfer functions: one row (prepare, transfer, wait) per transfer mode. */
-typedef struct {
-    Sint32 (*fn)();
-    void *pad[2];
-} GfsTrnSlot;
-
-extern GfsTrnSlot D_06071144[];
-extern GfsTrnSlot D_06071148[];
-extern GfsTrnSlot D_0607114C[];
+extern GfsTrnFuncs gfs_trn_func_tbl[];
 
 #define GFS_TMODE_SCU   0
 #define GFS_TMODE_SDMA0 1

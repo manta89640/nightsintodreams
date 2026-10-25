@@ -106,6 +106,11 @@ class Splitter:
         # Addresses outside the image that are still linked symbols (BSS, heap,
         # overlay space): references to them become relocations, as compiled C would.
         self.extern_ranges = [tuple(r) for r in cfg.get("extern_ranges", [])]
+        # Values that look like pointers but aren't (data that happens to hold them).
+        self.not_pointers = set(cfg.get("not_pointers", []))
+        self.sized = sorted((a, int(attrs["size"], 0)) for a, (_, attrs) in self.symbols.items()
+                            if attrs.get("type") == "data" and "size" in attrs)
+        self.sized_starts = [a for a, _ in self.sized]
 
     # ---- analysis -------------------------------------------------------
 
@@ -227,10 +232,18 @@ class Splitter:
             return None
         if v in self.equates:
             return self.equates[v]
+        if v in self.not_pointers:
+            return None
         if self.img.contains(v):
             # An odd address inside code can't be a real pointer.
             if v & 1 and self.kinds.get(v & ~1) == CODE:
                 return None
+            # A reference into a sized data symbol is that symbol plus an offset,
+            # as compiled code addresses a table or struct field.
+            inner = self._inside_sized(v)
+            if inner:
+                self.refs.add((at, inner[0]))
+                return "%s + 0x%X" % (self.label_for(inner[0], data_ref=True), v - inner[0])
             self.refs.add((at, v))
             return self.label_for(v, data_ref=True)
         # Cache-through (0x2xxxxxxx) alias of a RAM address: same symbol + 0x20000000.
@@ -245,6 +258,15 @@ class Splitter:
         r = self._region(v)
         if r:
             return "%s + 0x%X" % r
+        return None
+
+    def _inside_sized(self, v):
+        """(start, size) of the sized data symbol strictly containing v, if any."""
+        i = bisect.bisect_right(self.sized_starts, v) - 1
+        if i >= 0:
+            start, size = self.sized[i]
+            if start < v < start + size:
+                return start, size
         return None
 
     def label_for(self, addr, data_ref=False):

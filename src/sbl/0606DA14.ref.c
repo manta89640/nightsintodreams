@@ -12,7 +12,7 @@
 #define WORK gfcd_work
 
 /* The disc TOC is kept in the GFS work area. */
-#define GFS_TOC ((Uint32 *)(D_06070C78 + 0x460))
+#define GFS_TOC ((Uint32 *)(gfs_mng + 0x460))
 
 void gfcd_ResetWork(void);
 void gfcd_UpdStat(void);

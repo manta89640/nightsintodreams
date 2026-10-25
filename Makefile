@@ -18,7 +18,7 @@ BUILD   := build/$(REGION)
 MAIN    := 0NIGHTS
 MAIN_CFG := config/$(REGION)/$(MAIN).toml
 
-.PHONY: all setup extract unpack verify ghidra split check report upload test toolchain clean distclean
+.PHONY: all setup extract unpack verify ghidra split check report upload test refc toolchain clean distclean
 
 all: check
 
@@ -111,6 +111,11 @@ test: | $(AS)
 	$(PYTHON) tests/test_sh2dis.py
 	$(PYTHON) tests/test_shc2gas.py
 	$(PYTHON) tests/test_c2asm.py
+
+# Readable C kept beside dialect units (<unit>.ref.c): compile it with SHC and
+# report per function how close it is to the original.
+refc: check
+	$(PYTHON) tools/refcheck.py
 
 # objdiff progress report, and upload to bytematch.dev. The game can't be built in
 # public CI, so reports are uploaded from a machine with a dump. Needs BYTEMATCH_TOKEN

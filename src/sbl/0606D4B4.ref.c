@@ -8,7 +8,7 @@
 #include "sbl/types.h"
 #include "sbl/gfcd.h"
 
-#define PICKUP ((GfcfPickup *)(D_06070C78 + 0x438))
+#define PICKUP ((GfcfPickup *)(gfs_mng + 0x438))
 
 Sint32 gfcf_Flush(GfcfCdb *cdb);
 Sint32 gfcf_Tell(GfcfCdb *cdb);

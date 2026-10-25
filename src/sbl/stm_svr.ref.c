@@ -14,7 +14,7 @@
 
 extern StmMng *stm_mng;
 extern StmReq stm_06070C70;
-extern Sint32 D_06070C80;
+extern Sint32 gfs_scu_dma_busy;
 
 extern void stm_set_func_id(Sint32 fno);
 extern void stm_set_err(Sint32 err);
@@ -851,9 +851,9 @@ Sint32 STM_ExecServer(void)
         /* busy guards against re-entry from the transfer functions. */
         if (stm_mng->busy == 0) {
             stm_mng->busy = 1;
-            if (D_06070C80 == 1) {
+            if (gfs_scu_dma_busy == 1) {
                 gfsTrn_Step(grp->cur->gfs, &n);
-                if (D_06070C80 == 1) {
+                if (gfs_scu_dma_busy == 1) {
                     stm_mng->busy = 0;
                     ret = stm_check_gfs_err();
                     if (ret < 0) {
@@ -990,9 +990,9 @@ Sint32 STM_TransStm(Stm *hn)
     if (stm_mng->busy == 0) {
         stm_mng->busy = 1;
         stm = hn->stm;
-        if (D_06070C80 == 1) {
+        if (gfs_scu_dma_busy == 1) {
             gfsTrn_Step(stm->gfs, &n);
-            if (D_06070C80 == 1) {
+            if (gfs_scu_dma_busy == 1) {
                 stm_mng->busy = 0;
                 return n;
             }

@@ -189,7 +189,7 @@ typedef struct {
     Sint32 rdmode;      /* 0: sectors are deleted as they are passed, 1: kept */
 } GfcfFile;
 
-/* Transfer state in the GFS work area (D_06070C78 + 0x438). */
+/* Transfer state in the GFS work area (gfs_mng + 0x438). */
 typedef struct {
     Uint32 tick;
     Sint32 unk4;
@@ -198,7 +198,7 @@ typedef struct {
     Sint32 active;
 } GfcfPickup;
 
-extern Uint8 *D_06070C78;       /* GFS work area */
+extern Uint8 *gfs_mng;       /* GFS work area */
 
 Sint32 gfsFlow_GetFinfo(GfcfFile *gf, Sint32 a, Sint32 b, Sint32 *c, Sint32 *d, Sint32 *e, Sint32 f, Sint32 g);
 

@@ -1,0 +1,11 @@
+// SBL variables and tables in the shared data area after the library code.
+gfs_mng = 0x06070C78; // type:data size:0x4
+gfs_scu_dma_busy = 0x06070C80; // type:data size:0x4
+gfs_cpu_dma_tail = 0x06070C84; // type:data size:0xC
+gfs_last_cd_stat = 0x06070C90; // type:data size:0x4
+gfs_last_cd_fad = 0x06070C94; // type:data size:0x4
+gfs_iso_vd_id = 0x0607110C; // type:data size:0x8
+gfs_acc_func_tbl = 0x06071114; // type:data size:0x30
+gfs_trn_func_tbl = 0x06071144; // type:data size:0x30
+gfs_dir_dot = 0x06071174; // type:data size:0x4
+gfs_dir_dotdot = 0x06071178; // type:data size:0x4

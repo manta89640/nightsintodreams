@@ -65,7 +65,7 @@ Sint32 GFS_Init(Sint32 open_max, void *work, GfsDirTbl *dirtbl)
     Sint32 ret;
     Sint32 nfile;
 
-    D_06070C80 = 0;
+    gfs_scu_dma_busy = 0;
     if (open_max < 1 || open_max > GFS_OPEN_MAX) {
         return GFS_ERR_OPENMAX;
     }
@@ -79,13 +79,13 @@ Sint32 GFS_Init(Sint32 open_max, void *work, GfsDirTbl *dirtbl)
         }
     }
     GFS_CHGSCUIM(~0x800, 0);
-    D_06070C78 = work;
+    gfs_mng = work;
     gfs_InitMng(open_max);
     ret = gfsFlow_InitCd((dirtbl == NULL) ? TRUE : FALSE);
     if (ret != 0) {
         return gfs_SetErr(ret);
     }
-    if (!(D_06070C78->flags & 1)) {
+    if (!(gfs_mng->flags & 1)) {
         return gfs_SetErr(GFS_ERR_CDNODISC);
     }
     nfile = gfs_ReadRootDir(dirtbl);
@@ -106,7 +106,7 @@ Sint32 GFS_LoadDir(Sint32 fid, GfsDirTbl *dirtbl)
     Sint32 ret;
 
     if (dirtbl == NULL) {
-        if (D_06070C78->curdir.dirtbl.dir != NULL) {
+        if (gfs_mng->curdir.dirtbl.dir != NULL) {
             return gfs_SetErr(GFS_ERR_CDBFS);
         }
         ret = gfs_CdChgDir(fid);
@@ -117,7 +117,7 @@ Sint32 GFS_LoadDir(Sint32 fid, GfsDirTbl *dirtbl)
     }
     gfs = GFS_Open(fid);
     if (gfs == NULL) {
-        return D_06070C78->error.code;
+        return gfs_mng->error.code;
     }
     GFS_GetFileSize(gfs, NULL, &nsct, NULL);
     ret = gfs_LoadDirTbl(gfs, dirtbl, nsct);
@@ -127,7 +127,7 @@ Sint32 GFS_LoadDir(Sint32 fid, GfsDirTbl *dirtbl)
 
 Sint32 GFS_SetDir(GfsDirTbl *dirtbl)
 {
-    GfsDirMng *dir = &D_06070C78->curdir;
+    GfsDirMng *dir = &gfs_mng->curdir;
 
     if (dirtbl == NULL) {
         if (dir->dirtbl.dir != NULL) {
@@ -145,7 +145,7 @@ Sint32 GFS_SetDir(GfsDirTbl *dirtbl)
 
 Sint32 GFS_NameToId(Sint8 *fname)
 {
-    GfsDirMng *dir = &D_06070C78->curdir;
+    GfsDirMng *dir = &gfs_mng->curdir;
     Sint32 fid;
     Sint32 ret;
 
@@ -165,7 +165,7 @@ Sint32 GFS_NameToId(Sint8 *fname)
 
 Sint8 *GFS_IdToName(Sint32 fid)
 {
-    GfsDirMng *dir = &D_06070C78->curdir;
+    GfsDirMng *dir = &gfs_mng->curdir;
     Uint8 *rec;
 
     if (dir->dirtbl.dir == NULL || dir->dirtbl.type != GFS_DIR_NAME) {
@@ -185,7 +185,7 @@ Sint8 *GFS_IdToName(Sint32 fid)
 
 Sint32 GFS_GetDirInfo(Sint32 fid, CdcFile *dirrec)
 {
-    GfsDirMng *dir = &D_06070C78->curdir;
+    GfsDirMng *dir = &gfs_mng->curdir;
     void *src;
 
     if (dir->dirtbl.dir == NULL || fid < 0 || fid >= dir->nfile) {
@@ -207,8 +207,8 @@ void gfs_CloseAll(void)
     GfsTrans *trn;
     Sint32 i;
 
-    gfs = D_06070C78->file;
-    for (i = 0; i < D_06070C78->openmax; i++) {
+    gfs = gfs_mng->file;
+    for (i = 0; i < gfs_mng->openmax; i++) {
         if (gfs->used == 1) {
             trn = GFS_FILE_TRN(gfs);
             if (trn->mode == GFS_TMODE_STM) {
@@ -222,7 +222,7 @@ void gfs_CloseAll(void)
 
 GfsHn GFS_Open(Sint32 fid)
 {
-    GfsDirMng *dir = &D_06070C78->curdir;
+    GfsDirMng *dir = &gfs_mng->curdir;
     GfsHn gfs;
     void *rec;
 
@@ -272,7 +272,7 @@ Sint32 GFS_Seek(GfsHn gfs, Sint32 ofs, Sint32 org)
         return gfs_SetErr(GFS_ERR_HNDL);
     }
     flow = GFS_FILE_FLOW(gfs);
-    ftbl = &D_06070C78->functbl[flow->dtsrc.ftype];
+    ftbl = &gfs_mng->functbl[flow->dtsrc.ftype];
     GFS_GetFileSize(gfs, NULL, &nsct, NULL);
     if (org == GFS_SEEK_CUR) {
         ofs += ftbl->tell(flow);
@@ -308,7 +308,7 @@ Sint32 GFS_Tell(GfsHn gfs)
     }
     flow = GFS_FILE_FLOW(gfs);
     dtsrc = GFS_FLW_DTSRC(flow);
-    ftbl = &D_06070C78->functbl[dtsrc->ftype];
+    ftbl = &gfs_mng->functbl[dtsrc->ftype];
     ret = ftbl->tell(flow);
     err = gfs_SetErr(GFS_ERR_OK);
     if (err < 0) {
@@ -411,7 +411,7 @@ Sint32 GFS_Load(Sint32 fid, Sint32 ofs, void *buf, Sint32 bsize)
 
     gfs = GFS_Open(fid);
     if (gfs == NULL) {
-        return D_06070C78->error.code;
+        return gfs_mng->error.code;
     }
     if (GFS_Seek(gfs, ofs, GFS_SEEK_SET) < 0) {
         return gfs_SetErr(GFS_ERR_OFS);
@@ -492,8 +492,8 @@ Sint32 gfs_WaitNw(GfsHn gfs)
             break;
         }
         if (trn->stat == 6) {
-            if (dtsrc->ftype != GFS_FTYPE_CD || D_06070C94 < dtsrc->src[10]
-                || D_06070C90 != 2) {
+            if (dtsrc->ftype != GFS_FTYPE_CD || gfs_last_cd_fad < dtsrc->src[10]
+                || gfs_last_cd_stat != 2) {
                 break;
             }
         }
@@ -669,9 +669,9 @@ Sint32 GFS_NwExecOne(GfsHn gfs)
         return gfs_SetErr(GFS_ERR_HNDL);
     }
     if (gfs->astat != 0) {
-        if (D_06070C80 == 1) {
+        if (gfs_scu_dma_busy == 1) {
             gfsTrn_Step(gfs, &stat);
-            if (D_06070C80 == 1) {
+            if (gfs_scu_dma_busy == 1) {
                 return gfs->astat;
             }
         }
@@ -710,7 +710,7 @@ Sint32 GFS_NwExecServer(GfsHn *now_gfs)
     Sint32 i;
     Sint32 stat;
 
-    svr = &D_06070C78->svr;
+    svr = &gfs_mng->svr;
     for (i = 0; i < svr->nfile; i++) {
         stat = GFS_NwExecOne(svr->access_file[i]);
         if (stat < 0) {
@@ -868,7 +868,7 @@ Sint32 GFS_CdMovePickup(GfsHn gfs)
             if (ret != 0) {
                 return gfs_SetErr(ret);
             }
-            D_06070C78->pickup = gfs;
+            gfs_mng->pickup = gfs;
         }
         ret = GFS_ERR_OK;
     }
@@ -877,14 +877,14 @@ Sint32 GFS_CdMovePickup(GfsHn gfs)
 
 void GFS_SetErrFunc(GfsErrFunc func, void *obj)
 {
-    D_06070C78->error.func = func;
-    D_06070C78->error.obj = obj;
+    gfs_mng->error.func = func;
+    gfs_mng->error.obj = obj;
     gfs_SetErr(GFS_ERR_OK);
 }
 
 void GFS_GetErrStat(GfsErrStat *stat)
 {
-    *stat = D_06070C78->error;
+    *stat = gfs_mng->error;
 }
 
 /* FAD of a sector of the disc, moved by the session offset on multi-session discs
@@ -911,7 +911,7 @@ Sint32 gfs_ReadRootDir(GfsDirTbl *dirtbl)
             return gfs_SetErr(GFS_ERR_CDBFS);
         }
         nfile = 0;
-        dir = &D_06070C78->curdir;
+        dir = &gfs_mng->curdir;
         dir->dirtbl.dir = NULL;
         dir->nfile = nfile;
         dir->dirtbl.ndir = nfile;
@@ -943,7 +943,7 @@ Sint32 gfs_TrFuncNull(void *obj)
 
 void gfs_InitFuncTbl(void)
 {
-    GfsFileFunc *ftbl = &D_06070C78->functbl[GFS_FTYPE_CD];
+    GfsFileFunc *ftbl = &gfs_mng->functbl[GFS_FTYPE_CD];
 
     ftbl->flowin = gfsFlow_Read;
     ftbl->stopin = gfsFlow_StopRead;
@@ -957,23 +957,23 @@ void gfs_InitMng(Sint32 openmax)
     GfsDataPack *dpk;
     Sint32 i;
 
-    D_06070C78->openmax = openmax;
+    gfs_mng->openmax = openmax;
     gfs_InitFuncTbl();
-    D_06070C78->svr.nfile = 0;
-    D_06070C78->pickup = D_06070C78->trans = NULL;
-    D_06070C78->sfad = D_06070C78->efad = 0;
-    D_06070C78->error.func = NULL;
-    D_06070C78->flags = 0;
-    gfs = D_06070C78->file;
+    gfs_mng->svr.nfile = 0;
+    gfs_mng->pickup = gfs_mng->trans = NULL;
+    gfs_mng->sfad = gfs_mng->efad = 0;
+    gfs_mng->error.func = NULL;
+    gfs_mng->flags = 0;
+    gfs = gfs_mng->file;
     for (i = 0; i < openmax; i++) {
         gfs->used = 0;
         gfs++;
     }
-    dpk = &D_06070C78->srcpk;
+    dpk = &gfs_mng->srcpk;
     dpk->data = NULL;
     dpk->adlt = dpk->len = dpk->nsct = 0;
     dpk->use = FALSE;
-    dpk = &D_06070C78->dstpk;
+    dpk = &gfs_mng->dstpk;
     dpk->data = NULL;
     dpk->adlt = dpk->len = dpk->nsct = 0;
     dpk->use = FALSE;
@@ -1004,7 +1004,7 @@ Sint32 gfs_CountFiles(GfsDirTbl *dirtbl)
 
 GfsHn gfs_AllocHn(void)
 {
-    GfsMng *mng = D_06070C78;
+    GfsMng *mng = gfs_mng;
     GfsHn gfs;
     Sint32 i;
 
@@ -1036,15 +1036,15 @@ void gfs_StopIn(GfsHn gfs, Bool flag)
     GfsHn pickup;
     Sint32 ftype;
 
-    if (D_06070C78->trans == gfs) {
-        D_06070C78->trans = NULL;
+    if (gfs_mng->trans == gfs) {
+        gfs_mng->trans = NULL;
         gfsTrn_Stop(gfs, -1);
     }
-    pickup = D_06070C78->pickup;
+    pickup = gfs_mng->pickup;
     ftype = flow->dtsrc.ftype;
     if (pickup == gfs || (ftype != GFS_FTYPE_CD && pickup == NULL)) {
-        D_06070C78->pickup = NULL;
-        ftbl = &D_06070C78->functbl[ftype];
+        gfs_mng->pickup = NULL;
+        ftbl = &gfs_mng->functbl[ftype];
         ftbl->stopin(flow, flag);
         flow->stat = 0;
         flow->sctcnt = 0;
@@ -1070,7 +1070,7 @@ Sint32 gfs_SetErr(Sint32 code)
     default:
         break;
     }
-    err = &D_06070C78->error;
+    err = &gfs_mng->error;
     err->code = code;
     if (code != GFS_ERR_OK && err->func != NULL) {
         err->func(err->obj, code);
@@ -1080,7 +1080,7 @@ Sint32 gfs_SetErr(Sint32 code)
 
 Sint32 gfs_FindSvr(GfsHn gfs)
 {
-    GfsSvr *svr = &D_06070C78->svr;
+    GfsSvr *svr = &gfs_mng->svr;
     Sint32 i;
 
     for (i = 0; i < svr->nfile; i++) {
@@ -1101,7 +1101,7 @@ void gfs_AddSvr(GfsHn gfs)
 
     i = gfs_FindSvr(gfs);
     if (i == -1) {
-        svr = &D_06070C78->svr;
+        svr = &gfs_mng->svr;
         svr->access_file[svr->nfile] = gfs;
         svr->nfile++;
     }
@@ -1120,7 +1120,7 @@ void gfs_DelSvr(GfsHn gfs)
     if (i == -1) {
         return;
     }
-    svr = &D_06070C78->svr;
+    svr = &gfs_mng->svr;
     n = --svr->nfile;
     for (; i < n; i++) {
         svr->access_file[i] = svr->access_file[i + 1];
@@ -1166,7 +1166,7 @@ Sint32 gfs_ReadPvd(Uint8 *buf)
     GFS_GetErrStat(&stat);
     ret = (&stat)->code;
     if (ret == GFS_ERR_OK) {
-        if (memcmp(buf, D_0607110C, 6) != 0) {
+        if (memcmp(buf, gfs_iso_vd_id, 6) != 0) {
             ret = GFS_ERR_CDROM;
         }
     }
@@ -1181,14 +1181,14 @@ Sint32 gfs_GetRootRec(CdcFile *rec)
     Sint32 size;
     Sint32 ret;
 
-    if (!(D_06070C78->flags & 1)) {
+    if (!(gfs_mng->flags & 1)) {
         return GFS_ERR_CDNODISC;
     }
-    ret = gfs_ReadPvd(D_06070C78->sect_buf);
+    ret = gfs_ReadPvd(gfs_mng->sect_buf);
     if (ret != 0) {
         return ret;
     }
-    drec = D_06070C78->sect_buf + 0x9C;
+    drec = gfs_mng->sect_buf + 0x9C;
     memmove(rec, drec + 6, 4);
     rec->fad += 150;
     if ((Sint32)rec->fad < 166) {
@@ -1219,7 +1219,7 @@ Sint32 gfs_LoadRootDir(GfsDirTbl *dirtbl)
     } else {
         gfs = gfs_InitHn(gfs_AllocHn(), &rec, 0);
     }
-    if ((D_06070C78->flags & 1) && gfs == NULL) {
+    if ((gfs_mng->flags & 1) && gfs == NULL) {
         return ret;
     }
     nfile = gfs_LoadDirTbl(gfs, dirtbl, CDC_FILE_SIZE(&rec));
@@ -1239,19 +1239,19 @@ Sint32 gfs_ExecFlow(GfsHn gfs)
     if (flow->stat == 4) {
         return flow->stat;
     }
-    mng = D_06070C78;
+    mng = gfs_mng;
     if (mng->pickup != NULL && mng->pickup != gfs) {
         return 7;
     }
     ftbl = &mng->functbl[flow->dtsrc.ftype];
     stat = ftbl->flowin(flow);
     if (stat == 1) {
-        D_06070C78->pickup = gfs;
+        gfs_mng->pickup = gfs;
     } else if (stat == 4) {
-        if (D_06070C78->pickup == gfs) {
-            D_06070C78->pickup = NULL;
-            D_06070C78->efad = 0;
-            D_06070C78->sfad = 0;
+        if (gfs_mng->pickup == gfs) {
+            gfs_mng->pickup = NULL;
+            gfs_mng->efad = 0;
+            gfs_mng->sfad = 0;
         }
     }
     flow->stat = stat;
@@ -1265,7 +1265,7 @@ Sint32 gfs_ExecTrans(GfsHn gfs)
     Sint32 stat;
     Sint32 tmp;
 
-    trans = D_06070C78->trans;
+    trans = gfs_mng->trans;
     if (trans != gfs && trans != NULL) {
         return 1;
     }
@@ -1279,11 +1279,11 @@ Sint32 gfs_ExecTrans(GfsHn gfs)
         stat = gfsTrn_Exec(gfs, &tmp);
     }
     if (stat == 6) {
-        if (D_06070C78->trans == gfs) {
-            D_06070C78->trans = NULL;
+        if (gfs_mng->trans == gfs) {
+            gfs_mng->trans = NULL;
         }
-    } else if (D_06070C78->trans == NULL) {
-        D_06070C78->trans = gfs;
+    } else if (gfs_mng->trans == NULL) {
+        gfs_mng->trans = gfs;
     }
     return stat;
 }
