@@ -147,7 +147,7 @@
 .L06033A78:
 	.long func_0604DF68
 .L06033A7C:
-	.long func_06007A08
+	.long load_over
 .L06033A80:
 	.long func_0600E586
 .L06033A84:

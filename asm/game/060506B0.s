@@ -4,7 +4,7 @@
 	.section .text.060506B0,"ax",@progbits
 	.p2align 2
 
-	glabel func_060506B0
+	glabel run_end_program
 	sts.l	pr,@-r15
 	mov	#-1,r0
 	and	#15,r0
@@ -24,9 +24,9 @@
 .L060506D0:
 	.long D_06051334
 .L060506D4:
-	.long func_06006C12
+	.long file_load
 .L060506D8:
 	.long D_060C0000
 .L060506DC:
 	.long D_060C0004
-	endlabel func_060506B0
+	endlabel run_end_program

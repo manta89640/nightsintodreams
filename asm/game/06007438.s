@@ -4,7 +4,7 @@
 	.section .text.06007438,"ax",@progbits
 	.p2align 2
 
-	glabel func_06007438
+	glabel load_sound_bank
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -36,7 +36,7 @@
 	bra	.L06007476
 	mov.l	@(r0,r2),r4
 .L06007470:
-	.long D_060074B8
+	.long sound_bank_names
 .L06007474:
 	mov.l	.L060074A4,r4
 .L06007476:
@@ -70,14 +70,14 @@
 .L060074AC:
 	.long D_060D9000
 .L060074B0:
-	.long func_06006C94
+	.long file_queue
 .L060074B4:
-	.long func_06006EA0
-	endlabel func_06007438
+	.long file_server
+	endlabel load_sound_bank
 
 	.section .data.060074B8,"aw",@progbits
 	.p2align 2
-	dlabel D_060074B8
+	dlabel sound_bank_names
 	.long D_06051437
 	.long D_06051443
 	.long D_0605144F

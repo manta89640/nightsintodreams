@@ -115,7 +115,7 @@
 .L0604DF44:
 	.long func_0600E586
 .L0604DF48:
-	.long func_06007AA8
+	.long load_hint
 .L0604DF4C:
 	.long func_0601F068
 .L0604DF50:

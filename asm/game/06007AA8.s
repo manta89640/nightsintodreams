@@ -4,7 +4,7 @@
 	.section .text.06007AA8,"ax",@progbits
 	.p2align 2
 
-	glabel func_06007AA8
+	glabel load_hint
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -49,16 +49,16 @@
 .L06007AF4:
 	.long D_0604DBB7
 .L06007AF8:
-	.long D_06007A80
+	.long hint_names_j
 .L06007AFC:
-	.long D_06007A94
+	.long hint_names_e
 .L06007B00:
-	.long func_06006C12
+	.long file_load
 .L06007B04:
 	.long D_06080000
-	endlabel func_06007AA8
+	endlabel load_hint
 
-	glabel func_06007B08
+	glabel load_rd7m2
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -86,10 +86,10 @@
 .L06007B38:
 	.long D_0605167C
 .L06007B3C:
-	.long func_06006C12
+	.long file_load
 .L06007B40:
 	.long D_00200000
-	endlabel func_06007B08
+	endlabel load_rd7m2
 
 	.section .data.06007B44,"aw",@progbits
 	.p2align 2

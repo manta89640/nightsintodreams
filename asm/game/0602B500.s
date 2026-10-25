@@ -187,15 +187,15 @@
 .L0602B658:
 	.long func_0600DBCC
 .L0602B65C:
-	.long func_06007934
+	.long load_dream_program
 .L0602B660:
 	.long D_0602C140
 .L0602B664:
-	.long func_060074F8
+	.long load_alife
 .L0602B668:
 	.long func_0603568C
 .L0602B66C:
-	.long func_06007560
+	.long load_dream_data
 .L0602B670:
 	.long D_060FFCE0
 .L0602B674:
@@ -319,9 +319,9 @@
 .L0602B74C:
 	.long func_0602C4D0
 .L0602B750:
-	.long func_06007B08
+	.long load_rd7m2
 .L0602B754:
-	.long func_060077BC
+	.long load_landscape
 .L0602B758:
 	.long D_0602B760
 .L0602B75C:
@@ -381,7 +381,7 @@
 	.short 0x8000
 	.byte 0x00, 0x00
 .L0602B7C0:
-	.long func_060077BC
+	.long load_landscape
 .L0602B7C4:
 	.long func_0600EE48
 .L0602B7C8:

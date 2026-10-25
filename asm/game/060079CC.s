@@ -4,7 +4,7 @@
 	.section .text.060079CC,"ax",@progbits
 	.p2align 2
 
-	glabel func_060079CC
+	glabel load_sel_program
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -32,12 +32,12 @@
 .L060079FC:
 	.long D_060512AA
 .L06007A00:
-	.long func_06006C12
+	.long file_load
 .L06007A04:
 	.long D_060C0000
-	endlabel func_060079CC
+	endlabel load_sel_program
 
-	glabel func_06007A08
+	glabel load_over
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -65,12 +65,12 @@
 .L06007A38:
 	.long D_060512E3
 .L06007A3C:
-	.long func_06006C12
+	.long file_load
 .L06007A40:
 	.long D_00200000
-	endlabel func_06007A08
+	endlabel load_over
 
-	glabel func_06007A44
+	glabel load_end_program
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -98,20 +98,20 @@
 .L06007A74:
 	.long D_06051334
 .L06007A78:
-	.long func_06006C12
+	.long file_load
 .L06007A7C:
 	.long D_060C0000
-	endlabel func_06007A44
+	endlabel load_end_program
 
 	.section .data.06007A80,"aw",@progbits
 	.p2align 2
-	dlabel D_06007A80
+	dlabel hint_names_j
 	.long D_06051345
 	.long D_06051350
 	.long D_0605135B
 	.long D_06051366
 	.long D_06051371
-	dlabel D_06007A94
+	dlabel hint_names_e
 	.long D_0605137C
 	.long D_06051387
 	.long D_06051392

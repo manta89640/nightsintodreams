@@ -933,9 +933,9 @@
 .L0600DC7C:
 	.long func_0600449A
 .L0600DC80:
-	.long func_06007438
+	.long load_sound_bank
 .L0600DC84:
-	.long func_060073CC
+	.long load_sequence
 .L0600DC88:
 	.long SCSP_RAM + 0xA000
 .L0600DC8C:

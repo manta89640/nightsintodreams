@@ -4,7 +4,7 @@
 	.section .text.060074F8,"ax",@progbits
 	.p2align 2
 
-	glabel func_060074F8
+	glabel load_alife
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -37,16 +37,16 @@
 	nop
 	.byte 0x00, 0x00
 .L06007534:
-	.long D_06007540
+	.long alife_names
 .L06007538:
-	.long func_06006C12
+	.long file_load
 .L0600753C:
 	.long D_06080000
-	endlabel func_060074F8
+	endlabel load_alife
 
 	.section .data.06007540,"aw",@progbits
 	.p2align 2
-	dlabel D_06007540
+	dlabel alife_names
 	.long D_06051686
 	.long D_0605168F
 	.long D_06051698

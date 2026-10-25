@@ -967,7 +967,7 @@
 .L06044F2C:
 	.long func_06006B20
 .L06044F30:
-	.long func_06007898
+	.long load_title_data
 .L06044F34:
 	.long 0x00019800
 .L06044F38:

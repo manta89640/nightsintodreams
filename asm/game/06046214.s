@@ -123,7 +123,7 @@
 .L060462EC:
 	.long D_060512D6
 .L060462F0:
-	.long func_06006C12
+	.long file_load
 .L060462F4:
 	.long D_00200000
 .L060462F8:

@@ -4,7 +4,7 @@
 	.section .text.06007560,"ax",@progbits
 	.p2align 2
 
-	glabel func_06007560
+	glabel load_dream_data
 	mov.l	r11,@-r15
 	mov.l	r10,@-r15
 	mov.l	r9,@-r15
@@ -86,13 +86,13 @@
 	bra	.L06007698
 	nop
 .L060075FC:
-	.long D_0600777C
+	.long demo_names
 .L06007600:
 	.long D_06073000
 .L06007604:
 	.long D_060D900A
 .L06007608:
-	.long func_06006C94
+	.long file_queue
 .L0600760C:
 	.long D_060515E4
 .L06007610:
@@ -100,7 +100,7 @@
 .L06007614:
 	.long D_060D900C
 .L06007618:
-	.long D_060076FC
+	.long dream_mhead_names
 .L0600761C:
 	.long D_06086000
 .L06007620:
@@ -116,7 +116,7 @@
 .L06007634:
 	.long 0x00210000
 .L06007638:
-	.long D_0600771C
+	.long dream_mdata_names
 .L0600763C:
 	.long D_060D9012
 .L06007640:
@@ -192,7 +192,7 @@
 .L060076C8:
 	.long D_060D900C
 .L060076CC:
-	.long func_06006C94
+	.long file_queue
 .L060076D0:
 	.long D_0605159C
 .L060076D4:
@@ -200,26 +200,26 @@
 .L060076D8:
 	.long D_060D900E
 .L060076DC:
-	.long D_0600773C
+	.long dream_phead_names
 .L060076E0:
 	.long D_06098000
 .L060076E4:
 	.long D_060D9010
 .L060076E8:
-	.long D_0600775C
+	.long dream_pdata_names
 .L060076EC:
 	.long D_00200010
 .L060076F0:
 	.long D_060D9012
 .L060076F4:
-	.long func_06006EA0
+	.long file_server
 .L060076F8:
-	.long D_06064FA4
-	endlabel func_06007560
+	.long file_busy_count
+	endlabel load_dream_data
 
 	.section .data.060076FC,"aw",@progbits
 	.p2align 2
-	dlabel D_060076FC
+	dlabel dream_mhead_names
 	.long D_060515EE
 	.long D_060515F8
 	.long D_06051602
@@ -228,7 +228,7 @@
 	.long D_06051620
 	.long D_0605162A
 	.long D_0605162A
-	dlabel D_0600771C
+	dlabel dream_mdata_names
 	.long D_0605163D
 	.long D_06051646
 	.long D_0605164F
@@ -237,7 +237,7 @@
 	.long D_0605166A
 	.long D_06051673
 	.long D_06051673
-	dlabel D_0600773C
+	dlabel dream_phead_names
 	.long D_06051556
 	.long D_06051560
 	.long D_0605156A
@@ -246,7 +246,7 @@
 	.long D_06051588
 	.long D_06051592
 	.long D_06051592
-	dlabel D_0600775C
+	dlabel dream_pdata_names
 	.long D_060515A5
 	.long D_060515AE
 	.long D_060515B7
@@ -255,7 +255,7 @@
 	.long D_060515D2
 	.long D_060515DB
 	.long D_060515DB
-	dlabel D_0600777C
+	dlabel demo_names
 	.long D_060513B3
 	.long D_060513BE
 	.long D_060513C9
