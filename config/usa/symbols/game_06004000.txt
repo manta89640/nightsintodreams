@@ -1,0 +1,3 @@
+// game/06004000: _start
+reset_combo_held = 0x06004210;
+soft_reset_allowed = 0x06004212;
