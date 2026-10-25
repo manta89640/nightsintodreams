@@ -18,7 +18,7 @@ BUILD   := build/$(REGION)
 MAIN    := 0NIGHTS
 MAIN_CFG := config/$(REGION)/$(MAIN).toml
 
-.PHONY: all setup extract unpack verify ghidra split check report upload test refc toolchain clean distclean
+.PHONY: all setup extract unpack verify ghidra split check report upload test refc export-asm toolchain clean distclean
 
 all: check
 
@@ -106,6 +106,14 @@ $(BUILD)/$(MAIN): $(BUILD)/$(MAIN).elf
 # The rebuilt program must be byte-identical to the original.
 check: $(BUILD)/$(MAIN)
 	@echo "$$(grep '^sha1' $(MAIN_CFG) | cut -d'"' -f2)  $(BUILD)/$(MAIN)" | shasum -a 1 -c -
+	@diff -rq -x '*.o' $(BUILD)/asm/game asm/game >/dev/null 2>&1 || \
+		echo "note: asm/game is out of date with the split; run make export-asm"
+
+# Snapshot of the generated (not yet reviewed) game assembly, committed so the code
+# can be read and reviewed without a dump. Reviewed units move to src/game/.
+export-asm: split
+	@rm -rf asm/game && mkdir -p asm && cp -R $(BUILD)/asm/game asm/game && rm -f asm/game/*.o
+	@echo "exported $$(ls asm/game/*.s | wc -l | tr -d ' ') game units to asm/game"
 
 test: | $(AS)
 	$(PYTHON) tests/test_sh2dis.py

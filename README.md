@@ -83,9 +83,14 @@ There are two kinds of source:
   match byte for byte, but it must behave the same as the original, which the c2asm
   SH-2 interpreter and differential test check (see [docs/c2asm.md](docs/c2asm.md)).
 
+`asm/game/` is a committed snapshot of the generated, not yet reviewed game assembly,
+so the code can be read without a dump. `make export-asm` refreshes it after symbol
+changes, and `make check` says when it's out of date. It isn't built and doesn't
+count as progress.
+
 To claim a game unit (details in [docs/conversion.md](docs/conversion.md)):
 
-1. Copy `build/usa/asm/<unit>.s` to `src/<unit>.s`.
+1. Copy `build/usa/asm/<unit>.s` (same as `asm/<unit>.s`) to `src/<unit>.s`.
 2. Give its functions and data real names with `tools/rename.py` (which updates the
    symbol files and every source). objdiff matches symbols by name.
 3. Replace raw struct and GBR offsets with named constants from `include/game/*.inc`,
@@ -120,6 +125,7 @@ tests/           tool tests
 tools/           extraction, decompression, disassembly and analysis
 dump/            your disc image (ignored)
 extracted/       files pulled from your disc image (ignored)
+asm/game/       snapshot of the unreviewed game assembly (make export-asm)
 build/           generated assembly, objects, reports (ignored)
 toolchain/       locally built binutils and objdiff (ignored)
 ```

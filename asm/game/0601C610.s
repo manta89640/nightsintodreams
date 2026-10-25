@@ -1,0 +1,328 @@
+	.include "macro.inc"
+	.include "saturn.inc"
+
+	.section .text.0601C610,"ax",@progbits
+	.p2align 2
+
+	glabel func_0601C610
+	sts.l	pr,@-r15
+	mov.w	@(4,r1),r0
+	add	#-1,r0
+	cmp/pl	r0
+	bt	.L0601C620
+	mov.l	.L0601C640,r0
+	mov.l	r0,@-r1
+	add	#4,r1
+.L0601C620:
+	mov.w	r0,@(4,r1)
+	tst	#1,r0
+	bf	.L0601C634
+	mov.w	@(8,r1),r0
+	add	#1,r0
+	mov	#7,r8
+	cmp/ge	r8,r0
+	bf	.L0601C632
+	mov	r8,r0
+.L0601C632:
+	mov.w	r0,@(8,r1)
+.L0601C634:
+	bsr	func_0601C64C
+	nop
+	lds.l	@r15+,pr
+	rts
+	nop
+	.byte 0x00, 0x00
+.L0601C640:
+	.long D_0601C644
+	dlabel D_0601C644
+	.byte 0xA0, 0x02, 0x00, 0x09
+	dlabel D_0601C648
+	.byte 0x00, 0x00, 0x00, 0x00
+	endlabel func_0601C610
+
+	glabel func_0601C64C
+	sts.l	pr,@-r15
+	mov	#-128,r14
+	shll	r14
+	mov.l	@(12,r1),r13
+	mov.l	.L0601C6FC,r0
+	mov.l	r13,@(0,r14)
+	mov.l	r0,@(4,r14)
+	mov.l	@(28,r14),r0
+	mov.l	.L0601C700,r4
+	mov.l	r0,@r4
+	mov.l	.L0601C704,r0
+	mov.l	r0,@(52,r1)
+	mov.l	.L0601C708,r0
+	mov.l	r0,@(56,r1)
+	mov.l	.L0601C70C,r2
+	mov.l	r2,@(44,r1)
+	mov.l	.L0601C710,r2
+	mov.l	.L0601C714,r3
+	mov.l	r3,@(60,r1)
+	mov.w	@(8,r1),r0
+	mov.w	r0,@(14,r3)
+	mov.w	r0,@(20,r3)
+	mov.l	.L0601C718,r8
+	mov.l	r8,@(48,r1)
+	mov.l	@(16,r1),r4
+	mov.l	@(24,r4),r0
+	tst	r0,r0
+	bt	.L0601C6BE
+	mov.l	.L0601C700,r4
+	mov.l	@r4,r13
+	dmuls.l	r13,r0
+	sts	macl,r0
+	add	r0,r8
+	swap.w	r0,r0
+	exts.w	r0,r0
+	mov.w	r0,@(4,r2)
+	mov	#1,r0
+	mov.w	r0,@(0,r2)
+	mov.w	.L0601C6F8,r0
+	mov.w	r0,@(28,r1)
+	mov.w	@(0,r2),r0
+	mov.w	r0,@(0,r3)
+	mov.w	r0,@(18,r3)
+	mov.w	@(4,r2),r0
+	mov.w	r0,@(6,r3)
+	mov.w	r0,@(12,r3)
+	mov.l	r8,@-r15
+	mov.l	r3,@-r15
+	mov.l	r2,@-r15
+	mov	#6,r0
+	mov.w	r0,@(20,r1)
+	mov.l	.L0601C71C,r0
+	jsr	@r0
+	nop
+	mov.l	@r15+,r2
+	mov.l	@r15+,r3
+	mov.l	@r15+,r8
+.L0601C6BE:
+	mov.l	.L0601C720,r0
+	mov.l	r0,@(56,r1)
+	mov.w	.L0601C6FA,r0
+	mov.w	r0,@(28,r1)
+	mov.l	r8,@(48,r1)
+	mov.l	.L0601C724,r0
+	cmp/ge	r0,r8
+	bt	.L0601C6F2
+	sub	r8,r0
+	swap.w	r0,r0
+	exts.w	r0,r0
+	add	#-1,r0
+	mov.w	r0,@(4,r2)
+	mov	#1,r0
+	mov.w	r0,@(0,r2)
+	mov.w	@(0,r2),r0
+	mov.w	r0,@(0,r3)
+	mov.w	r0,@(18,r3)
+	mov.w	@(4,r2),r0
+	mov.w	r0,@(6,r3)
+	mov.w	r0,@(12,r3)
+	mov	#6,r0
+	mov.w	r0,@(20,r1)
+	mov.l	.L0601C71C,r0
+	jsr	@r0
+	nop
+.L0601C6F2:
+	lds.l	@r15+,pr
+	rts
+	nop
+.L0601C6F8:
+	.short 0x1FF9
+.L0601C6FA:
+	.short 0x1FFD
+.L0601C6FC:
+	.long 0x00AA0000
+.L0601C700:
+	.long D_0601C648
+.L0601C704:
+	.long 0x008C0000
+.L0601C708:
+	.long 0x00080000
+.L0601C70C:
+	.long D_06014246
+.L0601C710:
+	.long D_0601C5F0
+.L0601C714:
+	.long D_0601C5F8
+.L0601C718:
+	.long 0x004C0000
+.L0601C71C:
+	.long func_060204EE
+.L0601C720:
+	.long 0x00100000
+.L0601C724:
+	.long 0x00F60000
+	endlabel func_0601C64C
+
+	glabel func_0601C728
+	mov.l	.L0601C744,r6
+	mov.w	.L0601C740,r0
+	mov.w	r0,@(0,r6)
+	mov.w	r0,@(2,r6)
+	mov.w	.L0601C742,r0
+	mov.w	r0,@(4,r6)
+	mov.w	r0,@(6,r6)
+	mov.l	.L0601C748,r0
+	mov.l	r0,@-r1
+	add	#4,r1
+	rts
+	nop
+.L0601C740:
+	.short 0x43EC
+.L0601C742:
+	.short 0x11A0
+.L0601C744:
+	.long VDP1_VRAM + 0xFFE0
+.L0601C748:
+	.long func_0601C74C
+	endlabel func_0601C728
+
+	glabel func_0601C74C
+	sts.l	pr,@-r15
+	mov.l	.L0601C7CC,r2
+	mov.l	r2,@(44,r1)
+	mov	#0,r0
+	mov.w	r0,@(20,r1)
+	mov.l	@(16,r1),r4
+	mov.l	@(20,r4),r0
+	mov.l	.L0601C7D0,r14
+	jsr	@r14
+	mov	r0,r4
+	mov	#7,r14
+	mov.l	.L0601C7D4,r10
+	jsr	@r10
+	nop
+	mov.w	.L0601C7C0,r0
+	mov.w	r0,@(22,r1)
+	mov.l	.L0601C7D8,r0
+	mov.l	r0,@(48,r1)
+	mov.l	.L0601C7DC,r0
+	mov.l	r0,@(52,r1)
+	mov.w	.L0601C7C2,r0
+	mov.w	r0,@(28,r1)
+	mov.l	.L0601C7E0,r0
+	jsr	@r0
+	nop
+	mov.l	.L0601C7E4,r2
+	mov.l	r2,@(44,r1)
+	mov	#2,r0
+	mov.w	r0,@(20,r1)
+	mov.l	.L0601C7E8,r0
+	mov.l	r0,@(48,r1)
+	mov.l	.L0601C7EC,r0
+	mov.l	r0,@(52,r1)
+	mov.w	.L0601C7C4,r0
+	mov.w	r0,@(22,r1)
+	mov.l	.L0601C7E0,r0
+	jsr	@r0
+	nop
+	mov.l	@(16,r1),r4
+	mov.b	@(12,r4),r0
+	tst	r0,r0
+	bt	.L0601C7BA
+	mov	#9,r0
+	mov.w	r0,@(20,r1)
+	mov.l	.L0601C7F0,r0
+	mov.l	r0,@(48,r1)
+	mov.l	.L0601C7F4,r0
+	mov.l	r0,@(52,r1)
+	mov.w	.L0601C7C6,r0
+	mov.w	r0,@(22,r1)
+	mov.w	.L0601C7C8,r0
+	mov.w	r0,@(28,r1)
+	mov.l	.L0601C7E0,r0
+	jsr	@r0
+	nop
+.L0601C7BA:
+	lds.l	@r15+,pr
+	rts
+	nop
+.L0601C7C0:
+	.short 0x0120
+.L0601C7C2:
+	.short 0x1FFC
+.L0601C7C4:
+	.short 0x0140
+.L0601C7C6:
+	.short 0x0100
+.L0601C7C8:
+	.short 0x1FFE
+	.byte 0x00, 0x00
+.L0601C7CC:
+	.long D_0601C27C
+.L0601C7D0:
+	.long func_0601CB9A
+.L0601C7D4:
+	.long func_06019D42
+.L0601C7D8:
+	.long 0x00E80000
+.L0601C7DC:
+	.long 0x00B40000
+.L0601C7E0:
+	.long func_060204EE
+.L0601C7E4:
+	.long D_06014246
+.L0601C7E8:
+	.long 0x00EA0000
+.L0601C7EC:
+	.long 0x00B70000
+.L0601C7F0:
+	.long 0x00C00000
+.L0601C7F4:
+	.long 0x00C30000
+	endlabel func_0601C74C
+
+	.section .data.0601C7F8,"aw",@progbits
+	.p2align 2
+	.byte 0x00, 0x65, 0x00, 0x09
+	dlabel D_0601C7FC
+	.long D_0601C83C
+	.long D_0601C868
+	.long D_0601C894
+	.long D_0601C8C0
+	.long D_0601C8EC
+	.long D_0601C918
+	.long D_0601C944
+	.long D_0601C944
+	dlabel D_0601C81C
+	.long D_0601C970
+	.long D_0601C970
+	.long D_0601C970
+	.long D_0601C970
+	.long D_0601C970
+	.long D_0601C970
+	.long D_0601C970
+	.long D_0601C970
+	dlabel D_0601C83C
+	.byte 0x00, 0x00, 0x06, 0xCC, 0x00, 0x00, 0x0A, 0x50, 0x00, 0x00, 0x0D, 0xD4, 0x00, 0x00, 0x10, 0x2C
+	.byte 0x00, 0x00, 0x12, 0x84, 0x00, 0x00, 0x14, 0xDC, 0x00, 0x00, 0x16, 0x08, 0x00, 0x00, 0x17, 0x34
+	.byte 0x00, 0x00, 0x18, 0x60, 0x00, 0x00, 0x19, 0x8C, 0x00, 0x00, 0x1C, 0x20
+	dlabel D_0601C868
+	.byte 0x00, 0x00, 0x06, 0xCC, 0x00, 0x00, 0x09, 0x24, 0x00, 0x00, 0x0B, 0x7C, 0x00, 0x00, 0x0D, 0xD4
+	.byte 0x00, 0x00, 0x10, 0x2C, 0x00, 0x00, 0x11, 0x58, 0x00, 0x00, 0x12, 0x84, 0x00, 0x00, 0x13, 0xB0
+	.byte 0x00, 0x00, 0x14, 0xDC, 0x00, 0x00, 0x16, 0x08, 0x00, 0x00, 0x1C, 0x20
+	dlabel D_0601C894
+	.byte 0x00, 0x00, 0x04, 0x74, 0x00, 0x00, 0x09, 0x24, 0x00, 0x00, 0x0B, 0x7C, 0x00, 0x00, 0x0D, 0xD4
+	.byte 0x00, 0x00, 0x10, 0x2C, 0x00, 0x00, 0x12, 0x84, 0x00, 0x00, 0x13, 0xB0, 0x00, 0x00, 0x14, 0xDC
+	.byte 0x00, 0x00, 0x16, 0x08, 0x00, 0x00, 0x17, 0x34, 0x00, 0x00, 0x1C, 0x20
+	dlabel D_0601C8C0
+	.byte 0x00, 0x00, 0x03, 0x48, 0x00, 0x00, 0x06, 0xCC, 0x00, 0x00, 0x0A, 0x50, 0x00, 0x00, 0x0C, 0xA8
+	.byte 0x00, 0x00, 0x0F, 0x00, 0x00, 0x00, 0x11, 0x58, 0x00, 0x00, 0x13, 0xB0, 0x00, 0x00, 0x16, 0x08
+	.byte 0x00, 0x00, 0x17, 0x34, 0x00, 0x00, 0x18, 0x60, 0x00, 0x00, 0x1C, 0x20
+	dlabel D_0601C8EC
+	.byte 0x00, 0x00, 0x04, 0x74, 0x00, 0x00, 0x06, 0xCC, 0x00, 0x00, 0x09, 0x24, 0x00, 0x00, 0x0B, 0x7C
+	.byte 0x00, 0x00, 0x0D, 0xD4, 0x00, 0x00, 0x10, 0x2C, 0x00, 0x00, 0x12, 0x84, 0x00, 0x00, 0x14, 0xDC
+	.byte 0x00, 0x00, 0x16, 0x08, 0x00, 0x00, 0x17, 0x34, 0x00, 0x00, 0x1C, 0x20
+	dlabel D_0601C918
+	.byte 0x00, 0x00, 0x02, 0x1C, 0x00, 0x00, 0x04, 0x74, 0x00, 0x00, 0x06, 0xCC, 0x00, 0x00, 0x0A, 0x50
+	.byte 0x00, 0x00, 0x0D, 0xD4, 0x00, 0x00, 0x11, 0x58, 0x00, 0x00, 0x13, 0xB0, 0x00, 0x00, 0x16, 0x08
+	.byte 0x00, 0x00, 0x17, 0x34, 0x00, 0x00, 0x18, 0x60, 0x00, 0x00, 0x1C, 0x20
+	dlabel D_0601C944
+	.byte 0x00, 0x00, 0x02, 0x1C, 0x00, 0x00, 0x03, 0x48, 0x00, 0x00, 0x04, 0x74, 0x00, 0x00, 0x05, 0xA0
+	.byte 0x00, 0x00, 0x07, 0xF8, 0x00, 0x00, 0x0A, 0x50, 0x00, 0x00, 0x0B, 0x7C, 0x00, 0x00, 0x0C, 0xA8
+	.byte 0x00, 0x00, 0x0D, 0xD4, 0x00, 0x00, 0x0F, 0x00, 0x00, 0x00, 0x1C, 0x20
+	dlabel D_0601C970
+	.byte 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x09

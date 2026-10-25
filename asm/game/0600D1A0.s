@@ -1,0 +1,218 @@
+	.include "macro.inc"
+	.include "saturn.inc"
+
+	.section .text.0600D1A0,"ax",@progbits
+	.p2align 2
+
+	glabel func_0600D1A0
+	add	#-16,r1
+	mov.l	@(0,r1),r2
+	mov.l	@(4,r1),r3
+	cmp/pl	r2
+	bf	.L0600D1CC
+	mov.l	r3,@(4,r2)
+	mov.l	r2,@(0,r3)
+	mov.l	.L0600D1C4,r4
+	mov.l	@r4,r3
+	mov.l	r1,@r4
+	mov.l	r3,@(0,r1)
+	add	#16,r1
+	mov.l	.L0600D1C8,r4
+	mov.l	@r4,r0
+	add	#-1,r0
+	rts
+	mov.l	r0,@r4
+	.byte 0x00, 0x00
+.L0600D1C4:
+	.long D_060FFFE0
+.L0600D1C8:
+	.long D_060FFFE4
+.L0600D1CC:
+	mov.l	r2,@(0,r3)
+	neg	r2,r2
+	mov.l	.L0600D1EC,r4
+	add	r4,r2
+	mov.l	r3,@r2
+	mov.l	.L0600D1F0,r4
+	mov.l	@r4,r3
+	mov.l	r1,@r4
+	mov.l	r3,@(0,r1)
+	add	#16,r1
+	mov.l	.L0600D1F4,r4
+	mov.l	@r4,r0
+	add	#-1,r0
+	mov	#-1,r2
+	rts
+	mov.l	r0,@r4
+.L0600D1EC:
+	.long D_060FFFA4
+.L0600D1F0:
+	.long D_060FFFE0
+.L0600D1F4:
+	.long D_060FFFE4
+	endlabel func_0600D1A0
+
+	glabel func_0600D1F8
+	sts.l	pr,@-r15
+	mov.l	@r2,r1
+.L0600D1FC:
+	cmp/pl	r1
+	bf	.L0600D224
+	mov.l	@(12,r1),r0
+	add	#16,r1
+	mov.l	r1,@-r15
+	jsr	@r0
+	nop
+	mov.l	@r15+,r0
+	cmp/eq	r0,r1
+	bf	.L0600D22A
+.L0600D210:
+	add	#-16,r1
+	mov.l	.L0600D220,r0
+	mov.l	@r0,r0
+	cmp/eq	r0,r1
+	bf	.L0600D21C
+	mov.l	@(4,r1),r1
+.L0600D21C:
+	bra	.L0600D1FC
+	mov.l	@(0,r1),r1
+.L0600D220:
+	.long D_060FFFE0
+.L0600D224:
+	lds.l	@r15+,pr
+	rts
+	nop
+.L0600D22A:
+	mov	r0,r1
+	bra	.L0600D210
+	nop
+	endlabel func_0600D1F8
+
+	glabel func_0600D230
+	sts.l	pr,@-r15
+	mov.l	@r5,r1
+.L0600D234:
+	cmp/pl	r1
+	bf	.L0600D244
+	add	#16,r1
+	bsr	func_0600D1A0
+	nop
+	mov	r2,r1
+	bra	.L0600D234
+	nop
+.L0600D244:
+	lds.l	@r15+,pr
+	rts
+	nop
+	endlabel func_0600D230
+
+	glabel func_0600D24A
+	sts.l	pr,@-r15
+	mov.l	.L0600D278,r5
+	bsr	func_0600D230
+	nop
+	mov.l	.L0600D27C,r5
+	bsr	func_0600D230
+	nop
+	mov.l	.L0600D280,r5
+	bsr	func_0600D230
+	nop
+	mov.l	.L0600D284,r5
+	bsr	func_0600D230
+	nop
+	mov.l	.L0600D288,r5
+	bsr	func_0600D230
+	nop
+	mov.l	.L0600D28C,r5
+	bsr	func_0600D230
+	nop
+	lds.l	@r15+,pr
+	rts
+	nop
+	.byte 0x00, 0x00
+.L0600D278:
+	.long D_060FFFA0
+.L0600D27C:
+	.long D_060FFFA8
+.L0600D280:
+	.long D_060FFFB0
+.L0600D284:
+	.long D_060FFFB8
+.L0600D288:
+	.long D_060FFFC0
+.L0600D28C:
+	.long D_060FFFC8
+	endlabel func_0600D24A
+
+	glabel func_0600D290
+	sts.l	pr,@-r15
+	mov.l	.L0600D2A0,r5
+	bsr	func_0600D230
+	nop
+	lds.l	@r15+,pr
+	mov.l	.L0600D2A4,r5
+	bra	func_0600D230
+	nop
+.L0600D2A0:
+	.long D_060FFFD0
+.L0600D2A4:
+	.long D_060FFFD8
+	endlabel func_0600D290
+
+	glabel func_0600D2A8
+	add	#-16,r1
+	mov.l	@(0,r1),r2
+	mov.l	@(4,r1),r3
+	cmp/pl	r2
+	bf	.L0600D2CC
+	mov.l	r3,@(4,r2)
+	mov.l	r2,@(0,r3)
+.L0600D2B6:
+	mov.l	@(4,r4),r8
+	mov.l	r8,@(4,r1)
+	mov.l	@(0,r8),r0
+	cmp/pl	r0
+	bf/s	.L0600D2C4
+	mov.l	r0,@(0,r1)
+	mov.l	r1,@(4,r0)
+.L0600D2C4:
+	mov.l	r1,@(0,r8)
+	mov.l	r1,@(4,r4)
+	rts
+	nop
+.L0600D2CC:
+	mov.l	r2,@(0,r3)
+	neg	r2,r2
+	mov.l	.L0600D2DC,r0
+	add	r0,r2
+	mov.l	r3,@r2
+	bra	.L0600D2B6
+	nop
+	.byte 0x00, 0x00
+.L0600D2DC:
+	.long D_060FFFA4
+	endlabel func_0600D2A8
+
+	.section .data.0600D2E0,"aw",@progbits
+	.p2align 2
+	.byte 0xD4, 0x12, 0x63, 0x42, 0x43, 0x15, 0x8B, 0x25, 0x50, 0x30, 0x24, 0x02, 0x60, 0x12, 0x23, 0x02
+	.byte 0x21, 0x32, 0xE0, 0x00, 0x73, 0x60, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06
+	.byte 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06
+	.byte 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x23, 0x06, 0x73, 0xFC, 0xD4, 0x04
+	.byte 0x60, 0x42, 0x70, 0x01, 0x24, 0x02, 0x00, 0x0B, 0x00, 0x08, 0x00, 0x00
+	.long D_060FFFE0
+	.long D_060FFFE4
+	.byte 0xD3, 0x01, 0x00, 0x0B, 0x00, 0x18, 0x00, 0x00
+	.long D_0600D340
+	dlabel D_0600D340
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x62, 0x12, 0x22, 0x28, 0x89, 0x0F, 0x72, 0xF0, 0xD4, 0x03, 0x63, 0x42, 0x24, 0x22, 0x64, 0x22
+	.byte 0x24, 0x48, 0x89, 0x03, 0xAF, 0xFB, 0x62, 0x43
+	.long D_060FFFE0
+	.byte 0x12, 0x30, 0xD4, 0x03, 0x60, 0x42, 0x70, 0xFF, 0x24, 0x02, 0x00, 0x0B, 0x00, 0x09, 0x00, 0x00
+	.long D_060FFFE4

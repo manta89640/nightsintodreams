@@ -1,0 +1,533 @@
+	.include "macro.inc"
+	.include "saturn.inc"
+
+	.section .text.0600C9C8,"ax",@progbits
+	.p2align 2
+
+	glabel func_0600C9C8
+	mov	#0,r0
+	mov.w	r0,@(124,gbr)
+	mov.l	.L0600CAF4,r0
+	mov.l	r0,@(120,gbr)
+	mov	#1,r3
+	shll16	r3
+	mov	#0,r2
+	mov.l	r3,@(0,r0)
+	mov.l	r2,@(16,r0)
+	mov.l	r2,@(32,r0)
+	mov.l	r2,@(4,r0)
+	mov.l	r3,@(20,r0)
+	mov.l	r2,@(36,r0)
+	mov.l	r2,@(8,r0)
+	mov.l	r2,@(24,r0)
+	mov.l	r3,@(40,r0)
+	mov.l	r2,@(12,r0)
+	mov.l	r2,@(28,r0)
+	mov.l	r2,@(44,r0)
+	rts
+	nop
+	endlabel func_0600C9C8
+
+	glabel func_0600C9F2
+	mov.w	@(124,gbr),r0
+	add	#1,r0
+	mov.w	r0,@(124,gbr)
+	mov.l	@(120,gbr),r0
+	add	#48,r0
+	mov.l	r0,@(120,gbr)
+	mov	#1,r3
+	shll16	r3
+	mov	#0,r2
+	mov.l	r3,@(0,r0)
+	mov.l	r2,@(16,r0)
+	mov.l	r2,@(32,r0)
+	mov.l	r2,@(4,r0)
+	mov.l	r3,@(20,r0)
+	mov.l	r2,@(36,r0)
+	mov.l	r2,@(8,r0)
+	mov.l	r2,@(24,r0)
+	mov.l	r3,@(40,r0)
+	mov.l	r2,@(12,r0)
+	mov.l	r2,@(28,r0)
+	mov.l	r2,@(44,r0)
+	rts
+	mov	#1,r0
+	.byte 0x00, 0x0B, 0xE0, 0x00
+	endlabel func_0600C9F2
+
+	glabel func_0600CA24
+	mov.w	@(124,gbr),r0
+	add	#1,r0
+	mov.w	r0,@(124,gbr)
+	mov.l	@(120,gbr),r0
+	mov	#48,r6
+	add	r0,r6
+	mov	#3,r7
+.L0600CA32:
+	mov.l	@r0+,r2
+	mov.l	@r0+,r3
+	mov.l	@r0+,r4
+	mov.l	@r0+,r5
+	mov.l	r2,@(0,r6)
+	mov.l	r3,@(4,r6)
+	mov.l	r4,@(8,r6)
+	mov.l	r5,@(12,r6)
+	dt	r7
+	bf/s	.L0600CA32
+	add	#16,r6
+	mov.l	r0,@(120,gbr)
+	rts
+	mov	#1,r0
+	endlabel func_0600CA24
+
+	glabel func_0600CA4E
+	mov.w	@(124,gbr),r0
+	cmp/pl	r0
+	bf	.L0600CA5E
+	add	#-1,r0
+	mov.w	r0,@(124,gbr)
+	mov.l	@(120,gbr),r0
+	add	#-48,r0
+	mov.l	r0,@(120,gbr)
+.L0600CA5E:
+	rts
+	mov	#1,r0
+	endlabel func_0600CA4E
+
+	glabel func_0600CA62
+	add	#8,r0
+	extu.w	r0,r0
+	mov.l	.L0600CAEC,r4
+	shlr2	r0
+	shlr2	r0
+	mov.l	.L0600CAF0,r5
+	shll	r0
+	mov.w	@(r0,r4),r4
+	mov.w	@(r0,r5),r5
+	shll2	r4
+	rts
+	shll2	r5
+	endlabel func_0600CA62
+
+	glabel func_0600CA7A
+	sts.l	pr,@-r15
+	bsr	func_0600CA62
+	nop
+	lds.l	@r15+,pr
+	mov.l	r5,@-r15
+	mov.l	r4,@-r15
+	mov.l	@(120,gbr),r0
+	mov	r15,r8
+	mov.l	@(4,r0),r7
+	mov	r0,r6
+	dmuls.l	r5,r7
+	neg	r4,r4
+	add	#8,r0
+	mac.l	@r8+,@r0+
+	add	#-4,r0
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r4,r7
+	xtrct	r2,r3
+	mov.l	r3,@(4,r6)
+	mac.l	@r8+,@r0+
+	mov.l	@(20,r6),r7
+	add	#12,r0
+	mov	r15,r8
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r5,r7
+	xtrct	r2,r3
+	mov.l	r3,@(8,r6)
+	mac.l	@r8+,@r0+
+	add	#-4,r0
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r4,r7
+	xtrct	r2,r3
+	mov.l	r3,@(20,r6)
+	mac.l	@r8+,@r0+
+	mov.l	@(36,r6),r7
+	add	#12,r0
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r5,r7
+	xtrct	r2,r3
+	mov.l	r3,@(24,r6)
+	mac.l	@r15+,@r0+
+	add	#-4,r0
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r4,r7
+	xtrct	r2,r3
+	mov.l	r3,@(36,r6)
+	mac.l	@r15+,@r0+
+	sts	mach,r2
+	sts	macl,r3
+	xtrct	r2,r3
+	rts
+	mov.l	r3,@(40,r6)
+.L0600CAEC:
+	.long D_06007E04
+.L0600CAF0:
+	.long D_06008604
+.L0600CAF4:
+	.long D_0600C608
+	endlabel func_0600CA7A
+
+	glabel func_0600CAF8
+	sts.l	pr,@-r15
+	bsr	func_0600CA62
+	nop
+	lds.l	@r15+,pr
+	mov.l	r5,@-r15
+	mov.l	r4,@-r15
+	mov.l	@(120,gbr),r0
+	mov	r15,r8
+	mov.l	@(8,r0),r7
+	dmuls.l	r5,r7
+	neg	r4,r4
+	mov	r0,r6
+	mac.l	@r8+,@r0+
+	add	#-4,r0
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r4,r7
+	xtrct	r2,r3
+	mov.l	@(24,r6),r7
+	mac.l	@r8+,@r0+
+	mov.l	r3,@(8,r6)
+	add	#12,r0
+	mov	r15,r8
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r5,r7
+	xtrct	r2,r3
+	mov.l	r3,@(0,r6)
+	mac.l	@r8+,@r0+
+	add	#-4,r0
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r4,r7
+	xtrct	r2,r3
+	mov.l	r3,@(24,r6)
+	mac.l	@r8+,@r0+
+	add	#12,r0
+	mov.l	@(40,r6),r7
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r5,r7
+	xtrct	r2,r3
+	mov.l	r3,@(16,r6)
+	mac.l	@r15+,@r0+
+	add	#-4,r0
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r4,r7
+	xtrct	r2,r3
+	mov.l	r3,@(40,r6)
+	mac.l	@r15+,@r0+
+	sts	mach,r2
+	sts	macl,r3
+	xtrct	r2,r3
+	rts
+	mov.l	r3,@(32,r6)
+	endlabel func_0600CAF8
+
+	glabel func_0600CB68
+	sts.l	pr,@-r15
+	bsr	func_0600CA62
+	nop
+	lds.l	@r15+,pr
+	mov.l	r5,@-r15
+	mov.l	r4,@-r15
+	mov.l	@(120,gbr),r0
+	mov	r15,r8
+	mov.l	@(0,r0),r7
+	neg	r4,r4
+	dmuls.l	r5,r7
+	mov	r0,r6
+	add	#4,r0
+	mac.l	@r8+,@r0+
+	add	#-4,r0
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r4,r7
+	xtrct	r2,r3
+	mov.l	r3,@(0,r6)
+	mac.l	@r8+,@r0+
+	add	#8,r0
+	mov	r15,r8
+	mov.l	@r0+,r7
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r5,r7
+	xtrct	r2,r3
+	mov.l	r3,@(4,r6)
+	mac.l	@r8+,@r0+
+	add	#-4,r0
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r4,r7
+	xtrct	r2,r3
+	mov.l	r3,@(16,r6)
+	mac.l	@r8+,@r0+
+	add	#8,r0
+	mov.l	@r0+,r7
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r5,r7
+	xtrct	r2,r3
+	mov.l	r3,@(20,r6)
+	mac.l	@r15+,@r0+
+	add	#-4,r0
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r4,r7
+	xtrct	r2,r3
+	mov.l	r3,@(32,r6)
+	mac.l	@r15+,@r0+
+	sts	mach,r2
+	sts	macl,r3
+	xtrct	r2,r3
+	rts
+	mov.l	r3,@(36,r6)
+	endlabel func_0600CB68
+
+	glabel func_0600CBDA
+	mov.l	r6,@-r15
+	mov.l	r5,@-r15
+	mov.l	r8,@-r15
+	mov.l	@(120,gbr),r0
+	mov	r15,r5
+	mov.l	@r0+,r8
+	add	#4,r5
+	dmuls.l	r4,r8
+	mac.l	@r5+,@r0+
+	mov.l	@(4,r0),r8
+	mac.l	@r5+,@r0+
+	add	#-8,r5
+	add	#4,r0
+	mov	r0,r7
+	sts	mach,r2
+	sts	macl,r3
+	mov.l	@r0+,r6
+	dmuls.l	r4,r6
+	xtrct	r2,r3
+	add	r8,r3
+	mac.l	@r5+,@r0+
+	add	#-4,r7
+	mov.l	r3,@r7
+	mac.l	@r5+,@r0+
+	add	#-8,r5
+	mov.l	@r0+,r8
+	mov.l	@r0+,r6
+	sts	mach,r2
+	sts	macl,r3
+	dmuls.l	r4,r6
+	xtrct	r2,r3
+	add	r8,r3
+	mac.l	@r5+,@r0+
+	add	#16,r7
+	mov.l	r3,@r7
+	mac.l	@r5+,@r0+
+	mov.l	@r0,r7
+	sts	mach,r2
+	sts	macl,r3
+	xtrct	r2,r3
+	add	r7,r3
+	mov.l	r3,@r0
+	mov.l	@r15+,r8
+	rts
+	add	#8,r15
+	endlabel func_0600CBDA
+
+	glabel func_0600CC34
+	mov.l	@(120,gbr),r0
+	mov	r0,r6
+	add	#32,r6
+	add	#-12,r11
+.L0600CC3C:
+	clrmac
+	mac.l	@r10+,@r6+
+	mac.l	@r10+,@r6+
+	mac.l	@r10+,@r6+
+	mov.l	@r6,r2
+	add	#-28,r6
+	add	#-12,r10
+	sts	mach,r0
+	sts	macl,r3
+	xtrct	r0,r3
+	add	r2,r3
+	clrmac
+	mac.l	@r10+,@r6+
+	add	#12,r11
+	mac.l	@r10+,@r6+
+	mov.l	r3,@(8,r11)
+	mac.l	@r10+,@r6+
+	mov.l	@r6,r2
+	add	#-28,r6
+	add	#-12,r10
+	sts	mach,r0
+	sts	macl,r5
+	clrmac
+	mac.l	@r10+,@r6+
+	xtrct	r0,r5
+	add	r2,r5
+	mac.l	@r10+,@r6+
+	mov.l	r5,@(4,r11)
+	mac.l	@r10+,@r6+
+	mov.l	@r6,r2
+	add	#20,r6
+	sts	mach,r0
+	sts	macl,r4
+	xtrct	r0,r4
+	add	r2,r4
+	mov.l	r4,@(0,r11)
+	dt	r9
+	bf/s	.L0600CC3C
+	nop
+	rts
+	nop
+	endlabel func_0600CC34
+
+	glabel func_0600CC8E
+	mov	#1,r0
+	shll16	r0
+	cmp/eq	r4,r0
+	bt	.L0600CCCA
+	mov	r5,r2
+	shlr16	r2
+	exts.w	r2,r2
+	shll16	r5
+	mov	#-128,r10
+	shll	r10
+	mov.l	r4,@(0,r10)
+	mov.l	r2,@(16,r10)
+	mov.l	r5,@(20,r10)
+	mov.l	@(28,r10),r5
+	mov	r6,r2
+	shlr16	r2
+	exts.w	r2,r2
+	shll16	r6
+	mov.l	r4,@(0,r10)
+	mov.l	r2,@(16,r10)
+	mov.l	r6,@(20,r10)
+	mov.l	@(28,r10),r6
+	mov	r7,r2
+	shlr16	r2
+	exts.w	r2,r2
+	shll16	r7
+	mov.l	r4,@(0,r10)
+	mov.l	r2,@(16,r10)
+	mov.l	r7,@(20,r10)
+	mov.l	@(28,r10),r7
+.L0600CCCA:
+	mov.w	@(194,gbr),r0
+	sts.l	pr,@-r15
+	mov.l	.L0600CD48,r10
+	jsr	@r10
+	nop
+	lds.l	@r15+,pr
+	shll2	r10
+	shll2	r11
+	dmuls.l	r11,r5
+	sts	mach,r0
+	sts	macl,r3
+	xtrct	r0,r3
+	dmuls.l	r10,r7
+	sts	mach,r0
+	sts	macl,r2
+	xtrct	r0,r2
+	sub	r2,r3
+	dmuls.l	r11,r7
+	sts	mach,r0
+	sts	macl,r7
+	xtrct	r0,r7
+	dmuls.l	r10,r5
+	sts	mach,r0
+	sts	macl,r2
+	xtrct	r0,r2
+	add	r2,r7
+	mov	r3,r5
+	mov.w	@(192,gbr),r0
+	neg	r0,r0
+	sts.l	pr,@-r15
+	mov.l	.L0600CD48,r10
+	jsr	@r10
+	nop
+	lds.l	@r15+,pr
+	shll2	r10
+	shll2	r11
+	dmuls.l	r11,r6
+	sts	mach,r0
+	sts	macl,r3
+	xtrct	r0,r3
+	dmuls.l	r10,r7
+	sts	mach,r0
+	sts	macl,r2
+	xtrct	r0,r2
+	add	r2,r3
+	dmuls.l	r11,r7
+	sts	mach,r0
+	sts	macl,r7
+	xtrct	r0,r7
+	dmuls.l	r10,r6
+	sts	mach,r0
+	sts	macl,r2
+	xtrct	r0,r2
+	sub	r2,r7
+	mov	r3,r6
+	mov.l	.L0600CD4C,r2
+	mov.l	r7,@-r2
+	mov.l	r6,@-r2
+	mov.l	r5,@-r2
+	mov.l	r8,@-r2
+	rts
+	nop
+	.byte 0x00, 0x00
+.L0600CD48:
+	.long func_06007BD8
+.L0600CD4C:
+	.long D_0600CD60
+	endlabel func_0600CC8E
+
+	.section .data.0600CD50,"aw",@progbits
+	.p2align 2
+	dlabel D_0600CD50
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	dlabel D_0600CD60
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	dlabel D_0600CD6C
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
